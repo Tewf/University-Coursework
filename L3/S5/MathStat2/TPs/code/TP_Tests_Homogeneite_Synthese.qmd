@@ -1,0 +1,642 @@
+---
+title: "Section 6.5 – Tests d'Homogénéité (Compléments et Synthèse)"
+format: 
+  pdf:
+    toc: true
+    documentclass: article
+    geometry: margin=1in
+editor: visual
+engine: knitr
+output-dir: output
+---
+
+# Section 6.5 – Tests d'Homogénéité (Compléments et Synthèse)
+
+## Vue d'ensemble
+
+Cette section reprend et approfondit les **tests d'homogénéité** étudiés dans le chapitre 6.5 du polycopié. Les commandes sont très proches de celles de la section 5.5, mais elles sont regroupées ici pour former une **synthèse plus complète** avec des illustrations supplémentaires et des pièges courants à éviter.
+
+**Objectifs pédagogiques :**
+
+-   Consolider la compréhension des tests d'homogénéité
+-   Apprendre à **choisir le bon test** selon la situation
+-   Comprendre les **pièges courants** (p.ex. hypothèse d'égalité des variances)
+-   Voir des exemples **réalistes** avec interprétation approfondie
+
+**Concepts clés :**
+
+-   Distinction entre données **indépendantes** et **appariées**
+-   Importance de **vérifier les hypothèses** du test choisi
+-   **Robustesse** et limitations des différents tests
+
+**Structure du notebook :** Chaque section suit le schéma : Théorie → Code → Interprétation Les commentaires R détaillés facilitent la compréhension étape par étape.
+
+------------------------------------------------------------------------
+
+## 6.5.1 Échantillons Indépendants (Synthèse et Approfondissements)
+
+### Vue d'ensemble des tests
+
+Lorsqu'on dispose de **deux groupes indépendants**, plusieurs tests sont possibles selon :
+
+1.  **Si les variances sont connues** → Test Z (rare en pratique)
+2.  **Si les variances sont inconnues** :
+    -   Test t de Welch (recommandé, ne suppose pas l'égalité des variances)
+    -   Test t standard (suppose $\sigma_1^2 = \sigma_2^2$, moins robuste)
+3.  **Si les données sont binaires** → Test de proportions
+
+**Tableau de décision :**
+
+| Situation | Données | Test | Fonction R |
+|------------------|------------------|------------------|------------------|
+| Variances connues | Continues | Z | Calcul manuel |
+| Variances inconnues | Continues | t Welch | `t.test()` (défaut) |
+| Variances égales (testé) | Continues | t poolé | `t.test(..., var.equal=TRUE)` |
+| Données binaires | Succès/échecs | Proportions | `prop.test()` |
+
+### Exemple : Comparaison de Moyennes avec Variances Connues
+
+**Reprise du problème des machines de cacao :** Deux machines remplissent des paquets de cacao. Les variances des poids sont théoriquement connues (basées sur des spécifications techniques), et on teste si les moyennes diffèrent.
+
+**Hypothèses :**
+
+-   **H₀** : $\mu_1 = \mu_2$
+-   **H₁** : $\mu_1 \neq \mu_2$ (test bilatéral)
+
+**Test utilisé :** Test Z (statistique normale)
+
+$$Z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} \sim \mathcal{N}(0,1)$$
+
+```{r}
+# ========= Comparaison de Deux Machines (Variances Connues) =========
+
+# --- Données des machines ---
+machine1 <- c(106.70, 107.02, 107.15, 107.22, 107.41, 106.39, 107.47, 107.61, 107.38, 107.22)
+machine2 <- c(107.68, 106.69, 107.24, 107.69, 106.97, 107.52, 106.22, 107.23, 107.32)
+
+cat("=== Comparaison de Deux Machines (Variances Connues) ===\n")
+cat("Machine 1: n₁ =", length(machine1), "\n")
+cat("Machine 2: n₂ =", length(machine2), "\n\n")
+
+# --- Statistiques descriptives ---
+mean1 <- mean(machine1)
+mean2 <- mean(machine2)
+n1 <- length(machine1)
+n2 <- length(machine2)
+
+cat("Moyennes observées:\n")
+cat("  Machine 1: X̄₁ = ", round(mean1, 4), "\n")
+cat("  Machine 2: X̄₂ = ", round(mean2, 4), "\n")
+cat("  Différence: X̄₁ - X̄₂ = ", round(mean1 - mean2, 4), "\n\n")
+
+# --- Variances théoriques connues ---
+sigma1_sq <- (1.3)^2
+sigma2_sq <- (0.9)^2
+
+cat("Variances théoriques (connues):\n")
+cat("  σ₁² = (1,3)² = ", round(sigma1_sq, 4), "\n")
+cat("  σ₂² = (0,9)² = ", round(sigma2_sq, 4), "\n\n")
+
+# --- Test Z : Statistique et p-valeur ---
+variance_sum <- sigma1_sq/n1 + sigma2_sq/n2
+se_diff <- sqrt(variance_sum)
+z_obs <- (mean1 - mean2) / se_diff
+
+cat("=== Test Z ===\n")
+cat("Erreur-type: SE = √(σ₁²/n₁ + σ₂²/n₂) = ", round(se_diff, 4), "\n")
+cat("Z_obs = (X̄₁ - X̄₂) / SE = ", round(z_obs, 4), "\n\n")
+
+p_value <- 2 * (1 - pnorm(abs(z_obs)))
+cat("p-valeur (bilatérale): ", round(p_value, 4), "\n")
+cat("Niveau α = 0,05\n\n")
+
+# --- Résultat ---
+if (p_value < 0.05) {
+  cat("→ REJETER H₀: différence significative\n")
+} else {
+  cat("→ NE PAS REJETER H₀: pas de différence significative\n")
+}
+
+```
+
+### Interprétation
+
+La statistique suit une loi **normale standard** sous H₀. La p-valeur bilatérale se calcule comme .
+
+**Remarque importante :** En pratique, les variances théoriques () sont **rarement connues** exactement. Elles sont souvent estimées à partir de données préalables (étalonnages machines, spécifications techniques). Si on doute de ces valeurs, préférer le **test t de Welch**.
+
+------------------------------------------------------------------------
+
+### Comparaison de Moyennes avec Variances Inconnues
+
+**Situation réaliste :** Les variances ne sont **pas connues** a priori. On les estime à partir des échantillons.
+
+**Deux tests possibles :**
+
+1.  **Test t de Welch** (recommandé)
+
+-   N'assume pas l'égalité des variances
+-   Plus robuste et général
+-   Ajuste les degrés de liberté selon le déséquilibre des variances
+
+2.  **Test t standard** (moins robuste)
+
+-   Suppose
+-   Combine les variances en une variance poolée
+-   Moins robuste si les variances diffèrent
+
+**Dans ce notebook, nous utilisons le test de Welch (défaut de R).**
+
+```{r}
+# ========= Comparaison de Moyennes (Variances Inconnues - Test de Welch) =========
+
+# --- Données ---
+# Teneur en viande de deux producteurs
+prod1 <- c(2.12, 12.03, 13.58, 13.38, 11.81, 15.92, 13.65)
+prod2 <- c(14.81, 13.93, 14.91, 15.87, 15.62, 15.39)
+
+cat("=== Comparaison de Deux Producteurs (Variances Inconnues) ===\n")
+cat("Producteur 1: n₁ =", length(prod1), "\n")
+cat("Producteur 2: n₂ =", length(prod2), "\n\n")
+
+# --- Statistiques descriptives ---
+mean1 <- mean(prod1)
+mean2 <- mean(prod2)
+sd1 <- sd(prod1)
+sd2 <- sd(prod2)
+var1 <- sd1^2
+var2 <- sd2^2
+
+cat("=== Statistiques Observées ===\n")
+cat("Producteur 1:\n")
+cat("  Moyenne: ", round(mean1, 4), "\n")
+cat("  Variance: ", round(var1, 4), "\n\n")
+cat("Producteur 2:\n")
+cat("  Moyenne: ", round(mean2, 4), "\n")
+cat("  Variance: ", round(var2, 4), "\n\n")
+
+# --- Test t de Welch (défaut de t.test()) ---
+cat("=== Test t de Welch (Variances Non Supposées Égales) ===\n")
+res_welch <- t.test(prod1, prod2)
+
+cat("t-statistic: ", round(res_welch$statistic, 4), "\n")
+cat("Degrés de liberté (Welch-Satterthwaite): ", round(res_welch$parameter, 2), "\n")
+cat("p-valeur (bilatérale): ", round(res_welch$p.value, 4), "\n\n")
+
+# --- Intervalle de confiance ---
+cat("Intervalle de confiance 95% pour μ₁ - μ₂:\n")
+cat("IC = [", round(res_welch$conf.int[1], 4), "; ", 
+    round(res_welch$conf.int[2], 4), "]\n\n")
+
+# --- Résultat ---
+if (res_welch$p.value < 0.05) {
+  cat("→ REJETER H₀ au niveau 5%: les moyennes DIFFÈRENT SIGNIFICATIVEMENT\n")
+} else {
+  cat("→ NE PAS REJETER H₀ au niveau 5%: pas de différence significative\n")
+}
+
+```
+
+### Interprétation
+
+**Observations :**
+
+-   **Degrés de liberté de Welch-Satterthwaite** : Formule complexe qui ajuste df selon le ratio des variances et des tailles.
+
+-   Si et , alors
+
+-   Si les variances/tailles sont très inégales, df est réduit (plus conservatif)
+
+-   **Intervalle de confiance (IC)** :
+
+-   S'il contient 0 : pas de différence significative au niveau 5%
+
+-   S'il ne contient pas 0 : différence significative
+
+-   **Comparaison avec le test t standard** : Le test de Welch est **généralement à préférer** car il ne suppose pas l'égalité des variances.
+
+**Bon réflexe :** Rapporter toujours l'IC en plus du p-valeur. C'est informatif pour savoir la magnitude de la différence estimée.
+
+------------------------------------------------------------------------
+
+### Comparaison de Proportions (Deux Groupes Indépendants)
+
+**Contexte :** On compare des **taux de succès** entre deux groupes indépendants.
+
+**Exemple :** - Avant intervention : 54 succès sur 230
+
+-   Après intervention : 110 succès sur 340
+
+**Question :** La proportion de succès a-t-elle augmenté significativement ?
+
+**Hypothèses :**
+
+-   **H₀** :
+-   **H₁** : (test bilatéral) ou (unilatéral)
+
+**Test utilisé :** Test du chi-carré de Pearson (implémenté dans `prop.test()`)
+
+```{r}
+# ========= Comparaison de Deux Proportions =========
+
+# --- Données ---
+# Nombres de succès et tailles d'échantillon
+x <- c(54, 110)     # Nombre de succès (avant, après)
+n <- c(230, 340)    # Tailles d'échantillon (avant, après)
+
+cat("=== Comparaison de Deux Proportions ===\n")
+cat("Avant intervention:\n")
+cat("  Succès: x₁ = ", x[1], " sur n₁ = ", n[1], "\n")
+cat("  Proportion: p̂₁ = ", round(x[1]/n[1], 4), "\n\n")
+
+cat("Après intervention:\n")
+cat("  Succès: x₂ = ", x[2], " sur n₂ = ", n[2], "\n")
+cat("  Proportion: p̂₂ = ", round(x[2]/n[2], 4), "\n\n")
+
+cat("Différence: p̂₂ - p̂₁ = ", round(x[2]/n[2] - x[1]/n[1], 4), "\n\n")
+
+# --- Test bilatéral ---
+cat("=== Test Bilatéral (H₁: p₁ ≠ p₂) ===\n")
+res_prop_bilateral <- prop.test(x, n)
+cat("χ²-statistic: ", round(res_prop_bilateral$statistic, 4), "\n")
+cat("p-valeur (bilatérale): ", round(res_prop_bilateral$p.value, 4), "\n\n")
+
+# --- Test unilatéral ---
+cat("=== Test Unilatéral (H₁: p₁ < p₂) ===\n")
+res_prop_unilateral <- prop.test(x, n, alternative = "less")
+cat("p-valeur (unilatérale): ", round(res_prop_unilateral$p.value, 4), "\n")
+cat("Niveau α = 0,05\n\n")
+
+# --- Résultat ---
+if (res_prop_unilateral$p.value < 0.05) {
+  cat("→ REJETER H₀ au niveau 5%: l'intervention a AUGMENTÉ la proportion significativement\n")
+} else {
+  cat("→ NE PAS REJETER H₀ au niveau 5%: pas de preuve d'augmentation\n")
+}
+
+```
+
+### Interprétation
+
+**Ce qu'il faut savoir :**
+
+-   **Test bilatéral vs. unilatéral** :
+
+-   Bilatéral : teste la différence sans direction supposée (test général)
+
+-   Unilatéral : teste une direction spécifique (puissance supérieure si la direction est correcte)
+
+-   La p-valeur unilatérale moitié de la p-valeur bilatérale
+
+-   **Argument `alternative` de `prop.test()` :**
+
+-   `"two.sided"` : test bilatéral (défaut)
+
+-   `"less"` : teste (équivalent à )
+
+-   `"greater"` : teste
+
+-   **Condition d'application :**
+
+-   Recommandation : effectifs attendus ≥ 5 dans toutes les cellules
+
+-   Ici : tous les effectifs sont largement \> 5, donc OK
+
+------------------------------------------------------------------------
+
+## 6.5.2 Échantillons Appariés
+
+### Concepts Clés
+
+Lorsque les observations sont **appariées** (mêmes individus, deux mesures), les tests changent :
+
+-   Les données ne sont **pas indépendantes**
+-   On travaille sur les **différences** (ou les paires discordantes)
+-   Cela améliore la **puissance** du test (meilleures chances de détecter une vraie différence)
+
+**Tests appariés :**
+
+1.  **Test t apparié** : Pour données continues appariées
+2.  **Test de McNemar** : Pour données binaires appariées
+
+### Test t Apparié : Variation de Poids
+
+**Contexte :** Cinq patients sont pesés avant et après un traitement. On teste si le traitement change le poids.
+
+**Hypothèses :**
+
+-   **H₀** : (pas d'effet du traitement)
+-   **H₁** : (augmentation du poids) — test unilatéral
+
+**Stratégie :**
+
+-   Calculer les différences
+-   Tester si la moyenne des est significativement \> 0
+
+```{r}
+# ========= Test t Apparié (Poids Avant/Après) =========
+
+# --- Données appariées ---
+before <- c(80.82, 60.12, 102.52, 51.65, 65.96)
+after  <- c(83.76, 64.13, 101.81, 56.63, 68.21)
+
+cat("=== Test t Apparié : Poids Avant et Après Traitement ===\n")
+cat("Nombre de patients: n = ", length(before), "\n\n")
+
+# --- Tableau des données et différences ---
+D <- after - before
+mean_before <- mean(before)
+mean_after <- mean(after)
+
+cat("=== Données Individuelles ===\n")
+cat("Patient |  Avant  |  Après  | Différence (D)\n")
+cat("--------|---------|---------|---------------\n")
+for (i in 1:length(before)) {
+  cat(sprintf("%7d | %7.2f | %7.2f | %13.2f\n", i, before[i], after[i], D[i]))
+}
+cat("\n")
+
+cat("=== Moyennes ===\n")
+cat("Moyenne avant: ", round(mean_before, 2), " kg\n")
+cat("Moyenne après: ", round(mean_after, 2), " kg\n")
+cat("Différence moyenne: ", round(mean(D), 4), " kg\n\n")
+
+# --- Test t apparié (unilatéral: greater) ---
+# paired = TRUE : test apparié sur les différences
+# alternative = "greater" : teste si after > before (ou si D > 0)
+res_paired_t <- t.test(after, before, paired = TRUE, alternative = "greater")
+
+cat("=== Test t Apparié (H₁: poids augmente) ===\n")
+cat("t-statistic: ", round(res_paired_t$statistic, 4), "\n")
+cat("Degrés de liberté: ", round(res_paired_t$parameter, 2), "\n")
+cat("p-valeur (unilatérale): ", round(res_paired_t$p.value, 4), "\n")
+cat("Niveau α = 0,05\n\n")
+
+# --- Résultat ---
+if (res_paired_t$p.value < 0.05) {
+  cat("→ REJETER H₀ au niveau 5%: le traitement AUGMENTE SIGNIFICATIVEMENT le poids\n")
+} else {
+  cat("→ NE PAS REJETER H₀ au niveau 5%: pas de preuve d'augmentation\n")
+}
+
+```
+
+### Interprétation
+
+**Observations :**
+
+-   **Degrés de liberté = n - 1 = 4**, pas comme pour des données indépendantes
+
+-   Pourquoi ? Nous testons une **unique série** de différences, pas deux séries
+
+-   \*\*Argument `paired = TRUE**` :
+
+-   Transforme le test en calcul sur les différences
+
+-   Calcule automatiquement , leur moyenne et leur écart-type
+
+-   **Robustesse du test t apparié** :
+
+-   Plus puissant que deux tests t indépendants sur la même question
+
+-   Élimine la variabilité inter-individuelle (liée aux patients eux-mêmes)
+
+-   Ne teste que la variabilité de la réponse au traitement
+
+**Point clé :** Le test t apparié est **très utilisé** dans les études avant/après (médecine, psychologie, etc.) pour cette raison de puissance supérieure.
+
+------------------------------------------------------------------------
+
+### Test de McNemar : Données Binaires Appariées
+
+**Contexte :** Pour comparer deux **traitements binaires** (succès/échec) chez les mêmes individus, on construit un tableau 2×2 des paires et on applique le test de McNemar.
+
+**Structure du tableau :**
+
+|                           | Traitement 2 = Succès | Traitement 2 = Échec |
+|---------------------------|-----------------------|----------------------|
+| **Traitement 1 = Succès** | n₁₁ (concordance)     | n₁₀ (discordance 1)  |
+| **Traitement 1 = Échec**  | n₀₁ (discordance 2)   | n₀₀ (concordance)    |
+
+**Idée clé :** Seules les **paires discordantes** ( et ) informent sur la différence entre les traitements. Les concordances s'annulent dans le test.
+
+**Hypothèses :**
+
+-   **H₀** : (probabilité égale de chaque type de discordance)
+-   **H₁** : (probabilités inégales) — test bilatéral
+
+**Test :**
+
+```{r}
+# ========= Test de McNemar (Données Binaires Appariées) =========
+
+# --- Tableau de contingence 2×2 ---
+cont_table <- matrix(c(30, 5, 3, 12), nrow = 2, byrow = TRUE,
+                     dimnames = list(
+                       Traitement1 = c("Succès", "Échec"),
+                       Traitement2 = c("Succès", "Échec")
+                     ))
+
+cat("=== Test de McNemar pour Données Binaires Appariées ===\n")
+cat("Tableau de Contingence 2×2:\n")
+print(cont_table)
+cat("\n")
+
+cat("Tableau avec marges:\n")
+print(addmargins(cont_table))
+cat("\n")
+
+# --- Extraction des cellules ---
+n11 <- cont_table[1,1]  # Succès avec les deux
+n10 <- cont_table[1,2]  # Succès T1, Échec T2
+n01 <- cont_table[2,1]  # Échec T1, Succès T2
+n00 <- cont_table[2,2]  # Échec avec les deux
+
+cat("=== Interprétation ===\n")
+cat("Concordance (succès avec les deux): n₁₁ = ", n11, "\n")
+cat("DISCORDANCE (T1 oui, T2 non): n₁₀ = ", n10, "\n")
+cat("DISCORDANCE (T1 non, T2 oui): n₀₁ = ", n01, "\n")
+cat("Concordance (échec avec les deux): n₀₀ = ", n00, "\n")
+cat("Total: N = ", sum(cont_table), "\n\n")
+
+# --- Statistique de McNemar ---
+chi2_raw <- (n10 - n01)^2 / (n10 + n01)
+cat("Formule sans correction: χ² = (n₁₀ - n₀₁)² / (n₁₀ + n₀₁) = ", round(chi2_raw, 4), "\n\n")
+
+# --- Test de McNemar avec correction de continuité ---
+res_mcnemar <- mcnemar.test(cont_table, correct = TRUE)
+
+cat("=== Test de McNemar (avec correction de continuité) ===\n")
+cat("χ²-statistic: ", round(res_mcnemar$statistic, 4), "\n")
+cat("p-valeur (bilatérale): ", round(res_mcnemar$p.value, 4), "\n")
+cat("Niveau α = 0,05\n\n")
+
+# --- Résultat ---
+if (res_mcnemar$p.value < 0.05) {
+  cat("→ REJETER H₀ au niveau 5%: les traitements diffèrent SIGNIFICATIVEMENT\n")
+} else {
+  cat("→ NE PAS REJETER H₀ au niveau 5%: pas de différence significative\n")
+}
+
+```
+
+### Interprétation
+
+**Observations :**
+
+-   **Pourquoi ignorer les concordances ?**
+
+-   Les 30 patients réussissant avec les deux traitements ne nous disent rien sur lequel est meilleur
+
+-   Même les 12 échouant avec les deux
+
+-   Seules les discordances (5 vs. 3) révèlent une différence
+
+-   **Correction de continuité** :
+
+-   Appliquée par `correct = TRUE` (recommandé pour petits effectifs)
+
+-   Formule corrigée :
+
+-   Améliore l'approximation chi-carré pour petits
+
+-   **Condition d'application** :
+
+-   Recommandation : (ou au moins avec correction)
+
+-   Ici : 5 + 3 = 8, donc la correction est utile
+
+**Point clé :** Le test de McNemar est **spécifique** aux appariements avec données binaires. C'est le pendant du test t apparié pour variables qualitatives.
+
+------------------------------------------------------------------------
+
+## Conclusion et Points Clés de la Section 6.5
+
+### Résumé des Tests de Comparaison
+
+#### 📊 Données Indépendantes
+
+| Situation | Type de Données | Test | Fonction R | Remarque |
+|---------------|---------------|---------------|---------------|---------------|
+| Variances connues | Continues | Test Z | Calcul manuel | Rare en pratique |
+| Variances inconnues | Continues | Test t de Welch | `t.test()` | **Recommandé** (robuste) |
+| Variances supposées égales | Continues | Test t poolé | `t.test(..., var.equal=TRUE)` | Moins robuste |
+| Proportions | Binaires | χ² de Pearson | `prop.test()` | Test bilatéral ou unilatéral |
+
+#### 👥 Données Appariées
+
+| Situation | Type de Données | Test | Fonction R | Remarque |
+|---------------|---------------|---------------|---------------|---------------|
+| Appariées | Continues | Test t apparié | `t.test(..., paired=TRUE)` | Élimine variabilité inter-individuelle |
+| Appariées | Binaires | Test de McNemar | `mcnemar.test()` | Correction de continuité utile |
+
+------------------------------------------------------------------------
+
+### ⚠️ Pièges Courants et Comment les Éviter
+
+**Piège 1 : Supposer l'égalité des variances sans l'avoir testé**
+
+-   ✅ Solution : Utiliser le test t de Welch par défaut (ne suppose pas l'égalité)
+-   Si vous voulez vraiment supposer l'égalité, préalablement tester avec un test de Levene
+
+**Piège 2 : Confondre données indépendantes et appariées**
+
+-   ✅ Symptôme : Utiliser un test t indépendant sur des appariements (perte de puissance)
+-   Solution : Identifier le design expérimental. Si mêmes sujets → apparié
+
+**Piège 3 : Interpréter la p-valeur comme probabilité que H₀ soit vraie**
+
+-   ❌ Faux : "p = 0,03 signifie 3% de chance que H₀ soit vraie"
+-   ✅ Correct : "p = 0,03 signifie 3% de chance d'observer ceci SI H₀ était vraie"
+
+**Piège 4 : Rapporter uniquement la p-valeur**
+
+-   ✅ Toujours rapporter : p-valeur + intervalle de confiance + taille de l'effet
+-   L'intervalle donne la **magnitude** de la différence, pas seulement son existence
+
+**Piège 5 : Oublier de vérifier les hypothèses du test**
+
+-   Test t (normal ou Welch) : demande données approximativement normales
+-   Tests de proportions : demande effectifs attendus ≥ 5
+-   Test de McNemar : demande (au moins avec correction)
+
+------------------------------------------------------------------------
+
+### 📚 Checklist pour la Rédaction d'une Analyse
+
+Avant de conclure après un test d'homogénéité :
+
+1.  **Données clairement décrites**
+
+-   [ ] Nombre d'observations par groupe
+-   [ ] Moyennes/proportions observées
+-   [ ] Écarts-types (si test continu)
+
+2.  **Hypothèses explicites**
+
+-   [ ] H₀ et H₁ clairement énoncées
+-   [ ] Direction du test justifiée (bilatéral ou unilatéral)
+
+3.  **Test approprié choisi**
+
+-   [ ] Type de données (continu/binaire)
+-   [ ] Type de groupes (indépendants/appariés)
+-   [ ] Hypothèses vérifiées ou justifiées
+
+4.  **Résultats rapportés complètement**
+
+-   [ ] Statistique de test (t, Z, χ², etc.)
+-   [ ] Degrés de liberté
+-   [ ] p-valeur exacte (pas seulement p \< 0,05)
+-   [ ] Intervalle de confiance 95%
+
+5.  **Interprétation claire**
+
+-   [ ] Comparaison p-valeur vs. α (niveau choisi)
+-   [ ] Conclusion statistique (rejet ou non de H₀)
+-   [ ] Conclusion pratique (que signifie le résultat ?)
+-   [ ] Limitations éventuelles
+
+------------------------------------------------------------------------
+
+### 💡 Bonnes Pratiques pour l'Examen
+
+**Avant l'examen :**
+
+-   Mémoriser la structure H₀ vs. H₁ pour chaque test
+-   Pratiquer l'identification du type de test approprié
+-   S'entraîner à lire les sorties R (`t.test()`, `prop.test()`, `mcnemar.test()`)
+
+**Pendant l'examen :**
+
+1.  Lire attentivement la question (indépendant vs. apparié ?)
+2.  Écrire H₀ et H₁ **avant** de faire les calculs
+3.  Justifier le choix du test
+4.  Rapporter tous les résultats (pas seulement la conclusion)
+5.  Interpréter correctement la p-valeur
+
+**Pièges spécifiques à éviter :**
+
+-   Ne pas faire d'hypothèse implicite sur l'égalité des variances
+-   Toujours spécifier si le test est unilatéral et dans quelle direction
+-   Distinguer "pas de preuve pour rejeter H₀" de "H₀ est vraie"
+
+------------------------------------------------------------------------
+
+### 🎯 Résumé Mnémonique
+
+**"SAIT TESTER ?"**
+
+-   **S**ituation : Indépendant ou apparié ?
+-   **A**iguille : Continu ou binaire ?
+-   **I**ndépendance : Test indépendant ou apparié ?
+-   **T**ype : Quel test spécifique ?
+-   **T**héorie : H₀ et H₁ ?
+-   **E**xécution : Calculer/appeler la fonction R
+-   **S**tatistique : Rapporter t, Z, χ², p-valeur, IC
+-   **T**erminaison : Interpréter les résultats
+-   **E**xamen : Vérifier les hypothèses
+-   **R**apport : Rédiger la conclusion
+
+```         
+```
