@@ -1,0 +1,1 @@
+university, coursework, computer-science, java, python, r-language, racket, prolog, sql, oop, artificial-intelligence, data-science, statistics, econometrics, functional-programming, logic-programming, machine-learning, mathematics, jupyter-notebook, quarto, educational
