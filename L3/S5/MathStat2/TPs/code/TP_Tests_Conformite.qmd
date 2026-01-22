@@ -1,0 +1,443 @@
+---
+title: "Section 4.9 – Travaux Pratiques : Tests de Conformité"
+format: 
+  pdf:
+    toc: true
+    documentclass: article
+    geometry: margin=1in
+editor: visual
+engine: knitr
+output-dir: output
+---
+
+# Section 4.9 – Travaux Pratiques
+
+## Vue d'ensemble
+
+Ce notebook présente des exercices pratiques sur les **tests de conformité** : tester si une observation ou un paramètre est conforme à une valeur de référence.
+
+**Objectifs pédagogiques :**
+
+-   Comprendre la structure générale d'un test statistique
+-   Maîtriser les tests sur une seule population (moyenne, variance, proportion)
+-   Tester des corrélations et interpréter les p-valeurs
+-   Appliquer les tests dans R et interpréter les résultats
+
+**Concepts clés :**
+
+-   **Hypothèse nulle** $H_0$ : hypothèse à tester
+-   **Hypothèse alternative** $H_1$ : ce qu'on affirme si $H_0$ est rejetée
+-   **P-valeur** : probabilité d'observer un résultat aussi extrême sous $H_0$
+-   **Niveau de risque** $\alpha$ : seuil de décision (ex: 5%)
+
+------------------------------------------------------------------------
+
+## 4.9.1 Principes des Tests Statistiques
+
+### Structure générale d'un test
+
+Un test statistique répond à la question : "**Mes données sont-elles compatibles avec l'hypothèse H₀ ?**"
+
+**Étapes :**
+
+1.  **Formulation** : Énoncer H₀ (hypothèse nulle) et H₁ (hypothèse alternative)
+2.  **Statistique de test** : Calculer une statistique à partir des données
+3.  **P-valeur** : Calculer la probabilité (sous H₀) d'observer une stat aussi extrême
+4.  **Décision** :
+    -   Si p-valeur \< $\alpha$ : rejeter H₀ (**résultat significatif**)
+    -   Si p-valeur $\ge \alpha$ : ne pas rejeter H₀ (**pas de preuve contre H₀**)
+
+**Interprétation cruciale :** Ne pas rejeter H₀ $\neq$ Accepter H₀
+
+### Tests présentés
+
+Dans ce notebook, nous testons l'hypothèse que un paramètre d'une population est égal à une valeur connue $\theta_0$ :
+
+| Paramètre | Test | Fonction R | Hypothèses |
+|------------------|------------------|------------------|------------------|
+| Moyenne $\mu$ | t-test Student | `t.test()` | Données \~ $N(\mu,\sigma^2)$ |
+| Variance $\sigma^2$ | Chi-deux | `var.test()` ou `sigma2.test()` | Données \~ $N(\mu,\sigma^2)$ |
+| Proportion $p$ | Binomial/Proportion | `prop.test()` | $n$ grand ou `binom.test()` |
+| Corrélation $\rho$ | Test de Pearson | `cor.test()` | Bivariée normale |
+
+------------------------------------------------------------------------
+
+## 4.9.3 Comparaison de la Moyenne à une Valeur de Référence
+
+### Contexte et Hypothèses
+
+**Question :** La moyenne d'une population est-elle égale à une valeur de référence $\mu_0$ ?
+
+**Hypothèses :**
+
+-   **H₀** : $\mu = \mu_0$ (la moyenne population égale la référence)
+-   **H₁** : $\mu \neq \mu_0$ (la moyenne diffère de la référence) \[bilatéral\]
+-   Ou **H₁** : $\mu > \mu_0$ ou $\mu < \mu_0$ \[unilatéral\]
+
+**Test à utiliser :** **t-test de Student** (si $\sigma^2$ inconnue)
+
+**Statistique :** $$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} \sim t_{n-1} \quad \text{sous } H_0$$
+
+**Interprétation :**
+
+-   Si $|t|$ grande $\implies$ p-valeur petite $\implies$ rejeter H₀
+-   Si $|t|$ petite $\implies$ p-valeur grande $\implies$ garder H₀
+
+```{r}
+# ========= T-TEST: Comparer une moyenne à μ₀ =========
+
+cat("\n=== T-Test de Student ===\n\n")
+
+# Exemple: mesures d'une variable quantitative
+x <- c(0.62, 0.55, 0.58, 0.63, 0.60, 0.59, 0.57, 0.61)
+
+# Valeur de référence
+mu0 <- 0.58
+
+cat("Données observées:\n")
+print(x)
+cat("\nStatistiques descriptives:\n")
+cat("  Moyenne:    ", round(mean(x), 4), "\n")
+cat("  Écart-type: ", round(sd(x), 4), "\n")
+cat("  Taille:     ", length(x), "\n")
+cat("  Référence μ₀:", mu0, "\n\n")
+
+# === TEST UNILATÉRAL: H1 est μ > μ₀ ===
+cat("=== Hypothèses ===\n")
+cat("  H₀: μ = ", mu0, "(la moyenne égale la référence)\n")
+cat("  H₁: μ > ", mu0, "(la moyenne est supérieure)\n\n")
+
+# Effectuer le test
+resultat_test <- t.test(x, mu = mu0, alternative = "greater")
+
+# Afficher les résultats
+cat("=== Résultats du Test ===\n")
+cat("  Statistique t:", round(resultat_test$statistic, 4), "\n")
+cat("  Degrés de liberté:", resultat_test$parameter, "\n")
+cat("  P-valeur:", round(resultat_test$p.value, 4), "\n\n")
+
+# Décision au niveau α = 5%
+alpha <- 0.05
+if (resultat_test$p.value < alpha) {
+  decision <- "REJETER H₀"
+  interpretation <- "La moyenne est SIGNIFICATIVEMENT supérieure à la référence"
+} else {
+  decision <- "NE PAS REJETER H₀"
+  interpretation <- "Pas de preuve que la moyenne dépasse la référence"
+}
+
+cat("=== Décision (α = 5%) ===\n")
+cat("  Décision:      ", decision, "\n")
+cat("  Interprétation:", interpretation, "\n")
+
+```
+
+### Variante : Test Bilatéral
+
+Pour tester **H₁ :** (la moyenne diffère, sans direction), utiliser `alternative = "two.sided"` (par défaut).
+
+``` r
+t.test(x, mu = mu0, alternative = "two.sided")
+```
+
+Cette variante test-elle une déviation dans n'importe quelle direction (haute ou basse).
+
+### Application Pratique
+
+Dans le polycopié, on peut filtrer les données selon un critère (ex: IMC \> 30) puis appliquer le test :
+
+``` r
+IMC <- poids / ((taille/100)^2)
+mesure_IMC_haut <- mesure[IMC > 30]
+t.test(mesure_IMC_haut, mu = 0.58, alternative = "greater")
+```
+
+------------------------------------------------------------------------
+
+## 4.9.4 Comparaison de la Variance à une Valeur de Référence
+
+### Contexte et Hypothèses
+
+**Question :** La variance d'une population est-elle égale à ?
+
+**Hypothèses :**
+
+-   **H₀** : (la variance égale la référence)
+-   **H₁** : (la variance diffère) \[bilatéral, par défaut\]
+
+**Test à utiliser :** **Test du Chi-deux**
+
+**Statistique :**
+
+**Fonctions R disponibles :**
+
+-   `var.test()` : teste l'égalité de deux variances
+-   `sigma2.test()` : teste une variance contre une valeur (si le package est chargé)
+
+```{r}
+# ========= TEST CHI-DEUX: Comparer une variance à σ₀² =========
+
+cat("\n=== Test de Variance (Chi-Deux) ===\n\n")
+
+# Exemple: poids de boîtes de conserve
+poids <- c(165.1, 171.5, 168.1, 165.6, 166.8, 170.0, 168.8, 171.1, 168.8, 173.6,
+           163.5, 169.9, 165.4, 174.4, 171.8, 166.0, 174.6, 174.5, 166.4, 173.8)
+
+# Variance de référence
+sigma2_0 <- 10
+
+cat("Données observées: ", length(poids), "poids de boîtes\n")
+cat("Statistiques descriptives:\n")
+cat("  Moyenne:   ", round(mean(poids), 2), "g\n")
+cat("  Variance:  ", round(var(poids), 4), "\n")
+cat("  Écart-type:", round(sd(poids), 4), "g\n")
+cat("  Référence σ₀²:", sigma2_0, "\n\n")
+
+# === TEST CHI-DEUX MANUEL ===
+cat("=== Hypothèses ===\n")
+cat("  H₀: σ² = ", sigma2_0, "(variance égale la référence)\n")
+cat("  H₁: σ² ≠ ", sigma2_0, "(variance diffère) [bilatéral]\n\n")
+
+# Calculer la statistique
+n <- length(poids)
+df_lib <- n - 1  # Degrés de liberté
+chi2_obs <- df_lib * var(poids) / sigma2_0
+
+# Calculer la p-valeur bilatérale
+p_val_inf <- pchisq(chi2_obs, df = df_lib)  # P(χ² < χ²_obs)
+p_val_sup <- 1 - p_val_inf                   # P(χ² > χ²_obs)
+p_val_bilat <- 2 * min(p_val_inf, p_val_sup)  # Bilatéral
+
+cat("=== Résultats du Test ===\n")
+cat("  Statistique χ²:", round(chi2_obs, 4), "\n")
+cat("  Degrés de liberté:", df_lib, "\n")
+cat("  P-valeur (bilatérale):", round(p_val_bilat, 4), "\n\n")
+
+# Décision au niveau α = 5%
+alpha <- 0.05
+if (p_val_bilat < alpha) {
+  decision <- "REJETER H₀"
+  interpretation <- "La variance EST SIGNIFICATIVEMENT différente de la référence"
+} else {
+  decision <- "NE PAS REJETER H₀"
+  interpretation <- "Pas de preuve que la variance diffère de la référence"
+}
+
+cat("=== Décision (α = 5%) ===\n")
+cat("  Décision:      ", decision, "\n")
+cat("  Interprétation:", interpretation, "\n")
+
+```
+
+Il existe des fonctions dédiées telles que `sigma2.test()` du package **sigma2tools**. Si le package est installé, on peut appeler :
+
+``` r
+# install.packages("sigma2tools")
+library(sigma2tools)
+sigma2.test(poids, var0 = 10)
+```
+
+Ce test retourne directement la statistique de test, les degrés de liberté et la p‑valeur.
+
+```{r}
+#| eval: false
+# Note : Ce bloc est désactivé (eval: false) car il dépend d'un fichier local "TP3/..."
+# Si vous avez le fichier, changez en eval: true
+
+# Load sigma2.test function from the local file
+source("TP3/post-199979-sigma2.test.R")
+
+# Example usage with the poids data from above
+sigma2.test(poids, var0 = 10)
+
+```
+
+------------------------------------------------------------------------
+
+## 4.9.5 Comparaison d'une Proportion à une Valeur de Référence
+
+### Contexte et Hypothèses
+
+**Question :** La proportion de succès dans la population est-elle égale à ?
+
+**Contexte typique :** On observe X succès sur n essais de Bernoulli. Est-ce compatible avec ?
+
+**Hypothèses :**
+
+-   **H₀** : (la proportion égale la référence)
+-   **H₁** : (la proportion diffère)
+
+**Tests à utiliser :**
+
+-   **`prop.test()`** : approximation normale (grand n, et )
+-   **`binom.test()`** : test exact (petit n)
+
+**Statistiques :**
+
+-   Approx. normale : sous H₀
+-   Exacte (Binomiale) : calcul exact des probabilités
+
+```{r}
+# ========= TEST DE PROPORTION =========
+
+cat("\n=== Test de Proportion ===\n\n")
+
+# Exemple: épidémiologie
+# Nombre de cas observés et taille de l'échantillon
+x <- 10   # Nombre de succès (cas)
+n <- 147  # Taille totale
+p0 <- 0.1 # Proportion théorique (10%)
+
+cat("Contexte: Infection chez femmes ≤ 25 ans\n")
+cat("  Cas observés (x):", x, "\n")
+cat("  Taille (n):     ", n, "\n")
+cat("  Proportion observée:", round(x/n, 4), "\n")
+cat("  Proportion référence (p₀):", p0, "\n\n")
+
+# === TEST: H1 est p < p₀ (unilatéral inférieur) ===
+cat("=== Hypothèses ===\n")
+cat("  H₀: p = ", p0, "(la proportion égale la référence)\n")
+cat("  H₁: p < ", p0, "(la proportion est INFÉRIEURE) [unilatéral]\n\n")
+
+# Effectuer le test
+test_prop <- prop.test(x, n, p = p0, alternative = "less", correct = FALSE)
+
+cat("=== Résultats du Test ===\n")
+cat("  Statistique χ²:", round(test_prop$statistic, 4), "\n")
+cat("  P-valeur:     ", round(test_prop$p.value, 4), "\n")
+cat("  IC 95%:        [", round(test_prop$conf.int[1], 4), 
+    ";", round(test_prop$conf.int[2], 4), "]\n\n")
+
+# Décision au niveau α = 5%
+alpha <- 0.05
+if (test_prop$p.value < alpha) {
+  decision <- "REJETER H₀"
+  interpretation <- "La proportion EST SIGNIFICATIVEMENT inférieure à 10%"
+} else {
+  decision <- "NE PAS REJETER H₀"
+  interpretation <- "Pas de preuve que la proportion soit < 10%"
+}
+
+cat("=== Décision (α = 5%) ===\n")
+cat("  Décision:      ", decision, "\n")
+cat("  Interprétation:", interpretation, "\n")
+
+```
+
+Ici, `correct = FALSE` supprime la correction de continuité (cas des grands échantillons). Pour les petits échantillons, on peut utiliser `binom.test()` qui calcule une p‑valeur exacte basée sur la loi binomiale.
+
+------------------------------------------------------------------------
+
+## 4.9.6 Test d'un Coefficient de Corrélation
+
+### Contexte et Hypothèses
+
+**Question :** Existe-t-il une corrélation linéaire significative entre deux variables X et Y ?
+
+**Hypothèses :**
+
+-   **H₀** : (pas de corrélation)
+-   **H₁** : (corrélation existe) \[bilatéral\]
+
+**Test à utiliser :** **Test de corrélation de Pearson**
+
+**Statistique :**
+
+où est le coefficient de corrélation empirique.
+
+**Interprétation :**
+
+-   Si grand r loin de 0 corrélation significative
+-   Si petit r proche de 0 pas de corrélation significative
+
+```{r}
+# ========= TEST DE CORRÉLATION =========
+
+cat("\n=== Test de Corrélation de Pearson ===\n\n")
+
+# Générer deux variables corrélées
+set.seed(42)
+n_obs <- 30
+X <- rnorm(n_obs)
+Y <- 0.7 * X + rnorm(n_obs, sd = 0.5)  # Y dépend de X
+
+cat("Données: ", n_obs, "paires (X, Y)\n")
+cat("Corrélation simulée forte (Y = 0.7*X + bruit)\n\n")
+
+# Calculer la corrélation empirique
+r_obs <- cor(X, Y)
+
+cat("=== Hypothèses ===\n")
+cat("  H₀: ρ = 0 (pas de corrélation linéaire)\n")
+cat("  H₁: ρ ≠ 0 (corrélation existe) [bilatéral]\n\n")
+
+# Effectuer le test
+test_cor <- cor.test(X, Y, alternative = "two.sided")
+
+cat("=== Résultats du Test ===\n")
+cat("  Coefficient r (Pearson):", round(r_obs, 4), "\n")
+cat("  Statistique t:          ", round(test_cor$statistic, 4), "\n")
+cat("  Degrés de liberté:      ", test_cor$parameter, "\n")
+cat("  P-valeur:               ", round(test_cor$p.value, 6), "\n")
+cat("  IC 95%:                 [", round(test_cor$conf.int[1], 4),
+    ";", round(test_cor$conf.int[2], 4), "]\n\n")
+
+# Décision au niveau α = 5%
+alpha <- 0.05
+if (test_cor$p.value < alpha) {
+  decision <- "REJETER H₀"
+  interpretation <- paste("Corrélation SIGNIFICATIVE (r =", round(r_obs, 4), ")")
+} else {
+  decision <- "NE PAS REJETER H₀"
+  interpretation <- "Pas de preuve de corrélation linéaire"
+}
+
+cat("=== Décision (α = 5%) ===\n")
+cat("  Décision:      ", decision, "\n")
+cat("  Interprétation:", interpretation, "\n\n")
+
+# Visualiser la corrélation
+plot(X, Y, main = "Nuage de Points avec Corrélation",
+     xlab = "X", ylab = "Y", pch = 19, col = "blue")
+abline(lm(Y ~ X), col = "red", lwd = 2)  # Droite de régression
+legend("topleft", legend = paste("r =", round(r_obs, 4)),
+       col = "red", lwd = 2)
+
+```
+
+Si on souhaite tester un coefficient différent de 0, on peut utiliser la transformation de Fisher (fonctions disponibles dans certains packages comme **LeLogicielR**). Dans de nombreux cas pratiques, la fonction `cor.test()` suffit.
+
+------------------------------------------------------------------------
+
+## 📌 Résumé et Points Clés
+
+### Fonctions R Utilisées
+
+| Test        | Fonction      | Syntaxe                                        |
+|------------------------|------------------------|------------------------|
+| Moyenne     | `t.test()`    | `t.test(x, mu = μ0, alternative = "...")`      |
+| Variance    | `var.test()`  | Compare deux variances                         |
+| Proportion  | `prop.test()` | `prop.test(x, n, p = p0, alternative = "...")` |
+| Corrélation | `cor.test()`  | `cor.test(X, Y, alternative = "two.sided")`    |
+
+### Interprétation de la P-valeur
+
+-   **P-valeur \< 0.05** : Résultat **significatif** au niveau 5% Rejeter H₀
+-   **P-valeur 0.05** : Résultat **non significatif** Ne pas rejeter H₀
+-   **P-valeur** = Probabilité (sous H₀) d'observer un résultat aussi extrême
+
+### Bonnes Pratiques
+
+-   ✅ **Vérifier les hypothèses** du test avant de l'appliquer
+-   ✅ **Choisir la direction** de l'alternative avant de voir les données (unilatéral vs. bilatéral)
+-   ✅ **Reporter aussi l'intervalle de confiance**, pas juste la p-valeur
+-   ✅ **Ne pas interpréter** « ne pas rejeter H₀ » comme « accepter H₀ »
+-   ✅ **Taille d'effet** : regarder aussi l'amplitude des différences, pas juste la significativité
+
+### Pièges Courants
+
+-   ❌ Chercher le test qui donne la p-valeur la plus petite
+-   ❌ Ignorer les hypothèses du test (normalité, indépendance, etc.)
+-   ❌ Interpréter p \> 0.05 comme "H₀ est vraie"
+-   ❌ Multiplier les tests sans correction (risque d'erreur augmente)
+-   ❌ Confondre significativité statistique et significativité pratique

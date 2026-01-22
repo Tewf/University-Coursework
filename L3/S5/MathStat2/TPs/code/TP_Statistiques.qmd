@@ -1,0 +1,251 @@
+---
+title: "Section 2.9 – Travaux Pratiques de Statistique"
+author: "L3 MIASHS"
+format: 
+  pdf:
+    toc: true
+    documentclass: article
+    geometry: margin=1in
+editor: visual
+engine: knitr
+output-dir: output
+---
+
+# Section 2.9 – Travaux Pratiques
+
+## Vue d'ensemble
+
+Ce notebook présente une série d'exercices pratiques en statistique, illustrés par des simulations et des analyses avec R.
+
+**Objectifs pédagogiques :**
+
+-   Comprendre les concepts fondamentaux d'estimation (biais, variance, convergence)
+-   Apprendre à comparer différents estimateurs
+-   Maîtriser le calcul d'intervalles de confiance
+-   Estimer les paramètres par maximum de vraisemblance
+
+------------------------------------------------------------------------
+
+## 2.9.1 Biais et Variance
+
+### Exercice 11 – Calcul de la Variance Empirique
+
+**Rappel théorique :** La variance empirique d'une série d'observations $(x_1, \ldots, x_n)$ est définie par : $$s_n'^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \bar{x}_n)^2$$
+
+R utilise par défaut la variance corrigée (sans biais) : $$s_n^2 = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x}_n)^2$$
+
+```{r}
+#| label: ex-11-variance
+
+# Données de l'exemple
+x <- c(4.2, 5.0, 3.8, 4.7, 5.3)
+
+cat("=== Données ===\n")
+cat("Observations: ", x, "\n")
+cat("Moyenne: ", mean(x), "\n\n")
+
+# --- Variance corrigée de R (diviseur n-1) ---
+var_R <- var(x)
+cat("Variance corrigée (R avec n-1): ", var_R, "\n")
+
+# --- Fonction variance empirique (diviseur n) ---
+variance_empirique <- function(x) {
+  n <- length(x)
+  m <- mean(x)
+  return(sum((x - m)^2) / n)
+}
+
+var_emp <- variance_empirique(x)
+cat("Variance empirique (n): ", var_emp, "\n\n")
+
+# --- Comparaison ---
+cat("Ratio Var_corrigée / Var_empirique = ", var_R / var_emp, "\n")
+cat("Facteur théorique n/(n-1) = ", length(x)/(length(x)-1), "\n")
+
+```
+
+### Exercice 13 – Moyenne d'un Échantillon
+
+La moyenne empirique est un estimateur **sans biais** de la moyenne théorique.
+
+```{r}
+#| label: ex-13-moyenne
+
+set.seed(42)
+
+# Paramètres
+n <- 1000
+lambda <- 1/2
+
+cat("=== Simulation: Loi Exponentielle(λ=1/2) ===\n")
+cat("Espérance théorique E(X) = 1/λ =", 1/lambda, "\n")
+
+# Génération
+X <- rexp(n, rate = lambda)
+
+# Calculs
+mean_empirique <- mean(X)
+mean_theo <- 1 / lambda
+
+cat("Moyenne observée: ", round(mean_empirique, 4), "\n")
+cat("Différence:  ", round(mean_empirique - mean_theo, 4), "\n")
+
+```
+
+### Exercice 14 – Estimateur Sans Biais de la Variance
+
+Nous vérifions ici que la variance corrigée (utilisée par R) estime correctement en moyenne.
+
+```{r}
+#| label: ex-14-variance-unbiased
+
+set.seed(123)
+n <- 20
+mu_theo <- 0
+sigma_theo <- 1
+
+# Échantillon Normal
+X <- rnorm(n, mean = mu_theo, sd = sigma_theo)
+
+# Calculs
+var_empirique <- variance_empirique(X) # Biaisé
+var_corrigee <- var(X)                 # Sans biais
+
+cat("Variance empirique (n):   ", round(var_empirique, 4), "\n")
+cat("Variance corrigée (n-1):  ", round(var_corrigee, 4), "\n")
+cat("Théorique σ²:             ", sigma_theo^2, "\n")
+
+```
+
+------------------------------------------------------------------------
+
+## 2.9.2 Comparaison des Estimateurs (Position)
+
+Nous comparons trois estimateurs pour le paramètre de position d'une loi Normale :
+
+1.  La moyenne empirique
+2.  La médiane empirique
+3.  Le milieu de l'étendue (Mid-range) :
+
+```{r}
+#| label: ex-comparaison-setup
+
+# Paramètres
+n_sim <- 1000
+mu <- 5
+sigma <- 2 # car Variance = 4
+
+# Simulation de l'échantillon de base
+set.seed(100)
+X_comp <- rnorm(n_sim, mean = mu, sd = sigma)
+
+# Histogramme de vérification
+hist(X_comp, breaks = 30, freq = FALSE, col = "lightblue",
+     main = "Histogramme: Echantillon N(5, 4)", xlab = "Valeur")
+curve(dnorm(x, mean = mu, sd = sigma), add = TRUE, col = "red", lwd = 2)
+
+```
+
+### Simulation de la convergence
+
+Nous observons comment ces estimateurs évoluent quand la taille de l'échantillon augmente de à .
+
+```{r}
+#| label: ex-comparaison-plot
+
+# Initialisation des vecteurs de résultats
+est_mean <- numeric(n_sim)
+est_median <- numeric(n_sim)
+est_midrange <- numeric(n_sim)
+
+# Calcul progressif
+running_mean <- cumsum(X_comp) / (1:n_sim)
+
+# Pour la médiane et le midrange, il faut recalculer à chaque étape
+# (Note: cette boucle peut être lente pour de très grands n, mais ok pour 1000)
+for(i in 1:n_sim) {
+  sub_sample <- X_comp[1:i]
+  est_median[i] <- median(sub_sample)
+  est_midrange[i] <- (min(sub_sample) + max(sub_sample)) / 2
+}
+
+# --- Graphique de convergence ---
+plot(1:n_sim, running_mean, type = "l", col = "blue", lwd = 2,
+     ylim = c(mu - 3, mu + 3),
+     xlab = "Taille de l'échantillon n", ylab = "Valeur de l'estimateur",
+     main = "Convergence des Estimateurs vers μ = 5")
+
+lines(1:n_sim, est_median, col = "green", lwd = 1)
+lines(1:n_sim, est_midrange, col = "orange", lwd = 1, lty = 2)
+abline(h = mu, col = "red", lty = 2, lwd = 2)
+
+legend("topright", 
+       legend = c("Moyenne", "Médiane", "Mid-range", "Vraie valeur"),
+       col = c("blue", "green", "orange", "red"),
+       lty = c(1, 1, 2, 2), lwd = c(2, 1, 1, 2))
+
+```
+
+**Interprétation :**
+
+-   La **Moyenne** (bleu) converge rapidement et stablement vers 5.
+-   La **Médiane** (vert) converge aussi, mais avec une variance légèrement plus élevée que la moyenne (elle "oscille" un peu plus).
+-   Le **Mid-range** (orange) est très sensible aux valeurs extrêmes et converge beaucoup moins bien pour la loi Normale.
+
+------------------------------------------------------------------------
+
+## 2.9.4 Maximum de Vraisemblance
+
+Nous allons estimer le paramètre (ici noté `rate` ou ) d'une loi Exponentielle.
+
+L'estimateur du Maximum de Vraisemblance (EMV) pour une loi exponentielle est . Nous allons utiliser une méthode numérique pour le vérifier.
+
+```{r}
+#| label: ex-mle
+#| message: false
+#| warning: false
+
+library(stats4)
+
+# 1. Génération des données
+set.seed(50)
+true_lambda <- 0.5
+n_mle <- 200
+data_exp <- rexp(n_mle, rate = true_lambda)
+
+# 2. Définition de la fonction de Log-vraisemblance négative
+# La fonction doit prendre le paramètre à estimer comme argument
+nLL <- function(rate) {
+  # log-vraisemblance négative = - somme(log(densité))
+  # suppressWarnings pour éviter les alertes si l'algo teste des valeurs négatives
+  -sum(dexp(data_exp, rate = rate, log = TRUE))
+}
+
+# 3. Estimation numérique (MLE)
+fit <- mle(nLL, start = list(rate = 1))
+
+cat("=== Résultats Maximum de Vraisemblance ===\n")
+summary(fit)
+
+# Récupération du coefficient estimé
+lambda_hat_mle <- coef(fit)
+cat("\nLambda estimé par MLE (stats4):", lambda_hat_mle, "\n")
+
+# 4. Comparaison avec la Méthode des Moments (1/Moyenne)
+lambda_hat_moments <- 1 / mean(data_exp)
+cat("Lambda estimé par méthode des moments (1/mean):", lambda_hat_moments, "\n")
+cat("Vraie valeur:", true_lambda, "\n")
+
+# 5. Visualisation
+hist(data_exp, freq = FALSE, breaks = 15, col = "lightgray",
+     main = "Ajustement par Maximum de Vraisemblance",
+     xlab = "Données")
+
+# Superposition de la densité théorique avec le paramètre estimé
+curve(dexp(x, rate = lambda_hat_mle), add = TRUE, col = "red", lwd = 2)
+legend("topright", legend = paste("Exp(rate =", round(lambda_hat_mle, 3), ")"),
+       col = "red", lwd = 2)
+
+```
+
+**Conclusion :** Pour la loi exponentielle, l'estimateur du Maximum de Vraisemblance coïncide exactement avec l'estimateur de la méthode des moments (). La courbe rouge montre que le paramètre estimé permet de bien modéliser l'histogramme des données observées.

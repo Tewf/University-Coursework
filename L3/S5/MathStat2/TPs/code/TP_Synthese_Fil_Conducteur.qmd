@@ -1,0 +1,317 @@
+---
+title: "TP3 : Tests Statistiques — Fil Conducteur"
+format: 
+  pdf:
+    toc: true
+    documentclass: article
+    geometry: margin=1in
+editor: visual
+engine: knitr
+output-dir: output
+---
+
+# TP3 : Tests Statistiques — Fil Conducteur
+
+## Objectifs
+
+-   Charger les données puis vérifier leur structure.
+-   Formuler les hypothèses nulle ($H_0$) et alternative ($H_1$) avant chaque test.
+-   Interpréter les sorties (statistique, p-value, décision) pour répondre aux questions métiers.
+
+------------------------------------------------------------------------
+
+## Étude 1 : Épaisseur Intima-Media
+
+**Contexte :** Les données sont importées depuis le fichier `post-199413-Intima_Media.txt`. Les variables utiles sont : - `SEXE` - `poids` (kg) - `taille` (cm) - `mesure` (épaisseur intima-media en mm)
+
+**But :** Vérifier si l'épaisseur moyenne diffère selon le profil (IMC, sexe).
+
+### 1. Importation et exploration
+
+```{r}
+#| label: import-intima
+
+# Importation des données
+Intima_Media <- read.table("../data/post-199413-Intima_Media.txt", header = TRUE, sep = " ", dec = ",")
+
+# Aperçu des données
+head(Intima_Media)
+
+```
+
+**Conseil :** Lors de la lecture de la sortie `head()`, vérifiez bien les types de variables (entiers vs doubles) et détectez la présence éventuelle de valeurs manquantes (`NA`).
+
+### 2. Manipulation des données
+
+Nous attachons le dataframe pour accéder directement aux variables et nous calculons l'Indice de Masse Corporelle (IMC).
+
+```{r}
+#| label: prep-intima
+
+attach(Intima_Media)
+
+# Vérification d'une variable (ex: SEXE)
+# (Affiche la liste des valeurs pour vérifier l'import)
+# SEXE 
+
+# Calcul de l'IMC (Poids en kg / Taille en m au carré)
+# Note: la taille est en cm dans le fichier, on divise par 100
+IMC <- poids / (taille / 100)^2
+
+```
+
+### 3. Analyse des sujets obèses
+
+Nous nous intéressons aux sujets ayant un IMC \> 30.
+
+```{r}
+#| label: analyse-obeses
+
+# Repérer les sujets obèses (IMC > 30)
+# Affiche un vecteur de TRUE/FALSE
+# IMC > 30 
+
+# Nombre de sujets obèses
+nb_obeses <- sum(IMC > 30, na.rm = TRUE)
+cat("Nombre de sujets obèses :", nb_obeses, "\n")
+
+# Proportion de sujets obèses
+prop_obeses <- mean(IMC > 30, na.rm = TRUE)
+cat("Proportion de sujets obèses :", round(prop_obeses, 4), "\n")
+
+```
+
+### 4. Test de conformité (One Sample t-test)
+
+**Question :** L'épaisseur moyenne (`mesure`) chez les sujets obèses est-elle **supérieure** à 0.58 mm ?
+
+-   **H₀** :
+-   **H₁** : (Test unilatéral à droite `greater`)
+
+```{r}
+#| label: test-intima-obese
+
+# Extraction des mesures pour les sujets obèses
+mesure1 <- mesure[IMC > 30]
+
+# Test t de Student unilatéral
+t.test(mesure1, mu = 0.58, alternative = "greater")
+
+```
+
+**Interprétation :** Regardez la `p-value`. Si elle est inférieure au seuil (généralement 0.05), on rejette . Sinon, on ne peut pas conclure que l'épaisseur est significativement supérieure à 0.58.
+
+------------------------------------------------------------------------
+
+## Étude 2 : Prévalence du VIH (Afrique)
+
+**Contexte :** On travaille sur le fichier `post-199414-prevalsidafric.xls` pour estimer et tester des proportions de séropositifs dans différents sous-groupes.
+
+### 1. Importation
+
+```{r}
+#| label: import-preval
+
+library(readxl)
+preval <- read_excel("../data/post-199414-prevalsidafric.xls")
+head(preval)
+
+attach(preval)
+
+```
+
+### 2. Analyse des 18-25 ans
+
+**Question :** La prévalence chez les 18-25 ans est-elle inférieure à 10% ?
+
+-   **Données :** On filtre les sujets entre 18 et 25 ans inclus.
+-   **H₀** :
+-   **H₁** : (Test unilatéral à gauche `less`)
+
+```{r}
+#| label: test-vih-jeunes
+
+# Comptage des 18-25 ans
+nb_jeunes <- sum(age <= 25 & age >= 18)
+cat("Nombre de jeunes (18-25) :", nb_jeunes, "\n")
+
+# Table de contingence pour ce sous-groupe
+table_jeunes <- table(VIH[age <= 25 & age >= 18])
+print(table_jeunes)
+
+# Nombre de séropositifs (VIH=1) dans ce groupe (ici 10 cas observés)
+nb_pos_jeunes <- 10 
+
+# Test de proportion
+# p = 0.1 (valeur de référence)
+# alternative = "less" (unilatéral inférieur)
+prop.test(nb_pos_jeunes, nb_jeunes, p = 0.1, alternative = "less", correct = FALSE)
+
+```
+
+### 3. Analyse de la population globale
+
+**Question :** La prévalence globale est-elle différente de 25% ?
+
+-   **H₀** :
+-   **H₁** : (Test bilatéral `two.sided`)
+
+```{r}
+#| label: test-vih-global
+
+# Supposons 118 cas positifs sur 400 observations totales (données de l'exemple)
+prop.test(118, 400, p = 0.25, alternative = "two.sided")
+
+```
+
+------------------------------------------------------------------------
+
+## Étude 3 : Comparaisons (Moyennes et Variances)
+
+Cette section utilise des fonctions spécifiques (parfois issues de packages comme `OneTwoSamples` ou des fonctions R standard) pour illustrer différents cas de figure.
+
+### 1. Tests sur une moyenne ()
+
+#### Cas connu
+
+Exemple théorique sur une variable `x`.
+
+-   **H₀** :
+
+```{r}
+#| label: test-mu-sigma-connu
+#| warning: false
+
+# Chargement du package si disponible (sinon utiliser z.test ou calcul manuel)
+# library(OneTwoSamples) 
+
+x <- c(6.47, 7.02, 7.15, 7.22, 7.44, 6.99, 7.47, 7.61, 7.32, 7.22, 7.52, 6.92,
+       7.28, 6.69, 7.24, 7.19, 6.97, 7.52, 6.22, 7.13, 7.32, 7.67, 7.24, 6.21)
+
+# Note : Si la fonction mean_test1 n'est pas disponible, voir TP précédents pour le calcul manuel Z
+# mean_test1(x, mu = 7.3, sigma = 0.38)
+
+# Test unilatéral à gauche (alternative = -1 ou "less")
+# mean_test1(x, mu = 7.3, sigma = 0.38, side = -1) 
+
+```
+
+#### Cas inconnu (Test t de Student)
+
+**Question :** La moyenne est-elle supérieure à 10 ?
+
+```{r}
+#| label: test-mu-sigma-inconnu
+
+x_t <- c(10.1, 9.8, 10.2, 10.3, 10.4, 9.8, 9.9, 10.4, 10.2, 9.5, 10.4, 9.6)
+
+# Test t unilatéral
+t.test(x_t, mu = 10, alternative = "greater")
+
+```
+
+**Autre exemple (Rendement) :** Test bilatéral contre une référence .
+
+```{r}
+#| label: test-mu-rendement
+
+x_rendement <- c(232, 277, 235, 245, 245, 250, 268, 256)
+t.test(x_rendement, mu = 276)
+
+```
+
+### 2. Comparaisons à deux échantillons
+
+Il faut systématiquement :
+
+1.  Poser les hypothèses.
+2.  Vérifier si les variances sont connues ou inconnues.
+3.  Si inconnues, tester leur égalité (F-test) ou utiliser Welch (par défaut).
+
+#### Cas connus (Machines)
+
+```{r}
+#| label: test-2ech-sigma-connu
+
+machine1 <- c(106.70, 107.02, 107.15, 107.22, 107.41, 106.39, 107.47, 107.61, 107.38, 107.22)
+machine2 <- c(107.68, 106.69, 107.24, 107.69, 106.97, 107.52, 106.22, 107.23, 107.32)
+
+# Fonction hypothétique mean_test2 pour variances connues
+# mean_test2(machine1, machine2, sigma = c(1.3, 0.9))
+
+```
+
+#### Cas inconnus (Producteurs)
+
+D'abord, on peut tester l'égalité des variances.
+
+```{r}
+#| label: test-var-producteurs
+
+prod1 <- c(12.12, 12.03, 13.58, 13.38, 11.81, 15.92, 13.65)
+prod2 <- c(14.81, 13.93, 14.91, 15.87, 15.62, 15.39)
+
+# Test de Fisher pour l'égalité des variances
+var.test(prod1, prod2)
+# Ou fonction custom: var_test2(prod1, prod2)
+
+```
+
+Ensuite, on compare les moyennes. Si les variances sont jugées égales (p-value \> 0.05 au test précédent), on utilise `var.equal = TRUE`.
+
+```{r}
+#| label: test-moy-producteurs
+
+# Test t avec variances supposées égales
+t.test(prod1, prod2, var.equal = TRUE)
+
+```
+
+#### Autre exemple (Lots)
+
+```{r}
+#| label: test-lots
+
+lot1 <- c(31.70, 31.98, 32.24, 32.35, 31.18, 32.19, 32.63, 31.19, 31.54, 31.89)
+lot2 <- c(31.61, 31.10, 31.20, 31.11, 32.66, 31.15, 31.71, 31.22, 31.16, 31.21)
+
+# Test des variances
+var.test(lot1, lot2)
+
+# Test t unilatéral (lot1 < lot2 ?) avec variances égales (car p-value var.test élevée)
+# Note: Dans le code d'origine, t.test compare lot1 et lot1 (erreur de copier-coller probable),
+# ici corrigé pour comparer lot1 et lot2.
+t.test(lot1, lot2, var.equal = TRUE, alternative = "less")
+
+```
+
+### 3. Comparaison de deux proportions
+
+**Contexte :** Comparer deux taux de succès (Avant/Après intervention).
+
+-   Avant : 54 succès sur 230.
+-   Après : 110 succès sur 340.
+-   **H₁** : La proportion a augmenté (donc ).
+
+```{r}
+#| label: test-2prop
+
+x_prop <- c(54, 110)
+n_prop <- c(230, 340)
+
+# Test unilatéral "less" (p1 < p2)
+prop.test(x = x_prop, n = n_prop, alternative = "less")
+
+```
+
+------------------------------------------------------------------------
+
+## Résumé : Comment interpréter les sorties
+
+1.  **Identifier la p-value** : C'est la probabilité d'obtenir ces données si l'hypothèse nulle était vraie.
+2.  **Comparer au seuil** : Si `p-value < 0.05` (généralement), le résultat est statistiquement significatif → Rejet de .
+3.  **Conclure** : Formuler une phrase réponse en lien avec le problème métier (ex: "L'épaisseur moyenne est significativement supérieure à la norme").
+4.  **Vérifier les conditions** : Normalité des données (pour le t-test sur petits échantillons), effectifs suffisants (pour les tests de proportions), indépendance des observations.
+
+```         
+```
