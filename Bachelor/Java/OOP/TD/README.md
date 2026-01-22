@@ -1,18 +1,17 @@
-## Getting Started
+# Travaux Dirigés (TD) – OOP
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This folder contains directed exercises for the object‑oriented programming course. Each exercise focuses on a specific concept:
 
-## Folder Structure
+- Basic class creation and encapsulation.
+- Inheritance and polymorphism.
+- Interfaces and abstract classes.
+- Generics and collections.
+- Exception handling and file I/O.
 
-The workspace contains two folders by default, where:
+The `src` directory holds the source code. You can compile all exercises as follows:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+```sh
+javac -d bin $(find src -name '*.java')
+```
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+To run a particular exercise, navigate to the corresponding package and execute the main class. Add comments or notes in your solutions to reflect your understanding.
