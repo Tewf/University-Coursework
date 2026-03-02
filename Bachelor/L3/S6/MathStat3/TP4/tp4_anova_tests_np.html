@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="HAMLIL Mohamed">
+<meta name="dcterms.date" content="2025-01-01">
 
 <title>TP4 – ANOVA à deux facteurs et Tests Non Paramétriques</title>
 <style>
@@ -2435,7 +2436,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">2025</p>
     </div>
   </div>
   
@@ -2468,7 +2469,7 @@ window.Quarto = {
 <section id="modèle-sans-erreur" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="modèle-sans-erreur"><span class="header-section-number">2.2</span> 1.2 Modèle sans erreur</h2>
 <p>On suppose 3 niveaux avec 20 observations chacun et des moyennes 15, 20, 25 :</p>
-<div id="4959aeb0" class="cell" data-execution_count="1">
+<div id="754edadc" class="cell" data-execution_count="1">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">15</span>, <span class="dv">20</span>), <span class="fu">rep</span>(<span class="dv">20</span>, <span class="dv">20</span>), <span class="fu">rep</span>(<span class="dv">25</span>, <span class="dv">20</span>))</span>
@@ -2476,7 +2477,7 @@ window.Quarto = {
 </details>
 </div>
 <p>Si on lance une ANOVA sur ce modèle <strong>sans erreur</strong> :</p>
-<div id="8cdd0c39" class="cell" data-execution_count="2">
+<div id="d5e6f944" class="cell" data-execution_count="2">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(x <span class="sc">~</span> a))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2528,7 +2529,7 @@ window.Quarto = {
 <section id="introduction-de-lerreur" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="introduction-de-lerreur"><span class="header-section-number">2.3</span> 1.3 Introduction de l’erreur</h2>
 <p>On crée un vecteur d’erreurs normales centrées réduites :</p>
-<div id="ec8ab546" class="cell" data-execution_count="3">
+<div id="34cf6d3b" class="cell" data-execution_count="3">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
@@ -2536,7 +2537,7 @@ window.Quarto = {
 </details>
 </div>
 <p>On ajoute l’erreur multipliée par un écart-type (commençons par 0.5) :</p>
-<div id="b4619a04" class="cell" data-execution_count="4">
+<div id="4f27cc58" class="cell" data-execution_count="4">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xe <span class="ot">=</span> x <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> err</span>
@@ -2588,7 +2589,7 @@ window.Quarto = {
 </section>
 <section id="fonction-pour-automatiser" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="fonction-pour-automatiser"><span class="header-section-number">2.4</span> 1.4 Fonction pour automatiser</h2>
-<div id="b19d8570" class="cell" data-execution_count="5">
+<div id="f8975840" class="cell" data-execution_count="5">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>anovalue <span class="ot">=</span> <span class="cf">function</span>(x, a, sigma) {</span>
@@ -2602,7 +2603,7 @@ window.Quarto = {
 <section id="exploration-de-leffet-de-sigma" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="exploration-de-leffet-de-sigma"><span class="header-section-number">2.5</span> 1.5 Exploration de l’effet de sigma</h2>
 <p>Faisons varier la valeur de <code>sigma</code> pour voir quand la p-value passe au-dessus de 5% :</p>
-<div id="db9a9773" class="cell" data-execution_count="6">
+<div id="7ea815c1" class="cell" data-execution_count="6">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;sigma = 1 :&quot;</span>, <span class="fu">anovalue</span>(x, a, <span class="dv">1</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
@@ -2634,7 +2635,7 @@ sigma = 20 : 0.2232089 NA </code></pre>
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="contexte"><span class="header-section-number">3.1.1</span> Contexte</h3>
 <p>On compare la vitesse de pénétration de <strong>4 marques de mèches</strong> en acier sur <strong>5 types de dureté</strong> d’acier. Les temps sont mesurés en secondes.</p>
 <p>C’est une <strong>classification à deux entrées</strong> (mesures répétées).</p>
-<div id="9a8dcbdb" class="cell" data-execution_count="7">
+<div id="ed4c9879" class="cell" data-execution_count="7">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">OutDec =</span> <span class="st">&quot;,&quot;</span>)</span>
@@ -2699,7 +2700,7 @@ sigma = 20 : 0.2232089 NA </code></pre>
 </table>
 </div>
 </div>
-<div id="3e7f3a17" class="cell" data-execution_count="8">
+<div id="f3068445" class="cell" data-execution_count="8">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">=</span> durtVit<span class="sc">$</span>Y</span>
@@ -2713,7 +2714,7 @@ sigma = 20 : 0.2232089 NA </code></pre>
 </section>
 <section id="graphe-dinteraction" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="graphe-dinteraction"><span class="header-section-number">3.1.2</span> Graphe d’interaction</h3>
-<div id="2a058704" class="cell" data-execution_count="9">
+<div id="b42742dc" class="cell" data-execution_count="9">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(M, D, Y, <span class="at">main =</span> <span class="st">&quot;Graphe d&#39;interaction&quot;</span>,</span>
@@ -2734,7 +2735,7 @@ sigma = 20 : 0.2232089 NA </code></pre>
 <section id="table-danova-sans-interaction" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="table-danova-sans-interaction"><span class="header-section-number">3.2</span> 2.2 Table d’ANOVA sans interaction</h2>
 <p>On teste l’effet de 2 facteurs <strong>sans</strong> leur interaction (modèle additif) :</p>
-<div id="f602feb3" class="cell" data-execution_count="10">
+<div id="40d3e1fd" class="cell" data-execution_count="10">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(Y <span class="sc">~</span> D <span class="sc">+</span> M))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2751,7 +2752,7 @@ Signif. codes:  0 ‘***’ 0,001 ‘**’ 0,01 ‘*’ 0,05 ‘.’ 0,1 ‘ ’
 <p><strong>Résultat :</strong> Chaque facteur influence <strong>significativement</strong> Y.</p>
 <section id="avec-interaction" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="avec-interaction"><span class="header-section-number">3.2.1</span> Avec interaction</h3>
-<div id="9dcd3361" class="cell" data-execution_count="11">
+<div id="5cef569f" class="cell" data-execution_count="11">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(Y <span class="sc">~</span> D <span class="sc">*</span> M))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2763,7 +2764,7 @@ M            3    310   103,3
 D:M         12     24     2,0</code></pre>
 </div>
 </div>
-<div id="6c90e018" class="cell" data-execution_count="12">
+<div id="cc9f9c8c" class="cell" data-execution_count="12">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> D <span class="sc">*</span> M))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2832,7 +2833,7 @@ D:M         12     24     2,0</code></pre>
 <section id="attention-anova-à-un-facteur-seul" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="attention-anova-à-un-facteur-seul"><span class="header-section-number">3.3</span> 2.3 Attention : ANOVA à un facteur seul</h2>
 <p>Il est fondamental de noter que pris séparément, un facteur ne suffit pas à expliquer Y :</p>
-<div id="a8a09619" class="cell" data-execution_count="13">
+<div id="a81af521" class="cell" data-execution_count="13">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;=== ANOVA Y ~ M ===</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
@@ -2865,7 +2866,7 @@ Residuals   15    334   22,27               </code></pre>
 <section id="anova-avec-interaction-données-engrais" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="anova-avec-interaction-données-engrais"><span class="header-section-number">3.4</span> 2.4 ANOVA avec interaction (données engrais)</h2>
 <p>Un second jeu de données avec un peu plus de données et une interaction plus marquée :</p>
-<div id="5e4232c8" class="cell" data-execution_count="14">
+<div id="dcfcf488" class="cell" data-execution_count="14">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>engrais <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;engraisRegion.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
@@ -2934,7 +2935,7 @@ Residuals   15    334   22,27               </code></pre>
 </div>
 <section id="anova-avec-interaction" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="anova-avec-interaction"><span class="header-section-number">3.4.1</span> ANOVA avec interaction</h3>
-<div id="d3041f26" class="cell" data-execution_count="15">
+<div id="3b3149d8" class="cell" data-execution_count="15">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> R <span class="sc">*</span> E))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3001,7 +3002,7 @@ Residuals   15    334   22,27               </code></pre>
 </section>
 <section id="sans-interaction" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="sans-interaction"><span class="header-section-number">3.4.2</span> Sans interaction</h3>
-<div id="a2f4860f" class="cell" data-execution_count="16">
+<div id="013ea8b3" class="cell" data-execution_count="16">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> R <span class="sc">+</span> E))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3059,7 +3060,7 @@ Residuals   15    334   22,27               </code></pre>
 </section>
 <section id="graphe-dinteraction-1" class="level3" data-number="3.4.3">
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="graphe-dinteraction-1"><span class="header-section-number">3.4.3</span> Graphe d’interaction</h3>
-<div id="d9415171" class="cell" data-execution_count="17">
+<div id="f75b97f3" class="cell" data-execution_count="17">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(R, E, Y, <span class="at">main =</span> <span class="st">&quot;Graphe d&#39;interaction (Engrais)&quot;</span>,</span>
@@ -3084,7 +3085,7 @@ Residuals   15    334   22,27               </code></pre>
 <h2 data-number="4.1" class="anchored" data-anchor-id="test-de-wilcoxon-contre-test-du-χ²-round-1"><span class="header-section-number">4.1</span> 3.1 Test de Wilcoxon contre Test du χ² – Round 1</h2>
 <section id="simulation-des-données" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="simulation-des-données"><span class="header-section-number">4.1.1</span> Simulation des données</h3>
-<div id="3e9d4753" class="cell" data-execution_count="18">
+<div id="4c43b318" class="cell" data-execution_count="18">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
@@ -3103,7 +3104,7 @@ Residuals   15    334   22,27               </code></pre>
 </div>
 </div>
 <p>On crée X (valeurs <strong>extérieures</strong> aux quartiles) et Y (valeurs <strong>intérieures</strong>) :</p>
-<div id="a1fddc61" class="cell" data-execution_count="19">
+<div id="f2e78971" class="cell" data-execution_count="19">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> x[x <span class="sc">&lt;</span> Q1 <span class="sc">|</span> x <span class="sc">&gt;</span> Q3]</span>
@@ -3120,7 +3121,7 @@ Residuals   15    334   22,27               </code></pre>
 <section id="test-du-χ²" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="test-du-χ²"><span class="header-section-number">4.1.2</span> Test du χ²</h3>
 <p>On construit un tableau de contingence basé sur les quartiles :</p>
-<div id="b957018c" class="cell" data-execution_count="20">
+<div id="4851331a" class="cell" data-execution_count="20">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>table_chi <span class="ot">=</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
@@ -3150,7 +3151,7 @@ Residuals   15    334   22,27               </code></pre>
 </table>
 </div>
 </div>
-<div id="98535a9b" class="cell" data-execution_count="21">
+<div id="857e5bb4" class="cell" data-execution_count="21">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(table_chi)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3168,7 +3169,7 @@ X-squared = 67,637, df = 2, p-value = 2,055e-15</code></pre>
 <section id="test-de-wilcoxon" class="level3" data-number="4.1.3">
 <h3 data-number="4.1.3" class="anchored" data-anchor-id="test-de-wilcoxon"><span class="header-section-number">4.1.3</span> Test de Wilcoxon</h3>
 <p>On classe toutes les valeurs de X et Y ensemble et on calcule la somme des rangs de X :</p>
-<div id="591d8563" class="cell" data-execution_count="22">
+<div id="a2b628d0" class="cell" data-execution_count="22">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>matX <span class="ot">=</span> <span class="fu">rbind</span>(X, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(X)))</span>
@@ -3178,7 +3179,7 @@ X-squared = 67,637, df = 2, p-value = 2,055e-15</code></pre>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>data_ranks <span class="ot">=</span> <span class="fu">rbind</span>(mat, <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mat[<span class="dv">1</span>, ]))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="1ccfac62" class="cell" data-execution_count="23">
+<div id="a9fe87a2" class="cell" data-execution_count="23">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rang <span class="ot">=</span> data_ranks[<span class="dv">3</span>, ]</span>
@@ -3194,7 +3195,7 @@ X-squared = 67,637, df = 2, p-value = 2,055e-15</code></pre>
 <h3 data-number="4.1.4" class="anchored" data-anchor-id="conclusion-du-test-de-wilcoxon"><span class="header-section-number">4.1.4</span> Conclusion du test de Wilcoxon</h3>
 <p>L’hypothèse <span class="math inline">\(H_0\)</span> d’équidistribution est rejetée au seuil <span class="math inline">\(\alpha\)</span> si :</p>
 <p><span class="math display">\[\left|W - \frac{n_X(n+1)}{2}\right| &gt; q_{\alpha/2} \sqrt{\frac{n_X n_Y (n+1)}{12}}\]</span></p>
-<div id="77c97e22" class="cell" data-execution_count="24">
+<div id="f069e01c" class="cell" data-execution_count="24">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>U <span class="ot">=</span> W <span class="sc">-</span> <span class="fu">length</span>(X) <span class="sc">*</span> (<span class="fu">length</span>(X) <span class="sc">+</span> <span class="fu">length</span>(Y) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
@@ -3211,7 +3212,7 @@ X-squared = 67,637, df = 2, p-value = 2,055e-15</code></pre>
 <section id="round-2" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="round-2"><span class="header-section-number">4.2</span> 3.2 Round 2</h2>
 <p>On redécoupe la variable x différemment :</p>
-<div id="718f51af" class="cell" data-execution_count="25">
+<div id="9f7b9e8b" class="cell" data-execution_count="25">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">=</span> x[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">25</span><span class="sc">:</span><span class="dv">36</span>, <span class="dv">49</span><span class="sc">:</span><span class="dv">60</span>, <span class="dv">73</span><span class="sc">:</span><span class="dv">84</span>)]</span>
@@ -3219,7 +3220,7 @@ X-squared = 67,637, df = 2, p-value = 2,055e-15</code></pre>
 </details>
 </div>
 <p>Refaisons les deux tests :</p>
-<div id="45abeabe" class="cell" data-execution_count="26">
+<div id="2766498e" class="cell" data-execution_count="26">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test χ²</span></span>
@@ -3240,7 +3241,7 @@ data:  table2
 X-squared = 4,6479, df = 2, p-value = 0,09788</code></pre>
 </div>
 </div>
-<div id="d1cd256c" class="cell" data-execution_count="27">
+<div id="ac15ae16" class="cell" data-execution_count="27">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test de Wilcoxon (round 2)</span></span>
@@ -3267,7 +3268,7 @@ X-squared = 4,6479, df = 2, p-value = 0,09788</code></pre>
 <section id="contexte-1" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="contexte-1"><span class="header-section-number">4.3.1</span> Contexte</h3>
 <p>Étude sur la pollution de l’air : données de concentration d’ozone à Rennes durant l’été 2001. 112 observations, 13 variables.</p>
-<div id="b4bc5e15" class="cell" data-execution_count="28">
+<div id="7334b62a" class="cell" data-execution_count="28">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>ozone <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;ozone.txt&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>, <span class="at">dec =</span> <span class="st">&quot;.&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
@@ -3411,7 +3412,7 @@ X-squared = 4,6479, df = 2, p-value = 0,09788</code></pre>
 </table>
 </div>
 </div>
-<div id="52fd2f24" class="cell" data-execution_count="29">
+<div id="8d47fcad" class="cell" data-execution_count="29">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>vent <span class="ot">=</span> ozone<span class="sc">$</span>vent</span>
@@ -3421,7 +3422,7 @@ X-squared = 4,6479, df = 2, p-value = 0,09788</code></pre>
 </section>
 <section id="anova-le-vent-influence-t-il-lozone" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="anova-le-vent-influence-t-il-lozone"><span class="header-section-number">4.3.2</span> ANOVA : le vent influence-t-il l’ozone ?</h3>
-<div id="0d6928c0" class="cell" data-execution_count="30">
+<div id="7e771e5f" class="cell" data-execution_count="30">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(maxO3 <span class="sc">~</span> vent))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3473,7 +3474,7 @@ X-squared = 4,6479, df = 2, p-value = 0,09788</code></pre>
 <section id="test-de-normalité-par-groupe" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="test-de-normalité-par-groupe"><span class="header-section-number">4.3.3</span> Test de normalité par groupe</h3>
 <p>Il est <strong>indispensable</strong> de vérifier la normalité pour valider l’ANOVA :</p>
-<div id="088a7957" class="cell" data-execution_count="31">
+<div id="01cf2db1" class="cell" data-execution_count="31">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(maxO3, vent, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3517,7 +3518,7 @@ W = 0,95172, p-value = 0,367
 <section id="test-de-kruskal-wallis-alternative-non-paramétrique" class="level3" data-number="4.3.4">
 <h3 data-number="4.3.4" class="anchored" data-anchor-id="test-de-kruskal-wallis-alternative-non-paramétrique"><span class="header-section-number">4.3.4</span> Test de Kruskal-Wallis (alternative non paramétrique)</h3>
 <p>Le test de Kruskal-Wallis est un analogue de l’ANOVA, mais <strong>sans hypothèse de normalité</strong>. Il est basé sur les rangs.</p>
-<div id="8916f707" class="cell" data-execution_count="32">
+<div id="b5536dc9" class="cell" data-execution_count="32">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(maxO3 <span class="sc">~</span> vent)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3535,7 +3536,7 @@ Kruskal-Wallis chi-squared = 13,645, df = 3, p-value = 0,003431</code></pre>
 <section id="test-de-corrélation-de-rang-de-spearman" class="level3" data-number="4.3.5">
 <h3 data-number="4.3.5" class="anchored" data-anchor-id="test-de-corrélation-de-rang-de-spearman"><span class="header-section-number">4.3.5</span> Test de corrélation de rang de Spearman</h3>
 <p>On se demande si la température et la composante E-O du vent à 9h sont indépendantes :</p>
-<div id="46ef8df6" class="cell" data-execution_count="33">
+<div id="6500cb6d" class="cell" data-execution_count="33">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>Vx9 <span class="ot">=</span> ozone<span class="sc">$</span>Vx9</span>
@@ -3545,7 +3546,7 @@ Kruskal-Wallis chi-squared = 13,645, df = 3, p-value = 0,003431</code></pre>
 <section id="à-la-main" class="level4" data-number="4.3.5.1">
 <h4 data-number="4.3.5.1" class="anchored" data-anchor-id="à-la-main"><span class="header-section-number">4.3.5.1</span> À la main</h4>
 <p>La statistique est le coefficient de corrélation des <strong>rangs</strong> :</p>
-<div id="05dd1ef6" class="cell" data-execution_count="34">
+<div id="3564a92b" class="cell" data-execution_count="34">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Rstar <span class="ot">=</span> <span class="fu">cor</span>(<span class="fu">rank</span>(Vx9), <span class="fu">rank</span>(T9))</span>
@@ -3556,7 +3557,7 @@ Kruskal-Wallis chi-squared = 13,645, df = 3, p-value = 0,003431</code></pre>
 </div>
 </div>
 <p>On compare <code>|R*|</code> au quantile <span class="math inline">\(q_{0.975}\)</span> de <span class="math inline">\(\mathcal{N}(0, \sqrt{1/(n-1)})\)</span> :</p>
-<div id="62b88c81" class="cell" data-execution_count="35">
+<div id="b1b7157f" class="cell" data-execution_count="35">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>seuil <span class="ot">=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> (<span class="fu">length</span>(T9) <span class="sc">-</span> <span class="dv">1</span>)))</span>
@@ -3573,7 +3574,7 @@ Rejet ? TRUE</code></pre>
 </section>
 <section id="avec-la-fonction-r" class="level4" data-number="4.3.5.2">
 <h4 data-number="4.3.5.2" class="anchored" data-anchor-id="avec-la-fonction-r"><span class="header-section-number">4.3.5.2</span> Avec la fonction R</h4>
-<div id="3ab4abe5" class="cell" data-execution_count="36">
+<div id="3a5d6bdc" class="cell" data-execution_count="36">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(Vx9, T9, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -4113,7 +4114,7 @@ sample estimates:
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;TP4 -- ANOVA à deux facteurs et Tests Non Paramétriques&quot;</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;HAMLIL Mohamed&quot;</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-2026&quot;</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-01-15&quot;</span></span>
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> ir</span></span>
 <span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>

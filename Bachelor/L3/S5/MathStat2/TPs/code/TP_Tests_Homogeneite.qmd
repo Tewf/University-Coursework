@@ -1,7 +1,7 @@
 ---
 title: "Section 5.5 – Tests d'Homogénéité"
 author: "HAMLIL Mohamed"
-date: "2024-2025"
+date: "2024-09-01"
 format:
   pdf:
     documentclass: article

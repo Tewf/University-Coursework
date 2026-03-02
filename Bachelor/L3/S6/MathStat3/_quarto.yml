@@ -13,6 +13,7 @@ format:
     embed-resources: true
     number-sections: true
     highlight-style: github
+    date-format: "YYYY"
   pdf:
     toc: true
 

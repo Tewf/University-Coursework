@@ -2,7 +2,7 @@
 title: "TP 5 : Apprentissage supervisé et KNN"
 subtitle: "Optimisation du classifieur Titanic"
 author: "Lola Etiévant"
-date: "2025-2026"
+date: "2025-01-15"
 format:
   pdf:
     toc: true

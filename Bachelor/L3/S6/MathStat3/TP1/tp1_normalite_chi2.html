@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="HAMLIL Mohamed">
+<meta name="dcterms.date" content="2025-01-01">
 
 <title>TP1 – Graphiques Quantile-Quantile, Test de Normalité et Test du χ²</title>
 <style>
@@ -2430,7 +2431,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">2025</p>
     </div>
   </div>
   
@@ -2546,7 +2547,7 @@ window.Quarto = {
 </table>
 <section id="étape-1-saisie-des-données" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="étape-1-saisie-des-données"><span class="header-section-number">2.2.1</span> Étape 1 : Saisie des données</h3>
-<div id="d229cf0e" class="cell" data-execution_count="1">
+<div id="d091d804" class="cell" data-execution_count="1">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>qi <span class="ot">=</span> <span class="dv">92</span><span class="sc">:</span><span class="dv">109</span></span>
@@ -2557,7 +2558,7 @@ window.Quarto = {
 <section id="étape-2-calcul-de-la-moyenne-pondérée" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="étape-2-calcul-de-la-moyenne-pondérée"><span class="header-section-number">2.2.2</span> Étape 2 : Calcul de la moyenne pondérée</h3>
 <p>La moyenne pondérée se calcule comme : <span class="math inline">\(m = \frac{\sum q_i \cdot n_i}{\sum n_i}\)</span></p>
-<div id="c6c7070b" class="cell" data-execution_count="2">
+<div id="69598cdd" class="cell" data-execution_count="2">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">sum</span>(qi <span class="sc">*</span> ni) <span class="sc">/</span> <span class="fu">sum</span>(ni)</span>
@@ -2571,7 +2572,7 @@ window.Quarto = {
 <section id="étape-3-calcul-de-lécart-type-pondéré" class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="étape-3-calcul-de-lécart-type-pondéré"><span class="header-section-number">2.2.3</span> Étape 3 : Calcul de l’écart-type pondéré</h3>
 <p><span class="math inline">\(\sigma = \sqrt{\frac{\sum n_i (q_i - m)^2}{\sum n_i - 1}}\)</span></p>
-<div id="51e508a2" class="cell" data-execution_count="3">
+<div id="b4609738" class="cell" data-execution_count="3">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(ni <span class="sc">*</span> (qi <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">sum</span>(ni) <span class="sc">-</span> <span class="dv">1</span>))</span>
@@ -2584,7 +2585,7 @@ window.Quarto = {
 </section>
 <section id="étape-4-fréquences-cumulées-et-quantiles-théoriques" class="level3" data-number="2.2.4">
 <h3 data-number="2.2.4" class="anchored" data-anchor-id="étape-4-fréquences-cumulées-et-quantiles-théoriques"><span class="header-section-number">2.2.4</span> Étape 4 : Fréquences cumulées et quantiles théoriques</h3>
-<div id="e020f53e" class="cell" data-execution_count="4">
+<div id="5d6bb26c" class="cell" data-execution_count="4">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Fi <span class="ot">=</span> <span class="fu">cumsum</span>(ni) <span class="sc">/</span> <span class="fu">sum</span>(ni)</span>
@@ -2594,7 +2595,7 @@ window.Quarto = {
 </section>
 <section id="étape-5-tracé-du-qq-plot" class="level3" data-number="2.2.5">
 <h3 data-number="2.2.5" class="anchored" data-anchor-id="étape-5-tracé-du-qq-plot"><span class="header-section-number">2.2.5</span> Étape 5 : Tracé du QQ-plot</h3>
-<div id="70c822d2" class="cell" data-execution_count="5">
+<div id="b61f6b0a" class="cell" data-execution_count="5">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qi, qietoile,</span>
@@ -2624,7 +2625,7 @@ window.Quarto = {
 <section id="fusion-des-effectifs-faibles" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="fusion-des-effectifs-faibles"><span class="header-section-number">3.1</span> 2.1 Fusion des effectifs faibles</h2>
 <p>Pour que le test du χ² soit valide, il faut que les effectifs théoriques soient supérieurs à 5. On fusionne donc les 2 premiers et les 3 derniers effectifs :</p>
-<div id="96f6d328" class="cell" data-execution_count="6">
+<div id="f58c4d6d" class="cell" data-execution_count="6">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ni2 <span class="ot">=</span> <span class="fu">c</span>(ni[<span class="dv">1</span>] <span class="sc">+</span> ni[<span class="dv">2</span>], ni[<span class="dv">3</span><span class="sc">:</span><span class="dv">15</span>], ni[<span class="dv">16</span>] <span class="sc">+</span> ni[<span class="dv">17</span>] <span class="sc">+</span> ni[<span class="dv">18</span>])</span>
@@ -2638,7 +2639,7 @@ window.Quarto = {
 <section id="calcul-des-probabilités-théoriques" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="calcul-des-probabilités-théoriques"><span class="header-section-number">3.2</span> 2.2 Calcul des probabilités théoriques</h2>
 <p>On calcule les probabilités théoriques <span class="math inline">\(p_i\)</span> en faisant la <strong>correction de continuité</strong> (bornes à ±0.5) :</p>
-<div id="c9a87f43" class="cell" data-execution_count="7">
+<div id="2b55d55f" class="cell" data-execution_count="7">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">91</span>, <span class="dv">93</span><span class="sc">:</span><span class="dv">106</span>) <span class="sc">+</span> <span class="fl">0.5</span></span>
@@ -2650,7 +2651,7 @@ window.Quarto = {
 </section>
 <section id="calcul-de-la-statistique-du-χ²" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="calcul-de-la-statistique-du-χ²"><span class="header-section-number">3.3</span> 2.3 Calcul de la statistique du χ²</h2>
-<div id="9efc1c46" class="cell" data-execution_count="8">
+<div id="34fd8f38" class="cell" data-execution_count="8">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dchi <span class="ot">=</span> <span class="fu">sum</span>((ni2 <span class="sc">-</span> ti)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> ti)</span>
@@ -2661,7 +2662,7 @@ window.Quarto = {
 </div>
 </div>
 <p>On peut aussi utiliser la fonction <code>chisq.test</code> :</p>
-<div id="1b6b35af" class="cell" data-execution_count="9">
+<div id="e3f7f5fc" class="cell" data-execution_count="9">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(ni2, <span class="at">p =</span> pi_theo, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2679,7 +2680,7 @@ X-squared = 11.991, df = 14, p-value = 0.607</code></pre>
 <h2 data-number="3.4" class="anchored" data-anchor-id="degrés-de-liberté-et-conclusion"><span class="header-section-number">3.4</span> 2.4 Degrés de liberté et conclusion</h2>
 <p><strong>Attention !</strong> Les degrés de liberté valent <span class="math inline">\(15 - 1 - 2 = 12\)</span> (car nous avons estimé 2 paramètres : <span class="math inline">\(m\)</span> et <span class="math inline">\(\sigma\)</span>). Or <code>chisq.test()</code> n’utilise pas les bons d.d.l. et donne une p-value erronée.</p>
 <p>Calculons la p-value correcte :</p>
-<div id="77edfe73" class="cell" data-execution_count="10">
+<div id="c47febd0" class="cell" data-execution_count="10">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Quantile théorique χ²(0.95, 12) =&quot;</span>, <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">12</span>))</span>
@@ -2701,7 +2702,7 @@ p-value correcte = 0.4417218</code></pre>
 <section id="importation-des-données-du-titanic" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="importation-des-données-du-titanic"><span class="header-section-number">4.1</span> 3.1 Importation des données du Titanic</h2>
 <p>Le fichier <code>titanic.csv</code> contient le registre des passagers du Titanic. L’objectif est d’étudier la relation entre <strong>survie</strong> et <strong>classe</strong> à l’aide du test d’indépendance de Chi-deux.</p>
-<div id="89c96776" class="cell" data-execution_count="11">
+<div id="43ac2964" class="cell" data-execution_count="11">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;titanic.csv&quot;</span>)</span>
@@ -2838,7 +2839,7 @@ p-value correcte = 0.4417218</code></pre>
 </div>
 </div>
 <p>Stockons les variables d’intérêt :</p>
-<div id="3b33d97e" class="cell" data-execution_count="12">
+<div id="f044cdc6" class="cell" data-execution_count="12">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>survived <span class="ot">=</span> titanic<span class="sc">$</span>Survived</span>
@@ -2867,7 +2868,7 @@ p-value correcte = 0.4417218</code></pre>
 <section id="test-dindépendance-survie-vs-classe" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="test-dindépendance-survie-vs-classe"><span class="header-section-number">4.2</span> 3.2 Test d’indépendance : Survie vs Classe</h2>
 <p>Construisons le <strong>tableau de contingence</strong> :</p>
-<div id="7d217304" class="cell" data-execution_count="13">
+<div id="48784399" class="cell" data-execution_count="13">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>contingence1 <span class="ot">=</span> <span class="fu">table</span>(survived, class)</span>
@@ -2881,7 +2882,7 @@ survived   1   2   3
 </div>
 </div>
 <p>Effectuons le test du χ² d’indépendance :</p>
-<div id="52233b5b" class="cell" data-execution_count="14">
+<div id="8c2c8a21" class="cell" data-execution_count="14">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(contingence1)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2900,7 +2901,7 @@ X-squared = 102.89, df = 2, p-value &lt; 2.2e-16</code></pre>
 <h2 data-number="4.3" class="anchored" data-anchor-id="autres-tests-dindépendance"><span class="header-section-number">4.3</span> 3.3 Autres tests d’indépendance</h2>
 <section id="survie-vs-sexe" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="survie-vs-sexe"><span class="header-section-number">4.3.1</span> Survie vs Sexe</h3>
-<div id="402ab344" class="cell" data-execution_count="15">
+<div id="98c99cb2" class="cell" data-execution_count="15">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>contingence_sex <span class="ot">=</span> <span class="fu">table</span>(survived, titanic<span class="sc">$</span>Sex)</span>
@@ -2924,7 +2925,7 @@ X-squared = 260.72, df = 1, p-value &lt; 2.2e-16</code></pre>
 </section>
 <section id="classe-vs-port-dembarquement" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="classe-vs-port-dembarquement"><span class="header-section-number">4.3.2</span> Classe vs Port d’embarquement</h3>
-<div id="f4e3596e" class="cell" data-execution_count="16">
+<div id="c4a529f4" class="cell" data-execution_count="16">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>contingence2 <span class="ot">=</span> <span class="fu">table</span>(class, titanic<span class="sc">$</span>Embarked)</span>
@@ -2939,7 +2940,7 @@ class       C   Q   S
 </div>
 </div>
 <p>On remarque une colonne vide (port inconnu). Supprimons-la :</p>
-<div id="1cbd25b9" class="cell" data-execution_count="17">
+<div id="32b43dfc" class="cell" data-execution_count="17">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>contingence2 <span class="ot">=</span> contingence2[, <span class="sc">-</span><span class="dv">1</span>]</span>
@@ -2964,7 +2965,7 @@ X-squared = 123.75, df = 4, p-value &lt; 2.2e-16</code></pre>
 </section>
 <section id="survie-vs-port-dembarquement" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="survie-vs-port-dembarquement"><span class="header-section-number">4.3.3</span> Survie vs Port d’embarquement</h3>
-<div id="ce1a3aea" class="cell" data-execution_count="18">
+<div id="60148da9" class="cell" data-execution_count="18">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>contingence3 <span class="ot">=</span> <span class="fu">table</span>(survived, titanic<span class="sc">$</span>Embarked)</span>
@@ -2987,7 +2988,7 @@ X-squared = 26.489, df = 2, p-value = 1.77e-06</code></pre>
 <h1 data-number="5"><span class="header-section-number">5</span> 4. Normalité et fonctions de R</h1>
 <section id="acquisition-de-la-variable-age" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="acquisition-de-la-variable-age"><span class="header-section-number">5.1</span> 4.1 Acquisition de la variable <code>age</code></h2>
-<div id="0bb3e134" class="cell" data-execution_count="19">
+<div id="accd1375" class="cell" data-execution_count="19">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>age <span class="ot">=</span> titanic<span class="sc">$</span>Age</span>
@@ -3003,7 +3004,7 @@ X-squared = 26.489, df = 2, p-value = 1.77e-06</code></pre>
 </div>
 </div>
 <p>Certains âges sont manquants (NA). Gardons seulement les âges connus :</p>
-<div id="9b8b41d6" class="cell" data-execution_count="20">
+<div id="c75f3730" class="cell" data-execution_count="20">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>age <span class="ot">=</span> age[<span class="sc">!</span><span class="fu">is.na</span>(age)]</span>
@@ -3019,7 +3020,7 @@ X-squared = 26.489, df = 2, p-value = 1.77e-06</code></pre>
 <h2 data-number="5.2" class="anchored" data-anchor-id="normalité-de-age"><span class="header-section-number">5.2</span> 4.2 Normalité de <code>age</code></h2>
 <section id="densité-estimée" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="densité-estimée"><span class="header-section-number">5.2.1</span> Densité estimée</h3>
-<div id="7e33cf1b" class="cell" data-execution_count="21">
+<div id="ac060c85" class="cell" data-execution_count="21">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(age),</span>
@@ -3038,7 +3039,7 @@ X-squared = 26.489, df = 2, p-value = 1.77e-06</code></pre>
 </section>
 <section id="qq-plot" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="qq-plot"><span class="header-section-number">5.2.2</span> QQ-plot</h3>
-<div id="05069dd6" class="cell" data-execution_count="22">
+<div id="e8782ddf" class="cell" data-execution_count="22">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(age, <span class="at">main =</span> <span class="st">&quot;QQ-plot de Age&quot;</span>)</span>
@@ -3055,7 +3056,7 @@ X-squared = 26.489, df = 2, p-value = 1.77e-06</code></pre>
 </section>
 <section id="test-de-shapiro-wilk" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="test-de-shapiro-wilk"><span class="header-section-number">5.2.3</span> Test de Shapiro-Wilk</h3>
-<div id="55456c0a" class="cell" data-execution_count="23">
+<div id="2051333d" class="cell" data-execution_count="23">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(age)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3074,7 +3075,7 @@ W = 0.98146, p-value = 7.337e-08</code></pre>
 <section id="normalité-de-age-par-classe" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="normalité-de-age-par-classe"><span class="header-section-number">5.3</span> 4.3 Normalité de <code>age</code> par classe</h2>
 <p>La fonction <code>tapply</code> permet d’appliquer une fonction à une variable divisée par sous-groupes :</p>
-<div id="53992e56" class="cell" data-execution_count="24">
+<div id="b50a968d" class="cell" data-execution_count="24">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(age, class2, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3612,7 +3613,7 @@ W = 0.97344, p-value = 4.186e-06
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;TP1 -- Graphiques Quantile-Quantile, Test de Normalité et Test du χ²&quot;</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;HAMLIL Mohamed&quot;</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-2026&quot;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-01-15&quot;</span></span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> ir</span></span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
