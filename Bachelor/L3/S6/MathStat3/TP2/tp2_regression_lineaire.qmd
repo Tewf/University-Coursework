@@ -1,0 +1,426 @@
+---
+title: "TP2 -- Régressions Linéaires"
+author: "Statistique Mathématique 3 -- L3 MIASHS"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+  pdf:
+    toc: true
+lang: fr
+jupyter: ir
+---
+
+# Introduction
+
+Dans ce TP, on étudie la relation entre la **tension artérielle** et l'**âge** des individus. Les données ont été simulées à partir de *BOUYER et al. (1995) Épidémiologie. Principes et méthodes quantitatives, Les éditions INSERM*.
+
+**Objectif :** Déterminer si l'âge a une influence sur la tension artérielle et éventuellement **prédire** la tension en fonction de l'âge.
+
+---
+
+# 1. Régression Linéaire Simple
+
+## 1.1 Statistiques descriptives
+
+**(i) Identification des variables :**
+
+- **Variable explicative** (indépendante) : l'âge ($x$)
+- **Variable expliquée** (dépendante) : la tension artérielle ($y$)
+
+**(ii) Importation des données :**
+
+```{r}
+data = read.csv("tension.csv", header = TRUE, sep = ";", dec = ",")
+head(data)
+x = data$age
+y = data$tension
+head(x)
+head(y)
+```
+
+**(iii) Nuage de points :**
+
+```{r}
+plot(x, y,
+     main = "Tension artérielle en fonction de l'âge",
+     xlab = "Âge (années)", ylab = "Tension (mmHg)",
+     pch = 19, col = "steelblue")
+```
+
+**Commentaire :** Le nuage est relativement rectiligne. La régression linéaire a du sens et donnera une tendance moyennement précise de $y$ en fonction de $x$.
+
+**(iv) Coefficient de corrélation linéaire :**
+
+```{r}
+r = cor(x, y)
+cat("Coefficient de corrélation r =", round(r, 4))
+```
+
+Sa valeur confirme la tendance linéaire observée graphiquement.
+
+**(v) Calcul des coefficients de la droite de régression :**
+
+On cherche $y = \hat{\beta}_1 x + \hat{\beta}_0$ par la méthode des **moindres carrés** :
+
+$$\hat{\beta}_1 = \frac{\text{Cov}(x, y)}{\text{Var}(x)}, \quad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$
+
+```{r}
+beta1 = cov(x, y) / var(x)
+beta0 = mean(y) - beta1 * mean(x)
+cat("beta1 =", round(beta1, 4), "\nbeta0 =", round(beta0, 4))
+```
+
+**(vi) Vérification avec `lm` :**
+
+```{r}
+lm(y ~ x)
+```
+
+**(vii) Tracé de la droite de régression :**
+
+```{r}
+plot(x, y,
+     main = "Régression linéaire : Tension ~ Âge",
+     xlab = "Âge", ylab = "Tension",
+     pch = 19, col = "steelblue")
+abline(beta0, beta1, col = "red", lwd = 2)
+legend("topleft", legend = "Droite de régression", col = "red", lwd = 2)
+```
+
+---
+
+## 1.2 Résidus
+
+Les résidus (erreurs) mesurent l'écart entre les valeurs observées et les valeurs prédites par le modèle.
+
+**(i) Calcul à la main :**
+
+```{r}
+yajust = beta1 * x + beta0
+erreurs = y - yajust
+```
+
+**(ii) Avec la fonction `lm` :**
+
+```{r}
+model = lm(y ~ x)
+beta0 = model$coefficients[1]
+beta1 = model$coefficients[2]
+yajustes = model$fitted.values
+erreurs = model$residuals
+```
+
+**(iii) Résidus en fonction des valeurs ajustées :**
+
+```{r}
+plot(yajustes, erreurs,
+     main = "Résidus vs Valeurs ajustées",
+     xlab = "Valeurs ajustées", ylab = "Résidus",
+     pch = 19, col = "darkgreen")
+abline(h = 0, col = "red", lty = 2)
+```
+
+**(iv) Structure des résidus ?**
+
+Il ne semble pas y avoir de structure particulière des erreurs. C'est ce qu'on attend : dans une régression linéaire, les erreurs doivent être distribuées selon $\mathcal{N}(0, \sigma)$ et être indépendantes de la variable explicative.
+
+**(v) Densité des résidus :**
+
+```{r}
+plot(density(erreurs),
+     main = "Densité des résidus",
+     col = "blue", lwd = 2)
+
+# Comparaison avec la densité gaussienne
+discr = -15:15
+norm = dnorm(discr, 0, sqrt(var(erreurs)))
+lines(discr, norm, col = "red", lwd = 2, lty = 2)
+legend("topright", legend = c("Résidus", "Gaussienne"),
+       col = c("blue", "red"), lwd = 2, lty = c(1, 2))
+```
+
+**(vi) QQ-plot et test de Shapiro-Wilk :**
+
+```{r}
+qqnorm(erreurs, main = "QQ-plot des résidus")
+qqline(erreurs, col = "red")
+```
+
+```{r}
+shapiro.test(erreurs)
+```
+
+**Conclusion :** Avec une p-value supérieure à 5%, on **ne rejette pas** la normalité des résidus.
+
+---
+
+## 1.3 Somme des carrés
+
+Rappel des trois sommes fondamentales :
+
+- **SCE** (Somme des Carrés des Erreurs) : $\sum (y_i - \hat{y}_i)^2$
+- **SCT** (Somme des Carrés Totale) : $\sum (y_i - \bar{y})^2$
+- **SCM** (Somme des Carrés du Modèle) : $\sum (\hat{y}_i - \bar{y})^2$
+
+**(i) Calcul :**
+
+```{r}
+SCE = sum(erreurs^2)
+SCT = sum((y - mean(y))^2)
+SCM = sum((yajustes - mean(y))^2)
+cat("SCE =", round(SCE, 2), "\nSCT =", round(SCT, 2), "\nSCM =", round(SCM, 2))
+```
+
+**(ii) Vérification de la décomposition :**
+
+$$SCT = SCM + SCE$$
+
+```{r}
+cat("SCM + SCE =", round(SCM + SCE, 2), "\nSCT =", round(SCT, 2))
+```
+
+**(iii) Coefficient de détermination $R^2$ :**
+
+```{r}
+R2 = SCM / SCT
+cat("R² =", round(R2, 4))
+cat("\ncor(x,y)² =", round(cor(x, y)^2, 4))
+```
+
+On vérifie que $R^2 = r^2$ (carré du coefficient de corrélation).
+
+---
+
+## 1.4 Distribution de $\hat{\beta}_1$
+
+Pour comprendre la variabilité de l'estimateur $\hat{\beta}_1$, on simule 100 échantillons du même modèle.
+
+**(i) Simulation de 100 échantillons :**
+
+```{r}
+set.seed(42)
+age_sim = sample(40:56, replace = TRUE, 30000)
+simx = matrix(age_sim, nrow = 100)
+
+err_sim = rnorm(30000, 0, sqrt(SCE / (length(x) - 2)))
+simerr = matrix(err_sim, nrow = 100)
+
+simy = beta1 * simx + beta0 + simerr
+```
+
+**(ii) Calcul de $\hat{\beta}_1$ pour chaque échantillon :**
+
+```{r}
+simbeta = numeric(100)
+for (i in 1:100) {
+  simbeta[i] = cov(simx[i, ], simy[i, ]) / var(simx[i, ])
+}
+```
+
+**(iii) Comparaison avec la loi de Student :**
+
+```{r}
+plot(density((simbeta - mean(simbeta)) / sqrt(var(simbeta))),
+     main = "Distribution de β̂₁ standardisé",
+     col = "blue", lwd = 2)
+discr = seq(-3, 3, 0.1)
+lines(discr, dt(discr, 298), col = "red", lwd = 2, lty = 2)
+legend("topright", legend = c("Simulations", "Student(298)"),
+       col = c("blue", "red"), lwd = 2, lty = c(1, 2))
+```
+
+---
+
+## 1.5 Intervalle de confiance de $\beta_1$
+
+L'intervalle de confiance à 95% pour $\beta_1$ est :
+
+$$\hat{\beta}_1 + t_{n-2; 0.025} \cdot \hat{\sigma}_{\beta_1} \leq \beta_1 \leq \hat{\beta}_1 - t_{n-2; 0.025} \cdot \hat{\sigma}_{\beta_1}$$
+
+```{r}
+sbeta1 = sqrt(SCE / (398 * sum((x - mean(x))^2)))
+binf = beta1 + qt(0.025, 298) * sbeta1
+bsup = beta1 + qt(0.975, 298) * sbeta1
+cat("Intervalle de confiance à 95% pour β₁ : [", round(binf, 4), ";", round(bsup, 4), "]")
+```
+
+Valeurs de `simbeta` en dehors de l'intervalle :
+
+```{r}
+hors_ic = simbeta[simbeta > bsup | simbeta < binf]
+cat("Nombre de valeurs hors IC :", length(hors_ic))
+cat("\nValeurs :", round(hors_ic, 4))
+```
+
+On s'attend à environ 5 valeurs (5% de 100). Si c'est très différent, l'aléa informatique peut en être la cause.
+
+---
+
+# 2. Tests de la Régression Linéaire
+
+## 2.1 Test de Fisher et ANOVA
+
+Le coefficient de détermination $R^2$ est inférieur à 0.8, mais cela ne signifie pas que $X$ n'explique pas $Y$. On teste l'hypothèse $H_0 : \beta_1 = 0$ (le modèle n'apporte rien).
+
+**(i) Tableau d'ANOVA :**
+
+```{r}
+anova(lm(y ~ x))
+```
+
+Ou de manière équivalente :
+
+```{r}
+summary(aov(y ~ x))
+```
+
+**Interprétation :** La p-value (`Pr(>F)`) est proche de zéro → on **rejette** la nullité de $\beta_1$. La variable $X$ explique $Y$ de manière **significative**.
+
+**(ii) Retrouver SCE et SCM :** on les reconnaît dans les colonnes `Sum Sq` du tableau.
+
+**(iii) Statistique de Fisher :**
+
+$$F = \frac{SCM}{SCE / (n-2)} = \frac{298 \times SCM}{SCE}$$
+
+```{r}
+F_stat = 298 * SCM / SCE
+cat("F observé =", round(F_stat, 2))
+```
+
+**(iv) Comparaison au seuil 5% :**
+
+```{r}
+cat("Quantile F(0.95, 1, 298) =", round(qf(0.95, 1, 298), 4))
+```
+
+**(v) p-value :**
+
+```{r}
+cat("p-value =", 1 - pf(F_stat, 1, 298))
+```
+
+**(vi) Résumé complet du modèle :**
+
+```{r}
+summary(lm(y ~ x))
+```
+
+On observe que la statistique du test de Student au carré est égale à la statistique de Fisher. C'est normal : les deux tests sont équivalents ici !
+
+---
+
+# 3. Prévision
+
+On veut prédire la tension artérielle d'un homme de **50 ans** avec un **intervalle de confiance à 95%**.
+
+La formule de l'intervalle de prévision est :
+
+$$\hat{Y}_0 \pm t_{n-2; 0.025} \sqrt{s_\epsilon^2 \left(1 + \frac{1}{n} + \frac{(X_0 - \bar{X})^2}{\sum (X_i - \bar{X})^2}\right)}$$
+
+```{r}
+se2 = SCE / 298
+Y0 = beta1 * 50 + beta0
+cat("Prévision de la tension pour un homme de 50 ans : Ŷ₀ =", round(Y0, 2), "mmHg")
+```
+
+```{r}
+bsup_prev = Y0 + qt(0.975, 298) * sqrt(se2 * (1 + 1/300 + (50 - mean(x))^2 / sum((x - mean(x))^2)))
+binf_prev = Y0 - qt(0.975, 298) * sqrt(se2 * (1 + 1/300 + (50 - mean(x))^2 / sum((x - mean(x))^2)))
+cat("Intervalle de prévision : [", round(binf_prev, 2), ";", round(bsup_prev, 2), "]")
+```
+
+### Visualisation avec intervalle de confiance
+
+```{r}
+plot(x, y,
+     main = "Régression avec intervalle de prévision",
+     xlab = "Âge", ylab = "Tension",
+     pch = 19, col = "gray70")
+abline(beta0, beta1, col = "blue", lwd = 2)
+lines(c(50, 50), c(binf_prev, bsup_prev), col = "red", lwd = 3)
+points(50, Y0, pch = 19, col = "red", cex = 1.5)
+```
+
+### Bande de confiance complète
+
+```{r}
+plot(x, y,
+     main = "Droite de régression avec bandes de prévision",
+     xlab = "Âge", ylab = "Tension",
+     pch = 19, col = "gray70")
+abline(beta0, beta1, col = "blue", lwd = 2)
+
+discr = 40:56
+predicted = beta1 * discr + beta0
+bsup_band = predicted + qt(0.975, 298) * sqrt(se2 * (1 + 1/300 + (discr - mean(x))^2 / sum((x - mean(x))^2)))
+binf_band = predicted - qt(0.975, 298) * sqrt(se2 * (1 + 1/300 + (discr - mean(x))^2 / sum((x - mean(x))^2)))
+
+for (i in 1:length(discr)) {
+  lines(c(discr[i], discr[i]), c(binf_band[i], bsup_band[i]), lwd = 3, col = "orange")
+}
+```
+
+---
+
+# 4. Régression Linéaire Multiple
+
+## 4.1 Contexte
+
+Pour mesurer les performances auditives d'un individu, on le soumet à un signal sonore de fréquence donnée. On mesure le **seuil** (en décibel) à partir duquel le signal est perçu. Un seuil élevé indique un trouble de l'audition.
+
+Les données contiennent les mesures pour 4 fréquences (500Hz, 1000Hz, 2000Hz, 4000Hz) et une auto-évaluation `globale` pour 1000 personnes de plus de 39 ans.
+
+**L'enjeu :** Prédire `globale` par `A5`, `A10`, `A20`, `A40`.
+
+## 4.2 Import des données
+
+```{r}
+audition = read.csv2("audition2.csv")
+head(audition)
+A5 = audition$A5
+A10 = audition$A10
+A20 = audition$A20
+A40 = audition$A40
+globale = audition$globale
+```
+
+## 4.3 Coefficients de la régression
+
+```{r}
+lm(globale ~ A5 + A10 + A20 + A40)
+```
+
+L'équation de la régression est :
+
+$$\text{globale} = 4.14 + 0.71 \times A5 + 0.86 \times A10 + 0.64 \times A20 + 0.51 \times A40$$
+
+On voit que le niveau d'audition évalué par le sujet augmente quand chaque seuil augmente, avec sensiblement la même importance.
+
+## 4.4 Tests statistiques
+
+```{r}
+summary(lm(globale ~ A5 + A10 + A20 + A40))
+```
+
+**Interprétation :**
+
+- Le **test de Fisher** (dernière ligne) montre que les variables explicatives ont, dans leur globalité, un effet **significatif** sur `globale`.
+- Tous les **tests de Student** sont significatifs → chaque variable contribue significativement.
+- Le coefficient $R^2 \approx 0.97$ → 97% de la variance de `globale` est expliquée par le modèle linéaire.
+- On peut penser que le patient a une évaluation **lucide** de son état d'audition.
+
+---
+
+# Résumé
+
+| Concept | Description | Fonction R |
+|---------|-------------|------------|
+| Régression simple | $y = \beta_1 x + \beta_0$ | `lm(y ~ x)` |
+| Résidus | Écarts entre observé et prédit | `model$residuals` |
+| SCE, SCT, SCM | Décomposition de la variance | Calcul manuel |
+| $R^2$ | Part de variance expliquée | `SCM/SCT` ou `summary()` |
+| Test de Fisher | $\beta_1 = 0$ ? | `anova(lm())` |
+| Prévision | Prédiction avec IC | Formule manuelle |
+| Régression multiple | Plusieurs variables explicatives | `lm(y ~ x1 + x2 + ...)` |

@@ -1,0 +1,465 @@
+---
+title: "TP 6 : Apprentissage supervisé et classification naïve bayésienne"
+subtitle: "Compléments de Mathématiques 2 - L3 MIASHS"
+author: "Lola Etiévant"
+date: today
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  warning: false
+  message: false
+---
+
+# Préparation des données
+
+## Chargement du jeu de données
+
+```{r}
+#| label: load-data
+qualitative_vars  <- read.csv("../TP2/titanic_pre_processed_qualitative_vars.csv", stringsAsFactors = TRUE)
+quantitative_vars <- read.csv("../TP2/titanic_pre_processed_quantitative_vars.csv")
+target            <- read.csv("../TP2/titanic_pre_processed_target.csv")
+target            <- as.factor(target$x)
+```
+
+Suppression des observations avec valeurs manquantes pour `Sex` (seulement 2 sur 876, soit < 0.2%) :
+
+```{r}
+#| label: clean-sex
+isMissingSex <- which(is.na(qualitative_vars$Sex) | qualitative_vars$Sex == "")
+if (length(isMissingSex) > 0) {
+  qualitative_vars  <- qualitative_vars[-isMissingSex, ]
+  quantitative_vars <- quantitative_vars[-isMissingSex, ]
+  target            <- target[-isMissingSex]
+}
+```
+
+## Vérification des types
+
+```{r}
+#| label: check-types
+qualitative_vars$Pclass  <- as.factor(qualitative_vars$Pclass)
+qualitative_vars$Sex     <- as.factor(qualitative_vars$Sex)
+qualitative_vars$withFam <- as.factor(qualitative_vars$withFam)
+
+str(qualitative_vars)
+str(quantitative_vars)
+str(target)
+```
+
+# Classifieur bayésien naïf
+
+## Rappel
+
+::: {.callout-note}
+### Hyperparamètre
+
+Il n'y a **pas d'hyperparamètre** à choisir avec la méthode de classification naïve bayésienne. Il n'y a donc pas besoin de jeu de validation : on partage le jeu de données en **deux parties** seulement (Train / Test).
+:::
+
+## Variables explicatives quantitatives
+
+::: {.callout-note}
+### Encoding et normalisation
+
+Avec le classifieur naïf bayésien, on n'a **pas besoin** de transformer les variables qualitatives (dummy coding ou label encoding) ni de normaliser/standardiser les variables quantitatives. Le classifieur travaille directement avec les distributions conditionnelles de chaque variable.
+
+En revanche, on fait l'hypothèse que les variables explicatives sont **indépendantes conditionnellement à la target**, et pour les variables quantitatives on suppose qu'elles suivent une **loi normale** conditionnellement à la target.
+:::
+
+On exclut `Fam`, `Parch` et `SibSp` puisqu'on utilisera `withFam`. Vérifions l'hypothèse de normalité pour `Age` et `Fare` :
+
+```{r}
+#| label: fig-hist-age
+#| fig-cap: "Distribution de Age"
+#| out-width: "60%"
+#| fig-align: center
+hist(quantitative_vars$Age, breaks = 30, col = "steelblue",
+     main = "Histogramme de Age", xlab = "Age")
+```
+
+`Age` semble à peu près suivre une distribution unimodale, compatible avec l'hypothèse gaussienne.
+
+```{r}
+#| label: fig-hist-fare
+#| fig-cap: "Distribution de Fare"
+#| out-width: "60%"
+#| fig-align: center
+hist(quantitative_vars$Fare, breaks = 30, col = "coral",
+     main = "Histogramme de Fare", xlab = "Fare")
+```
+
+`Fare` est très asymétrique à droite (skewed right), ce qui n'est **pas compatible** avec l'hypothèse gaussienne. On applique une transformation **logarithmique** pour se rapprocher d'une distribution normale :
+
+```{r}
+#| label: fig-hist-logfare
+#| fig-cap: "Distribution de log(Fare + 1)"
+#| out-width: "60%"
+#| fig-align: center
+quantitative_vars$logFare <- log(quantitative_vars$Fare + 1)
+
+hist(quantitative_vars$logFare, breaks = 30, col = "mediumpurple",
+     main = "Histogramme de log(Fare + 1)", xlab = "log(Fare + 1)")
+```
+
+La distribution de `log(Fare + 1)` est bien plus proche d'une gaussienne.
+
+## Variables explicatives utilisées pour la prédiction
+
+```{r}
+#| label: predictive-vars
+predictive_vars <- data.frame(
+  qualitative_vars[, c("Pclass", "Sex", "withFam")],
+  Age     = quantitative_vars$Age,
+  logFare = quantitative_vars$logFare
+)
+str(predictive_vars)
+```
+
+# Classifieur naïf bayésien avec Holdout
+
+## Partage du jeu de données
+
+```{r}
+#| label: holdout-split
+set.seed(1234)
+n <- nrow(predictive_vars)
+inTrain <- sample(1:n, size = round(0.8 * n))
+
+predictive_vars_train <- predictive_vars[inTrain, ]
+predictive_vars_test  <- predictive_vars[-inTrain, ]
+target_train          <- target[inTrain]
+target_test           <- target[-inTrain]
+```
+
+## Gestion des données manquantes
+
+On utilise la médiane imputation pour `Age`, en calculant la médiane sur le Train uniquement pour éviter le data leakage :
+
+```{r}
+#| label: imputation
+library(caret)
+
+Proc <- preProcess(predictive_vars_train, method = "medianImpute")
+predictive_vars_train <- predict(Proc, predictive_vars_train)
+predictive_vars_test  <- predict(Proc, predictive_vars_test)
+```
+
+## Phase d'apprentissage
+
+```{r}
+#| label: naive-bayes-fit
+library(naivebayes)
+
+classif <- naive_bayes(x = predictive_vars_train, y = target_train)
+```
+
+::: {.callout-tip}
+### Que retourne `classif` ?
+
+L'objet retourné contient les distributions conditionnelles estimées de chaque variable explicative sachant la target :
+
+- Pour les variables **qualitatives** : les probabilités conditionnelles $\hat{P}(X^{(l)} = x | Y = y)$ (tables de probabilités).
+- Pour les variables **quantitatives** : les paramètres $(\hat{\mu}, \hat{\sigma})$ de la loi normale conditionnelle estimée.
+- Les **probabilités a priori** $\hat{P}(Y = y)$.
+:::
+
+```{r}
+#| label: classif-summary
+classif
+```
+
+Représentation graphique des distributions conditionnelles :
+
+```{r}
+#| label: fig-conditional
+#| fig-cap: "Distributions conditionnelles des variables explicatives"
+#| out-width: "50%"
+#| fig-align: center
+plot(classif, prob = "conditional")
+```
+
+::: {.callout-note}
+### Laplace smoothing
+
+Si une combinaison catégorie-réponse n'apparaît pas dans les données d'entraînement, on obtient $\hat{P}(X^{(l)} = x^{(l)} | Y) = 0$. L'argument `laplace` de `naive_bayes` permet d'appliquer un lissage additif pour éviter ce problème.
+:::
+
+## Prédiction des probabilités
+
+```{r}
+#| label: predict-probs
+pred <- predict(classif, predictive_vars_test, type = "prob")
+head(pred)
+```
+
+Cette ligne prédit pour chaque individu du jeu de test la **probabilité d'appartenir à chaque catégorie** de la target (Décédé / Survivant).
+
+Pour obtenir directement la **catégorie prédite**, on utilise `type = "class"` au lieu de `type = "prob"`.
+
+## Prédiction et évaluation
+
+```{r}
+#| label: holdout-eval
+target_pred <- predict(classif, predictive_vars_test, type = "class")
+
+cm <- confusionMatrix(target_pred, target_test, positive = "Survivant")
+cm
+```
+
+```{r}
+#| label: holdout-metrics
+cat("Accuracy  :", round(cm$overall["Accuracy"], 4), "\n")
+cat("Recall    :", round(cm$byClass["Sensitivity"], 4), "\n")
+cat("Precision :", round(cm$byClass["Pos Pred Value"], 4), "\n")
+```
+
+::: {.callout-warning}
+### Sensibilité au seed
+
+En recompilant avec d'autres seeds, les métriques varient car le partage Train/Test est aléatoire. On pourrait proposer d'utiliser la **validation croisée** pour obtenir des estimations plus stables des performances.
+:::
+
+## Pour aller plus loin : importance des variables
+
+On peut visualiser l'influence de chaque variable explicative sur les probabilités prédites.
+
+Pour une variable **qualitative** comme `Sex` :
+
+```{r}
+#| label: fig-importance-sex
+#| fig-cap: "Probabilité prédite de survivre selon Sex"
+#| out-width: "60%"
+#| fig-align: center
+boxplot(pred[, 2] ~ predictive_vars_test$Sex, col = c("pink", "lightblue"),
+        main = "Importance de Sex", ylab = "P(Survivant)", xlab = "Sex")
+```
+
+Pour une variable **quantitative** comme `logFare`, on utiliserait un **nuage de points** (scatter plot) :
+
+```{r}
+#| label: fig-importance-fare
+#| fig-cap: "Probabilité prédite de survivre selon log(Fare)"
+#| out-width: "60%"
+#| fig-align: center
+plot(predictive_vars_test$logFare, pred[, 2],
+     pch = 16, col = adjustcolor("steelblue", 0.5),
+     xlab = "log(Fare + 1)", ylab = "P(Survivant)",
+     main = "Importance de logFare")
+```
+
+# Classifieur naïf bayésien avec 10-fold cross-validation
+
+## Assignation des folds
+
+```{r}
+#| label: cv-folds
+set.seed(1234)
+nfolds <- 10
+folds  <- sample(1:nfolds, n, replace = TRUE)
+```
+
+## Boucle de validation croisée
+
+```{r}
+#| label: cv-loop
+accuracy_fold  <- numeric(nfolds)
+recall_fold    <- numeric(nfolds)
+precision_fold <- numeric(nfolds)
+
+for (k in 1:nfolds) {
+  inFold <- which(folds == k)
+
+  predictive_vars_test  <- predictive_vars[inFold, ]
+  target_test           <- target[inFold]
+  predictive_vars_train <- predictive_vars[-inFold, ]
+  target_train          <- target[-inFold]
+
+  # Median imputation (sans data leakage)
+  Proc <- preProcess(predictive_vars_train, method = "medianImpute")
+  predictive_vars_train <- predict(Proc, predictive_vars_train)
+  predictive_vars_test  <- predict(Proc, predictive_vars_test)
+
+  # Apprentissage et prédiction
+  classif     <- naive_bayes(x = predictive_vars_train, y = target_train)
+  target_pred <- predict(classif, predictive_vars_test, type = "class")
+
+  # Calcul des métriques
+  cm <- confusionMatrix(target_pred, target_test, positive = "Survivant")
+
+  accuracy_fold[k]  <- cm$overall["Accuracy"]
+  recall_fold[k]    <- cm$byClass["Sensitivity"]
+  precision_fold[k] <- cm$byClass["Pos Pred Value"]
+}
+
+names(accuracy_fold)  <- paste0("fold_", 1:nfolds)
+names(recall_fold)    <- paste0("fold_", 1:nfolds)
+names(precision_fold) <- paste0("fold_", 1:nfolds)
+```
+
+## Résultats par fold
+
+```{r}
+#| label: cv-results-fold
+accuracy_fold
+recall_fold
+precision_fold
+```
+
+::: {.callout-tip}
+### Commentaire
+
+Les valeurs varient d'un fold à l'autre car chaque fold utilise un sous-ensemble différent pour le test. C'est normal et c'est précisément ce que la CV cherche à capturer : la variabilité des performances selon le découpage.
+:::
+
+## Moyennes cross-validées
+
+```{r}
+#| label: cv-means
+cat("10-fold CV Mean Accuracy  :", round(mean(accuracy_fold), 4), "\n")
+cat("10-fold CV Mean Recall    :", round(mean(recall_fold), 4), "\n")
+cat("10-fold CV Mean Precision :", round(mean(precision_fold, na.rm = TRUE), 4), "\n")
+```
+
+::: {.callout-note}
+### Stabilité
+
+En recompilant avec une autre seed, les résultats moyens sont **beaucoup plus stables** qu'avec le Holdout simple. C'est l'avantage principal de la validation croisée : elle réduit la dépendance au découpage aléatoire.
+:::
+
+# Pour aller plus loin
+
+## Bonus : version catégorielle de Age
+
+On crée 4 catégories : enfants (< 13), adolescents (13-18), adultes (18-60), seniors (> 60).
+
+### Avec Holdout
+
+```{r}
+#| label: age-cat-holdout
+Age_cat <- cut(quantitative_vars$Age,
+               breaks = c(-Inf, 13, 18, 60, Inf),
+               labels = c("Enfant", "Adolescent", "Adulte", "Senior"))
+
+predictive_vars_cat <- data.frame(
+  qualitative_vars[, c("Pclass", "Sex", "withFam")],
+  Age_cat = Age_cat,
+  logFare = quantitative_vars$logFare
+)
+
+set.seed(1234)
+inTrain <- sample(1:n, size = round(0.8 * n))
+
+train_cat <- predictive_vars_cat[inTrain, ]
+test_cat  <- predictive_vars_cat[-inTrain, ]
+y_train   <- target[inTrain]
+y_test    <- target[-inTrain]
+
+# Imputation mode pour Age_cat, médiane pour logFare
+# (pas de NA dans logFare, donc on gère juste Age_cat)
+# Si Age est NA, Age_cat sera NA => on impute par le mode
+mode_age_cat <- names(which.max(table(train_cat$Age_cat)))
+train_cat$Age_cat[is.na(train_cat$Age_cat)] <- mode_age_cat
+test_cat$Age_cat[is.na(test_cat$Age_cat)]   <- mode_age_cat
+
+classif_cat  <- naive_bayes(x = train_cat, y = y_train)
+pred_cat     <- predict(classif_cat, test_cat, type = "class")
+cm_cat       <- confusionMatrix(pred_cat, y_test, positive = "Survivant")
+
+cat("Accuracy  :", round(cm_cat$overall["Accuracy"], 4), "\n")
+cat("Recall    :", round(cm_cat$byClass["Sensitivity"], 4), "\n")
+cat("Precision :", round(cm_cat$byClass["Pos Pred Value"], 4), "\n")
+```
+
+### Avec 10-fold CV
+
+```{r}
+#| label: age-cat-cv
+set.seed(1234)
+folds_cat <- sample(1:nfolds, n, replace = TRUE)
+
+acc_cat  <- numeric(nfolds)
+rec_cat  <- numeric(nfolds)
+prec_cat <- numeric(nfolds)
+
+for (k in 1:nfolds) {
+  inFold <- which(folds_cat == k)
+
+  train_k <- predictive_vars_cat[-inFold, ]
+  test_k  <- predictive_vars_cat[inFold, ]
+  y_tr    <- target[-inFold]
+  y_te    <- target[inFold]
+
+  # Imputation mode pour Age_cat
+  mode_val <- names(which.max(table(train_k$Age_cat)))
+  train_k$Age_cat[is.na(train_k$Age_cat)] <- mode_val
+  test_k$Age_cat[is.na(test_k$Age_cat)]   <- mode_val
+
+  classif_k  <- naive_bayes(x = train_k, y = y_tr)
+  pred_k     <- predict(classif_k, test_k, type = "class")
+  cm_k       <- confusionMatrix(pred_k, y_te, positive = "Survivant")
+
+  acc_cat[k]  <- cm_k$overall["Accuracy"]
+  rec_cat[k]  <- cm_k$byClass["Sensitivity"]
+  prec_cat[k] <- cm_k$byClass["Pos Pred Value"]
+}
+
+cat("10-fold CV Mean Accuracy  :", round(mean(acc_cat), 4), "\n")
+cat("10-fold CV Mean Recall    :", round(mean(rec_cat), 4), "\n")
+cat("10-fold CV Mean Precision :", round(mean(prec_cat, na.rm = TRUE), 4), "\n")
+```
+
+## Bonus : version catégorielle de Fare
+
+```{r}
+#| label: fare-cat
+Fare_cat <- cut(quantitative_vars$Fare,
+                breaks = quantile(quantitative_vars$Fare, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE),
+                labels = c("Bas", "Moyen-Bas", "Moyen-Haut", "Haut"),
+                include.lowest = TRUE)
+
+predictive_vars_allcat <- data.frame(
+  qualitative_vars[, c("Pclass", "Sex", "withFam")],
+  Age_cat  = Age_cat,
+  Fare_cat = Fare_cat
+)
+
+set.seed(1234)
+folds_allcat <- sample(1:nfolds, n, replace = TRUE)
+
+acc_allcat  <- numeric(nfolds)
+rec_allcat  <- numeric(nfolds)
+prec_allcat <- numeric(nfolds)
+
+for (k in 1:nfolds) {
+  inFold <- which(folds_allcat == k)
+
+  train_k <- predictive_vars_allcat[-inFold, ]
+  test_k  <- predictive_vars_allcat[inFold, ]
+  y_tr    <- target[-inFold]
+  y_te    <- target[inFold]
+
+  # Imputation mode
+  mode_age  <- names(which.max(table(train_k$Age_cat)))
+  mode_fare <- names(which.max(table(train_k$Fare_cat)))
+  train_k$Age_cat[is.na(train_k$Age_cat)]   <- mode_age
+  test_k$Age_cat[is.na(test_k$Age_cat)]     <- mode_age
+  train_k$Fare_cat[is.na(train_k$Fare_cat)] <- mode_fare
+  test_k$Fare_cat[is.na(test_k$Fare_cat)]   <- mode_fare
+
+  classif_k  <- naive_bayes(x = train_k, y = y_tr)
+  pred_k     <- predict(classif_k, test_k, type = "class")
+  cm_k       <- confusionMatrix(pred_k, y_te, positive = "Survivant")
+
+  acc_allcat[k]  <- cm_k$overall["Accuracy"]
+  rec_allcat[k]  <- cm_k$byClass["Sensitivity"]
+  prec_allcat[k] <- cm_k$byClass["Pos Pred Value"]
+}
+
+cat("10-fold CV Mean Accuracy  :", round(mean(acc_allcat), 4), "\n")
+cat("10-fold CV Mean Recall    :", round(mean(rec_allcat), 4), "\n")
+cat("10-fold CV Mean Precision :", round(mean(prec_allcat, na.rm = TRUE), 4), "\n")
+```

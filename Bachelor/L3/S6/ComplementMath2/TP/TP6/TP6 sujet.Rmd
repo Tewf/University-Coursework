@@ -1,0 +1,269 @@
+---
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+author: "Lola Etiévant"
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[RO]{Lola Etiévant}
+- "\\fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS S2 2025-2026}"
+---
+# TP 6 : Apprentissage supervisé et classification naïve bayésienne
+
+### 0. Charger le jeu de données
+
+Charger le jeu de données (sans preprocessing, c'est à dire celui qu'on avait à la fin du TP 2)
+
+```{r}
+qualitative_vars  = # à compléter
+quantitative_vars = # à compléter
+target            = # à compléter
+```
+
+Je vais supprimer les observations avec des valeurs manquantes pour la variable `Sex` afin de simplifier mon code (je me le permets parce que ce n'est le cas que pour deux des 876 passagers, soit moins de 0.2% du jeu de données). Vous pouvez bien sûr choisir de gérer les valeurs manquantes pour ces deux observations différemment
+
+```{r}
+isMissingSex = which(is.na(qualitative_vars$Sex))
+qualitative_vars  = qualitative_vars[-isMissingSex, ]
+quantitative_vars = quantitative_vars[-isMissingSex, ]
+target            = target[-isMissingSex, ]
+```
+
+Vérifier que toutes les variables sont bien du bon data type
+
+*Réponse :*
+```{r}
+
+```
+
+## 1. Classifieur bayésien naïf
+
+### 1.1. Rappel
+
+On va utiliser le classifieur naïf bayésien sur notre jeu de données. Il y a-t-il un hyperparamètre à choisir avec cette méthode ? 
+
+*Réponse :*
+
+En combien de parties faudrait-il donc partager notre jeu de données ?
+
+*Réponse :* 
+
+### 1.2 Variables explicatives quantitatives
+
+Avec la méthode de classification naïve bayésienne, a-t-on besoin de transformer les variables explicatives qualitatives en utilisant le codage binaire ou le label encoding ? De normaliser ou standardiser les variables explicatives quantitatives ?
+
+*Réponse :* 
+
+Mais fait-on d'autres hypothèses sur les variables explicatives ?
+
+*Réponse :* 
+
+Je décide de ne pas inclure `Fam`, `Parch` ou `Sibsp` puisque j'utiliserai `withFam` pour faire la prédiction. À l'aide de la commande `hist`, vérifier que l'hypothèse est plausible pour les variables quantitatives restantes (`Age` et `Fare`). Si ce n'est pas le cas, faire la transformation suggérée en classe
+
+```{r, out.width = "50%", fig.align = "center"}
+
+```
+
+*Réponse :* 
+
+```{r, out.width = "50%", fig.align = "center"}
+
+```
+
+### 1.3 Variables explicatives utilisées pour la prédiction
+
+Créer un dataframe nommé `predictive_vars` contenant les variables qualitatives et quantitatives que l'on souhaite utiliser pour prédire la target
+
+```{r}
+predictive_vars = # à compléter
+```
+
+## 2. Classifieur naïf bayésien avec partage du jeu de données en Holdout
+
+### 2.1. Partage du jeu de données
+
+Comme fait aux TPs précédents, partager le jeu de données en Train/Test, avec 80% des observations placées dans l’ensemble d’apprentissage
+
+*Réponse :* 
+```{r}
+
+```
+
+### 2.2. Gestion des données manquantes
+
+On souhaite faire de la median imputation pour imputer les valeurs manquantes de la variable `Age`. Utiliser le package `caret` et la commande `preProcess` comme fait aux TPs précédents pour imputer les valeurs manquantes de `Age` par la médiane, en faisant attention à ne pas avoir de data leakage
+
+```{r, results = "hide", message = FALSE}
+library(caret)
+```
+
+*Réponse :* 
+```{r}
+
+```
+
+### 2.3. Phase d'apprentissage
+
+Installer puis charger le package `naivebayes`. Lire la documentation de la commande `naive_bayes` puis compléter la ligne de code ci-dessous pour effectuer l'apprentissage du classifieur naïf bayésien en utilisant la partie Train seulement
+
+```{r, eval = FALSE, message = FALSE}
+install.packages("naivebayes")
+```
+
+```{r, results = "hide", message = FALSE}
+library(naivebayes)
+?naive_bayes
+```
+
+```{r}
+classif = naive_bayes(x = # à compléter, y = # à compléter)
+```
+
+Que retourne la ligne de code ci-dessous ?
+
+```{r}
+classif
+```
+*Réponse :* 
+
+*Remarque :* Si on le souhaite on peut obtenir une représentation graphique des distributions conditionnelles des variables explicatives avec
+
+```{r, out.width = "50%", fig.align = "center"}
+plot(classif, prob = "conditional")
+```
+
+*Remarque :* Comme vu en cours, il est possible qu'une combinaison de catégories pour la réponse et une variable explicative qualitative $X^{(l)}$ n’apparaîsse pas dans jeu de données d’entraînement, auquel cas on aurait $\hat{P}$($X^{(l)} = x^{(l)}$ | target) = 0. On peut alors utiliser le additive smoothing (ou Laplace smoothing), ce qui se fait dans la fonction `naive_bayes` avec l'argument `laplace`
+
+### 2.4. Prédiction sur le jeu de données de test des probabilités d'appartenir aux différentes catégories de la réponse
+
+Que fait la ligne de code ci-dessous ? Commenter
+
+```{r}
+pred = predict(classif, predictive_vars_test, type = "prob")
+```
+
+*Réponse :* 
+
+Lire la documentation de la commande `naive_bayes`, et en particulier les exemples d'utilisation donnés à la fin. Quel argument faudrait-il modifier dans la ligne de code du chunk ci-dessus pour obtenir directement la catégorie prédite par le classifieur ?
+
+*Réponse :* 
+
+### 2.5. Prédiction de la target sur le jeu de données de test 
+
+Utiliser le classifieur entraîné à la Partie 2.3 pour prédire la catégorie d'appartenance des individus dans la partie Test, et calculer l'accuracy, le recall, et la précision (à l'aide du package `caret` comme fait aux TPs précédents, relire la documentation si besoin)
+
+*Réponse :*
+```{r}
+
+```
+
+Recompiler le code de la Section 2 en utilisant d'autres seeds. Que remarque-t-on ? Que pourrait-on proposer pour limiter cela ?
+
+*Réponse :* 
+
+### 2.6 Pour aller plus loin (chez vous, ou si on a le temps à la fin de la séance) : Importance des variables explicatives dans la prédiction
+
+Calculer puis étudier la valeur des métriques vues en classe (accuracy, recall, etc.), nous permet d'évaluer les performances du classifieur, et ainsi le pouvoir prédictif des variables explicatives utilisées (de manière jointe). D'un autre côté les outputs de la ligne de code `plot(classif, prob = "conditional")` donnée en section 2.3 permettent de voir l'influence de chaque variable explicative sur la target dans le jeu de données d'entraînement. On peut aussi voir l'importance de chaque variable explicative sur la prédiction du classifieur pour les individus dans la partie Test en représentant graphiquement la relation entre la variable explicative (`Sex` ou `Fare` par exemple) et les probabilités d'appartenance à chacune des catégories de la réponse prédites par le classifieur :
+
+```{r, out.width = "50%", fig.align = "center", eval = FALSE}
+boxplot(pred[,2] ~ predictive_vars_test$Sex, col = c("pink", "lightblue"), 
+        main = " ", ylab = "Probabilité prédite de survivre", xlab = "Sex")
+```
+
+On peut effectuer le même genre d'analyse avec les variables explicatives quantitatives. Quel genre de graphique utiliserait-on pour les variables explicatives quantitatives ?
+
+*Réponse :* 
+
+Tracer un tel graphique pour `Fare`
+
+*Réponse :*
+```{r, out.width = "50%", fig.align = "center", eval = FALSE}
+
+```
+
+## 3. Classifieur naïf bayésien avec 10-fold cross-validation pour évaluer le classifieur
+
+Comme fait aux TPs précédents, assigner chacun des individus du jeu de données à un des 10 folds
+
+```{r}
+
+```
+
+Compléter le code donnée ci-dessous (ou écrire votre propre code) pour utiliser de manière répétée les différents folds du jeu de données pour entraîner et puis tester le classifieur naïf bayésien en calculant l'accuracy, le recall, et la précision
+
+```{r}
+accuracy_fold   = numeric(nfolds)
+recall_fold     = numeric(nfolds)
+precision_fold  = numeric(nfolds)
+
+for(k in 1:nfolds){ # pour faire les itérations de la CV
+  inFold                  = # à compléter
+  
+  predictive_vars_test    = # à compléter # pour évaluer le modèle
+  target_test             = # à compléter
+  predictive_vars_train   = # à compléter # pour entrainer le modèle
+  target_train            = # à compléter
+  
+  # (pre-processing) median imputation
+  Proc = preProcess(# à compléter, method = # à compléter)
+  predictive_vars_train = predict(Proc, # à compléter) # pas de data leakage
+  predictive_vars_test  = predict(Proc, # à compléter)
+ 
+  classif     = naive_bayes(x = # à compléter, y = # à compléter)
+  target_pred = predict(# à compléter, # à compléter, type = "class")
+  
+  accuracy_test   = # à compléter
+  recall_test     = # à compléter
+  precision_test  = # à compléter
+  
+  accuracy_fold[k]    = accuracy_test
+  recall_fold[k]      = recall_test
+  precision_fold[k]   = precision_test
+}
+names(accuracy_fold)   = paste0("fold_",1:nfolds)
+names(recall_fold)     = paste0("fold_",1:nfolds)
+names(precision_fold)  = paste0("fold_",1:nfolds)
+```
+
+Commenter les valeurs dans accuracy_fold, recall_fold, precision_fold
+
+```{r}
+accuracy_fold
+recall_fold
+precision_fold
+```
+
+*Réponse :* 
+
+On peut calculer la 10-fold cross validated mean accuracy, la 10-fold cross validated mean recall, et la 10-fold cross validated mean precision
+
+*Réponse :* 
+```{r}
+
+```
+
+Recompiler le code de la Section 3 en utilisant une autre seed. Que remarque-t-on ?
+
+*Réponse :* 
+
+## 4. Pour aller plus loin
+
+### 4.1. Bonus : utiliser une version catégorielle de `Age`
+
+Utiliser une version catégorielle `Age` pour prédire la réponse avec la méthode de classification naïve bayésienne. Je considère 4 catégories basées sur les groupes d'âges : enfants (moins de 13 ans), adolescents (entre 13 et 18 ans), adultes (entre 18 et 60 ans), et seniors (plus de 60 ans)
+
+Avec découpage du jeu de données en Holdout pour évaluer le classifieur final :
+```{r}
+
+```
+
+Ou avec 10-fold cross-validation pour évaluer le classifieur :
+```{r}
+
+```
+
+### 4.2. Bonus : utiliser une version catégorielle de `Fare`
+
+Catégoriser `Fare` et utiliser `Fare_cat` au lieu de `Fare` pour prédire la réponse avec la méthode de classification naïve bayésienne

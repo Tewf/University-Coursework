@@ -1,0 +1,207 @@
+---
+title: "TP Bonus -- Analyse des notes d'algèbre par sexe"
+author: "Statistique Mathématique 3 -- L3 MIASHS"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+  pdf:
+    toc: true
+lang: fr
+jupyter: ir
+---
+
+# Introduction
+
+Ce TP bonus explore les **notes d'algèbre** sur trois années (2022, 2023, 2024) pour analyser s'il existe une différence significative entre les résultats des étudiants selon le **sexe** (M/F).
+
+Nous utiliserons les outils vus dans les TPs précédents :
+
+- Statistiques descriptives et visualisations
+- Tests de normalité
+- ANOVA et tests non paramétriques
+
+---
+
+# 1. Importation des données
+
+```{r}
+alg22 = read.csv2("alg22.csv")
+alg23 = read.csv2("alg23.csv")
+alg24 = read.csv2("alg24.csv")
+
+cat("=== 2022 ===\n")
+head(alg22)
+cat("\n=== 2023 ===\n")
+head(alg23)
+cat("\n=== 2024 ===\n")
+head(alg24)
+```
+
+```{r}
+cat("Effectifs 2022 :", nrow(alg22))
+cat("\nEffectifs 2023 :", nrow(alg23))
+cat("\nEffectifs 2024 :", nrow(alg24))
+```
+
+---
+
+# 2. Analyse par année
+
+## 2.1 Année 2022
+
+### Statistiques descriptives
+
+```{r}
+note22 = alg22$note22
+sexe22 = alg22$Sexe
+
+cat("Moyenne globale :", mean(note22, na.rm = TRUE))
+cat("\nMoyenne F :", mean(note22[sexe22 == "F"], na.rm = TRUE))
+cat("\nMoyenne M :", mean(note22[sexe22 == "M"], na.rm = TRUE))
+```
+
+```{r}
+boxplot(note22 ~ sexe22,
+        main = "Notes d'algèbre 2022 par sexe",
+        col = c("pink", "lightblue"),
+        ylab = "Note", xlab = "Sexe")
+```
+
+### Test de normalité par groupe
+
+```{r}
+tapply(note22, sexe22, shapiro.test)
+```
+
+### ANOVA
+
+```{r}
+anova(lm(note22 ~ sexe22))
+```
+
+### Test de Wilcoxon (alternatif non paramétrique)
+
+```{r}
+wilcox.test(note22 ~ sexe22)
+```
+
+## 2.2 Année 2023
+
+```{r}
+note23 = alg23$note23
+sexe23 = alg23$Sexe
+
+cat("Moyenne F :", mean(note23[sexe23 == "F"], na.rm = TRUE))
+cat("\nMoyenne M :", mean(note23[sexe23 == "M"], na.rm = TRUE))
+```
+
+```{r}
+boxplot(note23 ~ sexe23,
+        main = "Notes d'algèbre 2023 par sexe",
+        col = c("pink", "lightblue"),
+        ylab = "Note", xlab = "Sexe")
+```
+
+```{r}
+tapply(note23, sexe23, shapiro.test)
+```
+
+```{r}
+anova(lm(note23 ~ sexe23))
+wilcox.test(note23 ~ sexe23)
+```
+
+## 2.3 Année 2024
+
+```{r}
+note24 = alg24$note24
+sexe24 = alg24$Sexe
+
+cat("Moyenne F :", mean(note24[sexe24 == "F"], na.rm = TRUE))
+cat("\nMoyenne M :", mean(note24[sexe24 == "M"], na.rm = TRUE))
+```
+
+```{r}
+boxplot(note24 ~ sexe24,
+        main = "Notes d'algèbre 2024 par sexe",
+        col = c("pink", "lightblue"),
+        ylab = "Note", xlab = "Sexe")
+```
+
+```{r}
+tapply(note24, sexe24, shapiro.test)
+```
+
+```{r}
+anova(lm(note24 ~ sexe24))
+wilcox.test(note24 ~ sexe24)
+```
+
+---
+
+# 3. Analyse globale (toutes années confondues)
+
+## 3.1 Fusion des données
+
+```{r}
+notes_all = c(note22, note23, note24)
+sexe_all = c(as.character(sexe22), as.character(sexe23), as.character(sexe24))
+annee_all = c(rep("2022", length(note22)), rep("2023", length(note23)), rep("2024", length(note24)))
+
+sexe_all = factor(sexe_all)
+annee_all = factor(annee_all)
+```
+
+## 3.2 Visualisation
+
+```{r}
+boxplot(notes_all ~ sexe_all,
+        main = "Notes d'algèbre (toutes années) par sexe",
+        col = c("pink", "lightblue"),
+        ylab = "Note", xlab = "Sexe")
+```
+
+## 3.3 ANOVA à deux facteurs
+
+On peut tester l'effet du sexe, de l'année, et de leur interaction :
+
+```{r}
+anova(lm(notes_all ~ sexe_all * annee_all))
+```
+
+```{r}
+# Sans interaction
+anova(lm(notes_all ~ sexe_all + annee_all))
+```
+
+```{r}
+interaction.plot(annee_all, sexe_all, notes_all,
+                 main = "Interaction Année × Sexe",
+                 col = c("pink", "lightblue"), lwd = 2,
+                 xlab = "Année", ylab = "Moyenne des notes")
+```
+
+## 3.4 Test de Kruskal-Wallis
+
+```{r}
+kruskal.test(notes_all ~ sexe_all)
+```
+
+---
+
+# Résumé
+
+| Année | Méthode | Conclusion |
+|-------|---------|------------|
+| 2022 | ANOVA + Wilcoxon | À interpréter selon les p-values |
+| 2023 | ANOVA + Wilcoxon | À interpréter selon les p-values |
+| 2024 | ANOVA + Wilcoxon | À interpréter selon les p-values |
+| Toutes | ANOVA 2 facteurs + Kruskal-Wallis | Effet global |
+
+**Points clés :**
+
+- Toujours vérifier la normalité avant l'ANOVA.
+- Le test de Wilcoxon est une bonne alternative pour 2 groupes.
+- L'ANOVA à deux facteurs permet de séparer l'effet du sexe, de l'année, et de leur interaction.
