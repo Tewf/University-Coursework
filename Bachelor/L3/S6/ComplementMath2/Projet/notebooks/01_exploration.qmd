@@ -16,7 +16,7 @@ Ce projet s'inscrit dans le cadre du cours de Compléments de Mathématiques 2 (
 
 Nous avons choisi un jeu de données de parfums issu de **Parfumo**, une communauté en ligne dédiée aux parfums. Ce dataset contient des informations sur près de 60 000 parfums : leur marque, année de sortie, concentration, notes olfactives, accords principaux et évaluations des utilisateurs.
 
-**Lien de téléchargement :** [Parfumo Dataset sur Kaggle](https://www.kaggle.com/datasets)
+**Lien de téléchargement :** [Parfumo Fragrance Dataset -- TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-12-10/readme.md)
 
 :::{.callout-note}
 ## Objectif

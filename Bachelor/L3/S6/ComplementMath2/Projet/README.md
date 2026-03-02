@@ -8,7 +8,7 @@
 
 ## Description
 
-Ce projet vise à **prédire la satisfaction des utilisateurs** vis-à-vis des parfums à partir de leurs caractéristiques (concentration, accords olfactifs, notes de tête/cœur/fond, année de sortie). Nous utilisons un jeu de données de ~60 000 parfums issu de [Parfumo via Kaggle](https://www.kaggle.com/datasets).
+Ce projet vise à **prédire la satisfaction des utilisateurs** vis-à-vis des parfums à partir de leurs caractéristiques (concentration, accords olfactifs, notes de tête/cœur/fond, année de sortie). Nous utilisons un jeu de données de ~60 000 parfums issu de [Parfumo via TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-12-10/readme.md).
 
 La satisfaction est définie comme une variable binaire (Oui/Non) basée sur la médiane de `Rating_Value`.
 
@@ -68,9 +68,9 @@ quarto render notebooks/05_comparaison.qmd
 ## Auteurs
 
 - HAMLIL Mohamed
-- *[Membre 2]*
-- *[Membre 3]*
-- *[Membre 4]*
+- PARDO TERAN German
+- EL KORAICHI Mohamed Yassine
+- ANZID Keltoum
 
 ## Licence
 
