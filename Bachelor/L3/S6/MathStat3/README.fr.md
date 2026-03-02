@@ -16,13 +16,13 @@ Methodes statistiques avancees couvrant les tests d'hypothese, la regression, l'
 
 ## Vue d'ensemble des TPs
 
-| TP | Theme | Concepts cles | Jeux de donnees |
-|----|-------|---------------|-----------------|
-| **TP1** | Normalite & Chi-deux | QQ-plots, test de Shapiro-Wilk, test d'adequation du chi-deux | `titanic.csv` |
-| **TP2** | Regression lineaire | Regression simple/multiple, interpretation des coefficients, R-carre | `tension.csv`, `audition2.csv` |
-| **TP3** | ANOVA a un facteur | Test F, comparaison de moyennes, tests post-hoc | `murderusa.csv`, `crime16.csv`, `beignets.txt` |
-| **TP4** | ANOVA a deux facteurs & Non-parametrique | Effets d'interaction, Kruskal-Wallis, Wilcoxon | `ozone.txt`, `engraisRegion.txt`, `dureteMeche.txt` |
-| **Bonus** | Analyse notes & genre | Comparaison des notes d'algebre (H/F) sur 3 ans | `alg22.csv`, `alg23.csv`, `alg24.csv` |
+| TP | Theme | Concepts cles | Jeux de donnees | Demo |
+|----|-------|---------------|-----------------|------|
+| **TP1** | Normalite & Chi-deux | QQ-plots, test de Shapiro-Wilk, test d'adequation du chi-deux | `titanic.csv` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP1/tp1_normalite_chi2.html) |
+| **TP2** | Regression lineaire | Regression simple/multiple, interpretation des coefficients, R-carre | `tension.csv`, `audition2.csv` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP2/tp2_regression_lineaire.html) |
+| **TP3** | ANOVA a un facteur | Test F, comparaison de moyennes, tests post-hoc | `murderusa.csv`, `crime16.csv`, `beignets.txt` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP3/tp3_anova_un_facteur.html) |
+| **TP4** | ANOVA a deux facteurs & Non-parametrique | Effets d'interaction, Kruskal-Wallis, Wilcoxon | `ozone.txt`, `engraisRegion.txt`, `dureteMeche.txt` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP4/tp4_anova_tests_np.html) |
+| **Bonus** | Analyse notes & genre | Comparaison des notes d'algebre (H/F) sur 3 ans | `alg22.csv`, `alg23.csv`, `alg24.csv` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP4/TP_Bonus/tp_bonus_notes_sexe.html) |
 
 ## Prerequis
 

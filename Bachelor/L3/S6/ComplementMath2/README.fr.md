@@ -42,11 +42,14 @@ Projet/
 
 6 TPs couvrant les concepts fondamentaux du ML avec le jeu de donnees Titanic :
 
-| TP | Theme |
-|----|-------|
-| TP1-TP2 | Exploration et preprocessing des donnees |
-| TP3-TP4 | Modeles de classification |
-| TP5-TP6 | Evaluation et comparaison de modeles |
+| TP | Theme | Demo |
+|----|-------|------|
+| **TP1** | Exploration des donnees | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP1/Correction%20TP%201.html) |
+| **TP2** | Preprocessing des donnees | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP2/Correction%20TP2.html) |
+| **TP3** | Metriques d'evaluation & validation croisee | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP3/Correction%20TP3.html) |
+| **TP4** | Transformation de features & imputation | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP4/Correction%20TP4.html) |
+| **TP5** | Classification KNN | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP5/Correction-TP5.html) |
+| **TP6** | Classification naive bayesienne | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP6/Correction%20TP6.html) |
 
 Chaque dossier de TP contient l'enonce (`.Rmd`/`.pdf`) et les corrections (`.qmd`/`.pdf`).
 

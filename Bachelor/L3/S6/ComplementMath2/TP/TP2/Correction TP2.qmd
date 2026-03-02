@@ -15,10 +15,6 @@ format:
           \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
           \usepackage[most]{tcolorbox}
 editor: source
-execute: 
-  warning: false
-  message: false
-  fig-align: center
 ---
 
 # Introduction

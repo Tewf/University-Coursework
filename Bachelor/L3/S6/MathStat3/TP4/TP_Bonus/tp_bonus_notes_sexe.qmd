@@ -1,14 +1,7 @@
 ---
 title: "TP Bonus -- Analyse des notes d'algèbre par sexe"
-author: "Statistique Mathématique 3 -- L3 MIASHS"
-format:
-  html:
-    toc: true
-    code-fold: false
-    theme: cosmo
-  pdf:
-    toc: true
-lang: fr
+author: "HAMLIL Mohamed"
+date: "2025-2026"
 jupyter: ir
 ---
 

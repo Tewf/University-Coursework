@@ -1,14 +1,7 @@
 ---
 title: "TP3 -- ANOVA à un facteur"
-author: "Statistique Mathématique 3 -- L3 MIASHS"
-format:
-  html:
-    toc: true
-    code-fold: false
-    theme: cosmo
-  pdf:
-    toc: true
-lang: fr
+author: "HAMLIL Mohamed"
+date: "2025-2026"
 jupyter: ir
 ---
 
@@ -151,7 +144,7 @@ cat("p-value =", round(pval, 4))
 Des résultats similaires ont été montrés en 2016 en L2. On peut charger le fichier `crime16.csv` pour une analyse comparable :
 
 ```{r}
-crime16 = read.csv("crime16.csv", sep = ";")
+crime16 = read.csv2("crime16.csv")
 head(crime16)
 ```
 

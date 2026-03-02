@@ -1,13 +1,13 @@
 ---
 title: "Travaux à rendre : Analyse de Fourier & Équations Différentielles"
+author: "HAMLIL Mohamed"
+date: "2024-2025"
 format:
   pdf:
-    toc: true
     documentclass: article
     geometry: margin=1in
 editor: visual
 engine: knitr
-output-dir: output
 ---
 
 # Introduction

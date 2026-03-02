@@ -1,14 +1,13 @@
 ---
 title: "Section 2.9 – Travaux Pratiques de Statistique"
-author: "L3 MIASHS"
-format: 
+author: "HAMLIL Mohamed"
+date: "2024-2025"
+format:
   pdf:
-    toc: true
     documentclass: article
     geometry: margin=1in
 editor: visual
 engine: knitr
-output-dir: output
 ---
 
 # Section 2.9 – Travaux Pratiques

@@ -42,11 +42,14 @@ Projet/
 
 6 TPs covering foundational ML concepts using the Titanic dataset:
 
-| TP | Topic |
-|----|-------|
-| TP1-TP2 | Data exploration and preprocessing |
-| TP3-TP4 | Classification models |
-| TP5-TP6 | Model evaluation and comparison |
+| TP | Topic | Live Demo |
+|----|-------|-----------|
+| **TP1** | Data exploration | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP1/Correction%20TP%201.html) |
+| **TP2** | Data preprocessing | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP2/Correction%20TP2.html) |
+| **TP3** | Evaluation metrics & cross-validation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP3/Correction%20TP3.html) |
+| **TP4** | Feature transformation & imputation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP4/Correction%20TP4.html) |
+| **TP5** | KNN classification | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP5/Correction-TP5.html) |
+| **TP6** | Naive Bayes classification | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/TP6/Correction%20TP6.html) |
 
 Each TP folder contains the problem statement (`.Rmd`/`.pdf`) and corrections (`.qmd`/`.pdf`).
 

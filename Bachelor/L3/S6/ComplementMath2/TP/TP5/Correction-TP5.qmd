@@ -4,11 +4,11 @@ subtitle: "Optimisation du classifieur Titanic"
 author: "Lola Etiévant"
 date: "2025-2026"
 format:
-  html:
+  pdf:
     toc: true
-    toc-depth: 3
-    code-fold: show
-    theme: cosmo
+    number-sections: true
+    colorlinks: true
+editor: source
 ---
 
 ```{r setup, include=FALSE}
