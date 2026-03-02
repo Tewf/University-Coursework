@@ -15,6 +15,7 @@ format:
       dark: darkly
     css: custom.css
     include-after-body: pdf-link.html
+    format-links: false
     toc: true
     toc-depth: 3
     code-fold: show
