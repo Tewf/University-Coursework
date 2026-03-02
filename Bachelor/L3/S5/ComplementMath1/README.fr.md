@@ -18,9 +18,9 @@ Travaux pratiques d'analyse mathematique en R et Quarto, couvrant l'analyse de F
 
 | TP | Theme | Concepts cles | Demo |
 |----|-------|---------------|------|
-| **TP1** | Analyse de Fourier | Nombres complexes en R, integration, coefficients de Fourier, sommes partielles | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP1_AnalyseDeFourier.html) |
-| **TP2** | Traitement du signal | Transformee de Fourier, analyse frequentielle, reconstruction du signal | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP2_Transform%C3%A9eDeFourierEtTraitementDuSignal.html) |
-| **TP3** | Equations differentielles | Methodes numeriques pour EDO, Euler, Runge-Kutta | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP3_%C3%89quationsDiff%C3%A9rentielles.html) |
+| **TP1** | Analyse de Fourier | Nombres complexes en R, integration, coefficients de Fourier, sommes partielles | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP1_AnalyseDeFourier.html) |
+| **TP2** | Traitement du signal | Transformee de Fourier, analyse frequentielle, reconstruction du signal | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP2_Transform%C3%A9eDeFourierEtTraitementDuSignal.html) |
+| **TP3** | Equations differentielles | Methodes numeriques pour EDO, Euler, Runge-Kutta | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP3_%C3%89quationsDiff%C3%A9rentielles.html) |
 
 ## Prerequis
 
