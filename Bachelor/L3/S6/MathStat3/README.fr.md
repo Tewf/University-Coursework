@@ -16,6 +16,8 @@ Methodes statistiques avancees couvrant les tests d'hypothese, la regression, l'
 
 ## Vue d'ensemble des TPs
 
+> **Parcourir tous les notebooks :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/)
+
 | TP | Theme | Concepts cles | Jeux de donnees | Demo |
 |----|-------|---------------|-----------------|------|
 | **TP1** | Normalite & Chi-deux | QQ-plots, test de Shapiro-Wilk, test d'adequation du chi-deux | `titanic.csv` | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp1_normalite_chi2.html) |

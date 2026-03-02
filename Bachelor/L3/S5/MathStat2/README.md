@@ -16,6 +16,8 @@ Statistical practicals in R covering simulation, estimation, and hypothesis test
 
 ## TP Overview
 
+> **Browse all notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/)
+
 | TP | Topic | Key Concepts | Live Demo |
 |----|-------|-------------|-----------|
 | **TP1** | Simulation & Bootstrap | Random generation, resampling, empirical distributions | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Simulation_Bootstrap.html) |

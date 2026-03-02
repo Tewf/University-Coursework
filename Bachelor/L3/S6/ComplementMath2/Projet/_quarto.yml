@@ -10,7 +10,10 @@ lang: fr
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: darkly
+    css: custom.css
     toc: true
     toc-depth: 3
     code-fold: show

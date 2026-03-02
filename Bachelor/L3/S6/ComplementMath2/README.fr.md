@@ -19,6 +19,8 @@ Une introduction a l'apprentissage automatique supervise en R, combinant des tra
 
 Un pipeline ML complet predisant la satisfaction des utilisateurs a partir d'un jeu de donnees de ~60 000 parfums.
 
+> **Parcourir tous les notebooks du projet :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/)
+
 | Etape | Notebook | Description | Demo |
 |-------|----------|-------------|------|
 | 1 | `01_exploration.qmd` | Analyse exploratoire : distributions, valeurs manquantes, visualisations | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/01_exploration.html) |
@@ -41,6 +43,8 @@ Projet/
 ## Travaux Pratiques (TPs)
 
 6 TPs couvrant les concepts fondamentaux du ML avec le jeu de donnees Titanic :
+
+> **Parcourir tous les TPs :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/)
 
 | TP | Theme | Demo |
 |----|-------|------|

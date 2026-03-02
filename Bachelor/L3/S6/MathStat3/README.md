@@ -16,6 +16,8 @@ Advanced statistical methods covering hypothesis testing, regression, ANOVA, and
 
 ## TP Overview
 
+> **Browse all notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/)
+
 | TP | Topic | Key Concepts | Datasets | Live Demo |
 |----|-------|-------------|----------|-----------|
 | **TP1** | Normality & Chi-square | QQ-plots, Shapiro-Wilk test, chi-square goodness-of-fit | `titanic.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp1_normalite_chi2.html) |

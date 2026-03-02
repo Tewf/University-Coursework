@@ -16,6 +16,8 @@ Practical sessions on mathematical analysis using R and Quarto, covering Fourier
 
 ## TP Overview
 
+> **Browse all notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/)
+
 | TP | Topic | Key Concepts | Live Demo |
 |----|-------|-------------|-----------|
 | **TP1** | Fourier Analysis | Complex numbers in R, integration, Fourier coefficients, partial sums | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP1_AnalyseDeFourier.html) |
