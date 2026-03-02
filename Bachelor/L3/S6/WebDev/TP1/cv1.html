@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CV - Mohamed HAMLIL</title>
+</head>
+
+<body>
+
+    <!-- ========================================
+         MAIN HEADING WITH ID
+         ======================================== -->
+
+    <header>
+        <h1 id="haut">Mohamed HAMLIL</h1>
+        <!--
+            id attribute:
+            - Creates a UNIQUE identifier for this element
+            - Only ONE element can have id="haut" on this page
+            - Used for:
+              1. CSS targeting: #haut { }
+              2. JavaScript selection: document.getElementById("haut")
+              3. Anchor links: <a href="#haut"> jumps to this element
+
+            id vs class:
+            - id: UNIQUE (only one per page)
+            - class: REUSABLE (many elements can share)
+
+            Naming rules:
+            - Must start with letter (a-z or A-Z)
+            - Can contain letters, digits, hyphens, underscores
+            - Case-sensitive: id="Haut" ≠ id="haut"
+            - No spaces!
+        -->
+
+        <p>Etudiant en Licence MIASHS (Parcours Economie)</p>
+    </header>
+
+    <!-- ========================================
+         PERSONAL INFO WITH PHOTO
+         ======================================== -->
+
+    <section>
+        <!--
+            <section> is a SEMANTIC tag
+            - Represents a thematic grouping of content
+            - Usually has a heading (h1-h6)
+            - Think of it as a "chapter" of your page
+            - Better than generic <div>
+        -->
+
+        <h2>Informations Personnelles</h2>
+
+        <p>
+            <img src="photo.jpg" alt="Photo de Mohamed HAMLIL" width="150">
+            <!--
+                width attribute:
+                - Sets image width in pixels
+                - Can also use height attribute
+                - Can use both: width="150" height="200"
+
+                Why specify dimensions?
+                - Page layout doesn't jump when image loads
+                - Browser reserves space before image loads
+                - Better user experience
+
+                Note: CSS is better for responsive sizing
+                But for learning, width/height attributes work fine
+            -->
+        </p>
+
+        <p>
+            <strong>Adresse :</strong> Grenoble, France<br>
+            <!--
+                <strong> tag:
+                - Makes text bold AND semantically important
+                - Screen readers emphasize this text
+                - Better than <b> which is just visual
+
+                <br> tag:
+                - Line break (moves to next line)
+                - Self-closing (no </br>)
+                - Doesn't create new paragraph (stays in same <p>)
+                - Use sparingly - CSS is usually better for layout
+            -->
+
+            <strong>Téléphone :</strong> +33 7 45 90 76 60<br>
+            <strong>Email :</strong> <a href="mailto:hamlilm@yahoo.fr">hamlilm@yahoo.fr</a>
+        </p>
+
+    </section>
+
+    <!-- ========================================
+         TABLE OF CONTENTS (NAVIGATION)
+         ======================================== -->
+
+    <nav>
+        <h2>Sommaire</h2>
+        <!--
+            This <nav> creates a "table of contents"
+            Links jump to different sections on THIS page
+            Uses anchor links (href="#id")
+        -->
+
+        <ul>
+            <!--
+                <ul> = Unordered List (bulleted list)
+                - Creates list with bullet points
+                - Contains <li> (list item) children
+                - Browsers add bullets automatically
+
+                List types:
+                - <ul> = unordered (bullets)
+                - <ol> = ordered (numbers)
+                - <dl> = description list (term + definition)
+            -->
+
+            <li><a href="#diplomes">Diplômes</a></li>
+            <!--
+                <li> = List Item
+                - Must be child of <ul>, <ol>, or <menu>
+                - Can contain any content (text, links, images, even other lists)
+
+                Anchor link: href="#diplomes"
+                - The # means "find element with id='diplomes' on THIS page"
+                - When clicked, browser scrolls to that element
+                - Called "fragment identifier" or "hash link"
+                - No page reload - just scrolls
+            -->
+
+            <li><a href="#experiences">Expériences Professionnelles</a></li>
+            <li><a href="#loisirs">Activités et Loisirs</a></li>
+        </ul>
+
+    </nav>
+
+    <!-- ========================================
+         SECTION 1: DIPLÔMES (DEGREES)
+         ======================================== -->
+
+    <section id="diplomes">
+        <!--
+            id="diplomes" allows linking to this section
+            The anchor link <a href="#diplomes"> will jump here
+        -->
+
+        <h2>Diplômes</h2>
+        <!--
+            <h2> = Heading level 2
+            - Second most important heading
+            - Subheading under <h1>
+
+            Heading hierarchy:
+            h1 - Main title (only one)
+            └─ h2 - Major sections
+               └─ h3 - Subsections
+                  └─ h4 - Sub-subsections
+                     └─ h5 - Minor headings
+                        └─ h6 - Smallest heading
+
+            Never skip levels! Don't go h1 → h3
+        -->
+
+        <ul>
+            <li>
+                <strong>2023 - 2026</strong> - Licence MIASHS, Parcours Economie
+                <!--
+                    Using <strong> to emphasize the year
+                    Makes it stand out visually and semantically
+                -->
+            </li>
+            <li>
+                <strong>2022 - 2023</strong> - Licence 1 Recherche Operationnelle (RO), USTHB Alger, Algerie
+            </li>
+            <li>
+                <strong>Juin 2022</strong> - Double Baccalaureat Scientifique (Francais & Algerien)
+            </li>
+        </ul>
+
+    </section>
+
+    <!-- ========================================
+         SECTION 2: EXPÉRIENCES (EXPERIENCES)
+         ======================================== -->
+
+    <section id="experiences">
+        <h2>Expériences Professionnelles</h2>
+
+        <dl>
+            <!--
+                <dl> = Description List
+                - List of terms with definitions
+                - Contains pairs of <dt> and <dd>
+                - Good for: glossaries, metadata, FAQs, CVs
+
+                Structure:
+                <dl>
+                    <dt>Term</dt>
+                    <dd>Definition</dd>
+                </dl>
+            -->
+
+            <dt><strong>Janvier 2025 - Avril 2025 : IA & Strategies Economiques</strong></dt>
+            <!--
+                <dt> = Description Term
+                - The term being defined
+                - What you're describing
+                - Like the "word" in a dictionary
+            -->
+
+            <dd>
+                <!--
+                    <dd> = Description Definition
+                    - The definition/description of the term
+                    - Like the "definition" in a dictionary
+                    - Browsers usually indent these
+                -->
+
+                <em>GAEL Lab (UGA, INRAE)</em>
+                <!--
+                    <em> = Emphasis
+                    - Makes text italic AND semantically emphasized
+                    - Screen readers use different tone
+                    - Better than <i> which is just visual
+
+                    <em> vs <strong>:
+                    - <em> = emphasis/stress (usually italic)
+                    - <strong> = importance/seriousness (usually bold)
+                -->
+                <ul>
+                    <li>Revue de litterature sur l'impact de l'IA dans les interactions economiques et strategiques</li>
+                    <li>Developpement d'algorithmes en Python et Prolog pour la simulation d'interactions strategiques</li>
+                    <li>Etat de l'art sur la collusion algorithmique et l'usage des LLM comme agents economiques</li>
+                </ul>
+            </dd>
+
+            <dt><strong>Mai 2024 - Juillet 2024 : Optimisation & Calcul Mathematique</strong></dt>
+            <dd>
+                <em>Laboratoire Jean Kuntzmann (LJK)</em>
+                <ul>
+                    <li>Reduction de la complexite d'algorithmes bilineaires par decomposition creuse</li>
+                    <li>Implementation en Julia et Python d'algorithmes d'optimisation de la litterature</li>
+                    <li>Conception d'heuristiques pour l'approximation de solutions NP-difficiles</li>
+                </ul>
+            </dd>
+
+            <dt><strong>2025 - 2026 : Preneur de notes - UGA</strong></dt>
+            <dd>
+                <em>Service Handiversite</em>
+                <ul>
+                    <li>Transcription et structuration de cours pour les etudiants en MIASHS</li>
+                </ul>
+            </dd>
+
+        </dl>
+
+    </section>
+
+    <!-- ========================================
+         SECTION 3: LOISIRS (HOBBIES)
+         ======================================== -->
+
+    <section id="loisirs">
+        <h2>Engagement & Certifications</h2>
+
+        <ol>
+            <!--
+                <ol> = Ordered List (numbered list)
+                - Creates list with numbers (1, 2, 3...)
+                - Contains <li> children
+                - Use when order matters
+
+                Attributes:
+                - type: "1" (numbers), "A" (uppercase), "a" (lowercase), "I" (Roman), "i" (roman)
+                - start: starting number (e.g., start="5" begins at 5)
+                - reversed: counts backwards
+
+                Examples:
+                <ol type="A">        → A, B, C...
+                <ol start="10">      → 10, 11, 12...
+                <ol reversed>        → 3, 2, 1
+            -->
+
+            <li>
+                <strong>Preneur de notes - UGA (2025-2026) :</strong> Transcription et structuration de cours (MIASHS)
+            </li>
+            <li>
+                <strong>Tutorat & Parrainage - UGA (2025-2026) :</strong> Accompagnement methodologique des etudiants
+            </li>
+            <li>
+                <strong>Certification IBM Quantum (2024) :</strong> Fondements de l'information quantique
+            </li>
+            <li>
+                <strong>Certification ML GoMyCode (2022) :</strong> Algorithmes de Machine Learning (Random Forest, K-clustering)
+            </li>
+        </ol>
+
+    </section>
+
+    <!-- ========================================
+         NAVIGATION LINKS
+         ======================================== -->
+
+    <hr>
+
+    <nav>
+        <p>
+            <a href="#haut">↑ Retour en haut de la page</a>
+            <!--
+                Internal anchor link
+                - href="#haut" links to element with id="haut"
+                - Scrolls to the <h1> at the top
+                - ↑ is a Unicode arrow character (not an image)
+                - Can also use &uarr; entity: ↑
+            -->
+             |
+            <!--
+                Vertical bar | as visual separator
+                Creates simple text divider between links
+                Could also use &vert; entity
+            -->
+            <a href="calendar1.html">📅 Voir mon emploi du temps</a>
+            <!--
+                Link to another page in same folder
+                - Relative link (no http://)
+                - Browser looks for calendar.html in same directory
+                - 📅 is an emoji (works with UTF-8 encoding)
+            -->
+             |
+            <a href="index1.html">🏠 Retour à l'accueil</a>
+        </p>
+    </nav>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+
+    <footer>
+        <hr>
+        <p>
+            <small>&copy; 2026 Mohamed HAMLIL - Curriculum Vitae</small>
+        </p>
+    </footer>
+
+</body>
+
+<!--
+    ============================================
+    NEW HTML CONCEPTS IN THIS FILE
+    ============================================
+
+    1. ID ATTRIBUTE:
+       <element id="unique-name">
+
+       - Unique identifier (only ONE per page)
+       - Used for anchor links: <a href="#unique-name">
+       - Used for CSS: #unique-name { }
+       - Used for JavaScript: document.getElementById()
+
+       Rules:
+       - Must be unique
+       - Case-sensitive
+       - Start with letter
+       - No spaces
+
+    2. ANCHOR LINKS:
+       <a href="#section-id">Jump to section</a>
+
+       - Links to element on SAME page
+       - # indicates it's an ID reference
+       - Browser scrolls to that element
+       - No page reload
+       - Great for navigation within long pages
+
+    3. THREE TYPES OF LISTS:
+
+       a) Unordered List (bullets):
+          <ul>
+              <li>Item</li>
+          </ul>
+
+       b) Ordered List (numbers):
+          <ol>
+              <li>Item</li>
+          </ol>
+
+       c) Description List (terms + definitions):
+          <dl>
+              <dt>Term</dt>
+              <dd>Definition</dd>
+          </dl>
+
+    4. NESTED LISTS:
+       Lists can contain other lists
+
+       <ul>
+           <li>Item 1
+               <ul>
+                   <li>Sub-item</li>
+               </ul>
+           </li>
+       </ul>
+
+    5. TEXT FORMATTING:
+       <strong>  - Important (bold)
+       <em>      - Emphasis (italic)
+       <br>      - Line break
+       <small>   - Fine print
+
+    6. SEMANTIC STRUCTURE:
+       <section> - Thematic content grouping
+       <nav>     - Navigation
+       <header>  - Introductory content
+       <footer>  - Footer content
+
+    7. IMAGE SIZING:
+       <img src="photo.jpg" alt="Description" width="150">
+
+       - width: sets width in pixels
+       - height: sets height in pixels
+       - Good practice: specify dimensions
+
+    8. UNICODE CHARACTERS:
+       You can use Unicode characters directly:
+       - ↑ (arrow up)
+       - 📅 (calendar emoji)
+       - 🏠 (house emoji)
+       - ✓ ✗ ★ ♥ © ® ™
+
+       Requires UTF-8 encoding (<meta charset="UTF-8">)
+
+    ============================================
+    WHEN TO USE EACH LIST TYPE
+    ============================================
+
+    Use <ul> when:
+    - Order doesn't matter
+    - Simple list of items
+    - Navigation menus
+    - Feature lists
+
+    Use <ol> when:
+    - Order DOES matter
+    - Step-by-step instructions
+    - Rankings or priorities
+    - Sequential items
+
+    Use <dl> when:
+    - Term + definition pairs
+    - Glossaries
+    - Metadata (key-value pairs)
+    - FAQ (question + answer)
+    - CV entries (role + description)
+
+    ============================================
+    NAVIGATION PATTERNS IN THIS FILE
+    ============================================
+
+    1. Table of contents at top:
+       - Links to sections on same page
+       - Uses anchor links (#id)
+       - Good for long pages
+
+    2. "Back to top" link:
+       - At bottom of page
+       - Links to top heading
+       - Improves usability
+
+    3. Cross-page links:
+       - Link to other pages (calendar.html, index.html)
+       - Relative paths
+       - No http:// needed
+
+    ============================================
+    ACCESSIBILITY TIPS
+    ============================================
+
+    ✅ Use semantic tags (<section>, not <div>)
+    ✅ Proper heading hierarchy (h1 > h2 > h3)
+    ✅ Alt text on images
+    ✅ Meaningful link text (not "click here")
+    ✅ Use <strong> and <em> for semantic emphasis
+    ✅ Logical document structure
+    ✅ Anchor links for easy navigation
+-->
+
+</html>

@@ -1,0 +1,237 @@
+/*
+  =============================================
+  STYLES DE LA BARRE DE NAVIGATION - menu.css
+  =============================================
+
+  Ce fichier contient UNIQUEMENT les styles du menu.
+  Séparer les styles en plusieurs fichiers = meilleure organisation !
+
+  Le menu est un <nav> contenant un <ul> avec des <li> et des <a>.
+  Structure HTML correspondante :
+
+  <nav>
+    <ul class="menu-bar">
+      <li><a href=".">Accueil</a></li>
+      <li><a href="cv.html">Mon CV</a></li>
+      ...
+    </ul>
+  </nav>
+*/
+
+/* =============================================
+   LA BARRE DE MENU
+   =============================================
+
+   .menu-bar cible les éléments avec class="menu-bar"
+   Le point (.) devant = sélecteur de CLASSE
+*/
+.menu-bar {
+  display: flex;
+  /*
+    FLEXBOX !
+    Par défaut, les <li> s'empilent verticalement (l'un sous l'autre).
+    display: flex les met en LIGNE (l'un à côté de l'autre).
+
+    Analogie : imagine des livres sur une étagère.
+    Sans flexbox = les livres sont empilés (pile).
+    Avec flexbox = les livres sont alignés côte à côte.
+  */
+
+  justify-content: center;
+  /*
+    Centre les éléments HORIZONTALEMENT.
+    Les éléments du menu sont au milieu de la barre.
+
+    Autres valeurs possibles :
+    - flex-start   : alignés à gauche (par défaut)
+    - flex-end     : alignés à droite
+    - center       : centrés
+    - space-between : espacement égal entre les éléments
+    - space-around  : espacement égal autour des éléments
+    - space-evenly  : espacement parfaitement égal
+  */
+
+  align-items: center;
+  /*
+    Centre les éléments VERTICALEMENT.
+    Si un élément est plus grand que les autres,
+    tous sont quand même alignés au milieu.
+  */
+
+  list-style: none;
+  /*
+    Enlève les puces (•) de la liste <ul>.
+    On ne veut pas de puces dans un menu de navigation !
+  */
+
+  margin: 0;
+  /* Enlève la marge par défaut du <ul> */
+
+  padding: 0;
+  /* Enlève le padding par défaut du <ul> */
+
+  background-color: var(--color-0);
+  /*
+    Fond gris violet foncé pour la barre.
+    On utilise notre variable CSS définie dans shared.css
+  */
+
+  gap: 0;
+  /* Pas d'espace entre les éléments (les liens gèrent leur propre espace) */
+}
+
+/* =============================================
+   LES LIENS DU MENU
+   =============================================
+
+   .menu-bar a = les <a> qui sont DANS un élément .menu-bar
+   C'est un "sélecteur descendant" : parent enfant
+*/
+.menu-bar a {
+  display: block;
+  /*
+    Par défaut, <a> est "inline" (prend juste la taille du texte).
+    display: block fait que le lien occupe TOUT l'espace du <li>.
+    Ça agrandit la zone cliquable = plus facile à cliquer !
+  */
+
+  color: var(--color-6);
+  /*
+    Texte en beige clair (lisible sur fond foncé).
+    CONTRASTE : fond foncé + texte clair = bonne lisibilité.
+  */
+
+  text-decoration: none;
+  /* Pas de soulignement sur les liens du menu */
+
+  padding: 15px 25px;
+  /*
+    padding: haut/bas gauche/droite
+    15px en haut et en bas, 25px à gauche et à droite.
+    Crée un espace confortable autour du texte.
+  */
+
+  font-weight: bold;
+  /* Texte en gras */
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /*
+    TRANSITION = animation douce lors d'un changement.
+
+    Quand la couleur change (au survol par exemple),
+    au lieu de changer BRUTALEMENT, elle change en 0.3 secondes.
+
+    Format : propriété durée type-d'animation
+    - background-color 0.3s ease = le fond change en 0.3s doucement
+    - color 0.3s ease = la couleur du texte change en 0.3s doucement
+
+    ease = commence lentement, accélère, puis ralentit à la fin
+  */
+}
+
+/* =============================================
+   EFFET AU SURVOL (HOVER)
+   =============================================
+
+   :hover = quand la souris est AU-DESSUS de l'élément
+   C'est une "pseudo-classe" = un état spécial de l'élément
+*/
+.menu-bar a:hover {
+  background-color: var(--color-6);
+  /* Le fond devient clair (inverse du normal) */
+
+  color: var(--color-0);
+  /* Le texte devient foncé (inverse du normal) */
+
+  /*
+    L'effet "inversion" :
+    Normal  : fond foncé + texte clair
+    Survol  : fond clair + texte foncé
+
+    C'est un classique du design de menu !
+    La transition définie plus haut rend ce changement tout en douceur.
+  */
+}
+
+/* =============================================
+   INDICATEUR DE PAGE COURANTE
+   =============================================
+
+   .menu-bar .current = un lien avec class="current"
+   dans un élément .menu-bar.
+
+   On ajoute class="current" au lien de la page où on se trouve.
+   Comme ça, l'utilisateur sait sur quelle page il est !
+*/
+.menu-bar .current {
+  background-color: var(--color-1);
+  /* Fond rose ancien = se démarque des autres */
+
+  color: white;
+  /* Texte blanc pour bien contraster */
+
+  border-radius: 4px;
+  /*
+    Arrondit les coins du fond coloré.
+    4px = coins légèrement arrondis.
+    Plus la valeur est grande, plus c'est arrondi.
+    50% = cercle (si l'élément est carré)
+  */
+}
+
+/* =============================================
+   NAVIGATION (le conteneur <nav>)
+   =============================================
+*/
+nav {
+  position: sticky;
+  /*
+    sticky = "collant"
+    Le menu reste collé en haut de la page quand on défile !
+
+    Comportement :
+    1. D'abord, le menu est à sa position normale
+    2. Quand on défile et que le menu atteint le haut de l'écran
+    3. Il "colle" au haut et reste visible
+
+    Autres valeurs de position :
+    - static   : normal (par défaut)
+    - relative : décalé par rapport à sa position normale
+    - absolute : positionné par rapport au parent
+    - fixed    : collé à l'écran (ne bouge JAMAIS)
+    - sticky   : collé quand on atteint un seuil
+  */
+
+  top: 0;
+  /*
+    Avec position: sticky, top: 0 signifie
+    "colle au bord SUPÉRIEUR de l'écran (0 pixels du haut)"
+  */
+
+  z-index: 100;
+  /*
+    z-index = l'ordre de superposition.
+    Plus le nombre est grand, plus l'élément est "devant".
+
+    Analogie : imaginez des cartes empilées.
+    z-index: 100 = cette carte est au-dessus des autres.
+
+    Sans z-index, le menu pourrait passer DERRIÈRE le contenu !
+  */
+
+  background-color: var(--color-0);
+  /* Même fond que la barre de menu */
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /*
+    box-shadow = ombre portée sous le menu
+
+    Format : décalage-x décalage-y flou couleur
+    - 0 = pas de décalage horizontal
+    - 2px = 2px vers le bas
+    - 5px = flou de 5px (plus c'est grand, plus l'ombre est douce)
+    - rgba(0,0,0,0.2) = noir avec 20% d'opacité (semi-transparent)
+
+    L'ombre donne un effet de "profondeur" au menu.
+  */
+}

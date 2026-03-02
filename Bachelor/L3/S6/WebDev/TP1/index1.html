@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--
+    DOCTYPE declaration: Tells the browser this is an HTML5 document
+    - Must be the FIRST line in every HTML file
+    - Not a tag, just a declaration
+    - Without it, browser might use "quirks mode" (old, broken rendering)
+-->
+
+<html lang="fr">
+<!--
+    <html> is the ROOT element - wraps everything
+
+    lang="fr" attribute:
+    - Declares the language of the page (French)
+    - Helps screen readers pronounce words correctly
+    - Helps search engines understand language
+    - Helps browsers with translation features
+-->
+
+<head>
+    <!--
+        <head> section contains METADATA about the page
+        - Not visible to users
+        - Contains info FOR the browser and search engines
+        - Always comes before <body>
+    -->
+
+    <meta charset="UTF-8">
+    <!--
+        Character encoding declaration
+        - UTF-8 supports ALL languages and special characters
+        - Without this, accents (é, è, à) might display as weird symbols
+        - ALWAYS include this in every HTML page
+        - Must be in the first 1024 bytes of the file
+    -->
+
+    <title>Accueil - Portfolio de Mohamed HAMLIL</title>
+    <!--
+        <title> is REQUIRED in every HTML page
+        - Shows in browser tab
+        - Shows in search results (Google, etc.)
+        - Shows in bookmarks
+        - Does NOT appear in page content
+    -->
+
+</head>
+
+<body>
+    <!--
+        <body> contains everything the user SEES
+        - All visible content goes here
+        - Text, images, links, videos, etc.
+        - Only ONE <body> per page
+    -->
+
+    <!-- ========================================
+         HEADER SECTION
+         ======================================== -->
+
+    <header>
+        <!--
+            <header> is a SEMANTIC tag
+            - Represents introductory content
+            - Usually contains title, logo, navigation
+            - Semantic = has MEANING (not just for styling)
+            - Helps screen readers understand page structure
+            - Better than <div id="header">
+        -->
+
+        <h1>Accueil</h1>
+        <!--
+            <h1> = Heading level 1 (most important heading)
+            - Only ONE <h1> per page (best practice)
+            - Creates heading hierarchy: h1 > h2 > h3 > h4 > h5 > h6
+            - Important for SEO and accessibility
+            - Screen readers use headings to navigate
+        -->
+
+    </header>
+
+    <!-- ========================================
+         MAIN CONTENT SECTION
+         ======================================== -->
+
+    <main>
+        <!--
+            <main> is a SEMANTIC tag for primary content
+            - Contains the MAIN content of the page
+            - Only ONE <main> per page
+            - Excludes repeated content (header, footer, navigation)
+            - Screen readers can skip directly to main content
+        -->
+
+        <nav>
+            <!--
+                <nav> is a SEMANTIC tag for navigation
+                - Contains major navigation links
+                - Not for EVERY link (only main navigation blocks)
+                - Helps screen readers identify navigation
+                - Can have multiple <nav> sections per page
+            -->
+
+            <p>
+                <!--
+                    <p> = Paragraph tag
+                    - Groups related content
+                    - Browsers add space above and below automatically
+                    - Block-level element (takes full width)
+                -->
+
+                <a href="cv1.html">
+                    <!--
+                        <a> = Anchor tag (creates a link)
+                        - href attribute = destination URL
+                        - href = "Hypertext REFerence"
+
+                        Link types:
+                        - "page.html" = relative link (same folder)
+                        - "/page.html" = absolute from root
+                        - "https://..." = external link
+                        - "#section" = anchor link (same page)
+                        - "mailto:email" = email link
+                    -->
+
+                    <img src="home/cv.svg" alt="Icône de CV - Document">
+                    <!--
+                        <img> = Image tag (displays an image)
+                        - SELF-CLOSING tag (no </img> needed)
+                        - Two REQUIRED attributes: src and alt
+
+                        src attribute (source):
+                        - Path to the image file
+                        - "home/cv.svg" = relative path
+                          * Go into "home" folder
+                          * Find "cv.svg" file
+
+                        alt attribute (alternative text):
+                        - CRITICAL for accessibility
+                        - Read by screen readers for blind users
+                        - Shown if image fails to load
+                        - Indexed by search engines
+                        - NEVER leave alt empty on meaningful images
+                        - Describe what the image IS or represents
+
+                        WRAPPING IMAGE IN LINK:
+                        - The <img> is INSIDE the <a>
+                        - This makes the entire image clickable
+                        - When user clicks image, they go to cv.html
+                    -->
+                </a>
+            </p>
+
+            <p>
+                <a href="mailto:hamlilm@yahoo.fr">
+                    <!--
+                        mailto: link
+                        - Special URL protocol for email
+                        - Opens user's default email program
+                        - Pre-fills the "To:" address
+
+                        Advanced mailto options:
+                        - Subject: mailto:email@example.com?subject=Hello
+                        - Body: mailto:email@example.com?body=Message
+                        - Multiple: mailto:email@example.com?subject=Hi&body=Hello
+                        - CC: mailto:email@example.com?cc=other@example.com
+                        - BCC: mailto:email@example.com?bcc=hidden@example.com
+                    -->
+
+                    <img src="home/mail.svg" alt="Icône d'email - Enveloppe">
+                </a>
+            </p>
+
+            <p>
+                <a href="https://www.univ-grenoble-alpes.fr/" target="_blank" rel="noopener noreferrer">
+                    <!--
+                        External link with security attributes
+
+                        target="_blank":
+                        - Opens link in NEW tab or window
+                        - User doesn't lose your page
+                        - Common for external links
+                        - Options:
+                          * _self = same tab (default)
+                          * _blank = new tab
+                          * _parent = parent frame
+                          * _top = full window
+
+                        rel="noopener noreferrer":
+                        - SECURITY attribute
+                        - ALWAYS use with target="_blank"
+
+                        Why is this important?
+                        - noopener: Prevents new page from accessing your page
+                          via window.opener JavaScript
+                          (prevents malicious sites from hijacking your page)
+                        - noreferrer: Doesn't send referrer information
+                          (privacy - new site doesn't know where user came from)
+
+                        SECURITY ISSUE WITHOUT THIS:
+                        A malicious site could use window.opener to redirect
+                        your page to a fake login page (phishing attack)
+                    -->
+
+                    <img src="home/ufr.svg" alt="Logo de l'Université Grenoble Alpes">
+                    <!--
+                        Alt text for logos:
+                        - Describe WHAT it is, not what it does
+                        - Good: "Logo de l'Université..."
+                        - Bad: "Click here for university"
+                        - The link itself provides the action context
+                    -->
+                </a>
+            </p>
+
+        </nav>
+
+    </main>
+
+    <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
+
+    <footer>
+        <!--
+            <footer> is a SEMANTIC tag
+            - Contains footer information
+            - Usually: copyright, links, contact info
+            - Can be at bottom of page OR bottom of a section
+            - Can have multiple <footer> elements per page
+        -->
+
+        <hr>
+        <!--
+            <hr> = Horizontal Rule (horizontal line)
+            - Creates a thematic break
+            - Self-closing tag (no </hr>)
+            - Originally "horizontal rule" for visual line
+            - HTML5: represents thematic break (semantic meaning)
+            - Browsers display as horizontal line by default
+        -->
+
+        <p>
+            <small>
+                <!--
+                    <small> tag
+                    - Makes text smaller
+                    - Semantic meaning: "fine print" or "side comments"
+                    - Good for: copyright, disclaimers, legal text
+                    - Not just for styling (has semantic meaning)
+                -->
+
+                &copy; 2026 Mohamed HAMLIL | Tous droits réservés
+                <!--
+                    HTML ENTITIES
+                    - Special characters written as &name;
+                    - Format: &code; or &#number;
+
+                    &copy; = © (copyright symbol)
+
+                    Why use entities instead of typing © directly?
+                    1. Compatibility - works on ALL systems
+                    2. Some characters have special HTML meaning
+                    3. Ensures correct display regardless of encoding
+
+                    Common HTML entities:
+                    - &lt;    = <  (less than)
+                    - &gt;    = >  (greater than)
+                    - &amp;   = &  (ampersand)
+                    - &quot;  = "  (quotation mark)
+                    - &apos;  = '  (apostrophe)
+                    - &nbsp;  = non-breaking space (spaces that don't collapse)
+                    - &euro;  = €  (euro symbol)
+                    - &copy;  = ©  (copyright)
+                    - &reg;   = ®  (registered trademark)
+                    - &trade; = ™  (trademark)
+
+                    Why &lt; and &gt;?
+                    - < and > are used for HTML tags
+                    - Writing <p> makes a paragraph
+                    - Writing &lt;p&gt; displays the text "<p>"
+                -->
+            </small>
+        </p>
+
+    </footer>
+
+</body>
+
+<!--
+    ============================================
+    SUMMARY: KEY HTML CONCEPTS IN THIS FILE
+    ============================================
+
+    1. DOCUMENT STRUCTURE:
+       <!DOCTYPE html>        - HTML5 declaration
+       <html lang="fr">       - Root element with language
+       <head>                 - Metadata section
+       <body>                 - Visible content section
+
+    2. REQUIRED ELEMENTS:
+       <meta charset="UTF-8"> - Character encoding (ALWAYS include!)
+       <title>                - Page title (REQUIRED in head)
+
+    3. SEMANTIC HTML5 TAGS:
+       <header>  - Introductory content
+       <main>    - Primary content (one per page)
+       <nav>     - Navigation section
+       <footer>  - Footer content
+
+       Why semantic tags?
+       - Accessibility (screen readers understand structure)
+       - SEO (search engines understand content)
+       - Code readability (developers understand purpose)
+       - Future-proof (better than generic <div>)
+
+    4. TEXT ELEMENTS:
+       <h1>      - Main heading (only one per page)
+       <p>       - Paragraph
+       <small>   - Fine print / side comments
+       <hr>      - Horizontal rule / thematic break
+
+    5. LINKS:
+       <a href="page.html">           - Internal link
+       <a href="https://...">          - External link
+       <a href="mailto:email">         - Email link
+       <a href="#id">                  - Anchor link (same page)
+
+       Important attributes:
+       - href          - destination (REQUIRED)
+       - target        - where to open link
+       - rel           - relationship (security)
+
+    6. IMAGES:
+       <img src="path" alt="description">
+
+       Required attributes:
+       - src  - path to image file
+       - alt  - alternative text (accessibility)
+
+       Self-closing tag (no </img> needed)
+
+    7. CLICKABLE IMAGES:
+       <a href="destination">
+           <img src="image.jpg" alt="description">
+       </a>
+
+       The image is INSIDE the link, making it clickable
+
+    8. SECURITY:
+       For external links with target="_blank":
+       ALWAYS add: rel="noopener noreferrer"
+
+       Prevents security vulnerabilities
+
+    9. ACCESSIBILITY:
+       - Use semantic tags
+       - Always include alt text on images
+       - Use proper heading hierarchy (h1 > h2 > h3)
+       - Declare language (lang attribute)
+
+    10. HTML ENTITIES:
+        &copy;   = ©
+        &lt;     = <
+        &gt;     = >
+        &amp;    = &
+        &nbsp;   = non-breaking space
+
+        Use when character has special HTML meaning
+        or for guaranteed cross-platform compatibility
+
+    ============================================
+    COMMON BEGINNER MISTAKES TO AVOID
+    ============================================
+
+    ❌ Forgetting DOCTYPE
+    ❌ Missing charset declaration
+    ❌ No title tag
+    ❌ Multiple <h1> tags
+    ❌ Images without alt text
+    ❌ Not closing tags properly
+    ❌ target="_blank" without rel="noopener noreferrer"
+    ❌ Mixing up <head> and <header>
+    ❌ Using <div> instead of semantic tags
+    ❌ Forgetting quotes around attribute values
+
+    ✅ Always include DOCTYPE, charset, title
+    ✅ One <h1> per page
+    ✅ Alt text on all meaningful images
+    ✅ Close all tags properly
+    ✅ Use semantic HTML5 tags
+    ✅ Security attributes on external links
+    ✅ Validate your HTML at validator.w3.org
+-->
+
+</html>

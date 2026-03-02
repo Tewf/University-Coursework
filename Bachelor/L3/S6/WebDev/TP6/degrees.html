@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Convertisseur de Température</title>
+
+    <style>
+        body {
+            font-family: "Gill Sans", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /*
+              linear-gradient = dégradé de couleurs
+              135deg = angle du dégradé (diagonale)
+              Du bleu (#667eea) au violet (#764ba2)
+            */
+        }
+
+        .convertisseur {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            min-width: 350px;
+        }
+
+        h1 { color: #2c3e50; font-size: 1.4em; }
+
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            /*
+              box-sizing: border-box
+              = la largeur (width) INCLUT le padding et la bordure.
+
+              Sans border-box :
+                width: 100% + padding + border = DÉPASSE le conteneur !
+
+              Avec border-box :
+                width: 100% INCLUT padding + border = parfait !
+            */
+        }
+
+        .direction {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .direction label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover { background-color: #5a6fd6; }
+
+        #resultat {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            min-height: 25px;
+        }
+
+        .resultat-chaud {
+            background-color: #ffe0e0;
+            color: #c0392b;
+        }
+
+        .resultat-froid {
+            background-color: #e0e8ff;
+            color: #2c3e80;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="convertisseur">
+        <h1>Convertisseur de Température</h1>
+
+        <div class="form-group">
+            <label for="temperature">Température :</label>
+            <input type="number" id="temperature" placeholder="Entrez une température" step="0.1">
+            <!--
+                step="0.1" : permet d'entrer des décimales (36.5 par exemple)
+                Sans step, les flèches du champ incrémentent de 1 en 1.
+                Avec step="0.1", elles incrémentent de 0.1 en 0.1.
+            -->
+        </div>
+
+        <div class="direction">
+            <!--
+                Les boutons radio (<input type="radio">) permettent
+                de choisir UNE SEULE option parmi plusieurs.
+
+                Tous les radios avec le même "name" forment un GROUPE.
+                On ne peut sélectionner qu'UN SEUL dans le groupe.
+
+                Analogie : c'est comme les boutons de ta radio de voiture.
+                Quand tu appuies sur un, les autres se relâchent.
+            -->
+
+            <label>
+                <input type="radio" name="direction" value="c-to-f" checked>
+                <!--
+                    name="direction" : tous les radios de ce groupe
+                    value="c-to-f" : la valeur récupérée en JavaScript
+                    checked : sélectionné par défaut au chargement
+                -->
+                °C → °F
+            </label>
+
+            <label>
+                <input type="radio" name="direction" value="f-to-c">
+                °F → °C
+            </label>
+        </div>
+
+        <button id="btn-convertir">Convertir</button>
+
+        <div id="resultat"></div>
+    </div>
+
+    <script>
+        // =============================================
+        // JAVASCRIPT DU CONVERTISSEUR
+        // =============================================
+
+        // Récupérer les éléments du DOM
+        const inputTemp = document.getElementById("temperature");
+        const btnConvertir = document.getElementById("btn-convertir");
+        const divResultat = document.getElementById("resultat");
+
+        btnConvertir.addEventListener("click", function () {
+
+            // Récupérer la température (convertir en nombre)
+            const temp = parseFloat(inputTemp.value);
+
+            // Vérifier que c'est un nombre valide
+            if (isNaN(temp)) {
+                divResultat.textContent = "Veuillez entrer un nombre valide !";
+                divResultat.className = "";
+                // .className = "" enlève toutes les classes CSS
+                return;
+            }
+
+            // Récupérer la direction choisie
+            const direction = document.querySelector('input[name="direction"]:checked').value;
+            //
+            // Décortiquons ce sélecteur CSS complexe :
+            //
+            // document.querySelector(...)
+            //   = trouve LE PREMIER élément qui correspond au sélecteur
+            //
+            // 'input[name="direction"]:checked'
+            //   = un <input> qui a name="direction" ET qui est coché (:checked)
+            //
+            // [name="direction"] = sélecteur d'attribut
+            //   = "l'attribut name vaut direction"
+            //
+            // :checked = pseudo-classe
+            //   = "le bouton radio est sélectionné"
+            //
+            // .value = la valeur de l'option sélectionnée ("c-to-f" ou "f-to-c")
+
+            let resultat;
+            let unite;
+
+            if (direction === "c-to-f") {
+                // Celsius → Fahrenheit
+                // Formule : F = (C × 9/5) + 32
+                resultat = (temp * 9 / 5) + 32;
+                unite = "°F";
+
+                divResultat.textContent = `${temp}°C = ${resultat.toFixed(2)}${unite}`;
+                // .toFixed(2) = arrondir à 2 décimales
+                // 98.6666... → "98.67"
+                // Retourne une CHAÎNE, pas un nombre
+
+                divResultat.className = resultat > 30 ? "resultat-chaud" : "resultat-froid";
+                // L'opérateur TERNAIRE : condition ? valeurSiVrai : valeurSiFaux
+                // C'est un if/else en une seule ligne
+                //
+                // Si résultat > 30° : classe "chaud" (fond rouge)
+                // Sinon : classe "froid" (fond bleu)
+            } else {
+                // Fahrenheit → Celsius
+                // Formule : C = (F - 32) × 5/9
+                resultat = (temp - 32) * 5 / 9;
+                unite = "°C";
+
+                divResultat.textContent = `${temp}°F = ${resultat.toFixed(2)}${unite}`;
+                divResultat.className = resultat > 30 ? "resultat-chaud" : "resultat-froid";
+            }
+        });
+
+        // BONUS : convertir aussi quand on appuie sur Entrée
+        inputTemp.addEventListener("keydown", function (event) {
+            // "keydown" = une touche du clavier est enfoncée
+            // event = l'objet ÉVÉNEMENT, contient des infos sur la touche
+
+            if (event.key === "Enter") {
+                // event.key = le nom de la touche appuyée
+                // "Enter" = la touche Entrée
+
+                btnConvertir.click();
+                // .click() simule un clic sur le bouton
+                // Comme si l'utilisateur avait cliqué dessus
+            }
+        });
+    </script>
+
+</body>
+</html>

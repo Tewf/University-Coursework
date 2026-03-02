@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TP5 - Exercices JavaScript</title>
+
+    <!--
+        CHARGEMENT DU FICHIER JAVASCRIPT
+        ==================================
+
+        <script src="exercices.js" defer></script>
+
+        defer = "attends que TOUT le HTML soit chargé avant d'exécuter le JS"
+
+        Sans defer, le JS s'exécute immédiatement, et le HTML
+        en dessous n'existe pas encore → bugs !
+
+        Alternatives :
+        - defer : exécute après le chargement du HTML (recommandé)
+        - async : exécute dès que le fichier est téléchargé
+        - rien : exécute immédiatement (bloque le chargement du HTML)
+    -->
+    <script src="exercices.js" defer></script>
+
+    <style>
+        body {
+            font-family: "Gill Sans", sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+        }
+        h1 { color: #89b4fa; }
+        h2 { color: #a6e3a1; }
+        code {
+            background-color: #313244;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .instructions {
+            background-color: #313244;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #89b4fa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>TP5 - Exercices JavaScript</h1>
+
+    <div class="instructions">
+        <h2>Comment voir les résultats ?</h2>
+        <ol>
+            <li>Appuie sur <code>F12</code> pour ouvrir les outils de développement</li>
+            <li>Clique sur l'onglet <strong>Console</strong></li>
+            <li>Les résultats des exercices s'affichent là-dedans !</li>
+            <li>Modifie <code>exercices.js</code> et rafraîchis la page (<code>F5</code>) pour tester</li>
+        </ol>
+    </div>
+
+    <h2>Exercices dans ce fichier</h2>
+    <ol>
+        <li>Échiquier fixe (boucles)</li>
+        <li>Échiquier dynamique (boucles)</li>
+        <li>Intersection d'objets</li>
+        <li>Fonction capitalize</li>
+        <li>Compteur préfixé (closures)</li>
+        <li>Compteur modifiable (closures)</li>
+        <li>Réimplémentation de filter (callbacks)</li>
+        <li>createFilter (currying)</li>
+    </ol>
+
+    <p><em>Ouvre la console pour voir les résultats !</em></p>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+project:
+  type: default
+  output-dir: rapport
+
+title: "Prédiction de la Satisfaction Client pour les Parfums"
+subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
+author: "HAMLIL Mohamed"
+date: "2025-2026"
+lang: fr
+
+format:
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    colorlinks: true
+    fig-cap-location: bottom
+    include-in-header:
+      - text: |
+          \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[RO]{Lola Etiévant}
+          \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
+          \usepackage{float}
+          \usepackage{booktabs}
+          \floatplacement{figure}{H}
+          \usepackage[most]{tcolorbox}
+
+execute:
+  warning: false
+  message: false
+  fig-align: center
+  fig-width: 7
+  fig-height: 5
+
+bibliography: references.bib

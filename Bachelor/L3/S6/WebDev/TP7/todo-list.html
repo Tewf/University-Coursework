@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liste de tâches</title>
+
+    <link rel="stylesheet" href="todo-list.css">
+    <!--
+        On charge le CSS AVANT le JavaScript.
+        Comme ça, quand le JS ajoute des éléments,
+        ils sont déjà stylisés dès leur apparition.
+    -->
+
+    <script src="todo-list.js" defer></script>
+    <!--
+        defer = "attends que tout le HTML soit prêt avant d'exécuter le JS"
+
+        POURQUOI defer est important ici ?
+        Sans defer, le JS essaierait de trouver le formulaire (#add-task)
+        AVANT qu'il n'existe dans la page → erreur !
+
+        Alternatives à defer :
+        1. Mettre le <script> à la FIN du <body> (ancienne méthode)
+        2. Utiliser defer (méthode moderne recommandée)
+        3. Utiliser DOMContentLoaded dans le JS
+    -->
+</head>
+
+<body>
+
+    <h1>Liste de tâches</h1>
+
+    <form id="add-task">
+        <!--
+            <form> regroupe des champs de saisie.
+            Quand on clique "Ajouter" ou appuie Entrée,
+            un événement "submit" est déclenché.
+
+            id="add-task" : pour le cibler en JavaScript.
+
+            PAS d'attribut action ou method ici car on gère
+            la soumission entièrement en JavaScript (pas d'envoi serveur).
+        -->
+
+        <input type="text" placeholder="Nouvelle tâche..." name="task-name" required>
+        <!--
+            type="text" : champ de texte libre
+            placeholder : texte grisé indicatif
+            name="task-name" : nom du champ (pour accéder à sa valeur)
+            required : le formulaire ne peut pas être soumis si ce champ est vide
+                       Le navigateur affichera un message d'erreur automatiquement !
+        -->
+
+        <button type="submit">Ajouter</button>
+        <!--
+            type="submit" : ce bouton SOUMET le formulaire
+            Quand on clique dessus, l'événement "submit" du <form> se déclenche
+        -->
+    </form>
+
+    <ul id="todo-list">
+        <!--
+            Cette liste est VIDE au départ !
+            JavaScript va y ajouter des <li> dynamiquement.
+
+            Chaque <li> créé par JS ressemblera à :
+            <li>
+              <span>Ma tâche</span>
+              <div class="boutons">
+                <button class="btn-monter">↑</button>
+                <button class="btn-descendre">↓</button>
+                <button class="btn-supprimer">✕</button>
+              </div>
+            </li>
+        -->
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+---
+title: "Partie 1 : Analyse Exploratoire des Données"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source(here::here("R", "utils.R"))
+```
+
+# Introduction
+
+## Contexte
+
+Ce projet s'inscrit dans le cadre du cours de Compléments de Mathématiques 2 (Introduction au Machine Learning). L'objectif est de réaliser une classification supervisée binaire à partir d'un jeu de données réel.
+
+Nous avons choisi un jeu de données de parfums issu de **Parfumo**, une communauté en ligne dédiée aux parfums. Ce dataset contient des informations sur près de 60 000 parfums : leur marque, année de sortie, concentration, notes olfactives, accords principaux et évaluations des utilisateurs.
+
+**Lien de téléchargement :** [Parfumo Dataset sur Kaggle](https://www.kaggle.com/datasets)
+
+:::{.callout-note}
+## Objectif
+Prédire la **satisfaction des utilisateurs** (variable binaire : Oui / Non) à partir des caractéristiques d'un parfum. La satisfaction est définie par la note attribuée par les utilisateurs (`Rating_Value`) : un parfum est considéré comme satisfaisant si sa note est supérieure ou égale à la médiane.
+:::
+
+## Variables utilisées
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `Release_Year` | Numérique | Année de sortie du parfum |
+| `Concentration` | Catégorielle | Type de concentration (EDP, EDT, etc.) |
+| `Rating_Count` | Numérique | Nombre d'évaluations reçues |
+| `Main_Accords` | Texte | Accords olfactifs principaux |
+| `Top_Notes` | Texte | Notes de tête |
+| `Middle_Notes` | Texte | Notes de cœur |
+| `Base_Notes` | Texte | Notes de fond |
+| **`Satisfaction`** | **Binaire** | **Variable cible (Oui / Non)** |
+
+{{< pagebreak >}}
+
+# Chargement des données
+
+```{r}
+#| label: load-data
+data_raw <- read.csv(here::here("data", "parfumo_data_clean.csv"),
+                     stringsAsFactors = FALSE,
+                     na.strings = c("NA", ""))
+
+cat("Dimensions du dataset brut :", nrow(data_raw), "lignes,", ncol(data_raw), "colonnes\n")
+```
+
+{{< pagebreak >}}
+
+# Analyse préliminaire des données
+
+## Aperçu général
+
+```{r}
+#| label: apercu
+str(data_raw)
+```
+
+```{r}
+#| label: resume
+summary(data_raw[, c("Release_Year", "Rating_Value", "Rating_Count")])
+```
+
+## Gestion des valeurs manquantes
+
+```{r}
+#| label: tbl-missing-values
+#| tbl-cap: "Valeurs manquantes par variable"
+na_counts <- sapply(data_raw, function(x) sum(is.na(x)))
+na_pct <- round(100 * na_counts / nrow(data_raw), 1)
+
+na_df <- data.frame(
+  Variable = names(na_counts),
+  Manquantes = na_counts,
+  Pourcentage = na_pct
+)
+na_df <- na_df[order(-na_df$Pourcentage), ]
+rownames(na_df) <- NULL
+
+kable(na_df, booktabs = TRUE)
+```
+
+```{r}
+#| label: fig-missing-plot
+#| fig-cap: "Pourcentage de valeurs manquantes par variable"
+ggplot(na_df, aes(x = reorder(Variable, Pourcentage), y = Pourcentage)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(x = "Variable", y = "% de valeurs manquantes",
+       title = "Valeurs manquantes par variable") +
+  theme_minimal()
+```
+
+Comme le montre la @fig-missing-plot, certaines variables présentent un taux élevé de valeurs manquantes.
+
+## Création de la variable cible : Satisfaction
+
+Nous conservons uniquement les parfums ayant une note (`Rating_Value` non manquante) et créons la variable binaire **Satisfaction** :
+
+- **Oui** : `Rating_Value` >= médiane
+- **Non** : `Rating_Value` < médiane
+
+```{r}
+#| label: target-variable
+data_rated <- data_raw %>%
+  filter(!is.na(Rating_Value))
+
+cat("Parfums avec une note :", nrow(data_rated), "\n")
+
+mediane_rating <- median(data_rated$Rating_Value, na.rm = TRUE)
+cat("Médiane de Rating_Value :", mediane_rating, "\n")
+
+data_rated <- data_rated %>%
+  mutate(Satisfaction = factor(ifelse(Rating_Value >= mediane_rating, "Oui", "Non"),
+                               levels = c("Non", "Oui")))
+
+table(data_rated$Satisfaction)
+prop.table(table(data_rated$Satisfaction))
+```
+
+```{r}
+#| label: fig-target-plot
+#| fig-cap: "Distribution de la variable Satisfaction"
+ggplot(data_rated, aes(x = Satisfaction, fill = Satisfaction)) +
+  geom_bar() +
+  scale_fill_manual(values = c("Non" = "#E74C3C", "Oui" = "#2ECC71")) +
+  labs(x = "Satisfaction", y = "Nombre de parfums",
+       title = "Distribution de la variable cible") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+:::{.callout-note}
+## Observation
+La variable cible est relativement équilibrée grâce à l'utilisation de la médiane comme seuil de binarisation.
+:::
+
+{{< pagebreak >}}
+
+## Analyse univariée
+
+### Rating_Value (avant binarisation)
+
+```{r}
+#| label: fig-univar-rating
+#| fig-cap: "Distribution de Rating_Value"
+ggplot(data_rated, aes(x = Rating_Value)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white", alpha = 0.8) +
+  geom_vline(xintercept = mediane_rating, color = "red", linetype = "dashed", linewidth = 1) +
+  annotate("text", x = mediane_rating + 0.3, y = Inf, vjust = 2,
+           label = paste("Médiane =", mediane_rating), color = "red") +
+  labs(x = "Note", y = "Fréquence",
+       title = "Distribution des notes de parfums") +
+  theme_minimal()
+```
+
+### Release_Year
+
+```{r}
+#| label: fig-univar-year
+#| fig-cap: "Distribution de Release_Year"
+data_rated %>%
+  filter(!is.na(Release_Year), Release_Year >= 1900) %>%
+  ggplot(aes(x = Release_Year)) +
+  geom_histogram(bins = 50, fill = "steelblue", color = "white", alpha = 0.8) +
+  labs(x = "Année de sortie", y = "Fréquence",
+       title = "Distribution des années de sortie") +
+  theme_minimal()
+```
+
+### Rating_Count
+
+```{r}
+#| label: fig-univar-count
+#| fig-cap: "Distribution de Rating_Count (échelle log)"
+data_rated %>%
+  filter(!is.na(Rating_Count), Rating_Count > 0) %>%
+  ggplot(aes(x = log1p(Rating_Count))) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white", alpha = 0.8) +
+  labs(x = "log(1 + Rating_Count)", y = "Fréquence",
+       title = "Distribution du nombre d'évaluations (échelle log)") +
+  theme_minimal()
+```
+
+### Concentration
+
+```{r}
+#| label: fig-univar-concentration
+#| fig-cap: "Distribution des types de concentration"
+data_rated %>%
+  filter(!is.na(Concentration)) %>%
+  count(Concentration, sort = TRUE) %>%
+  head(10) %>%
+  ggplot(aes(x = reorder(Concentration, n), y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(x = "Concentration", y = "Nombre de parfums",
+       title = "Top 10 des types de concentration") +
+  theme_minimal()
+```
+
+### Main_Accords (accords les plus fréquents)
+
+```{r}
+#| label: fig-univar-accords
+#| fig-cap: "Accords olfactifs les plus fréquents"
+accords_all <- data_rated %>%
+  filter(!is.na(Main_Accords)) %>%
+  pull(Main_Accords) %>%
+  str_split(",\\s*") %>%
+  unlist() %>%
+  str_trim()
+
+accords_freq <- as.data.frame(table(accords_all), stringsAsFactors = FALSE)
+colnames(accords_freq) <- c("Accord", "Freq")
+accords_freq <- accords_freq[order(-accords_freq$Freq), ]
+
+accords_freq %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Accord, Freq), y = Freq)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  labs(x = "Accord", y = "Fréquence",
+       title = "Top 15 des accords olfactifs") +
+  theme_minimal()
+```
+
+{{< pagebreak >}}
+
+## Analyse multivariée
+
+### Satisfaction vs. Rating_Count
+
+```{r}
+#| label: fig-multi-count
+#| fig-cap: "Rating_Count selon la Satisfaction"
+data_rated %>%
+  filter(!is.na(Rating_Count)) %>%
+  ggplot(aes(x = Satisfaction, y = log1p(Rating_Count), fill = Satisfaction)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(values = c("Non" = "#E74C3C", "Oui" = "#2ECC71")) +
+  labs(x = "Satisfaction", y = "log(1 + Rating_Count)",
+       title = "Nombre d'évaluations selon la satisfaction") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+### Satisfaction vs. Release_Year
+
+```{r}
+#| label: fig-multi-year
+#| fig-cap: "Année de sortie selon la Satisfaction"
+data_rated %>%
+  filter(!is.na(Release_Year), Release_Year >= 1900) %>%
+  ggplot(aes(x = Satisfaction, y = Release_Year, fill = Satisfaction)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(values = c("Non" = "#E74C3C", "Oui" = "#2ECC71")) +
+  labs(x = "Satisfaction", y = "Année de sortie",
+       title = "Année de sortie selon la satisfaction") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+### Satisfaction vs. Concentration
+
+```{r}
+#| label: fig-multi-concentration
+#| fig-cap: "Taux de satisfaction par type de concentration"
+data_rated %>%
+  filter(!is.na(Concentration)) %>%
+  group_by(Concentration) %>%
+  filter(n() >= 50) %>%
+  summarise(
+    n = n(),
+    taux_satisfaction = mean(Satisfaction == "Oui"),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = reorder(Concentration, taux_satisfaction), y = taux_satisfaction)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Concentration", y = "Taux de satisfaction",
+       title = "Taux de satisfaction par concentration (n >= 50)") +
+  theme_minimal()
+```
+
+### Corrélation entre variables numériques
+
+```{r}
+#| label: fig-correlation
+#| fig-cap: "Matrice de corrélation"
+num_vars <- data_rated %>%
+  select(Release_Year, Rating_Count, Rating_Value) %>%
+  filter(complete.cases(.))
+
+cor_matrix <- cor(num_vars)
+corrplot(cor_matrix, method = "color", type = "upper",
+         addCoef.col = "black", tl.col = "black",
+         title = "Corrélation entre variables numériques",
+         mar = c(0, 0, 2, 0))
+```
+
+{{< pagebreak >}}
+
+# Sauvegarde des données
+
+```{r}
+#| label: save
+saveRDS(data_rated, here::here("output", "data_rated.rds"))
+cat("data_rated sauvegardé dans output/data_rated.rds\n")
+cat("Dimensions :", nrow(data_rated), "x", ncol(data_rated), "\n")
+```

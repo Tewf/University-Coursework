@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide-Mémoire HTML - Quick Reference</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-top: 30px;
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tag {
+            background-color: #e8f5e9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .attribute {
+            background-color: #fff3e0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e65100;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background-color: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .example {
+            border-left: 3px solid #2196F3;
+            padding-left: 15px;
+            margin: 10px 0;
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .warning {
+            border-left: 3px solid #ff9800;
+            padding-left: 15px;
+            margin: 10px 0;
+            background-color: #fff3e0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .tip {
+            border-left: 3px solid #9C27B0;
+            padding-left: 15px;
+            margin: 10px 0;
+            background-color: #f3e5f5;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📘 Aide-Mémoire HTML - Guide de Référence Rapide</h1>
+
+    <!-- ========================================
+         STRUCTURE DE BASE
+         ======================================== -->
+
+    <div class="section">
+        <h2>1. Structure de Base d'une Page HTML</h2>
+
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Titre de la Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Votre contenu ici --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <div class="tip">
+            <strong>💡 Astuce :</strong> Tapez <code>!</code> puis <code>Tab</code> dans VS Code pour générer automatiquement cette structure.
+        </div>
+    </div>
+
+    <!-- ========================================
+         BALISES DE TEXTE
+         ======================================== -->
+
+    <div class="section">
+        <h2>2. Balises de Texte</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Balise</th>
+                    <th>Description</th>
+                    <th>Exemple</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag">&lt;h1&gt;</span> à <span class="tag">&lt;h6&gt;</span></td>
+                    <td>Titres (h1 = plus important, h6 = moins important)</td>
+                    <td><code>&lt;h1&gt;Titre Principal&lt;/h1&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;p&gt;</span></td>
+                    <td>Paragraphe</td>
+                    <td><code>&lt;p&gt;Un paragraphe de texte.&lt;/p&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;br&gt;</span></td>
+                    <td>Saut de ligne (auto-fermante)</td>
+                    <td><code>Ligne 1&lt;br&gt;Ligne 2</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;hr&gt;</span></td>
+                    <td>Ligne horizontale de séparation</td>
+                    <td><code>&lt;hr&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;strong&gt;</span></td>
+                    <td>Texte important (gras + sémantique)</td>
+                    <td><code>&lt;strong&gt;Important!&lt;/strong&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;em&gt;</span></td>
+                    <td>Texte accentué (italique + sémantique)</td>
+                    <td><code>&lt;em&gt;Accentué&lt;/em&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;b&gt;</span></td>
+                    <td>Texte en gras (sans sens sémantique)</td>
+                    <td><code>&lt;b&gt;Gras&lt;/b&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;i&gt;</span></td>
+                    <td>Texte en italique (sans sens sémantique)</td>
+                    <td><code>&lt;i&gt;Italique&lt;/i&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;small&gt;</span></td>
+                    <td>Texte en petits caractères</td>
+                    <td><code>&lt;small&gt;Texte fin&lt;/small&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;mark&gt;</span></td>
+                    <td>Texte surligné</td>
+                    <td><code>&lt;mark&gt;Surligné&lt;/mark&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning">
+            <strong>⚠️ Attention :</strong> Préférez <span class="tag">&lt;strong&gt;</span> et <span class="tag">&lt;em&gt;</span> à <span class="tag">&lt;b&gt;</span> et <span class="tag">&lt;i&gt;</span> pour l'accessibilité.
+        </div>
+    </div>
+
+    <!-- ========================================
+         LISTES
+         ======================================== -->
+
+    <div class="section">
+        <h2>3. Listes</h2>
+
+        <h3>Liste Non Ordonnée (puces)</h3>
+        <div class="example">
+            <pre>&lt;ul&gt;
+  &lt;li&gt;Premier item&lt;/li&gt;
+  &lt;li&gt;Deuxième item&lt;/li&gt;
+  &lt;li&gt;Troisième item&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+
+        <h3>Liste Ordonnée (numéros)</h3>
+        <div class="example">
+            <pre>&lt;ol&gt;
+  &lt;li&gt;Premier&lt;/li&gt;
+  &lt;li&gt;Deuxième&lt;/li&gt;
+  &lt;li&gt;Troisième&lt;/li&gt;
+&lt;/ol&gt;</pre>
+        </div>
+
+        <h3>Liste de Description</h3>
+        <div class="example">
+            <pre>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;HyperText Markup Language&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;</pre>
+        </div>
+    </div>
+
+    <!-- ========================================
+         LIENS
+         ======================================== -->
+
+    <div class="section">
+        <h2>4. Liens</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Type de Lien</th>
+                    <th>Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lien interne (même site)</td>
+                    <td><code>&lt;a href="page.html"&gt;Lien&lt;/a&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Lien vers une ancre</td>
+                    <td><code>&lt;a href="#section"&gt;Aller à&lt;/a&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Lien externe</td>
+                    <td><code>&lt;a href="https://..." target="_blank" rel="noopener"&gt;Site&lt;/a&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Lien email</td>
+                    <td><code>&lt;a href="mailto:email@example.com"&gt;Email&lt;/a&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Lien téléphone</td>
+                    <td><code>&lt;a href="tel:+33123456789"&gt;Appeler&lt;/a&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip">
+            <strong>💡 Astuce :</strong> Pour les liens externes, ajoutez toujours <span class="attribute">target="_blank"</span> et <span class="attribute">rel="noopener noreferrer"</span> pour la sécurité.
+        </div>
+    </div>
+
+    <!-- ========================================
+         IMAGES
+         ======================================== -->
+
+    <div class="section">
+        <h2>5. Images</h2>
+
+        <div class="example">
+            <pre>&lt;img src="chemin/image.jpg" alt="Description de l'image" width="300" height="200"&gt;</pre>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribut</th>
+                    <th>Description</th>
+                    <th>Obligatoire?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="attribute">src</span></td>
+                    <td>Chemin vers l'image</td>
+                    <td>✅ Oui</td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">alt</span></td>
+                    <td>Texte alternatif (accessibilité)</td>
+                    <td>✅ Oui</td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">width</span></td>
+                    <td>Largeur en pixels</td>
+                    <td>❌ Non</td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">height</span></td>
+                    <td>Hauteur en pixels</td>
+                    <td>❌ Non</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Image Cliquable</h3>
+        <div class="example">
+            <pre>&lt;a href="page.html"&gt;
+  &lt;img src="logo.png" alt="Logo"&gt;
+&lt;/a&gt;</pre>
+        </div>
+    </div>
+
+    <!-- ========================================
+         TABLEAUX
+         ======================================== -->
+
+    <div class="section">
+        <h2>6. Tableaux</h2>
+
+        <div class="example">
+            <pre>&lt;table border="1"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;En-tête 1&lt;/th&gt;
+      &lt;th&gt;En-tête 2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Donnée 1&lt;/td&gt;
+      &lt;td&gt;Donnée 2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+        </div>
+
+        <h3>Fusion de Cellules</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribut</th>
+                    <th>Description</th>
+                    <th>Exemple</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="attribute">colspan</span></td>
+                    <td>Fusion horizontale (colonnes)</td>
+                    <td><code>&lt;td colspan="3"&gt;...&lt;/td&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">rowspan</span></td>
+                    <td>Fusion verticale (lignes)</td>
+                    <td><code>&lt;td rowspan="2"&gt;...&lt;/td&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================
+         BALISES SÉMANTIQUES
+         ======================================== -->
+
+    <div class="section">
+        <h2>7. Balises Sémantiques HTML5</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Balise</th>
+                    <th>Utilisation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="tag">&lt;header&gt;</span></td>
+                    <td>En-tête de page ou de section</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;nav&gt;</span></td>
+                    <td>Section de navigation (menu)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;main&gt;</span></td>
+                    <td>Contenu principal (un seul par page)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;section&gt;</span></td>
+                    <td>Section thématique de contenu</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;article&gt;</span></td>
+                    <td>Contenu autonome (article de blog, produit, etc.)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;aside&gt;</span></td>
+                    <td>Contenu connexe (barre latérale)</td>
+                </tr>
+                <tr>
+                    <td><span class="tag">&lt;footer&gt;</span></td>
+                    <td>Pied de page</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning">
+            <strong>⚠️ Attention :</strong> Préférez les balises sémantiques (<span class="tag">&lt;nav&gt;</span>, <span class="tag">&lt;section&gt;</span>) aux <span class="tag">&lt;div&gt;</span> génériques pour une meilleure accessibilité.
+        </div>
+    </div>
+
+    <!-- ========================================
+         FORMULAIRES (bonus)
+         ======================================== -->
+
+    <div class="section">
+        <h2>8. Formulaires (Bonus)</h2>
+
+        <div class="example">
+            <pre>&lt;form action="traitement.php" method="post"&gt;
+  &lt;label for="nom"&gt;Nom :&lt;/label&gt;
+  &lt;input type="text" id="nom" name="nom" required&gt;
+
+  &lt;label for="email"&gt;Email :&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre>
+        </div>
+
+        <h3>Types d'Input Courants</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Texte</td>
+                    <td><code>&lt;input type="text"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><code>&lt;input type="email"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Mot de passe</td>
+                    <td><code>&lt;input type="password"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td><code>&lt;input type="number"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td><code>&lt;input type="date"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Case à cocher</td>
+                    <td><code>&lt;input type="checkbox"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Bouton radio</td>
+                    <td><code>&lt;input type="radio"&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================
+         ENTITÉS HTML
+         ======================================== -->
+
+    <div class="section">
+        <h2>9. Entités HTML (Caractères Spéciaux)</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Entité</th>
+                    <th>Symbole</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>&amp;lt;</code></td>
+                    <td>&lt;</td>
+                    <td>Inférieur à</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;gt;</code></td>
+                    <td>&gt;</td>
+                    <td>Supérieur à</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;amp;</code></td>
+                    <td>&amp;</td>
+                    <td>Esperluette</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;quot;</code></td>
+                    <td>&quot;</td>
+                    <td>Guillemet double</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;nbsp;</code></td>
+                    <td>&nbsp;</td>
+                    <td>Espace insécable</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;copy;</code></td>
+                    <td>&copy;</td>
+                    <td>Copyright</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;euro;</code></td>
+                    <td>&euro;</td>
+                    <td>Euro</td>
+                </tr>
+                <tr>
+                    <td><code>&amp;trade;</code></td>
+                    <td>&trade;</td>
+                    <td>Trademark</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================
+         ATTRIBUTS GLOBAUX
+         ======================================== -->
+
+    <div class="section">
+        <h2>10. Attributs Globaux (utilisables sur presque toutes les balises)</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribut</th>
+                    <th>Description</th>
+                    <th>Exemple</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="attribute">id</span></td>
+                    <td>Identifiant unique (un seul par page)</td>
+                    <td><code>&lt;div id="header"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">class</span></td>
+                    <td>Classe CSS (réutilisable)</td>
+                    <td><code>&lt;p class="intro"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">style</span></td>
+                    <td>CSS inline</td>
+                    <td><code>&lt;p style="color: red;"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">title</span></td>
+                    <td>Info-bulle au survol</td>
+                    <td><code>&lt;a title="Plus d'info"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><span class="attribute">lang</span></td>
+                    <td>Langue du contenu</td>
+                    <td><code>&lt;html lang="fr"&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================
+         RACCOURCIS CLAVIER
+         ======================================== -->
+
+    <div class="section">
+        <h2>11. Raccourcis VS Code Utiles</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Raccourci</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>!</code> puis <code>Tab</code></td>
+                    <td>Génère la structure HTML de base</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + /</code></td>
+                    <td>Commenter/décommenter une ligne</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + D</code></td>
+                    <td>Sélectionner l'occurrence suivante</td>
+                </tr>
+                <tr>
+                    <td><code>Alt + ↑/↓</code></td>
+                    <td>Déplacer une ligne vers le haut/bas</td>
+                </tr>
+                <tr>
+                    <td><code>Shift + Alt + ↑/↓</code></td>
+                    <td>Dupliquer une ligne</td>
+                </tr>
+                <tr>
+                    <td><code>Ctrl + Shift + K</code></td>
+                    <td>Supprimer une ligne</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ========================================
+         BONNES PRATIQUES
+         ======================================== -->
+
+    <div class="section">
+        <h2>12. ✅ Bonnes Pratiques HTML</h2>
+
+        <ol>
+            <li><strong>Un seul &lt;h1&gt; par page</strong> - C'est le titre principal</li>
+            <li><strong>Toujours inclure l'attribut alt sur les images</strong> - Pour l'accessibilité</li>
+            <li><strong>Indenter correctement le code</strong> - Pour la lisibilité</li>
+            <li><strong>Fermer toutes les balises</strong> - Même si certains navigateurs sont tolérants</li>
+            <li><strong>Utiliser des balises sémantiques</strong> - &lt;nav&gt; plutôt que &lt;div class="nav"&gt;</li>
+            <li><strong>Valider votre HTML</strong> - Utilisez https://validator.w3.org/</li>
+            <li><strong>Noms de fichiers en minuscules</strong> - index.html, pas Index.HTML</li>
+            <li><strong>Pas d'espaces dans les noms de fichiers</strong> - mon-fichier.html, pas mon fichier.html</li>
+            <li><strong>UTF-8 pour l'encodage</strong> - Toujours inclure &lt;meta charset="UTF-8"&gt;</li>
+            <li><strong>Séparer structure (HTML), style (CSS) et comportement (JS)</strong></li>
+        </ol>
+    </div>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; background-color: #333; color: white; border-radius: 8px;">
+        <p><strong>Aide-Mémoire HTML</strong> - Référence Rapide pour Débutants</p>
+        <p><small>Pour plus d'informations, consultez <a href="https://developer.mozilla.org/fr/" style="color: #4CAF50;">MDN Web Docs</a></small></p>
+    </footer>
+
+</body>
+</html>

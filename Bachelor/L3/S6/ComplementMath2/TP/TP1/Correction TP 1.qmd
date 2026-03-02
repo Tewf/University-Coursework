@@ -1,0 +1,583 @@
+---
+title: "Correction TP 1 : Jeux de données et variables"
+author: "HAMLIL Mohamed"
+date: "2025-2026"
+format: 
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    include-in-header:
+      - text: |
+          \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[RO]{Lola Etiévant}
+          \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
+          \usepackage[most]{tcolorbox}
+editor: source
+execute: 
+  warning: false
+  message: false
+---
+
+# Exercice 0 : Prise en main 
+
+J'aime utiliser **RStudio**, une interface du logiciel `R` qui est bien pratique car elle comprend :
+
+* Une fenêtre contenant notre script `R`.
+* Une fenêtre console pour exécuter des commandes (comme dans `R`).
+* Une fenêtre contenant les onglets Environment (environnement).
+* Une fenêtre contenant les onglets Plots (graphiques), Packages, Help (aide).
+
+:::{.callout-tip}
+## Installation
+Pour installer `RStudio` c'est [ici](https://posit.co/download/rstudio-desktop/#download).
+:::
+
+`R Markdown` (et `Quarto`) permet de créer un document avec du texte, des extraits de code `R` et leurs résultats, et d'obtenir un beau PDF.  
+[Plus d'informations ici](https://rmarkdown.rstudio.com/lesson-1.html).
+
+## 1. Installer un package 
+
+Le *Comprehensive R Archive Network* (CRAN) est le répertoire officiel de packages `R`. Avant de pouvoir utiliser un package, il faut s'assurer qu'il soit installé sur notre machine.
+
+Pour installer un package, on utilise la commande `install.packages`.
+
+:::{.callout-warning}
+Attention aux guillemets ! Sinon, R cherchera une variable nommée `tinytex` au lieu du package.
+:::
+
+```{r}
+#| eval: false
+install.packages("tinytex")
+install.packages("rmarkdown")
+
+```
+
+:::{.callout-note}
+
+## À faire
+
+Installer le package `faraway` que l'on trouve dans CRAN.
+:::
+
+```{r}
+#| eval: false
+install.packages("faraway")
+
+```
+
+*Note : On utilise `eval=FALSE` dans le RMarkdown pour ne pas réinstaller le package à chaque compilation du PDF.*
+
+## 2. Charger un package
+
+Une fois qu'un package est installé, il faut le charger avec la commande `library`. 
+
+```{r}
+library(faraway)
+
+```
+
+:::{.callout-note}
+
+## À faire
+
+Installer et charger le package `ggplot2`.
+:::
+
+```{r}
+#| eval: false
+install.packages("ggplot2")
+
+```
+
+```{r}
+library(ggplot2)
+
+```
+
+## 3. Documentation du package
+
+On accède à la documentation via l'onglet *Packages* ou directement via la commande `?`.
+Par exemple, pour le jeu de données `pima` du package `faraway` : 
+
+```{r}
+#| eval: false
+?pima
+
+```
+
+:::{.callout-note}
+
+## À faire
+
+Accéder à la documentation du jeu de données `beetle`. 
+:::
+
+## 4. Variables
+
+Il est recommandé de commencer avec un environnement propre.
+
+```{r}
+rm(list = ls())
+
+```
+
+Les variables stockent des données. Règles de nommage:
+
+1. Ne peut pas commencer par un chiffre.
+2. Uniquement caractères alphanumériques et underscores (`_`) ou points (`.`).
+3. Sensible à la casse (`az9_8`  `Az9_8`).
+
+:::{.callout-important}
+Attention à ne pas utiliser des noms réservés (comme `mean`, `c`, `data`) pour éviter des conflits. 
+:::
+
+**Assignation** : On utilise `<-` (préférable en R) ou `=`.
+
+```{r}
+az9_8 = 7
+
+```
+
+**Gestion** :
+
+* `ls()` : Lister les objets.
+* `rm()` : Supprimer un objet.
+
+```{r}
+ls()
+rm(az9_8)
+
+```
+
+## 5. Types de données dans `R`
+
+Les types principaux sont : 
+
+* `numeric` : nombres réels.
+* `integer` : entiers (ex: `2L`).
+* `character` : texte.
+* `logical` : booléen (`TRUE`, `FALSE`).
+* `factor` : variable catégorielle.
+
+```{r}
+class(2)
+class(2L)
+class("texte")
+class(TRUE)
+
+```
+
+## 6. Opérations
+
+**Séquences** : L'opérateur `:` génère une séquence d'entiers. 
+
+```{r}
+1:50
+
+```
+
+**Arithmétique** : `+`, `-`, `*`, `/`, `^` (puissance).
+**Assignation** : `=` ou `<-`.
+
+```{r}
+x = 2
+y = (-1)^2
+z = 10 / 3
+w = "lapin" 
+class(w)
+
+```
+
+**Comparaison** : `==` (égalité), `!=` (différence), `>`, `<`, `>=`, `<=`. 
+
+```{r}
+x != y
+
+```
+
+**Logique et Contrôle** : `&` (ET), `|` (OU), `!` (NON), `if`, `else`, `for`, `while`.
+
+```{r}
+if(z < 2){ 
+  z = "petit" 
+} else { 
+  z = "grand" 
+}
+z
+
+```
+
+**Accès** :
+
+* 
+`[ ]` : accès par index (vecteurs, matrices). 
+
+
+* `$` : accès par nom (listes, data frames).
+
+## 7. Vecteurs
+
+On crée un vecteur avec `c()` (combine). 
+
+```{r}
+v = c(1, 2, 4)
+w = 100:150       # Séquence
+z = rep("souris", times = 5) # Répétition (réduit à 5 pour l'affichage)
+y = seq(from = 0, to = 1, by = 0.1) # Séquence avec pas
+
+```
+
+**Indexation** : Les indices commencent à **1**. 
+
+```{r}
+v[3]        # 3ème élément
+v[-2]       # Tout sauf le 2ème
+w[c(1, 10)] # 1er et 10ème éléments
+
+```
+
+**Conversion de type** :
+
+```{r}
+v_char = c("a","b","c","a","c","c")
+w_fact = as.factor(v_char) # Conversion en facteur
+levels(w_fact)
+
+```
+
+## 8. Quelques fonctions usuelles
+
+**Lois de probabilité** :
+
+* `r...` (random) : génération aléatoire.
+* `d...` (density) : densité.
+* `p...` (probability) : fonction de répartition.
+* `q...` (quantile) : quantiles.
+
+```{r}
+# Echantillonnage
+x = runif(n = 10, min = 0, max = 1)
+y = rbinom(n = 10, size = 1, prob = 0.5)
+
+# Tirage avec/sans remise
+sample(x = 1:10, size = 5, replace = FALSE)
+
+```
+
+**Statistiques descriptives** : 
+
+```{r}
+x = rnorm(n = 1000, mean = 5, sd = 2)
+mean(x)
+var(x)
+summary(x)
+
+```
+
+**Tri** : `sort()` (trie les valeurs) et `order()` (donne les indices). 
+
+```{r}
+v = c(1, 10, 3, 8, -5)
+sort(v, decreasing = TRUE)
+order(v)
+
+```
+
+## 9. Matrices
+
+Création avec `matrix()`.
+
+```{r}
+M = matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3, byrow = TRUE)
+P = matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3, byrow = FALSE)
+
+```
+
+**Opérations** : 
+
+* `dim()`, `nrow()`, `ncol()` : dimensions.
+* `t()` : transposée.
+* `%*%` : produit matriciel.
+* `solve()` : inverse.
+* `diag()` : diagonale.
+
+:::{.callout-note}
+
+## Exercice
+
+Créer une matrice carrée `P` (taille 5) avec des tirages Bernoulli (). Créer `Q` diagonale contenant la diagonale de `P`. 
+:::
+
+```{r}
+P = matrix(rbinom(n = 25, size = 1, prob = 0.6), nrow = 5, ncol = 5)
+Q = diag(diag(P))
+
+```
+
+## 10. Listes
+
+Les listes peuvent contenir des objets de types différents.
+
+```{r}
+l = list(vecteur = 1:10, noms = c("lapin","souris"))
+l$noms # Accès par nom
+
+```
+
+## 11. Données manquantes et valeurs spéciales
+
+* `NA` : Not Available (manquant).
+* 
+`NaN` : Not a Number (0/0). 
+
+
+* 
+`Inf` : Infini. 
+
+
+
+```{r}
+x = c(1, 2, NA)
+is.na(x)
+
+```
+
+## 12. Écrire une fonction
+
+```{r}
+g = function(x, y = 2){ # y a une valeur par défaut de 2
+  z = x + y
+  return(list(res_x = x, res_z = z)) 
+}
+
+# Appel de la fonction
+g(x = 1) # utilise y = 2 par défaut
+
+```
+
+## 13. Data Frames
+
+Structure classique des données : colonnes = variables, lignes = individus. 
+
+```{r}
+d = data.frame(
+  x = rep(1, 10), 
+  y = 1:10, 
+  char = letters[1:10]
+)
+head(d)
+
+```
+
+## 14. Charger un jeu de données
+
+* Via un package : `data(pima)` (package `faraway`). 
+
+
+* Via un fichier : `read.csv()`. 
+
+
+
+```{r}
+#| eval: false
+# Exemple si le fichier est dans le dossier parent
+data = read.csv("../titanic.csv")
+
+```
+
+## 15. Fonctions graphiques de base
+
+```{r}
+#| layout-ncol: 2
+#| out-width: "100%"
+
+v = rnorm(1000, mean = 4, sd = 2)
+
+# Histogramme
+hist(v, col = "lightblue", main = "Histogramme", xlab = "v")
+
+# Boxplot
+boxplot(v, col = 'lightgreen', main = "Boxplot", ylab = "v")
+
+```
+
+**Paramètres graphiques** :
+
+* 
+`par(mfrow = c(1,2))` : divise la fenêtre en 1 ligne, 2 colonnes. 
+
+
+* 
+`ylim`, `xlim` : limites des axes. 
+
+
+* `main`, `xlab`, `ylab` : titres et labels.
+
+# Exercice 1 : Analyse préliminaire d'un jeu de données
+
+## 1. Charger et inspecter les données
+
+Le jeu donnée `pima` est dans le package `faraway`.
+
+```{r}
+data(pima)
+head(pima)
+
+```
+
+**Dimensions** : 
+
+```{r}
+nrow(pima) # 768 lignes
+ncol(pima) # 9 colonnes
+
+```
+
+**Types de variables** : 
+
+```{r}
+str(pima) # Donne une vue d'ensemble compacte des types
+
+```
+
+### Transformation de variables
+
+**Variable catégorielle** : `age`.
+Plusieurs stratégies de discrétisation : 
+
+1. Intervalles de même largeur (`cut`).
+2. Intervalles avec même effectif (quantiles). 
+
+
+3. Groupes sémantiques (Enfant, Adulte, Senior). 
+
+
+
+Application (Groupes sémantiques) : 
+
+```{r}
+pima$age_cat  = cut(pima$age, 
+                    breaks = c(21, 30, 55, 65, 81),
+                    include.lowest = TRUE)
+
+```
+
+## 2. Analyse statistique univariée
+
+Pour les variables **quantitatives** : moyenne, variance, quartiles. Pour les variables **qualitatives** : tables de contingence. 
+
+```{r}
+summary(pima)
+
+```
+
+:::{.callout-warning}
+
+Anomalies détectées 
+
+* `test` est binaire (0/1) mais vue comme numérique.
+* `diastolic` (pression sanguine) a des valeurs à 0, ce qui est impossible physiologiquement. Cela indique des données manquantes.
+:::
+
+**Correction des données** :
+
+```{r}
+# Conversion en facteur
+pima$test = as.factor(pima$test)
+levels(pima$test) = c("négatif","positif")
+
+# Remplacement des 0 par NA
+vars_to_fix = c("diastolic", "glucose", "triceps", "insulin", "bmi")
+for(v in vars_to_fix){
+  pima[pima[[v]] == 0, v] = NA
+}
+
+summary(pima)
+
+```
+
+## 3. Analyse graphique univariée
+
+Variable Quantitative : Pression sanguine (`diastolic`) 
+
+```{r}
+#| layout-ncol: 2
+#| fig-cap: "Distribution de la pression diastolique"
+
+# Base R
+hist(pima$diastolic, col = "pink", main = "Base R: Hist", xlab = "Diastolic")
+
+# ggplot2
+ggplot(pima, aes(x = diastolic)) + 
+  geom_histogram(fill = "pink", color = "black", bins = 20, na.rm = TRUE) +
+  labs(title = "ggplot2: Hist") + theme_minimal()
+
+```
+
+Variable Qualitative : Age catégorisé 
+
+```{r}
+#| fig-align: center
+#| out-width: "70%"
+
+ggplot(pima, aes(x = age_cat, fill = age_cat)) + 
+  geom_bar() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Distribution des catégories d'âge", y = "Effectif") + 
+  theme_minimal()
+
+```
+
+## 4. Analyse multivariée
+
+Deux variables quantitatives (`diabetes` vs `diastolic`) 
+
+```{r}
+#| fig-align: center
+#| out-width: "60%"
+
+plot(pima$diastolic, pima$diabetes, col = "purple", pch = 16,
+     xlab = "Pression diastolique", ylab = "Score diabète", 
+     main = "Nuage de points")
+
+```
+
+Pour voir toutes les relations 2 à 2 : `pairs()` 
+
+### Quantitative vs Qualitative (`diabetes` vs `test`)
+
+On utilise des **boxplots**. 
+
+```{r}
+#| fig-align: center
+#| out-width: "70%"
+
+ggplot(pima, aes(x = test, y = diabetes, fill = test)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  labs(title = "Score diabète selon le résultat du test") +
+  theme_minimal()
+
+```
+
+### Deux variables qualitatives (`age_cat` vs `test`)
+
+On utilise des **barplots empilés**. 
+
+Préparation des données avec `reshape2` ou `dplyr` (plus moderne) :
+
+```{r}
+#| fig-align: center
+#| out-width: "70%"
+
+# Barplot proportionnel (position = "fill")
+ggplot(pima, aes(x = age_cat, fill = test)) +
+  geom_bar(position = "fill", color = "black") +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(y = "Proportion", title = "Proportion de tests positifs par âge") +
+  theme_minimal()
+
+```
+

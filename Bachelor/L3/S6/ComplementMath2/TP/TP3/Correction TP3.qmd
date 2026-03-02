@@ -1,0 +1,172 @@
+---
+title: "TP 3 : Métriques d'évaluation et Validation Croisée"
+subtitle: "Compléments de Mathématiques 2 - L3 MIASHS"
+author: "Correction"
+date: today
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  warning: false
+  message: false
+---
+
+# Introduction
+
+L'objectif de ce TP est de formaliser l'évaluation d'un classifieur supervisé. Nous allons implémenter les métriques classiques (Accuracy, Recall, Precision) et explorer deux méthodes de partitionnement des données : le **Holdout** et la **K-fold Cross-Validation**.
+
+# Préparation des données
+
+Nous utilisons le jeu de données Titanic pré-traité. Pour cette analyse, nous nous concentrons sur deux variables prédictrices : `Fare` (tarif) et `Fam` (taille de la famille).
+
+```{r}
+#| label: load-data
+library(dplyr)
+library(tidyverse)
+library(caret)
+library(Metrics)
+library(pROC)
+
+# Chargement
+data <- read.csv("titanic_pre_processed.csv", stringsAsFactors = TRUE)
+y <- data$Survived
+X <- data %>% select(Fare, Fam)
+
+```
+
+# Un classifieur simple : La Régression Logistique
+
+Nous définissons un classifieur basé sur la régression logistique avec un seuil de décision modulable.
+
+```{r}
+#| label: classifier-def
+myClassifier <- function(X_train, y_train, X_test, threshold = 0.5) {
+  data_train <- cbind(y_train, X_train)
+  mod <- glm(y_train ~ ., data = data_train, family = binomial(link = "logit"))
+  
+  # Probabilité -> Classe binaire
+  y_pred <- as.numeric(predict(mod, newdata = X_test, type = "response") > threshold)
+  return(y_pred)
+}
+
+```
+
+::: {.callout-note}
+
+### Influence du seuil
+
+Par défaut, le seuil est de **0.5**. En abaissant ce seuil (ex: 0.3), on devient plus "libéral" dans la prédiction de la classe positive (survie), ce qui augmente mécaniquement le Rappel (Recall) mais diminue souvent la Précision.
+:::
+
+# Ensembles d'apprentissage et de test
+
+## Méthode Holdout
+
+Pour évaluer la capacité de généralisation, nous séparons les données en un ensemble d'entraînement (80%) et un ensemble de test (20%).
+
+```{r}
+#| label: holdout-function
+holdOut <- function(X, y, split = 0.8) {
+  set.seed(1234) # Reproductibilité
+  n <- nrow(X)
+  inTrain <- sample(1:n, size = round(split * n), replace = FALSE)
+
+  list(
+    X_train = X[inTrain, ], y_train = y[inTrain],
+    X_test  = X[-inTrain, ], y_test  = y[-inTrain]
+  )
+}
+
+split_data <- holdOut(X, y)
+y_pred <- myClassifier(split_data$X_train, split_data$y_train, split_data$X_test)
+
+```
+
+# Métriques d'évaluation
+
+## Implémentation manuelle vs Packages
+
+::: {.panel-tabset}
+
+### Fonctions "Maison"
+
+```{r}
+myAccuracy <- function(y_true, y_pred) mean(y_true == y_pred)
+
+myRecall <- function(y_true, y_pred) {
+  sum(y_true == 1 & y_pred == 1) / sum(y_true == 1)
+}
+
+myPrecision <- function(y_true, y_pred) {
+  TP <- sum(y_true == 1 & y_pred == 1)
+  FP <- sum(y_true == 0 & y_pred == 1)
+  if ((TP + FP) == 0) return(0)
+  TP / (TP + FP)
+}
+
+```
+
+### Utilisation de Caret
+
+```{r}
+# Matrice de confusion détaillée
+cm <- confusionMatrix(factor(y_pred), factor(split_data$y_test), positive = "1")
+print(cm$table)
+print(cm$byClass[c("Sensitivity", "Specificity", "Balanced Accuracy")])
+
+```
+
+:::
+
+## Analyse de la courbe ROC
+
+La courbe ROC permet d'évaluer le classifieur indépendamment du seuil choisi.
+
+```{r}
+#| label: roc-curve
+#| fig-cap: "Courbe ROC du classifieur logistique"
+myClassifierProb <- function(X_train, y_train, X_test) {
+  mod <- glm(y_train ~ ., data = cbind(y_train, X_train), family = binomial)
+  predict(mod, newdata = X_test, type = "response")
+}
+
+probs <- myClassifierProb(split_data$X_train, split_data$y_train, split_data$X_test)
+roc_obj <- roc(split_data$y_test, probs)
+
+plot(roc_obj, col = "#2c3e50", lwd = 3, print.auc = TRUE)
+
+```
+
+# Validation Croisée (k-fold)
+
+La validation croisée réduit le biais lié au découpage unique du Holdout en moyennant les scores sur  segments.
+
+```{r}
+#| label: cv-implementation
+run_cv <- function(X, y, k = 10) {
+  set.seed(1234)
+  folds <- sample(rep(1:k, length.out = nrow(X)))
+  
+  acc_results <- sapply(1:k, function(i) {
+    X_tr <- X[folds != i, ]; y_tr <- y[folds != i]
+    X_te <- X[folds == i, ]; y_te <- y[folds == i]
+    
+    preds <- myClassifier(X_tr, y_tr, X_te)
+    myAccuracy(y_te, preds)
+  })
+  
+  return(mean(acc_results))
+}
+
+avg_acc <- run_cv(X, y)
+
+```
+
+::: {.callout-tip}
+
+### Résultat Final
+
+L'accuracy moyenne obtenue par validation croisée est de **`r round(avg_acc, 3)`**. Cette mesure est beaucoup plus robuste qu'un simple test unique.
+:::

@@ -1,0 +1,27 @@
+# Fichiers intermédiaires R
+output/*.rds
+*.rds
+
+# PDFs générés
+rapport/*.pdf
+*.pdf
+
+# Artéfacts Quarto/R
+*_files/
+.quarto/
+*_cache/
+.Rhistory
+.RData
+.Rproj.user/
+
+# Fichiers OS
+.DS_Store
+Thumbs.db
+
+# Garder les dossiers vides
+!output/.gitkeep
+!rapport/.gitkeep
+!consignes/*.pdf
+
+/.quarto/
+**/*.quarto_ipynb

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Emploi du Temps - Mohamed HAMLIL</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Emploi du Temps Hebdomadaire</h1>
+        <p>Semaine du 10 au 14 Février 2026</p>
+    </header>
+
+    <!-- ========================================
+         HTML TABLE STRUCTURE
+         ======================================== -->
+
+    <table border="1">
+        <!--
+            <table> = Table element
+            - Creates a data table
+            - Contains rows (<tr>) and cells (<td> or <th>)
+            - Used for TABULAR DATA (not for page layout!)
+
+            border attribute:
+            - border="1" adds visible borders (1 pixel thick)
+            - Without it, table has no borders (still has structure)
+            - CSS is better for styling, but border="1" works for learning
+            - Values: "0" (no border), "1", "2", etc. (thickness)
+
+            Table structure hierarchy:
+            <table>
+              <thead>     - Table head (optional, but recommended)
+              <tbody>     - Table body (optional, but recommended)
+              <tfoot>     - Table foot (optional)
+        -->
+
+        <thead>
+            <!--
+                <thead> = Table Header section
+                - Groups the header rows
+                - Optional but good practice
+                - Helps screen readers identify headers
+                - Can be styled separately with CSS
+                - Browser may repeat this on printed pages
+            -->
+
+            <tr>
+                <!--
+                    <tr> = Table Row
+                    - Horizontal row in the table
+                    - Contains cells: <th> (headers) or <td> (data)
+                    - Tables are built row by row (not column by column!)
+                -->
+
+                <th>Horaire</th>
+                <!--
+                    <th> = Table Header cell
+                    - Header cell (for row or column headers)
+                    - Browsers make these BOLD and CENTERED by default
+                    - Semantic meaning: "this is a header"
+                    - Screen readers announce these as headers
+
+                    <th> vs <td>:
+                    - <th> = header cell (labels)
+                    - <td> = data cell (content)
+                -->
+
+                <th>Lundi</th>
+                <th>Mardi</th>
+                <th>Mercredi</th>
+                <th>Jeudi</th>
+                <th>Vendredi</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            <!--
+                <tbody> = Table Body section
+                - Groups the main data rows
+                - Optional but good practice
+                - Can have multiple <tbody> sections
+                - Helps with styling and JavaScript manipulation
+            -->
+
+            <!-- Row 1: 8h-10h -->
+            <tr>
+                <th scope="row">8h - 10h</th>
+                <!--
+                    scope attribute on <th>
+                    - Tells what the header applies to
+                    - Values:
+                      * "col" = header for column (vertical)
+                      * "row" = header for row (horizontal)
+                      * "colgroup" = header for group of columns
+                      * "rowgroup" = header for group of rows
+
+                    Why use scope?
+                    - Accessibility!
+                    - Screen readers announce: "8h-10h: Mathématiques"
+                    - Users know which header applies to which data
+                    - Important for complex tables
+                -->
+
+                <td>Mathématiques</td>
+                <!--
+                    <td> = Table Data cell
+                    - Regular data cell (not a header)
+                    - Contains the actual data
+                    - Can contain any content: text, images, links, etc.
+                -->
+
+                <td>Programmation Web</td>
+                <td></td>
+                <!-- Empty cell - still needed for table structure! -->
+
+                <td>Bases de Données</td>
+                <td>Anglais</td>
+            </tr>
+
+            <!-- Row 2: 10h-12h -->
+            <tr>
+                <th scope="row">10h - 12h</th>
+                <td>Programmation Web</td>
+                <td>Mathématiques</td>
+                <td>Sport</td>
+                <td colspan="2">Projet Tutoré</td>
+                <!--
+                    colspan attribute
+                    - "column span" - merges cells HORIZONTALLY
+                    - colspan="2" means this cell takes space of 2 columns
+                    - Useful for headers or data that spans multiple columns
+
+                    How it works:
+                    - Normal row has 6 cells (Horaire + 5 days)
+                    - This row: 1 + 3 + 1 colspan="2" = 6 cells total
+                    - The "Projet Tutoré" cell covers Thursday AND Friday
+
+                    Important:
+                    - Count your cells! Each row must have same number
+                    - colspan="2" counts as 2 cells, not 1
+                    - Don't add extra <td> after colspan (it's already there)
+
+                    Example counting:
+                    Row 1: [Horaire] [L] [Ma] [Me] [J] [V] = 6 cells
+                    Row 2: [Horaire] [L] [Ma] [Me] [J+V]    = 6 cells (J+V is colspan="2")
+                -->
+            </tr>
+
+            <!-- Row 3: 12h-14h (Lunch break) -->
+            <tr>
+                <th scope="row">12h - 14h</th>
+                <td colspan="5">Pause Déjeuner</td>
+                <!--
+                    colspan="5" spans all 5 weekdays
+                    Creates one wide cell for lunch break
+                    Total: 1 (horaire) + 1 (colspan="5") = 6 cells
+                -->
+            </tr>
+
+            <!-- Row 4: 14h-16h -->
+            <tr>
+                <th scope="row">14h - 16h</th>
+                <td>TP Informatique</td>
+                <td rowspan="2">Cours Magistral<br>Algorithmique</td>
+                <!--
+                    rowspan attribute
+                    - "row span" - merges cells VERTICALLY
+                    - rowspan="2" means this cell takes space of 2 rows
+                    - Useful for content that spans multiple time slots
+
+                    How it works:
+                    - This cell starts at 14h-16h row
+                    - Extends down to 16h-18h row
+                    - Covers Tuesday column for both time slots
+
+                    Important:
+                    - Next row should NOT have a cell in this column position!
+                    - If you add one, table will be misaligned
+                    - Think of it as: "this cell is using space in row below"
+
+                    <br> inside cell:
+                    - Line break to split text into 2 lines
+                    - Makes cell content more readable
+                    - Alternative: use CSS for text wrapping
+                -->
+
+                <td>Réseaux</td>
+                <td>Systèmes d'Exploitation</td>
+                <td></td>
+            </tr>
+
+            <!-- Row 5: 16h-18h -->
+            <tr>
+                <th scope="row">16h - 18h</th>
+                <td>Bases de Données</td>
+                <!-- NO CELL HERE! Tuesday is filled by rowspan="2" from above -->
+                <!--
+                    IMPORTANT: Notice this row only has 5 <td>/<th> elements!
+                    - Horaire: 1
+                    - Lundi: 1
+                    - Mardi: SKIPPED (rowspan from above takes this space)
+                    - Mercredi: 1
+                    - Jeudi: 1
+                    - Vendredi: 1
+                    Total: 5 elements but 6 visual columns (because of rowspan)
+
+                    Common mistake:
+                    ❌ Adding a cell for Tuesday here (table breaks)
+                    ✅ Skipping Tuesday (rowspan fills it)
+                -->
+
+                <td>TP Web</td>
+                <td rowspan="2">Projet<br>Informatique</td>
+                <!-- This cell spans 16h-18h and 18h-20h for Thursday -->
+
+                <td>Libre</td>
+            </tr>
+
+            <!-- Row 6: 18h-20h -->
+            <tr>
+                <th scope="row">18h - 20h</th>
+                <td colspan="3">Club Robotique</td>
+                <!-- Spans Monday, Tuesday, Wednesday -->
+                <!-- NO CELL for Thursday - filled by rowspan from above -->
+                <td>Libre</td>
+            </tr>
+
+        </tbody>
+
+        <tfoot>
+            <!--
+                <tfoot> = Table Footer section
+                - Groups footer rows
+                - Optional
+                - Often contains totals, summaries, or notes
+                - Fun fact: Can be placed BEFORE <tbody> in HTML
+                  (but will display at bottom)
+            -->
+
+            <tr>
+                <td colspan="6">
+                    <!--
+                        colspan="6" spans entire table width
+                        (1 horaire column + 5 day columns = 6 total)
+                    -->
+
+                    <small>
+                        <em>Note : Les horaires peuvent être modifiés. Consultez régulièrement.</em>
+                    </small>
+                </td>
+            </tr>
+
+        </tfoot>
+
+    </table>
+
+    <!-- ========================================
+         NAVIGATION LINKS
+         ======================================== -->
+
+    <hr>
+
+    <nav>
+        <p>
+            <a href="cv1.html">📄 Retour au CV</a>
+             |
+            <a href="index1.html">🏠 Retour à l'accueil</a>
+        </p>
+    </nav>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+
+    <footer>
+        <hr>
+        <p>
+            <small>&copy; 2026 Mohamed HAMLIL - Emploi du Temps</small>
+        </p>
+    </footer>
+
+</body>
+
+<!--
+    ============================================
+    HTML TABLE CONCEPTS SUMMARY
+    ============================================
+
+    1. BASIC TABLE STRUCTURE:
+       <table>
+           <tr>              - Table Row
+               <th>Header</th>  - Table Header cell
+               <td>Data</td>    - Table Data cell
+           </tr>
+       </table>
+
+    2. TABLE SECTIONS (optional but recommended):
+       <table>
+           <thead> - Table header section
+           <tbody> - Table body section
+           <tfoot> - Table footer section
+       </table>
+
+    3. COLSPAN - Horizontal Cell Merging:
+       <td colspan="3">Content</td>
+       - Merges cells horizontally (across columns)
+       - colspan="3" means cell takes space of 3 columns
+       - Don't add extra cells in same row after using colspan
+
+    4. ROWSPAN - Vertical Cell Merging:
+       <td rowspan="2">Content</td>
+       - Merges cells vertically (across rows)
+       - rowspan="2" means cell takes space of 2 rows
+       - Skip that column position in rows below
+
+    5. SCOPE ATTRIBUTE (accessibility):
+       <th scope="row">Label</th>
+       <th scope="col">Label</th>
+       - Tells screen readers what the header applies to
+       - "row" for row headers
+       - "col" for column headers
+
+    6. BORDER ATTRIBUTE:
+       <table border="1">
+       - Adds visible borders
+       - Just for learning/debugging
+       - Use CSS for real styling
+
+    ============================================
+    COMMON TABLE MISTAKES
+    ============================================
+
+    ❌ Wrong number of cells per row
+       <tr>
+           <td>A</td><td>B</td>        ← 2 cells
+       </tr>
+       <tr>
+           <td>C</td><td>D</td><td>E</td>  ← 3 cells (breaks table!)
+       </tr>
+
+    ✅ Same number of cells per row
+       <tr>
+           <td>A</td><td>B</td><td>C</td>  ← 3 cells
+       </tr>
+       <tr>
+           <td>D</td><td>E</td><td>F</td>  ← 3 cells ✓
+       </tr>
+
+    ❌ Adding cell where rowspan already fills
+       <td rowspan="2">Spans down</td>
+       ...
+       <td>This breaks it!</td>  ← Don't add here!
+
+    ✅ Skip that position when using rowspan
+       <td rowspan="2">Spans down</td>
+       ...
+       (no cell here - rowspan fills it)
+
+    ❌ Wrong colspan count
+       Row should have 5 cells but you used colspan="3"
+       and added 3 more cells = 6 total (breaks table!)
+
+    ✅ Colspan counts as multiple cells
+       Need 5 cells total:
+       <td colspan="3">Wide</td> + <td>A</td> + <td>B</td>
+       = 3 + 1 + 1 = 5 cells ✓
+
+    ============================================
+    WHEN TO USE TABLES
+    ============================================
+
+    ✅ USE tables for:
+    - Tabular data (spreadsheet-like)
+    - Schedules / timetables
+    - Comparison charts
+    - Data that has rows and columns
+    - Financial data
+    - Scientific data
+
+    ❌ DON'T use tables for:
+    - Page layout (use CSS flexbox/grid)
+    - Navigation menus (use <nav> + lists)
+    - Image galleries (use CSS grid)
+    - Multi-column text (use CSS columns)
+
+    Tables are for DATA, not DESIGN!
+
+    ============================================
+    COUNTING CELLS WITH COLSPAN/ROWSPAN
+    ============================================
+
+    Example table with 4 columns:
+
+    Row 1: [A] [B] [C] [D]                    = 4 cells ✓
+    Row 2: [E] [colspan="2"] [F]              = 1+2+1 = 4 cells ✓
+    Row 3: [G] [rowspan from above] [H] [I]   = 1+(skip)+1+1 = 4 cells ✓
+    Row 4: [colspan="4"]                      = 4 cells ✓
+
+    Rule: Count total column positions each row uses
+    (including cells that span from above)
+
+    ============================================
+    ACCESSIBILITY BEST PRACTICES
+    ============================================
+
+    1. ✅ Use <th> for all headers (not <td>)
+    2. ✅ Add scope attribute to <th>
+    3. ✅ Use <caption> to describe table purpose:
+       <table>
+           <caption>Weekly Schedule February 2026</caption>
+           ...
+       </table>
+    4. ✅ Use <thead>, <tbody>, <tfoot> sections
+    5. ✅ Keep tables simple when possible
+    6. ✅ Don't use tables for layout (screen readers confused)
+
+    ============================================
+    ADVANCED TABLE ATTRIBUTES (bonus)
+    ============================================
+
+    <caption>                    - Table title/description
+    <colgroup> + <col>           - Style entire columns
+    headers attribute            - Complex header relationships
+    summary attribute (old)      - Replaced by <caption>
+
+    Example with caption:
+    <table>
+        <caption>Student Grades - Fall 2026</caption>
+        <thead>...</thead>
+        <tbody>...</tbody>
+    </table>
+-->
+
+</html>

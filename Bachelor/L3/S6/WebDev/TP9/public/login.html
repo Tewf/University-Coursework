@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="/shared.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Se connecter</h1>
+
+        <div id="message" class="message"></div>
+
+        <form id="login-form">
+
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" placeholder="jean_dupont" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-block">Se connecter</button>
+        </form>
+
+        <div class="form-footer">
+            Pas encore de compte ? <a href="/sign-up">S'inscrire</a>
+        </div>
+    </div>
+
+    <script defer>
+        // =============================================
+        // JAVASCRIPT CÔTÉ CLIENT - Connexion
+        // =============================================
+
+        const form = document.getElementById("login-form");
+        const messageDiv = document.getElementById("message");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            // Empêche le rechargement de la page
+
+            // Récupérer les valeurs du formulaire
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                // Envoyer les données au serveur via fetch()
+                const response = await fetch("/login", {
+                    method: "POST",
+                    //
+                    // fetch() est la façon MODERNE d'envoyer des requêtes HTTP
+                    // depuis le navigateur (remplace XMLHttpRequest).
+                    //
+                    // method: "POST" = on envoie des données au serveur
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        // On dit au serveur : "les données sont au format JSON"
+                    },
+
+                    body: JSON.stringify({ username, password }),
+                    //
+                    // JSON.stringify() convertit un objet JavaScript en texte JSON :
+                    // { username: "jean", password: "123" }
+                    //   → '{"username":"jean","password":"123"}'
+                    //
+                    // Le serveur (Express) le reconvertira en objet grâce à
+                    // express.json() middleware.
+                });
+
+                const data = await response.json();
+                // Lit la réponse du serveur au format JSON
+
+                if (response.ok) {
+                    // response.ok = true si le code HTTP est entre 200 et 299
+                    window.location.href = "/";
+                    // Redirige vers la page d'accueil
+                    // window.location.href = change l'URL de la page
+                } else {
+                    // Afficher le message d'erreur
+                    messageDiv.textContent = data.error;
+                    messageDiv.className = "message message-error visible";
+                }
+            } catch (error) {
+                messageDiv.textContent = "Erreur de connexion au serveur";
+                messageDiv.className = "message message-error visible";
+            }
+        });
+    </script>
+
+</body>
+</html>

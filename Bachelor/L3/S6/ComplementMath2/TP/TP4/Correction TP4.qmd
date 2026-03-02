@@ -1,0 +1,173 @@
+---
+title: "TP 4 : Transformation de variables, imputation et data leakage"
+subtitle: "Compléments de Mathématiques 2 - L3 MIASHS"
+author: "Lola Etiévant"
+date: today
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+execute:
+  warning: false
+  message: false
+---
+
+# Introduction
+
+L'objectif de ce TP est d'approfondir les étapes de préparation des données (*preprocessing*). Nous allons mettre en œuvre des techniques d'imputation pour les données manquantes, explorer les transformations de variables et aborder le concept critique de **Data Leakage** pour garantir l'intégrité de nos futurs modèles.
+
+```{r}
+#| label: load-packages
+library(caret)
+library(ggplot2)
+library(dplyr)
+
+# Chargement des données (ajuster les chemins si nécessaire)
+qualitative_vars  <- read.csv("../TP2/titanic_pre_processed_qualitative_vars.csv", stringsAsFactors = TRUE)
+quantitative_vars <- read.csv("../TP2/titanic_pre_processed_quantitative_vars.csv")
+target            <- read.csv("../TP2/titanic_pre_processed_target.csv")
+
+# Correction des types
+qualitative_vars$Pclass  <- as.factor(qualitative_vars$Pclass)
+qualitative_vars$withFam <- as.factor(qualitative_vars$withFam)
+target                   <- as.factor(target$x)
+
+# Création d'une copie pour les versions complétées
+quantitative_vars_complete <- quantitative_vars
+
+```
+
+# Gestion des données manquantes
+
+## Imputation Statique
+
+L'imputation remplace les valeurs manquantes (`NA`) par des statistiques descriptives simples.
+
+### Variable Quantitative (Médiane)
+
+On utilise la médiane plutôt que la moyenne car elle est moins sensible aux valeurs extrêmes.
+
+```{r}
+#| label: stat-impute-quant
+Proc_median <- preProcess(quantitative_vars, method = "medianImpute")
+quantitative_vars_complete <- predict(Proc_median, quantitative_vars)
+names(quantitative_vars_complete)[1] <- "Age_imput_median"
+
+```
+
+### Variable Qualitative (Mode)
+
+Pour les catégories, on remplace par la modalité la plus fréquente.
+
+```{r}
+#| label: stat-impute-qual
+cat_imputation <- function(v) {
+  mode_val <- levels(v)[which.max(table(v))]
+  v[is.na(v)] <- mode_val
+  return(v)
+}
+
+qualitative_vars_complete <- qualitative_vars
+qualitative_vars_complete$Sex <- cat_imputation(qualitative_vars$Sex)
+qualitative_vars_complete$Age_cat <- cat_imputation(qualitative_vars$Age_cat)
+
+```
+
+## Imputation prédictive par régression linéaire
+
+L'imputation prédictive traite la variable manquante comme une cible à prédire à partir des autres informations disponibles.
+
+::: {.callout-note}
+
+### Concept
+
+Peut-on imputer `Age` et `Sex` avec cette méthode ?
+**Réponse :** Oui pour l'`Age` (variable continue), mais pour `Sex` (binaire), une régression linéaire n'est pas adaptée ; on préférera une régression logistique.
+:::
+
+```{r}
+#| label: regression-imputation
+# 1. Identification des indices
+isMissing = which(is.na(quantitative_vars$Age)) 
+isNotMissing = which(!is.na(quantitative_vars$Age)) 
+
+# 2. Préparation des données pour le modèle (Variables Fam et Fare)
+age_isNotMissing  = quantitative_vars$Age[isNotMissing]
+X_isNotMissing    = quantitative_vars[isNotMissing, c("Fam", "Fare")]
+X_isMissing       = quantitative_vars[isMissing, c("Fam", "Fare")] 
+
+# 3. Entraînement et prédiction
+fit = lm(age_isNotMissing ~ ., data = X_isNotMissing)
+
+quantitative_vars_complete$Age_imput_reg = quantitative_vars$Age
+quantitative_vars_complete$Age_imput_reg[isMissing] = predict(fit, X_isMissing)
+
+```
+
+### Visualisation pédagogique
+
+Le graphique suivant montre comment les valeurs imputées (en rouge) s'insèrent dans la distribution existante selon le modèle de régression.
+
+```{r}
+#| label: fig-regression
+#| fig-cap: "Distribution de l'Age : Valeurs Réelles vs Imputées par Régression"
+plot_df <- data.frame(
+  Fare = quantitative_vars$Fare,
+  Age = quantitative_vars_complete$Age_imput_reg,
+  Type = ifelse(is.na(quantitative_vars$Age), "Imputée (LM)", "Réelle")
+)
+
+ggplot(plot_df, aes(x = Fare, y = Age, color = Type)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(data = filter(plot_df, Type == "Réelle"), method = "lm", se = FALSE, color = "black", linetype = "dashed") +
+  scale_color_manual(values = c("Imputée (LM)" = "red", "Réelle" = "steelblue")) +
+  theme_minimal() +
+  labs(title = "Imputation de l'Age par rapport au Fare")
+
+```
+
+# Transformations de variables
+
+## Encodage (Dummy vs Label)
+
+* **Dummy Coding** : Utile pour les variables nominales sans ordre (ex: Sex).
+* **Label Encoding** : Réservé aux variables ordinales (ex: Pclass).
+
+## Mise à l'échelle (Scaling)
+
+Il est crucial de ramener les variables à la même échelle pour les algorithmes calculant des distances (comme k-NN).
+
+# Data Leakage
+
+::: {.callout-important}
+
+### Définition
+
+Le **Data Leakage** se produit lorsque des informations du jeu de test sont utilisées lors de l'entraînement. Pour l'éviter, on doit "apprendre" les transformations (moyenne, médiane, etc.) uniquement sur le **Train**.
+:::
+
+```{r}
+#| label: leakage-prevention
+set.seed(1234)
+split <- createDataPartition(target, p = 0.8, list = FALSE)
+
+train_X <- quantitative_vars[split, ]
+test_X  <- quantitative_vars[-split, ]
+
+# On calcule les paramètres sur Train
+Proc <- preProcess(train_X, method = c("medianImpute", "center", "scale"))
+
+# On applique au Train ET au Test
+train_final <- predict(Proc, train_X)
+test_final  <- predict(Proc, test_X)
+
+```
+
+# Résumé des étapes
+
+Avant d'appliquer un classifieur :
+
+1. **Split** : Séparer en Train et Test.
+2. **Imputation** : Gérer les `NA` (en utilisant les stats du Train).
+3. **Transformation** : Encodage et Standardisation (en utilisant les paramètres du Train).
