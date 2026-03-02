@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="HAMLIL Mohamed">
-<meta name="dcterms.date" content="2025-01-01">
 
 <title>TP2 – Régressions Linéaires</title>
 <style>
@@ -2582,7 +2581,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025</p>
+      <p class="date">30 avril 2026</p>
     </div>
   </div>
   
@@ -2610,7 +2609,7 @@ window.Quarto = {
 <li><strong>Variable expliquée</strong> (dépendante) : la tension artérielle (<span class="math inline">\(y\)</span>)</li>
 </ul>
 <p><strong>(ii) Importation des données :</strong></p>
-<div id="188ef3a3" class="cell" data-execution_count="1">
+<div id="7b1ef63c" class="cell" data-execution_count="1">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;tension.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;;&quot;</span>, <span class="at">dec =</span> <span class="st">&quot;,&quot;</span>)</span>
@@ -2687,7 +2686,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>(iii) Nuage de points :</strong></p>
-<div id="3087d140" class="cell" data-execution_count="2">
+<div id="666ef08b" class="cell" data-execution_count="2">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
@@ -2705,7 +2704,7 @@ window.Quarto = {
 </div>
 <p><strong>Commentaire :</strong> Le nuage est relativement rectiligne. La régression linéaire a du sens et donnera une tendance moyennement précise de <span class="math inline">\(y\)</span> en fonction de <span class="math inline">\(x\)</span>.</p>
 <p><strong>(iv) Coefficient de corrélation linéaire :</strong></p>
-<div id="3547993c" class="cell" data-execution_count="3">
+<div id="67889414" class="cell" data-execution_count="3">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">cor</span>(x, y)</span>
@@ -2719,7 +2718,7 @@ window.Quarto = {
 <p><strong>(v) Calcul des coefficients de la droite de régression :</strong></p>
 <p>On cherche <span class="math inline">\(y = \hat{\beta}_1 x + \hat{\beta}_0\)</span> par la méthode des <strong>moindres carrés</strong> :</p>
 <p><span class="math display">\[\hat{\beta}_1 = \frac{\text{Cov}(x, y)}{\text{Var}(x)}, \quad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\]</span></p>
-<div id="e878981a" class="cell" data-execution_count="4">
+<div id="358eb47f" class="cell" data-execution_count="4">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="fu">cov</span>(x, y) <span class="sc">/</span> <span class="fu">var</span>(x)</span>
@@ -2732,7 +2731,7 @@ beta0 = 59.127</code></pre>
 </div>
 </div>
 <p><strong>(vi) Vérification avec <code>lm</code> :</strong></p>
-<div id="08591b32" class="cell" data-execution_count="5">
+<div id="8f1b7623" class="cell" data-execution_count="5">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2748,7 +2747,7 @@ Coefficients:
 </div>
 </div>
 <p><strong>(vii) Tracé de la droite de régression :</strong></p>
-<div id="5425f1a9" class="cell" data-execution_count="6">
+<div id="6f2434dd" class="cell" data-execution_count="6">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
@@ -2772,7 +2771,7 @@ Coefficients:
 <h2 class="anchored" data-anchor-id="résidus">1.2 Résidus</h2>
 <p>Les résidus (erreurs) mesurent l’écart entre les valeurs observées et les valeurs prédites par le modèle.</p>
 <p><strong>(i) Calcul à la main :</strong></p>
-<div id="b0cd7944" class="cell" data-execution_count="7">
+<div id="22967831" class="cell" data-execution_count="7">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>yajust <span class="ot">=</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> beta0</span>
@@ -2780,7 +2779,7 @@ Coefficients:
 </details>
 </div>
 <p><strong>(ii) Avec la fonction <code>lm</code> :</strong></p>
-<div id="bc84c91d" class="cell" data-execution_count="8">
+<div id="47993142" class="cell" data-execution_count="8">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
@@ -2791,7 +2790,7 @@ Coefficients:
 </details>
 </div>
 <p><strong>(iii) Résidus en fonction des valeurs ajustées :</strong></p>
-<div id="9ba54fc7" class="cell" data-execution_count="9">
+<div id="b4475315" class="cell" data-execution_count="9">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yajustes, erreurs,</span>
@@ -2811,7 +2810,7 @@ Coefficients:
 <p><strong>(iv) Structure des résidus ?</strong></p>
 <p>Il ne semble pas y avoir de structure particulière des erreurs. C’est ce qu’on attend : dans une régression linéaire, les erreurs doivent être distribuées selon <span class="math inline">\(\mathcal{N}(0, \sigma)\)</span> et être indépendantes de la variable explicative.</p>
 <p><strong>(v) Densité des résidus :</strong></p>
-<div id="06373bdc" class="cell" data-execution_count="10">
+<div id="407adae1" class="cell" data-execution_count="10">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(erreurs),</span>
@@ -2834,7 +2833,7 @@ Coefficients:
 </div>
 </div>
 <p><strong>(vi) QQ-plot et test de Shapiro-Wilk :</strong></p>
-<div id="975ceb95" class="cell" data-execution_count="11">
+<div id="af0d4dba" class="cell" data-execution_count="11">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(erreurs, <span class="at">main =</span> <span class="st">&quot;QQ-plot des résidus&quot;</span>)</span>
@@ -2848,7 +2847,7 @@ Coefficients:
 </div>
 </div>
 </div>
-<div id="ac1b932b" class="cell" data-execution_count="12">
+<div id="17b979ae" class="cell" data-execution_count="12">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(erreurs)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2873,7 +2872,7 @@ W = 0.99749, p-value = 0.9296</code></pre>
 <li><strong>SCM</strong> (Somme des Carrés du Modèle) : <span class="math inline">\(\sum (\hat{y}_i - \bar{y})^2\)</span></li>
 </ul>
 <p><strong>(i) Calcul :</strong></p>
-<div id="86b262f0" class="cell" data-execution_count="13">
+<div id="c86ed918" class="cell" data-execution_count="13">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>SCE <span class="ot">=</span> <span class="fu">sum</span>(erreurs<span class="sc">^</span><span class="dv">2</span>)</span>
@@ -2889,7 +2888,7 @@ SCM = 17012.76</code></pre>
 </div>
 <p><strong>(ii) Vérification de la décomposition :</strong></p>
 <p><span class="math display">\[SCT = SCM + SCE\]</span></p>
-<div id="430bfb0d" class="cell" data-execution_count="14">
+<div id="a1b52f5b" class="cell" data-execution_count="14">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;SCM + SCE =&quot;</span>, <span class="fu">round</span>(SCM <span class="sc">+</span> SCE, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">SCT =&quot;</span>, <span class="fu">round</span>(SCT, <span class="dv">2</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2900,7 +2899,7 @@ SCT = 22798.4</code></pre>
 </div>
 </div>
 <p><strong>(iii) Coefficient de détermination <span class="math inline">\(R^2\)</span> :</strong></p>
-<div id="d0a50330" class="cell" data-execution_count="15">
+<div id="9594cc76" class="cell" data-execution_count="15">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">=</span> SCM <span class="sc">/</span> SCT</span>
@@ -2919,7 +2918,7 @@ cor(x,y)² = 0.7462</code></pre>
 <h2 class="anchored" data-anchor-id="distribution-de-hatbeta_1">1.4 Distribution de <span class="math inline">\(\hat{\beta}_1\)</span></h2>
 <p>Pour comprendre la variabilité de l’estimateur <span class="math inline">\(\hat{\beta}_1\)</span>, on simule 100 échantillons du même modèle.</p>
 <p><strong>(i) Simulation de 100 échantillons :</strong></p>
-<div id="bfc0db7f" class="cell" data-execution_count="16">
+<div id="aa765209" class="cell" data-execution_count="16">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
@@ -2933,7 +2932,7 @@ cor(x,y)² = 0.7462</code></pre>
 </details>
 </div>
 <p><strong>(ii) Calcul de <span class="math inline">\(\hat{\beta}_1\)</span> pour chaque échantillon :</strong></p>
-<div id="e9e96aed" class="cell" data-execution_count="17">
+<div id="3eeeb4b4" class="cell" data-execution_count="17">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>simbeta <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">100</span>)</span>
@@ -2943,7 +2942,7 @@ cor(x,y)² = 0.7462</code></pre>
 </details>
 </div>
 <p><strong>(iii) Comparaison avec la loi de Student :</strong></p>
-<div id="f3e2b0c6" class="cell" data-execution_count="18">
+<div id="65e4ee83" class="cell" data-execution_count="18">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>((simbeta <span class="sc">-</span> <span class="fu">mean</span>(simbeta)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(simbeta))),</span>
@@ -2968,7 +2967,7 @@ cor(x,y)² = 0.7462</code></pre>
 <h2 class="anchored" data-anchor-id="intervalle-de-confiance-de-beta_1">1.5 Intervalle de confiance de <span class="math inline">\(\beta_1\)</span></h2>
 <p>L’intervalle de confiance à 95% pour <span class="math inline">\(\beta_1\)</span> est :</p>
 <p><span class="math display">\[\hat{\beta}_1 + t_{n-2; 0.025} \cdot \hat{\sigma}_{\beta_1} \leq \beta_1 \leq \hat{\beta}_1 - t_{n-2; 0.025} \cdot \hat{\sigma}_{\beta_1}\]</span></p>
-<div id="6bc0b7a1" class="cell" data-execution_count="19">
+<div id="895fdcbb" class="cell" data-execution_count="19">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sbeta1 <span class="ot">=</span> <span class="fu">sqrt</span>(SCE <span class="sc">/</span> (<span class="dv">398</span> <span class="sc">*</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)))</span>
@@ -2981,7 +2980,7 @@ cor(x,y)² = 0.7462</code></pre>
 </div>
 </div>
 <p>Valeurs de <code>simbeta</code> en dehors de l’intervalle :</p>
-<div id="b4ab7f9b" class="cell" data-execution_count="20">
+<div id="62333177" class="cell" data-execution_count="20">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hors_ic <span class="ot">=</span> simbeta[simbeta <span class="sc">&gt;</span> bsup <span class="sc">|</span> simbeta <span class="sc">&lt;</span> binf]</span>
@@ -3003,7 +3002,7 @@ Valeurs : 1.707 1.4998 1.7587 1.4931 1.7066 1.5028 1.5061</code></pre>
 <h2 class="anchored" data-anchor-id="test-de-fisher-et-anova">2.1 Test de Fisher et ANOVA</h2>
 <p>Le coefficient de détermination <span class="math inline">\(R^2\)</span> est inférieur à 0.8, mais cela ne signifie pas que <span class="math inline">\(X\)</span> n’explique pas <span class="math inline">\(Y\)</span>. On teste l’hypothèse <span class="math inline">\(H_0 : \beta_1 = 0\)</span> (le modèle n’apporte rien).</p>
 <p><strong>(i) Tableau d’ANOVA :</strong></p>
-<div id="f8268340" class="cell" data-execution_count="21">
+<div id="6a368bf2" class="cell" data-execution_count="21">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3051,7 +3050,7 @@ Valeurs : 1.707 1.4998 1.7587 1.4931 1.7066 1.5028 1.5061</code></pre>
 </div>
 </div>
 <p>Ou de manière équivalente :</p>
-<div id="981782c0" class="cell" data-execution_count="22">
+<div id="e16a8dcf" class="cell" data-execution_count="22">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(y <span class="sc">~</span> x))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3068,7 +3067,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <p><strong>(ii) Retrouver SCE et SCM :</strong> on les reconnaît dans les colonnes <code>Sum Sq</code> du tableau.</p>
 <p><strong>(iii) Statistique de Fisher :</strong></p>
 <p><span class="math display">\[F = \frac{SCM}{SCE / (n-2)} = \frac{298 \times SCM}{SCE}\]</span></p>
-<div id="6803fe88" class="cell" data-execution_count="23">
+<div id="73545a73" class="cell" data-execution_count="23">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>F_stat <span class="ot">=</span> <span class="dv">298</span> <span class="sc">*</span> SCM <span class="sc">/</span> SCE</span>
@@ -3079,7 +3078,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </div>
 </div>
 <p><strong>(iv) Comparaison au seuil 5% :</strong></p>
-<div id="6f98d191" class="cell" data-execution_count="24">
+<div id="32d86fd9" class="cell" data-execution_count="24">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Quantile F(0.95, 1, 298) =&quot;</span>, <span class="fu">round</span>(<span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="dv">1</span>, <span class="dv">298</span>), <span class="dv">4</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3089,7 +3088,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </div>
 </div>
 <p><strong>(v) p-value :</strong></p>
-<div id="527db657" class="cell" data-execution_count="25">
+<div id="82c600d7" class="cell" data-execution_count="25">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;p-value =&quot;</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(F_stat, <span class="dv">1</span>, <span class="dv">298</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3099,7 +3098,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </div>
 </div>
 <p><strong>(vi) Résumé complet du modèle :</strong></p>
-<div id="a9c54423" class="cell" data-execution_count="26">
+<div id="1f666f37" class="cell" data-execution_count="26">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3134,7 +3133,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>On veut prédire la tension artérielle d’un homme de <strong>50 ans</strong> avec un <strong>intervalle de confiance à 95%</strong>.</p>
 <p>La formule de l’intervalle de prévision est :</p>
 <p><span class="math display">\[\hat{Y}_0 \pm t_{n-2; 0.025} \sqrt{s_\epsilon^2 \left(1 + \frac{1}{n} + \frac{(X_0 - \bar{X})^2}{\sum (X_i - \bar{X})^2}\right)}\]</span></p>
-<div id="20d5f780" class="cell" data-execution_count="27">
+<div id="8a27a357" class="cell" data-execution_count="27">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>se2 <span class="ot">=</span> SCE <span class="sc">/</span> <span class="dv">298</span></span>
@@ -3145,7 +3144,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre><code>Prévision de la tension pour un homme de 50 ans : Ŷ₀ = 139.1 mmHg</code></pre>
 </div>
 </div>
-<div id="de9d1133" class="cell" data-execution_count="28">
+<div id="e59244c4" class="cell" data-execution_count="28">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>bsup_prev <span class="ot">=</span> Y0 <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">298</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(se2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">300</span> <span class="sc">+</span> (<span class="dv">50</span> <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)))</span>
@@ -3158,7 +3157,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <section id="visualisation-avec-intervalle-de-confiance" class="level3">
 <h3 class="anchored" data-anchor-id="visualisation-avec-intervalle-de-confiance">Visualisation avec intervalle de confiance</h3>
-<div id="fb583511" class="cell" data-execution_count="29">
+<div id="526f2b3c" class="cell" data-execution_count="29">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
@@ -3180,7 +3179,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="bande-de-confiance-complète" class="level3">
 <h3 class="anchored" data-anchor-id="bande-de-confiance-complète">Bande de confiance complète</h3>
-<div id="96a35a89" class="cell" data-execution_count="30">
+<div id="3a95a5e7" class="cell" data-execution_count="30">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
@@ -3219,7 +3218,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="import-des-données" class="level2">
 <h2 class="anchored" data-anchor-id="import-des-données">4.2 Import des données</h2>
-<div id="10055d00" class="cell" data-execution_count="31">
+<div id="e736ae55" class="cell" data-execution_count="31">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>audition <span class="ot">=</span> <span class="fu">read.csv2</span>(<span class="st">&quot;audition2.csv&quot;</span>)</span>
@@ -3307,7 +3306,7 @@ F-statistic: 876.3 on 1 and 298 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="coefficients-de-la-régression" class="level2">
 <h2 class="anchored" data-anchor-id="coefficients-de-la-régression">4.3 Coefficients de la régression</h2>
-<div id="58c74b34" class="cell" data-execution_count="32">
+<div id="a593f83f" class="cell" data-execution_count="32">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(globale <span class="sc">~</span> A5 <span class="sc">+</span> A10 <span class="sc">+</span> A20 <span class="sc">+</span> A40)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3328,7 +3327,7 @@ Coefficients:
 </section>
 <section id="tests-statistiques" class="level2">
 <h2 class="anchored" data-anchor-id="tests-statistiques">4.4 Tests statistiques</h2>
-<div id="83448acb" class="cell" data-execution_count="33">
+<div id="c209ad3c" class="cell" data-execution_count="33">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(globale <span class="sc">~</span> A5 <span class="sc">+</span> A10 <span class="sc">+</span> A20 <span class="sc">+</span> A40))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3907,7 +3906,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;TP2 -- Régressions Linéaires&quot;</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;HAMLIL Mohamed&quot;</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-01-15&quot;</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2026-04-30&quot;</span></span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> ir</span></span>
 <span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>

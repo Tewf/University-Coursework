@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="HAMLIL Mohamed">
-<meta name="dcterms.date" content="2025-01-01">
 
 <title>TP3 – ANOVA à un facteur</title>
 <style>
@@ -2588,7 +2587,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025</p>
+      <p class="date">30 avril 2026</p>
     </div>
   </div>
   
@@ -2609,7 +2608,7 @@ window.Quarto = {
 </section>
 <section id="acquisition-des-données" class="level1">
 <h1>1. Acquisition des données</h1>
-<div id="1d21660e" class="cell" data-execution_count="1">
+<div id="6d01d162" class="cell" data-execution_count="1">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv2</span>(<span class="st">&quot;murderusa.csv&quot;</span>)</span>
@@ -2690,7 +2689,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Affectons les variables :</p>
-<div id="aabd4053" class="cell" data-execution_count="2">
+<div id="b6306750" class="cell" data-execution_count="2">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>txcrime09 <span class="ot">=</span> data<span class="sc">$</span>tauxmeurtres</span>
@@ -2698,7 +2697,7 @@ window.Quarto = {
 </details>
 </div>
 <p>Créons deux sous-groupes : états ayant <strong>aboli</strong> la peine de mort et ceux ne l’ayant <strong>pas aboli</strong> :</p>
-<div id="3b6b5adb" class="cell" data-execution_count="3">
+<div id="137523b7" class="cell" data-execution_count="3">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>abolie09 <span class="ot">=</span> txcrime09[PDMabolie09 <span class="sc">==</span> <span class="st">&quot;oui&quot;</span>]</span>
@@ -2724,7 +2723,7 @@ Nombre d&#39;états n&#39;ayant pas aboli : 37</code></pre>
 <h2 class="anchored" data-anchor-id="statistiques-descriptives">2.1 Statistiques descriptives</h2>
 <section id="boîtes-à-moustaches" class="level3">
 <h3 class="anchored" data-anchor-id="boîtes-à-moustaches">Boîtes à moustaches</h3>
-<div id="7e657aab" class="cell" data-execution_count="4">
+<div id="bd96c589" class="cell" data-execution_count="4">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(abolie09, nonabolie09,</span>
@@ -2742,7 +2741,7 @@ Nombre d&#39;états n&#39;ayant pas aboli : 37</code></pre>
 </div>
 </div>
 <p>On peut aussi utiliser directement la formule :</p>
-<div id="c5cbf4b0" class="cell" data-execution_count="5">
+<div id="6800c150" class="cell" data-execution_count="5">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(txcrime09 <span class="sc">~</span> PDMabolie09,</span>
@@ -2767,7 +2766,7 @@ Nombre d&#39;états n&#39;ayant pas aboli : 37</code></pre>
 </section>
 <section id="comparaison-des-moyennes" class="level3">
 <h3 class="anchored" data-anchor-id="comparaison-des-moyennes">Comparaison des moyennes</h3>
-<div id="5bd78bd6" class="cell" data-execution_count="6">
+<div id="a4d16566" class="cell" data-execution_count="6">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Moyenne (abolie) :&quot;</span>, <span class="fu">mean</span>(abolie09))</span>
@@ -2783,7 +2782,7 @@ Moyenne (non abolie) : 0.494973</code></pre>
 <section id="anova" class="level2">
 <h2 class="anchored" data-anchor-id="anova">2.2 ANOVA</h2>
 <p>On teste si la différence entre les groupes est <strong>statistiquement significative</strong> :</p>
-<div id="bfcb6cf1" class="cell" data-execution_count="7">
+<div id="a1912f8f" class="cell" data-execution_count="7">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(txcrime09 <span class="sc">~</span> PDMabolie09))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2797,7 +2796,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </div>
 </div>
 <p>On obtient le même résultat avec <code>anova</code> :</p>
-<div id="365afa59" class="cell" data-execution_count="8">
+<div id="de738430" class="cell" data-execution_count="8">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(txcrime09 <span class="sc">~</span> PDMabolie09))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2851,7 +2850,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <section id="scm-somme-des-carrés-du-modèle" class="level3">
 <h3 class="anchored" data-anchor-id="scm-somme-des-carrés-du-modèle">SCM (Somme des Carrés du Modèle)</h3>
 <p><span class="math display">\[SCM = \sum_{i=1}^{2} n_i (\bar{X}_i - \bar{X})^2\]</span></p>
-<div id="c658f5c6" class="cell" data-execution_count="9">
+<div id="ce6b756b" class="cell" data-execution_count="9">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>SCM <span class="ot">=</span> <span class="fu">length</span>(abolie09) <span class="sc">*</span> (<span class="fu">mean</span>(abolie09) <span class="sc">-</span> <span class="fu">mean</span>(txcrime09))<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
@@ -2866,7 +2865,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <section id="sce-somme-des-carrés-des-erreurs" class="level3">
 <h3 class="anchored" data-anchor-id="sce-somme-des-carrés-des-erreurs">SCE (Somme des Carrés des Erreurs)</h3>
 <p><span class="math display">\[SCE = \sum_{i=1}^{2} \sum_{j=1}^{n_i} (X_{ij} - \bar{X}_i)^2\]</span></p>
-<div id="899c3fd9" class="cell" data-execution_count="10">
+<div id="b55993db" class="cell" data-execution_count="10">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>SCE <span class="ot">=</span> <span class="fu">sum</span>((abolie09 <span class="sc">-</span> <span class="fu">mean</span>(abolie09))<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
@@ -2881,7 +2880,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <section id="statistique-de-fisher" class="level3">
 <h3 class="anchored" data-anchor-id="statistique-de-fisher">Statistique de Fisher</h3>
 <p><span class="math display">\[F_{obs} = \frac{SCM / (2-1)}{SCE / (50-2)} = \frac{SCM}{SCE / 48}\]</span></p>
-<div id="b90d21f0" class="cell" data-execution_count="11">
+<div id="2c8fb3a6" class="cell" data-execution_count="11">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Fobs <span class="ot">=</span> SCM <span class="sc">/</span> (SCE <span class="sc">/</span> <span class="dv">48</span>)</span>
@@ -2895,7 +2894,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <section id="p-value" class="level3">
 <h3 class="anchored" data-anchor-id="p-value">p-value</h3>
 <p>La variable du test suit une loi de Fisher <span class="math inline">\(\mathcal{F}_{1, 48}\)</span> :</p>
-<div id="5d4d2f88" class="cell" data-execution_count="12">
+<div id="127fa257" class="cell" data-execution_count="12">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pval <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(Fobs, <span class="dv">1</span>, <span class="dv">48</span>)</span>
@@ -2912,7 +2911,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <section id="et-en-2016" class="level1">
 <h1>3. Et en 2016 ?</h1>
 <p>Des résultats similaires ont été montrés en 2016 en L2. On peut charger le fichier <code>crime16.csv</code> pour une analyse comparable :</p>
-<div id="5d6a77f0" class="cell" data-execution_count="13">
+<div id="d774dea8" class="cell" data-execution_count="13">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>crime16 <span class="ot">=</span> <span class="fu">read.csv2</span>(<span class="st">&quot;crime16.csv&quot;</span>)</span>
@@ -2968,7 +2967,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </table>
 </div>
 </div>
-<div id="4f7afa53" class="cell" data-execution_count="14">
+<div id="413fde17" class="cell" data-execution_count="14">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(crime16<span class="sc">$</span>crime_nonabo, crime16<span class="sc">$</span>crime_abo,</span>
@@ -2996,7 +2995,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </section>
 <section id="acquisition-des-données-1" class="level2">
 <h2 class="anchored" data-anchor-id="acquisition-des-données-1">4.2 Acquisition des données</h2>
-<div id="67e63e34" class="cell" data-execution_count="15">
+<div id="32ec4e44" class="cell" data-execution_count="15">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
@@ -3053,7 +3052,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 </table>
 </div>
 </div>
-<div id="e1d3384b" class="cell" data-execution_count="16">
+<div id="5c593660" class="cell" data-execution_count="16">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> donnees[, <span class="st">&quot;Gras&quot;</span>]</span>
@@ -3073,7 +3072,7 @@ Nombre d&#39;observations : 24</code></pre>
 <section id="test-de-normalité-par-groupe" class="level2">
 <h2 class="anchored" data-anchor-id="test-de-normalité-par-groupe">4.3 Test de normalité par groupe</h2>
 <p>Avant de faire une ANOVA, on vérifie l’hypothèse de normalité dans chaque groupe :</p>
-<div id="bc754102" class="cell" data-execution_count="17">
+<div id="efdb942b" class="cell" data-execution_count="17">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(X, Groupe, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3116,7 +3115,7 @@ W = 0.88836, p-value = 0.3097
 </section>
 <section id="tableau-danova" class="level2">
 <h2 class="anchored" data-anchor-id="tableau-danova">4.4 Tableau d’ANOVA</h2>
-<div id="3442918a" class="cell" data-execution_count="18">
+<div id="c3a2ddc3" class="cell" data-execution_count="18">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(X <span class="sc">~</span> Groupe))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3129,7 +3128,7 @@ Residuals   20   2018   100.9
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
 </div>
 </div>
-<div id="6dd26b99" class="cell" data-execution_count="19">
+<div id="f56eab03" class="cell" data-execution_count="19">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(X <span class="sc">~</span> Groupe))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3183,7 +3182,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 <p>On souhaite tester l’hypothèse que les matières grasses <strong>d’origine animale</strong> (groupes 1 et 2) sont absorbées de la même façon que celles <strong>d’origine végétale</strong> (groupes 3 et 4) :</p>
 <p><span class="math display">\[\frac{\mu_1 + \mu_2}{2} = \frac{\mu_3 + \mu_4}{2} \iff \mu_1 + \mu_2 - \mu_3 - \mu_4 = 0\]</span></p>
 <p>Les coefficients du contraste sont <span class="math inline">\(\lambda = (1, 1, -1, -1)\)</span>.</p>
-<div id="a8e5d0d2" class="cell" data-execution_count="20">
+<div id="aa84399b" class="cell" data-execution_count="20">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lambda.i <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
@@ -3197,7 +3196,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 72 85 76 62 </code></pre>
 </div>
 </div>
-<div id="5a30d8ab" class="cell" data-execution_count="21">
+<div id="89ba1fa7" class="cell" data-execution_count="21">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(X)</span>
@@ -3235,7 +3234,7 @@ Degrés de liberté = 20</code></pre>
 <section id="fonction-de-test-de-contraste" class="level3">
 <h3 class="anchored" data-anchor-id="fonction-de-test-de-contraste">Fonction de test de contraste</h3>
 <p>On peut encapsuler ce test dans une fonction réutilisable :</p>
-<div id="24901e66" class="cell" data-execution_count="22">
+<div id="9ae0d8de" class="cell" data-execution_count="22">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>contrast.test <span class="ot">=</span> <span class="cf">function</span>(X, Groupe, lambda.i, <span class="at">phi0 =</span> <span class="dv">0</span>) {</span>
@@ -3286,7 +3285,7 @@ Degrés de liberté = 20</code></pre>
 <section id="construction-du-tableau-danova-à-la-main" class="level2">
 <h2 class="anchored" data-anchor-id="construction-du-tableau-danova-à-la-main">4.6 Construction du tableau d’ANOVA à la main</h2>
 <p>Pour bien comprendre l’ANOVA, construisons le tableau pas à pas :</p>
-<div id="23db33d5" class="cell" data-execution_count="23">
+<div id="93574e27" class="cell" data-execution_count="23">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">levels</span>(Groupe))</span>
@@ -3319,7 +3318,7 @@ Degrés de liberté = 20</code></pre>
 <span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>seuil.crit <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(F.obs, dlM, dlE)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="ed2dd708" class="cell" data-execution_count="24">
+<div id="d9187aaa" class="cell" data-execution_count="24">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construction du tableau</span></span>
@@ -3913,7 +3912,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;TP3 -- ANOVA à un facteur&quot;</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;HAMLIL Mohamed&quot;</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2025-01-15&quot;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> &quot;2026-04-30&quot;</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> ir</span></span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
