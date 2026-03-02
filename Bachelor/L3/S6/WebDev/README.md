@@ -1,118 +1,103 @@
-# Introduction aux Technologies du Web (ITW)
+# Introduction to Web Technologies (ITW)
 
-## Licence 3 MIASHS - Semestre 6 - Universit Grenoble Alpes
+> [Lire en francais](README.fr.md)
 
-Ce dossier contient l'ensemble des Travaux Pratiques du cours d'Introduction aux Technologies du Web, dispens par Quentin Roy.
+**Course:** ITW — Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
+**Instructor:** Quentin Roy
 
----
+A complete web development course progressing from HTML fundamentals to a full-stack Express.js application. All code files are **heavily commented in French** with simple analogies and common-mistake warnings.
 
-## Parcours d'apprentissage
-
-Le cours suit une progression logique, du plus simple au plus complexe :
+## Learning Path
 
 ```
-HTML (structure) -> CSS (style) -> JavaScript (logique) -> DOM (interactivit) -> Node.js (serveur)
+HTML (structure) -> CSS (style) -> JavaScript (logic) -> DOM (interactivity) -> Node.js (server)
 ```
 
----
+## What You'll Learn
 
-## Vue d'ensemble des TPs
+- Structure web pages with semantic HTML5
+- Style with CSS3: selectors, flexbox, variables, responsive design
+- Program in JavaScript: functions, objects, closures, callbacks
+- Manipulate the DOM: selection, modification, events
+- Build a pure Node.js HTTP server, then with Express.js
+- Manage SQLite databases, password hashing, and sessions
 
-| TP | Theme | Ce qu'on apprend | Fichiers cles |
-|----|-------|------------------|---------------|
-| **TP0** | Mise en place | VS Code, Node.js, serveur local, terminal | `test-protocol.html` |
-| **TP1** | HTML | Structure, balises, liens, images, tableaux, SVG | `index1.html`, `cv1.html`, `calendar1.html` |
-| **TP3** | CSS | Selecteurs, proprietes, flexbox, variables, hover, responsive | `shared.css`, `menu.css`, `gallery.html` |
-| **TP4** | CSS + Tableaux | Styliser des tableaux, 2 CSS pour 1 HTML | `shopping.html`, `styles-a.css`, `styles-b.css` |
-| **TP5** | JavaScript | Boucles, objets, closures, callbacks, currying | `exercices.js` (8 exercices) |
-| **TP6** | DOM | Selection, modification, evenements, formulaires | `calc.html`, `degrees.html`, `hidden-number.html` |
-| **TP7** | Application web | Todo list, createElement, evenements, manipulation DOM | `todo-list.js` |
-| **TP8** | Serveur Node.js | HTTP, requetes/reponses, cookies, formulaires POST | `server.js`, `pages/` |
-| **TP9** | Express complet | Middleware, SQLite, hashage, sessions, authentification | `server.js`, `routes/`, `lib/` |
+## TP Overview
 
-> Note : Le TP2 n'existe pas dans le programme du cours.
+| TP | Topic | Key Concepts | Key Files |
+|----|-------|-------------|-----------|
+| **TP0** | Setup | VS Code, Node.js, local server, terminal | `test-protocol.html` |
+| **TP1** | HTML | Structure, tags, links, images, tables, SVG | `index1.html`, `cv1.html`, `calendar1.html` |
+| **TP3** | CSS | Selectors, properties, flexbox, variables, hover, responsive | `shared.css`, `menu.css`, `gallery.html` |
+| **TP4** | CSS + Tables | Styling tables, 2 CSS files for 1 HTML | `shopping.html`, `styles-a.css`, `styles-b.css` |
+| **TP5** | JavaScript | Loops, objects, closures, callbacks, currying | `exercices.js` (8 exercises) |
+| **TP6** | DOM | Selection, modification, events, forms | `calc.html`, `degrees.html`, `hidden-number.html` |
+| **TP7** | Web App | Todo list, createElement, events, DOM manipulation | `todo-list.js` |
+| **TP8** | Node.js Server | HTTP, request/response, cookies, POST forms | `server.js`, `pages/` |
+| **TP9** | Full Express | Middleware, SQLite, hashing, sessions, authentication | `server.js`, `routes/`, `lib/` |
 
----
+> Note: TP2 does not exist in this course.
 
-## Structure du dossier
+## How to Run
+
+### TPs 0-7 (client-side HTML/CSS/JS)
+Open `.html` files directly in your browser.
+
+### TP8 (Node.js server)
+```bash
+cd TP8
+npm start       # or npm run dev for auto-reload
+# Then open http://localhost:8080
+```
+
+### TP9 (Express server)
+```bash
+cd TP9
+npm install      # Install dependencies (first time)
+npm run init-db  # Create the database (first time)
+npm run dev      # Start the server
+# Then open http://localhost:8080
+```
+
+## Skills Acquired
+
+- **Frontend**: semantic HTML5, responsive CSS3, ES6+ JavaScript
+- **Backend**: Node.js, Express.js, middleware, routing
+- **Database**: SQLite, prepared statements
+- **Security**: bcrypt hashing, session management
+- **Architecture**: client/server separation, MVC, REST API
+
+## Folder Structure
 
 ```
 WebDev/
-|-- README.md              <- Ce fichier
-|-- Sources.md             <- Liens vers les sujets originaux
-|-- test/                  <- Fichiers de test initiaux
-|-- TP0/                   <- Setup de l'environnement
-|-- TP1/                   <- HTML (structure et semantique)
-|-- TP3/                   <- CSS (mise en forme)
-|   |-- shared/shared.css  <- Variables et styles communs
-|   |-- menu.css           <- Barre de navigation
-|   |-- *.html             <- Pages stylisees
-|-- TP4/                   <- CSS pour tableaux
-|-- TP5/                   <- JavaScript fondamental
-|-- TP6/                   <- Manipulation du DOM
-|-- TP7/                   <- Application Todo List
-|-- TP8/                   <- Serveur Node.js pur
-|   |-- server.js
-|   |-- pages/
-|-- TP9/                   <- Serveur Express complet
-    |-- server.js
-    |-- routes/
-    |-- lib/
-    |-- scripts/
-    |-- public/
+|-- README.md / README.fr.md
+|-- Sources.md
+|-- TP0/    <- Environment setup
+|-- TP1/    <- HTML
+|-- TP3/    <- CSS
+|-- TP4/    <- CSS for tables
+|-- TP5/    <- Core JavaScript
+|-- TP6/    <- DOM manipulation
+|-- TP7/    <- Todo List app
+|-- TP8/    <- Pure Node.js server
+|-- TP9/    <- Full Express server
 ```
 
----
+## Technologies
 
-## Comment utiliser ces TPs
+| Technology | Used in | Description |
+|------------|---------|-------------|
+| **HTML5** | TP0-TP9 | Web page structure |
+| **CSS3** | TP3-TP9 | Styling and design |
+| **JavaScript** | TP5-TP9 | Logic and interactivity |
+| **Node.js** | TP8-TP9 | Server-side JavaScript |
+| **Express** | TP9 | Web server framework |
+| **SQLite** | TP9 | Lightweight database |
+| **SVG** | TP1, TP3 | Vector images |
 
-### TPs 0 a 7 (HTML/CSS/JS cote client)
-Ouvre les fichiers `.html` directement dans ton navigateur (double-clic ou glisser-deposer).
+## Resources
 
-### TP8 (serveur Node.js)
-```bash
-cd TP8
-npm start       # ou npm run dev pour le mode auto-reload
-# Puis ouvre http://localhost:8080
-```
-
-### TP9 (serveur Express)
-```bash
-cd TP9
-npm install      # Installe les dependances (premiere fois)
-npm run init-db  # Cree la base de donnees (premiere fois)
-npm run dev      # Lance le serveur
-# Puis ouvre http://localhost:8080
-```
-
----
-
-## Approche pedagogique
-
-Chaque fichier de code est **richement commente** en francais, avec :
-- Des explications de chaque concept comme si c'etait la premiere fois
-- Des analogies simples (restaurant, cuisine, sac a dos, etc.)
-- Des avertissements sur les erreurs courantes
-- Des resumes en fin de fichier
-
----
-
-## Technologies utilisees
-
-| Technologie | Utilisee dans | Description |
-|-------------|---------------|-------------|
-| **HTML5** | TP0-TP9 | Structure des pages web |
-| **CSS3** | TP3-TP9 | Mise en forme et design |
-| **JavaScript** | TP5-TP9 | Logique et interactivite |
-| **Node.js** | TP8-TP9 | JavaScript cote serveur |
-| **Express** | TP9 | Framework serveur web |
-| **SQLite** | TP9 | Base de donnees legere |
-| **SVG** | TP1, TP3 | Images vectorielles |
-
----
-
-## Ressources
-
-- [MDN Web Docs](https://developer.mozilla.org/fr/) - Documentation de reference
-- [W3Schools](https://www.w3schools.com/) - Tutoriels interactifs
-- [Sujets originaux du cours](https://miashs-www.univ-grenoble-alpes.fr/~royq/intro-web/tps/tp00/)
+- [MDN Web Docs](https://developer.mozilla.org/) - Reference documentation
+- [W3Schools](https://www.w3schools.com/) - Interactive tutorials
+- [Original course subjects](https://miashs-www.univ-grenoble-alpes.fr/~royq/intro-web/tps/tp00/)

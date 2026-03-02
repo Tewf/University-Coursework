@@ -1,27 +1,76 @@
 # Battleship AI Project
 
-This project is a complete implementation of the classic game Battleship (*Bataille Navale*) in Java. It includes several automated players (Uniform, Markov, Monte Carlo, and Smart) as well as a graphical interface. The aim was to design and compare AI strategies for playing Battleship and to provide statistical tools for running tournaments and evaluating performance.
+> [Lire en francais](README.fr.md)
 
-## Code structure
+A complete implementation of the classic Battleship game in Java, with multiple AI strategies, a graphical interface, and statistical tools for evaluating performance.
 
-The `src` directory contains modular Java packages for game logic, AI players, heuristics, the graphical user interface, and statistics. The `docs` directory holds generated documentation and a LaTeX report. Outputs such as CSV summaries and performance graphics are saved in the `Results` folder.
+## What You'll Learn
 
-## Running the project
+- Object-oriented design with modular Java packages
+- Heuristic and probabilistic AI algorithms
+- Monte Carlo simulation techniques
+- Statistical evaluation and benchmarking of AI agents
+- GUI programming with Java Swing
 
-Requirements: JDK 11 or newer, a POSIX shell, and Graphviz (optional). To compile the project:
+## AI Strategies
+
+| Strategy | Approach | Description |
+|----------|----------|-------------|
+| **Uniform** | Random | Shoots randomly across the grid |
+| **Markov** | Probabilistic | Uses transition matrices to target likely ship positions |
+| **Monte Carlo** | Simulation | Runs simulations to evaluate shot outcomes |
+| **Smart** | Hybrid | Combines multiple heuristics for optimal play |
+
+## Running the Project
+
+**Requirements:** JDK 11+, POSIX shell
 
 ```sh
-javac -d out $(find src -name '*.java')
+# Compile
+javac -d bin $(find src -name "*.java")
+
+# Launch GUI
+java --module-path bin -m ComplementIA/bataillenavale.Main
+
+# Run tournament (e.g., 1000 matches per pair)
+java --module-path bin -m ComplementIA/statistique.Tournament 1000
+
+# Run performance analysis (e.g., 100 self-play games per bot)
+java --module-path bin -m ComplementIA/statistique.Performance 100
 ```
 
-To run the graphical version:
+## Project Structure
+
+```
+Complement_IA-main/
+|-- src/
+|   |-- bataillenavale/       <- Entry points & UI
+|   |-- logique/              <- Core logic (grid, ships, coordinates)
+|   |-- joueurs/              <- Players (human, bots)
+|   |-- heuristic/            <- AI strategies (Uniform, Markov, MonteCarlo)
+|   |-- interfacegraphique/   <- Swing GUI components
+|   |-- statistique/          <- Tournament & performance tools
+|-- bin/                      <- Compiled classes
+|-- docs/
+|   |-- api/                  <- Generated JavaDoc
+|   |-- rapport/              <- LaTeX report sources
+|-- Results/                  <- Experiment outputs (CSV, PNG)
+```
+
+## Outputs
+
+All experiment results are saved in `Results/`:
+- `tournament_pairwise.csv` — Pairwise win matrix
+- `tournament_summary.csv` — Per-bot summary (games, wins, win rate, rank)
+- `performance_summary.csv` — Self-play stats (average shots, standard error)
+- `performance_gaussian_overlay.png` — Distribution visualization
+
+## Documentation
 
 ```sh
-java -cp out gui.Main
+# View generated API docs
+xdg-open docs/api/index.html
+
+# Compile LaTeX report
+cd docs/rapport && make
 ```
-
-To launch tournaments and generate statistics, see the `Makefile` or run the provided shell scripts.
-
-## Learning outcomes
-
-Developing this project strengthened my object‑oriented design skills, taught me to implement heuristic and Monte‑Carlo algorithms, and introduced me to statistical evaluation of AI agents.

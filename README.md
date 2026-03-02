@@ -1,46 +1,87 @@
 # University Coursework
 
-This repository contains all coursework, projects, and assignments from my university studies. It encompasses work from both my bachelor's and master's degree programs.
+> [Lire en francais](README.fr.md)
 
-## Education
+A comprehensive collection of coursework, projects, and assignments from my university studies at **Universite Grenoble Alpes**. This repository serves as both a **learning portfolio** and a **pedagogical resource** for students in applied mathematics, computer science, and economics.
 
-### Bachelor's Degree
-**Licence Mathématiques et Informatique Appliquées aux Sciences Humaines et Sociales (MIASHS)**  
-*Université Grenoble Alpes*
+## About
 
-Specialized track: Mathématiques, Informatique et Sciences Économiques (Years 2-3)
+**Degree:** Licence MIASHS (Mathematiques et Informatique Appliquees aux Sciences Humaines et Sociales)
+**Specialization:** Mathematiques, Informatique et Sciences Economiques (Years 2-3)
+**University:** Universite Grenoble Alpes
+**Program:** [Official page](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
 
-Program details: https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html
-
-### Master's Degree
-Information coming soon...
-
-## Directory Structure
+## Repository Map
 
 ### [Bachelor/](Bachelor/)
-Comprehensive coursework from my bachelor's degree including:
-- **Java Programming** – Object-oriented programming and AI projects
-- **L3 Courses** – Advanced mathematics, statistics, and econometrics
-- **Programming Languages** – Functional, logic, and query languages
 
-See [Bachelor/README.md](Bachelor/README.md) for detailed information.
+| Domain | Courses | Key Topics |
+|--------|---------|------------|
+| **Mathematics** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/), [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Fourier analysis, differential equations, machine learning |
+| **Statistics** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, hypothesis testing, ANOVA, regression |
+| **Economics** | [Econometrie1](Bachelor/L3/S5/Econometrie1/), [Econometrie2](Bachelor/L3/S6/Econometrie2/) | Linear regression, real-estate price modeling |
+| **Web Development** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
+| **Programming** | [Java](Bachelor/Java/), [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | OOP, functional, logic, relational paradigms |
+| **Systems & Networks** | [Reseaux](Bachelor/L3/S6/Reseaux/), [Systemes](Bachelor/L3/S6/Systemes/) | Network configuration, operating systems |
 
 ### [Master/](Master/)
-Coming soon...
+Coming soon.
 
-## Technology Stack Overview
+## Skills & Technologies
 
-- **Programming Languages**: Java, Python, R, Racket, Prolog, SQL
-- **Development Tools**: VS Code, Maven, Git, Quarto
-- **Databases**: PostgreSQL, MySQL, SQLite
-- **Scientific Computing**: R (tidyverse, statistical packages), Python
+| Category | Technologies |
+|----------|-------------|
+| **Languages** | Java, R, Python, JavaScript, Racket, Prolog, SQL |
+| **Web** | HTML5, CSS3, Node.js, Express.js |
+| **Data Science** | R tidyverse, Quarto, Jupyter, statistical modeling |
+| **Databases** | PostgreSQL, MySQL, SQLite |
+| **Tools** | Git, VS Code, Maven, Quarto, LaTeX |
 
-## Quick Navigation
+## Recommended Learning Paths
 
-- Start with **[Bachelor/README.md](Bachelor/README.md)** for an overview of bachelor coursework
-- Individual courses have their own README files with specific instructions
-- Each project includes documentation on how to build and run it
+### Path 1: Statistics & Data Science
+1. [MathStat2](Bachelor/L3/S5/MathStat2/) — Simulation, bootstrap, estimation
+2. [MathStat3](Bachelor/L3/S6/MathStat3/) — Regression, ANOVA, non-parametric tests
+3. [Econometrie1](Bachelor/L3/S5/Econometrie1/) — Applied econometric modeling
+4. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Machine learning
 
----
+### Path 2: Web Development
+1. [WebDev TP0-TP1](Bachelor/L3/S6/WebDev/) — HTML fundamentals
+2. [WebDev TP3-TP4](Bachelor/L3/S6/WebDev/) — CSS styling and layout
+3. [WebDev TP5-TP7](Bachelor/L3/S6/WebDev/) — JavaScript and DOM
+4. [WebDev TP8-TP9](Bachelor/L3/S6/WebDev/) — Server-side with Node.js and Express
 
-*Last updated: January 2026*
+### Path 3: Programming Paradigms
+1. [Java OOP](Bachelor/Java/OOP/) — Object-oriented programming
+2. [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/) — Functional programming
+3. [Prolog](Bachelor/SecondSemestreLanguage/Prolog/) — Logic programming
+4. [SQL](Bachelor/SecondSemestreLanguage/SQL/) — Relational databases
+
+### Path 4: Applied Mathematics
+1. [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) — Fourier analysis, signal processing
+2. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Machine learning techniques
+
+## How to Navigate
+
+**If you're a student:** Follow the learning paths above. Each course folder has its own README with prerequisites, concepts covered, and instructions for running the code.
+
+**If you're a recruiter:** Check out the [project highlights in Bachelor/](Bachelor/) for concrete examples of applied work, including the Battleship AI, the econometrics real-estate analysis, and the full-stack web application.
+
+## Getting Started
+
+Most projects use R (Quarto notebooks) or JavaScript (Node.js). See each course's README for specific setup instructions.
+
+```sh
+# R/Quarto projects
+quarto preview path/to/notebook.qmd
+
+# Node.js projects
+cd path/to/project && npm install && npm run dev
+
+# Java projects
+javac -d bin $(find src -name '*.java') && java -cp bin package.Main
+```
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

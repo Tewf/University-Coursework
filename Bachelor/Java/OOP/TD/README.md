@@ -1,17 +1,18 @@
-# Travaux Dirigés (TD) – OOP
+# Directed Exercises (TD) — OOP
 
-This folder contains directed exercises for the object‑oriented programming course. Each exercise focuses on a specific concept:
+> [Lire en francais](README.fr.md)
 
-- Basic class creation and encapsulation.
-- Inheritance and polymorphism.
-- Interfaces and abstract classes.
-- Generics and collections.
-- Exception handling and file I/O.
+Focused exercises for the object-oriented programming course, each targeting a specific concept:
 
-The `src` directory holds the source code. You can compile all exercises as follows:
+- Basic class creation and encapsulation
+- Inheritance and polymorphism
+- Interfaces and abstract classes
+- Generics and collections
+- Exception handling and file I/O
+
+## Running
 
 ```sh
 javac -d bin $(find src -name '*.java')
+java -cp bin package.ClassName
 ```
-
-To run a particular exercise, navigate to the corresponding package and execute the main class. Add comments or notes in your solutions to reflect your understanding.

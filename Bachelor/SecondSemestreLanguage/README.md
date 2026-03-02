@@ -1,11 +1,39 @@
-# Second Semester Language Courses
+# Programming Languages & Paradigms
 
-This directory contains coursework from my second‑semester language modules. These modules expose students to multiple programming paradigms and query languages, broadening our problem‑solving toolkit.
+> [Lire en francais](README.fr.md)
 
-## Subdirectories
+**Course:** Second Semester Language Modules — Licence MIASHS, Universite Grenoble Alpes
 
-- `DrRacket` – functional programming exercises in Racket.
-- `Prolog` – logic‑programming assignments in Prolog.
-- `SQL` – database practicals covering SQL queries and database design.
+Three courses exposing students to fundamentally different programming paradigms, broadening problem-solving approaches beyond traditional imperative programming.
 
-Each subdirectory includes its own README with instructions and learning reflections.
+## What You'll Learn
+
+- **Functional programming** — Think in terms of pure functions, recursion, and immutable data
+- **Logic programming** — Express problems as facts and rules, let the engine find solutions
+- **Relational databases** — Model data with schemas, query with SQL
+
+## Courses
+
+| Paradigm | Language | Folder | Key Concepts |
+|----------|---------|--------|-------------|
+| **Functional** | Racket (Scheme) | [DrRacket/](DrRacket/) | Recursion, higher-order functions, list processing, closures |
+| **Logic** | Prolog | [Prolog/](Prolog/) | Facts, rules, backtracking, unification, reasoning |
+| **Relational** | SQL | [SQL/](SQL/) | Schemas, SELECT, JOIN, aggregation, transactions |
+
+## Why Study Multiple Paradigms?
+
+Each paradigm teaches a different way of decomposing problems:
+
+```
+Imperative (Java)  → Step-by-step instructions
+Functional (Racket) → Compose transformations on data
+Logic (Prolog)      → Declare relationships, query solutions
+Relational (SQL)    → Describe what data you want, not how to get it
+```
+
+This diversity makes you a more versatile programmer and deepens your understanding of computation itself.
+
+## Prerequisites
+
+- Basic programming experience in any language
+- No prior knowledge of functional, logic, or database programming required
