@@ -1,7 +1,7 @@
 ---
 title: "TP3 : Tests Statistiques — Fil Conducteur"
 author: "HAMLIL Mohamed"
-date: "2024-09-01"
+date: "2025-12-31"
 format:
   pdf:
     documentclass: article

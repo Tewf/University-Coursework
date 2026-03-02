@@ -1,7 +1,7 @@
 ---
 title: "Section 2.9 – Travaux Pratiques de Statistique"
 author: "HAMLIL Mohamed"
-date: "2024-09-01"
+date: "2025-12-31"
 format:
   pdf:
     documentclass: article
