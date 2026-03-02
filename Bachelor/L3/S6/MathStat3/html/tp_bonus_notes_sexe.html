@@ -2415,7 +2415,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
   </ul></li>
   <li><a href="#résumé" id="toc-résumé" class="nav-link" data-scroll-target="#résumé">Résumé</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Autres formats</h2><ul><li><a href="tp_bonus_notes_sexe.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -2464,7 +2464,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </section>
 <section id="importation-des-données" class="level1">
 <h1>1. Importation des données</h1>
-<div id="aefd7cd8" class="cell" data-execution_count="1">
+<div id="b3d512f9" class="cell" data-execution_count="1">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>alg22 <span class="ot">=</span> <span class="fu">read.csv2</span>(<span class="st">&quot;alg22.csv&quot;</span>)</span>
@@ -2637,7 +2637,7 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </table>
 </div>
 </div>
-<div id="285e532b" class="cell" data-execution_count="2">
+<div id="09e85ce6" class="cell" data-execution_count="2">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Effectifs 2022 :&quot;</span>, <span class="fu">nrow</span>(alg22))</span>
@@ -2658,7 +2658,7 @@ Effectifs 2024 : 48</code></pre>
 <h2 class="anchored" data-anchor-id="année-2022">2.1 Année 2022</h2>
 <section id="statistiques-descriptives" class="level3">
 <h3 class="anchored" data-anchor-id="statistiques-descriptives">Statistiques descriptives</h3>
-<div id="174d37c9" class="cell" data-execution_count="3">
+<div id="8f7459a3" class="cell" data-execution_count="3">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>note22 <span class="ot">=</span> alg22<span class="sc">$</span>note22</span>
@@ -2674,7 +2674,7 @@ Moyenne F : 11.13333
 Moyenne M : 10.7069</code></pre>
 </div>
 </div>
-<div id="5f53bb01" class="cell" data-execution_count="4">
+<div id="5b7069cd" class="cell" data-execution_count="4">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(note22 <span class="sc">~</span> sexe22,</span>
@@ -2693,7 +2693,7 @@ Moyenne M : 10.7069</code></pre>
 </section>
 <section id="test-de-normalité-par-groupe" class="level3">
 <h3 class="anchored" data-anchor-id="test-de-normalité-par-groupe">Test de normalité par groupe</h3>
-<div id="8cc0a01c" class="cell" data-execution_count="5">
+<div id="7fb2107c" class="cell" data-execution_count="5">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(note22, sexe22, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2719,7 +2719,7 @@ W = 0.96015, p-value = 0.05433
 </section>
 <section id="anova" class="level3">
 <h3 class="anchored" data-anchor-id="anova">ANOVA</h3>
-<div id="a5601b43" class="cell" data-execution_count="6">
+<div id="3473167d" class="cell" data-execution_count="6">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(note22 <span class="sc">~</span> sexe22))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2769,7 +2769,7 @@ W = 0.96015, p-value = 0.05433
 </section>
 <section id="test-de-wilcoxon-alternatif-non-paramétrique" class="level3">
 <h3 class="anchored" data-anchor-id="test-de-wilcoxon-alternatif-non-paramétrique">Test de Wilcoxon (alternatif non paramétrique)</h3>
-<div id="b85eb34c" class="cell" data-execution_count="7">
+<div id="a3ecd86f" class="cell" data-execution_count="7">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(note22 <span class="sc">~</span> sexe22)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2787,7 +2787,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </section>
 <section id="année-2023" class="level2">
 <h2 class="anchored" data-anchor-id="année-2023">2.2 Année 2023</h2>
-<div id="0fe0597f" class="cell" data-execution_count="8">
+<div id="3fc265b0" class="cell" data-execution_count="8">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>note23 <span class="ot">=</span> alg23<span class="sc">$</span>note23</span>
@@ -2801,7 +2801,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 Moyenne M : 11.59756</code></pre>
 </div>
 </div>
-<div id="f7afad56" class="cell" data-execution_count="9">
+<div id="49b36a71" class="cell" data-execution_count="9">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(note23 <span class="sc">~</span> sexe23,</span>
@@ -2817,7 +2817,7 @@ Moyenne M : 11.59756</code></pre>
 </div>
 </div>
 </div>
-<div id="df424c68" class="cell" data-execution_count="10">
+<div id="f6cc5df1" class="cell" data-execution_count="10">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(note23, sexe23, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2840,7 +2840,7 @@ W = 0.96268, p-value = 0.195
 </code></pre>
 </div>
 </div>
-<div id="3663c228" class="cell" data-execution_count="11">
+<div id="126377f3" class="cell" data-execution_count="11">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(note23 <span class="sc">~</span> sexe23))</span>
@@ -2899,7 +2899,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </section>
 <section id="année-2024" class="level2">
 <h2 class="anchored" data-anchor-id="année-2024">2.3 Année 2024</h2>
-<div id="9c644ed7" class="cell" data-execution_count="12">
+<div id="d68ac876" class="cell" data-execution_count="12">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>note24 <span class="ot">=</span> alg24<span class="sc">$</span>note24</span>
@@ -2913,7 +2913,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 Moyenne M : 12.95652</code></pre>
 </div>
 </div>
-<div id="79ea4c98" class="cell" data-execution_count="13">
+<div id="e12b6726" class="cell" data-execution_count="13">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(note24 <span class="sc">~</span> sexe24,</span>
@@ -2929,7 +2929,7 @@ Moyenne M : 12.95652</code></pre>
 </div>
 </div>
 </div>
-<div id="edd6d1b0" class="cell" data-execution_count="14">
+<div id="bae0c7a4" class="cell" data-execution_count="14">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(note24, sexe24, shapiro.test)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2952,7 +2952,7 @@ W = 0.86408, p-value = 0.004951
 </code></pre>
 </div>
 </div>
-<div id="7aa6ea66" class="cell" data-execution_count="15">
+<div id="04d4b8c5" class="cell" data-execution_count="15">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(note24 <span class="sc">~</span> sexe24))</span>
@@ -3015,7 +3015,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <h1>3. Analyse globale (toutes années confondues)</h1>
 <section id="fusion-des-données" class="level2">
 <h2 class="anchored" data-anchor-id="fusion-des-données">3.1 Fusion des données</h2>
-<div id="c904258a" class="cell" data-execution_count="16">
+<div id="fcc4fcc2" class="cell" data-execution_count="16">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>notes_all <span class="ot">=</span> <span class="fu">c</span>(note22, note23, note24)</span>
@@ -3029,7 +3029,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </section>
 <section id="visualisation" class="level2">
 <h2 class="anchored" data-anchor-id="visualisation">3.2 Visualisation</h2>
-<div id="a6c20f1d" class="cell" data-execution_count="17">
+<div id="99afbaa1" class="cell" data-execution_count="17">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(notes_all <span class="sc">~</span> sexe_all,</span>
@@ -3049,7 +3049,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="anova-à-deux-facteurs" class="level2">
 <h2 class="anchored" data-anchor-id="anova-à-deux-facteurs">3.3 ANOVA à deux facteurs</h2>
 <p>On peut tester l’effet du sexe, de l’année, et de leur interaction :</p>
-<div id="840eadfe" class="cell" data-execution_count="18">
+<div id="9e5cd462" class="cell" data-execution_count="18">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(notes_all <span class="sc">~</span> sexe_all <span class="sc">*</span> annee_all))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3112,7 +3112,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </table>
 </div>
 </div>
-<div id="646c61cf" class="cell" data-execution_count="19">
+<div id="225375f5" class="cell" data-execution_count="19">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sans interaction</span></span>
@@ -3168,7 +3168,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </table>
 </div>
 </div>
-<div id="67ea5d61" class="cell" data-execution_count="20">
+<div id="8f6f8384" class="cell" data-execution_count="20">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(annee_all, sexe_all, notes_all,</span>
@@ -3187,7 +3187,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </section>
 <section id="test-de-kruskal-wallis" class="level2">
 <h2 class="anchored" data-anchor-id="test-de-kruskal-wallis">3.4 Test de Kruskal-Wallis</h2>
-<div id="472e6053" class="cell" data-execution_count="21">
+<div id="5db670cd" class="cell" data-execution_count="21">
 <details open class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(notes_all <span class="sc">~</span> sexe_all)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
