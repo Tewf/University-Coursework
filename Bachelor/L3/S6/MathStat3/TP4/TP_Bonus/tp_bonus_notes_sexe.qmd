@@ -1,7 +1,7 @@
 ---
 title: "TP Bonus -- Analyse des notes d'algèbre par sexe"
 author: "HAMLIL Mohamed"
-date: "2025-01-15"
+date: "2026-04-30"
 jupyter: ir
 ---
 
