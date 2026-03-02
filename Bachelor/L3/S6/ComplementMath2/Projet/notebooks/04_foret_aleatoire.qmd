@@ -50,29 +50,35 @@ Nous utilisons la même **validation croisée 5-fold** avec l'**AUC**.
 
 ```{r}
 #| label: rf-cv
-ctrl <- trainControl(
-  method = "cv",
-  number = 5,
-  classProbs = TRUE,
-  summaryFunction = twoClassSummary,
-  savePredictions = "final"
-)
+model_file <- here::here("output", "model_rf.rds")
 
-grid_rf <- expand.grid(
-  mtry = c(3, 5, 7, 10, 15, 20)
-)
+if (file.exists(model_file)) {
+  model_rf <- readRDS(model_file)
+} else {
+  ctrl <- trainControl(
+    method = "cv",
+    number = 5,
+    classProbs = TRUE,
+    summaryFunction = twoClassSummary,
+    savePredictions = "final"
+  )
 
-set.seed(42)
-model_rf <- train(
-  Satisfaction ~ .,
-  data = train_data,
-  method = "rf",
-  trControl = ctrl,
-  tuneGrid = grid_rf,
-  metric = "ROC",
-  ntree = 500,
-  importance = TRUE
-)
+  grid_rf <- expand.grid(
+    mtry = c(3, 5, 7, 10, 15, 20)
+  )
+
+  set.seed(42)
+  model_rf <- train(
+    Satisfaction ~ .,
+    data = train_data,
+    method = "rf",
+    trControl = ctrl,
+    tuneGrid = grid_rf,
+    metric = "ROC",
+    ntree = 500,
+    importance = TRUE
+  )
+}
 ```
 
 ## Résultats de la validation croisée

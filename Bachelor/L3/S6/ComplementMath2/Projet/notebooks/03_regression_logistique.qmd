@@ -53,29 +53,35 @@ Nous utilisons la **validation croisée 5-fold** avec l'**AUC** (aire sous la co
 
 ```{r}
 #| label: logistic-cv
-ctrl <- trainControl(
-  method = "cv",
-  number = 5,
-  classProbs = TRUE,
-  summaryFunction = twoClassSummary,
-  savePredictions = "final"
-)
+model_file <- here::here("output", "model_logistic.rds")
 
-grid_glmnet <- expand.grid(
-  alpha = c(0, 0.25, 0.5, 0.75, 1),
-  lambda = 10^seq(-4, -1, length.out = 10)
-)
+if (file.exists(model_file)) {
+  model_logistic <- readRDS(model_file)
+} else {
+  ctrl <- trainControl(
+    method = "cv",
+    number = 5,
+    classProbs = TRUE,
+    summaryFunction = twoClassSummary,
+    savePredictions = "final"
+  )
 
-set.seed(42)
-model_logistic <- train(
-  Satisfaction ~ .,
-  data = train_data,
-  method = "glmnet",
-  trControl = ctrl,
-  tuneGrid = grid_glmnet,
-  metric = "ROC",
-  preProcess = c("center", "scale")
-)
+  grid_glmnet <- expand.grid(
+    alpha = c(0, 0.25, 0.5, 0.75, 1),
+    lambda = 10^seq(-4, -1, length.out = 10)
+  )
+
+  set.seed(42)
+  model_logistic <- train(
+    Satisfaction ~ .,
+    data = train_data,
+    method = "glmnet",
+    trControl = ctrl,
+    tuneGrid = grid_glmnet,
+    metric = "ROC",
+    preProcess = c("center", "scale")
+  )
+}
 ```
 
 ## Résultats de la validation croisée

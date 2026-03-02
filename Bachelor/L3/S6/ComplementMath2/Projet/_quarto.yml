@@ -5,17 +5,26 @@ project:
 title: "Prédiction de la Satisfaction Client pour les Parfums"
 subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
 author: "HAMLIL Mohamed"
-date: "Année universitaire 2025--2026"
-date-format: "x"
+date: "2025-01-15"
 lang: fr
 
 format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    highlight-style: github
+    date-format: "YYYY"
   pdf:
     toc: true
     toc-depth: 3
     number-sections: true
     colorlinks: true
     fig-cap-location: bottom
+    date-format: "x"
     include-in-header:
       - text: |
           \usepackage{fancyhdr}
