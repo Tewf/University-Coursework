@@ -13,6 +13,11 @@ format:
     embed-resources: true
     highlight-style: github
     date-format: "YYYY"
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    colorlinks: true
 
 execute:
   warning: false
