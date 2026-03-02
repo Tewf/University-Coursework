@@ -18,9 +18,9 @@ Practical sessions on mathematical analysis using R and Quarto, covering Fourier
 
 | TP | Topic | Key Concepts | Live Demo |
 |----|-------|-------------|-----------|
-| **TP1** | Fourier Analysis | Complex numbers in R, integration, Fourier coefficients, partial sums | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP1_AnalyseDeFourier.html) |
-| **TP2** | Signal Processing | Fourier transform, frequency analysis, signal reconstruction | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP2_Transform%C3%A9eDeFourierEtTraitementDuSignal.html) |
-| **TP3** | Differential Equations | ODE numerical methods, Euler, Runge-Kutta | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/code/TP3_%C3%89quationsDiff%C3%A9rentielles.html) |
+| **TP1** | Fourier Analysis | Complex numbers in R, integration, Fourier coefficients, partial sums | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP1_AnalyseDeFourier.html) |
+| **TP2** | Signal Processing | Fourier transform, frequency analysis, signal reconstruction | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP2_Transform%C3%A9eDeFourierEtTraitementDuSignal.html) |
+| **TP3** | Differential Equations | ODE numerical methods, Euler, Runge-Kutta | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/html/TP3_%C3%89quationsDiff%C3%A9rentielles.html) |
 
 ## Prerequisites
 

@@ -18,11 +18,11 @@ Advanced statistical methods covering hypothesis testing, regression, ANOVA, and
 
 | TP | Topic | Key Concepts | Datasets | Live Demo |
 |----|-------|-------------|----------|-----------|
-| **TP1** | Normality & Chi-square | QQ-plots, Shapiro-Wilk test, chi-square goodness-of-fit | `titanic.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP1/tp1_normalite_chi2.html) |
-| **TP2** | Linear Regression | Simple/multiple regression, coefficient interpretation, R-squared | `tension.csv`, `audition2.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP2/tp2_regression_lineaire.html) |
-| **TP3** | One-way ANOVA | F-test, group means comparison, post-hoc tests | `murderusa.csv`, `crime16.csv`, `beignets.txt` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP3/tp3_anova_un_facteur.html) |
-| **TP4** | Two-way ANOVA & Non-parametric | Interaction effects, Kruskal-Wallis, Wilcoxon tests | `ozone.txt`, `engraisRegion.txt`, `dureteMeche.txt` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP4/tp4_anova_tests_np.html) |
-| **Bonus** | Gender & Grades Analysis | Comparing algebra grades (M/F) over 3 years | `alg22.csv`, `alg23.csv`, `alg24.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/TP4/TP_Bonus/tp_bonus_notes_sexe.html) |
+| **TP1** | Normality & Chi-square | QQ-plots, Shapiro-Wilk test, chi-square goodness-of-fit | `titanic.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp1_normalite_chi2.html) |
+| **TP2** | Linear Regression | Simple/multiple regression, coefficient interpretation, R-squared | `tension.csv`, `audition2.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp2_regression_lineaire.html) |
+| **TP3** | One-way ANOVA | F-test, group means comparison, post-hoc tests | `murderusa.csv`, `crime16.csv`, `beignets.txt` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp3_anova_un_facteur.html) |
+| **TP4** | Two-way ANOVA & Non-parametric | Interaction effects, Kruskal-Wallis, Wilcoxon tests | `ozone.txt`, `engraisRegion.txt`, `dureteMeche.txt` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp4_anova_tests_np.html) |
+| **Bonus** | Gender & Grades Analysis | Comparing algebra grades (M/F) over 3 years | `alg22.csv`, `alg23.csv`, `alg24.csv` | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/html/tp_bonus_notes_sexe.html) |
 
 ## Prerequisites
 

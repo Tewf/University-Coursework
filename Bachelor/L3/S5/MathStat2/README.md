@@ -18,11 +18,11 @@ Statistical practicals in R covering simulation, estimation, and hypothesis test
 
 | TP | Topic | Key Concepts | Live Demo |
 |----|-------|-------------|-----------|
-| **TP1** | Simulation & Bootstrap | Random generation, resampling, empirical distributions | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Simulation_Bootstrap.html) |
-| **TP2** | Estimation | Bias, variance, MSE, convergence of estimators | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Statistiques.html) |
-| **TP3** | Maximum Likelihood | MLE derivation, Fisher information, asymptotic properties | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Synthese_Fil_Conducteur.html) |
-| **TP4** | Confidence Intervals | Pivotal quantities, coverage probability, sample size | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Conformite.html) |
-| **TP5** | Hypothesis Testing | Chi-square tests, conformity, homogeneity, independence | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Homogeneite.html), [synthesis](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Homogeneite_Synthese.html) |
+| **TP1** | Simulation & Bootstrap | Random generation, resampling, empirical distributions | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Simulation_Bootstrap.html) |
+| **TP2** | Estimation | Bias, variance, MSE, convergence of estimators | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Statistiques.html) |
+| **TP3** | Maximum Likelihood | MLE derivation, Fisher information, asymptotic properties | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Synthese_Fil_Conducteur.html) |
+| **TP4** | Confidence Intervals | Pivotal quantities, coverage probability, sample size | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Tests_Conformite.html) |
+| **TP5** | Hypothesis Testing | Chi-square tests, conformity, homogeneity, independence | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Tests_Homogeneite.html), [synthesis](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Tests_Homogeneite_Synthese.html) |
 
 ## Datasets
 
