@@ -1,22 +1,41 @@
-# Prolog – Logic Programming
+# Prolog — Logic Programming
 
-This directory contains assignments for a course on Prolog. The exercises introduce logic programming concepts such as:
+> [Lire en francais](README.fr.md)
 
-- Defining facts and rules to represent knowledge.
-- Querying relationships and performing reasoning.
-- Recursive definitions and backtracking.
-- Simple search and problem‑solving tasks.
+**Course:** Logic Programming — Licence MIASHS, Universite Grenoble Alpes
 
-## Running the code
+An introduction to logic programming with Prolog. Instead of writing step-by-step instructions, you declare **facts** and **rules**, then ask questions — and the Prolog engine finds the answers.
 
-Install SWI‑Prolog and load a Prolog file with:
+## What You'll Learn
+
+- Defining facts and rules to represent knowledge
+- Querying relationships and performing logical reasoning
+- Recursive definitions and backtracking mechanisms
+- Unification and pattern matching
+- Search and problem-solving with declarative logic
+
+## Files
+
+| File | Topic |
+|------|-------|
+| `TD5.pl`, `TD6.pl` | Directed exercises: facts, rules, queries |
+| `TP.pl` | Basic predicates and relationships |
+| `TP2.pl` | Recursive definitions |
+| `TP3.pl` | List processing in Prolog |
+| `TP5.pl` | Advanced backtracking |
+| `TP6.pl` | Problem-solving with logic |
+
+## Running the Code
+
+Install [SWI-Prolog](https://www.swi-prolog.org/), then:
 
 ```sh
-swipl -s filename.pl
+swipl -s TP.pl
 ```
 
-Use queries at the prompt to test your predicates. Each assignment file includes comments describing the expected predicates and sample queries.
+Use queries at the `?-` prompt to test predicates. Each file includes comments with expected predicates and sample queries.
 
-## Learning outcomes
+## Prerequisites
 
-Working with Prolog expanded my understanding of declarative programming and reasoning systems, complementing the procedural and functional languages studied elsewhere in my degree.
+- No prior logic programming experience needed
+- Helpful to understand basic propositional logic (AND, OR, implications)

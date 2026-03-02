@@ -1,36 +1,60 @@
-# Mathématiques et Statistiques 2 – Practical sessions
+# Mathematical Statistics 2
 
-This directory contains practical sessions (TPs) for the MathStat2 course.
+> [Lire en francais](README.fr.md)
 
-## Overview
+**Course:** MathStat2 — Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
 
-The `TPs` folder holds Quarto notebooks that explore various statistical topics:
+Statistical practicals in R covering simulation, estimation, and hypothesis testing. These sessions build a solid foundation for applied statistical analysis.
 
-- **Simulation and bootstrap** – generating data and using resampling methods.
-- **Estimation and estimator comparison** – studying bias, variance, convergence, confidence intervals, and maximum‑likelihood estimators.
-- **Tests de conformité et d'homogénéité** – implementing chi‑square and other goodness‑of‑fit tests.
-- **Synthèse / fil conducteur** – integrating multiple concepts.
+## What You'll Learn
 
-PDF versions of the instructions are in `TPs/PDFVersion`.
+- Monte Carlo simulation and bootstrap resampling
+- Point estimation: bias, variance, convergence, maximum likelihood
+- Confidence interval construction
+- Chi-square tests: goodness-of-fit, conformity, homogeneity
+- Practical application of statistical theory with real datasets
 
-## Data
+## TP Overview
 
-The `data` folder includes datasets used in the practicals, such as `post-199413-Intima_Media.txt` and `post-199414-prevalsidafric.xls`. A separate README in `data` describes each dataset and its variables.
+| TP | Topic | Key Concepts |
+|----|-------|-------------|
+| **TP1** | Simulation & Bootstrap | Random generation, resampling, empirical distributions |
+| **TP2** | Estimation | Bias, variance, MSE, convergence of estimators |
+| **TP3** | Maximum Likelihood | MLE derivation, Fisher information, asymptotic properties |
+| **TP4** | Confidence Intervals | Pivotal quantities, coverage probability, sample size |
+| **TP5** | Hypothesis Testing | Chi-square tests, conformity, homogeneity, independence |
 
-## Scripts
+## Datasets
 
-The `scripts` folder contains auxiliary R functions, for example `sigma2.test.R`, which implements a chi‑square variance test. Each script is documented with usage examples.
+- `post-199413-Intima_Media.txt` — Post-transverse intima-media thickness measurements
+- `post-199414-prevalsidafric.xls` — HIV prevalence data in Africa
+- See `data/README.md` for detailed variable descriptions.
 
-## Running the notebooks
+## Prerequisites
 
-Install R and tidyverse packages. Use Quarto to render the `.qmd` files:
+- Introduction to probability (distributions, expectation, variance)
+- Basic R programming
+- Fundamental statistical concepts (mean, median, standard deviation)
+
+## Running the Notebooks
 
 ```sh
 quarto preview TPs/code/TP_Statistiques.qmd
 ```
 
-Replace the filename to run other labs.
+## Folder Structure
 
-## What I learned
+```
+MathStat2/
+|-- TPs/
+|   |-- code/          <- Quarto notebooks (.qmd)
+|   |-- PDFVersion/    <- PDF instructions
+|-- data/              <- Datasets with documentation
+|-- scripts/           <- Helper R functions (e.g., sigma2.test.R)
+```
 
-These sessions deepened my understanding of simulation, estimation, hypothesis testing, and the use of R for statistical analysis.
+## Tools & Libraries
+
+- **R** with base stats, tidyverse
+- **Quarto** for reproducible reports
+- Custom helper scripts in `scripts/`

@@ -7,7 +7,27 @@ target/
 # IDE / editor configs
 .vscode/
 .claude/
+*.iml
+.idea/
 
 # OS files
 .DS_Store
 Thumbs.db
+
+# Node.js
+node_modules/
+
+# Python
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.Rproj.user/
+.RData
+
+# Quarto
+_site/
+_freeze/
+.quarto/

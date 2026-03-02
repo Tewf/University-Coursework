@@ -1,27 +1,49 @@
-# Compléments de mathématiques – Practical sessions
+# Complement of Mathematics 1
 
-This directory contains practical sessions (TPs) for the Compléments de mathématiques course. The labs explore mathematical topics using R and Quarto notebooks.
+> [Lire en francais](README.fr.md)
 
-## Contents
+**Course:** ComplementMath1 — Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
 
-- `code` – Quarto (`.qmd`) notebooks:
-  - **TP1_AnalyseDeFourier.qmd** – complex numbers in R, integration, Fourier series coefficients and partial sums.
-  - **TP2_TransforméeDeFourierEtTraitementDuSignal.qmd** – Fourier transform and signal processing.
-  - **TP3_ÉquationsDifférentielles.qmd** – differential equations and numerical methods.
-  - `TravauxRendre.qmd` – assignments to be submitted.
-- `PDFVersion` – PDF copies of the instructions.
-- `TP cpt maths.pdf` – original problem sheet.
+Practical sessions on mathematical analysis using R and Quarto, covering Fourier analysis, signal processing, and differential equations.
 
-## Running the notebooks
+## What You'll Learn
 
-Install R and the tidyverse packages. Use Quarto to render the notebooks:
+- Complex number manipulation in R
+- Numerical integration and Fourier series computation
+- Fourier transform and its application to signal processing
+- Numerical methods for solving differential equations
+- Translating mathematical formulas into working R code
+
+## TP Overview
+
+| TP | Topic | Key Concepts |
+|----|-------|-------------|
+| **TP1** | Fourier Analysis | Complex numbers in R, integration, Fourier coefficients, partial sums |
+| **TP2** | Signal Processing | Fourier transform, frequency analysis, signal reconstruction |
+| **TP3** | Differential Equations | ODE numerical methods, Euler, Runge-Kutta |
+
+## Prerequisites
+
+- Calculus: integration, series, complex numbers
+- Basic R programming
+- Linear algebra fundamentals
+
+## Running the Notebooks
 
 ```sh
 quarto preview code/TP1_AnalyseDeFourier.qmd
 ```
 
-Replace the filename to render other labs.
+## Folder Structure
 
-## What I learned
+```
+ComplementMath1/
+|-- code/              <- Quarto notebooks (.qmd)
+|-- PDFVersion/        <- PDF copies of instructions
+|-- TP cpt maths.pdf   <- Original problem sheet
+```
 
-These practicals strengthened my understanding of Fourier analysis, signal processing, and differential equations. They also taught me to translate mathematical concepts into R code and to document analyses using Quarto.
+## Tools
+
+- **R** with base mathematical functions
+- **Quarto** for reproducible scientific documents

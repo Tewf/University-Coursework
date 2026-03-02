@@ -5,7 +5,8 @@ project:
 title: "Prédiction de la Satisfaction Client pour les Parfums"
 subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
 author: "HAMLIL Mohamed"
-date: "2025-2026"
+date: "Année universitaire 2025--2026"
+date-format: "x"
 lang: fr
 
 format:
@@ -19,7 +20,7 @@ format:
       - text: |
           \usepackage{fancyhdr}
           \pagestyle{fancy}
-          \fancyhead[RO]{Lola Etiévant}
+          \fancyhead[RO]{HAMLIL Mohamed}
           \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
           \usepackage{float}
           \usepackage{booktabs}

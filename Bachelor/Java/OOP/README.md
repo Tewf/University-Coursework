@@ -1,22 +1,35 @@
-# Object‑Oriented Programming Exercises
+# Object-Oriented Programming (OOP)
 
-This directory contains coursework for my object‑oriented programming course. The assignments are organised in the `TD` and `TM` subdirectories.
+> [Lire en francais](README.fr.md)
+
+**Course:** OOP — Licence MIASHS, Universite Grenoble Alpes
+
+Progressive exercises and mini-projects covering core object-oriented programming concepts in Java.
+
+## What You'll Learn
+
+- Class design, encapsulation, and access modifiers
+- Inheritance, polymorphism, and method overriding
+- Interfaces and abstract classes
+- Generics and Java collections framework
+- Exception handling and file I/O
+- Applying design patterns to real problems
 
 ## Structure
 
-- `TD` – Travaux Dirigés (directed exercises) that introduced basic OOP concepts such as classes, inheritance, interfaces, generics, exceptions, and file I/O.
-- `TM` – Travaux Mise en pratique / mini‑projects that allowed me to apply OOP principles to more substantial problems.
+| Folder | Type | Content |
+|--------|------|---------|
+| [TD/](TD/) | Directed exercises | Focused exercises on specific OOP concepts |
+| [TM/](TM/) | Mini-projects | Larger projects applying multiple OOP principles |
 
-## Running the exercises
-
-Each subdirectory follows a simple structure with `src` for source files and `bin` for compiled classes. You can compile exercises using `javac`:
+## Running
 
 ```sh
 javac -d bin $(find src -name '*.java')
+java -cp bin package.ClassName
 ```
 
-Run individual classes using `java -cp bin package.ClassName`. Some exercises include unit tests; run them with `java -cp ...` or a testing framework.
+## Prerequisites
 
-## What I learned
-
-These exercises deepened my understanding of Java and object‑oriented thinking. They complement my AI project by reinforcing design patterns and modular programming.
+- Basic Java syntax (variables, conditions, loops)
+- No prior OOP experience needed
