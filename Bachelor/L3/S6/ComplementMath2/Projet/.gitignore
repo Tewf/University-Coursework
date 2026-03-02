@@ -2,12 +2,10 @@
 output/*.rds
 *.rds
 
-# PDFs générés
-rapport/*.pdf
-*.pdf
+# Artéfacts Quarto générés (sauf rapports finaux)
+*_files/
 
 # Artéfacts Quarto/R
-*_files/
 .quarto/
 *_cache/
 .Rhistory
@@ -20,8 +18,6 @@ Thumbs.db
 
 # Garder les dossiers vides
 !output/.gitkeep
-!rapport/.gitkeep
-!consignes/*.pdf
 
 /.quarto/
 **/*.quarto_ipynb
