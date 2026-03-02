@@ -2209,26 +2209,26 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#gestion-des-données-manquantes" id="toc-gestion-des-données-manquantes" class="nav-link" data-scroll-target="#gestion-des-données-manquantes"><span class="header-section-number">2</span> Gestion des données manquantes</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#gestion-des-données-manquantes" id="toc-gestion-des-données-manquantes" class="nav-link" data-scroll-target="#gestion-des-données-manquantes">Gestion des données manquantes</a>
   <ul class="collapse">
-  <li><a href="#imputation-statique" id="toc-imputation-statique" class="nav-link" data-scroll-target="#imputation-statique"><span class="header-section-number">2.1</span> Imputation Statique</a>
+  <li><a href="#imputation-statique" id="toc-imputation-statique" class="nav-link" data-scroll-target="#imputation-statique">Imputation Statique</a>
   <ul class="collapse">
-  <li><a href="#variable-quantitative-médiane" id="toc-variable-quantitative-médiane" class="nav-link" data-scroll-target="#variable-quantitative-médiane"><span class="header-section-number">2.1.1</span> Variable Quantitative (Médiane)</a></li>
-  <li><a href="#variable-qualitative-mode" id="toc-variable-qualitative-mode" class="nav-link" data-scroll-target="#variable-qualitative-mode"><span class="header-section-number">2.1.2</span> Variable Qualitative (Mode)</a></li>
+  <li><a href="#variable-quantitative-médiane" id="toc-variable-quantitative-médiane" class="nav-link" data-scroll-target="#variable-quantitative-médiane">Variable Quantitative (Médiane)</a></li>
+  <li><a href="#variable-qualitative-mode" id="toc-variable-qualitative-mode" class="nav-link" data-scroll-target="#variable-qualitative-mode">Variable Qualitative (Mode)</a></li>
   </ul></li>
-  <li><a href="#imputation-prédictive-par-régression-linéaire" id="toc-imputation-prédictive-par-régression-linéaire" class="nav-link" data-scroll-target="#imputation-prédictive-par-régression-linéaire"><span class="header-section-number">2.2</span> Imputation prédictive par régression linéaire</a>
+  <li><a href="#imputation-prédictive-par-régression-linéaire" id="toc-imputation-prédictive-par-régression-linéaire" class="nav-link" data-scroll-target="#imputation-prédictive-par-régression-linéaire">Imputation prédictive par régression linéaire</a>
   <ul class="collapse">
-  <li><a href="#visualisation-pédagogique" id="toc-visualisation-pédagogique" class="nav-link" data-scroll-target="#visualisation-pédagogique"><span class="header-section-number">2.2.1</span> Visualisation pédagogique</a></li>
+  <li><a href="#visualisation-pédagogique" id="toc-visualisation-pédagogique" class="nav-link" data-scroll-target="#visualisation-pédagogique">Visualisation pédagogique</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#transformations-de-variables" id="toc-transformations-de-variables" class="nav-link" data-scroll-target="#transformations-de-variables"><span class="header-section-number">3</span> Transformations de variables</a>
+  <li><a href="#transformations-de-variables" id="toc-transformations-de-variables" class="nav-link" data-scroll-target="#transformations-de-variables">Transformations de variables</a>
   <ul class="collapse">
-  <li><a href="#encodage-dummy-vs-label" id="toc-encodage-dummy-vs-label" class="nav-link" data-scroll-target="#encodage-dummy-vs-label"><span class="header-section-number">3.1</span> Encodage (Dummy vs Label)</a></li>
-  <li><a href="#mise-à-léchelle-scaling" id="toc-mise-à-léchelle-scaling" class="nav-link" data-scroll-target="#mise-à-léchelle-scaling"><span class="header-section-number">3.2</span> Mise à l’échelle (Scaling)</a></li>
+  <li><a href="#encodage-dummy-vs-label" id="toc-encodage-dummy-vs-label" class="nav-link" data-scroll-target="#encodage-dummy-vs-label">Encodage (Dummy vs Label)</a></li>
+  <li><a href="#mise-à-léchelle-scaling" id="toc-mise-à-léchelle-scaling" class="nav-link" data-scroll-target="#mise-à-léchelle-scaling">Mise à l’échelle (Scaling)</a></li>
   </ul></li>
-  <li><a href="#data-leakage" id="toc-data-leakage" class="nav-link" data-scroll-target="#data-leakage"><span class="header-section-number">4</span> Data Leakage</a></li>
-  <li><a href="#résumé-des-étapes" id="toc-résumé-des-étapes" class="nav-link" data-scroll-target="#résumé-des-étapes"><span class="header-section-number">5</span> Résumé des étapes</a></li>
+  <li><a href="#data-leakage" id="toc-data-leakage" class="nav-link" data-scroll-target="#data-leakage">Data Leakage</a></li>
+  <li><a href="#résumé-des-étapes" id="toc-résumé-des-étapes" class="nav-link" data-scroll-target="#résumé-des-étapes">Résumé des étapes</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Autres formats</h2><ul><li><a href="Correction-TP4.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -2266,8 +2266,8 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
 <p>L’objectif de ce TP est d’approfondir les étapes de préparation des données (<em>preprocessing</em>). Nous allons mettre en œuvre des techniques d’imputation pour les données manquantes, explorer les transformations de variables et aborder le concept critique de <strong>Data Leakage</strong> pour garantir l’intégrité de nos futurs modèles.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2291,13 +2291,13 @@ vertical-align: -.125em;
 </details>
 </div>
 </section>
-<section id="gestion-des-données-manquantes" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Gestion des données manquantes</h1>
-<section id="imputation-statique" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="imputation-statique"><span class="header-section-number">2.1</span> Imputation Statique</h2>
+<section id="gestion-des-données-manquantes" class="level1">
+<h1>Gestion des données manquantes</h1>
+<section id="imputation-statique" class="level2">
+<h2 class="anchored" data-anchor-id="imputation-statique">Imputation Statique</h2>
 <p>L’imputation remplace les valeurs manquantes (<code>NA</code>) par des statistiques descriptives simples.</p>
-<section id="variable-quantitative-médiane" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="variable-quantitative-médiane"><span class="header-section-number">2.1.1</span> Variable Quantitative (Médiane)</h3>
+<section id="variable-quantitative-médiane" class="level3">
+<h3 class="anchored" data-anchor-id="variable-quantitative-médiane">Variable Quantitative (Médiane)</h3>
 <p>On utilise la médiane plutôt que la moyenne car elle est moins sensible aux valeurs extrêmes.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2308,8 +2308,8 @@ vertical-align: -.125em;
 </details>
 </div>
 </section>
-<section id="variable-qualitative-mode" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="variable-qualitative-mode"><span class="header-section-number">2.1.2</span> Variable Qualitative (Mode)</h3>
+<section id="variable-qualitative-mode" class="level3">
+<h3 class="anchored" data-anchor-id="variable-qualitative-mode">Variable Qualitative (Mode)</h3>
 <p>Pour les catégories, on remplace par la modalité la plus fréquente.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2327,8 +2327,8 @@ vertical-align: -.125em;
 </div>
 </section>
 </section>
-<section id="imputation-prédictive-par-régression-linéaire" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="imputation-prédictive-par-régression-linéaire"><span class="header-section-number">2.2</span> Imputation prédictive par régression linéaire</h2>
+<section id="imputation-prédictive-par-régression-linéaire" class="level2">
+<h2 class="anchored" data-anchor-id="imputation-prédictive-par-régression-linéaire">Imputation prédictive par régression linéaire</h2>
 <p>L’imputation prédictive traite la variable manquante comme une cible à prédire à partir des autres informations disponibles.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2362,8 +2362,8 @@ vertical-align: -.125em;
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>quantitative_vars_complete<span class="sc">$</span>Age_imput_reg[isMissing] <span class="ot">=</span> <span class="fu">predict</span>(fit, X_isMissing)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="visualisation-pédagogique" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="visualisation-pédagogique"><span class="header-section-number">2.2.1</span> Visualisation pédagogique</h3>
+<section id="visualisation-pédagogique" class="level3">
+<h3 class="anchored" data-anchor-id="visualisation-pédagogique">Visualisation pédagogique</h3>
 <p>Le graphique suivant montre comment les valeurs imputées (en rouge) s’insèrent dans la distribution existante selon le modèle de régression.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2397,22 +2397,22 @@ Figure 1: Distribution de l’Age : Valeurs Réelles vs Imputées par Régressi
 </section>
 </section>
 </section>
-<section id="transformations-de-variables" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Transformations de variables</h1>
-<section id="encodage-dummy-vs-label" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="encodage-dummy-vs-label"><span class="header-section-number">3.1</span> Encodage (Dummy vs Label)</h2>
+<section id="transformations-de-variables" class="level1">
+<h1>Transformations de variables</h1>
+<section id="encodage-dummy-vs-label" class="level2">
+<h2 class="anchored" data-anchor-id="encodage-dummy-vs-label">Encodage (Dummy vs Label)</h2>
 <ul>
 <li><strong>Dummy Coding</strong> : Utile pour les variables nominales sans ordre (ex: Sex).</li>
 <li><strong>Label Encoding</strong> : Réservé aux variables ordinales (ex: Pclass).</li>
 </ul>
 </section>
-<section id="mise-à-léchelle-scaling" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="mise-à-léchelle-scaling"><span class="header-section-number">3.2</span> Mise à l’échelle (Scaling)</h2>
+<section id="mise-à-léchelle-scaling" class="level2">
+<h2 class="anchored" data-anchor-id="mise-à-léchelle-scaling">Mise à l’échelle (Scaling)</h2>
 <p>Il est crucial de ramener les variables à la même échelle pour les algorithmes calculant des distances (comme k-NN).</p>
 </section>
 </section>
-<section id="data-leakage" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Data Leakage</h1>
+<section id="data-leakage" class="level1">
+<h1>Data Leakage</h1>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2444,8 +2444,8 @@ Figure 1: Distribution de l’Age : Valeurs Réelles vs Imputées par Régressi
 </details>
 </div>
 </section>
-<section id="résumé-des-étapes" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Résumé des étapes</h1>
+<section id="résumé-des-étapes" class="level1">
+<h1>Résumé des étapes</h1>
 <p>Avant d’appliquer un classifieur :</p>
 <ol type="1">
 <li><strong>Split</strong> : Séparer en Train et Test.</li>

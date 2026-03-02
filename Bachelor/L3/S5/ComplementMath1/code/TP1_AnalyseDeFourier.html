@@ -2348,14 +2348,14 @@ window.Quarto = {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#tp1-analyse-de-fourier" id="toc-tp1-analyse-de-fourier" class="nav-link active" data-scroll-target="#tp1-analyse-de-fourier"><span class="header-section-number">1</span> TP1 – Analyse de Fourier</a>
+  <li><a href="#tp1-analyse-de-fourier" id="toc-tp1-analyse-de-fourier" class="nav-link active" data-scroll-target="#tp1-analyse-de-fourier">TP1 – Analyse de Fourier</a>
   <ul class="collapse">
-  <li><a href="#les-complexes" id="toc-les-complexes" class="nav-link" data-scroll-target="#les-complexes"><span class="header-section-number">1.1</span> 1. Les complexes</a></li>
-  <li><a href="#intégrer-une-fonction" id="toc-intégrer-une-fonction" class="nav-link" data-scroll-target="#intégrer-une-fonction"><span class="header-section-number">1.2</span> 2.1 Intégrer une fonction</a></li>
-  <li><a href="#la-fonction" id="toc-la-fonction" class="nav-link" data-scroll-target="#la-fonction"><span class="header-section-number">1.3</span> 2.2 La fonction</a></li>
-  <li><a href="#coefficients-de-la-série-de-fourier" id="toc-coefficients-de-la-série-de-fourier" class="nav-link" data-scroll-target="#coefficients-de-la-série-de-fourier"><span class="header-section-number">1.4</span> 2.3 Coefficients de la série de Fourier</a></li>
-  <li><a href="#convergence-de-la-série-de-fourier" id="toc-convergence-de-la-série-de-fourier" class="nav-link" data-scroll-target="#convergence-de-la-série-de-fourier"><span class="header-section-number">1.5</span> 2.4 Convergence de la série de Fourier</a></li>
-  <li><a href="#travail-à-rendre-adaptation" id="toc-travail-à-rendre-adaptation" class="nav-link" data-scroll-target="#travail-à-rendre-adaptation"><span class="header-section-number">1.6</span> 3. Travail à rendre (adaptation)</a></li>
+  <li><a href="#les-complexes" id="toc-les-complexes" class="nav-link" data-scroll-target="#les-complexes">1. Les complexes</a></li>
+  <li><a href="#intégrer-une-fonction" id="toc-intégrer-une-fonction" class="nav-link" data-scroll-target="#intégrer-une-fonction">2.1 Intégrer une fonction</a></li>
+  <li><a href="#la-fonction" id="toc-la-fonction" class="nav-link" data-scroll-target="#la-fonction">2.2 La fonction</a></li>
+  <li><a href="#coefficients-de-la-série-de-fourier" id="toc-coefficients-de-la-série-de-fourier" class="nav-link" data-scroll-target="#coefficients-de-la-série-de-fourier">2.3 Coefficients de la série de Fourier</a></li>
+  <li><a href="#convergence-de-la-série-de-fourier" id="toc-convergence-de-la-série-de-fourier" class="nav-link" data-scroll-target="#convergence-de-la-série-de-fourier">2.4 Convergence de la série de Fourier</a></li>
+  <li><a href="#travail-à-rendre-adaptation" id="toc-travail-à-rendre-adaptation" class="nav-link" data-scroll-target="#travail-à-rendre-adaptation">3. Travail à rendre (adaptation)</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Autres formats</h2><ul><li><a href="TP1_AnalyseDeFourier.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -2393,11 +2393,11 @@ window.Quarto = {
 </header>
 
 
-<section id="tp1-analyse-de-fourier" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> TP1 – Analyse de Fourier</h1>
+<section id="tp1-analyse-de-fourier" class="level1">
+<h1>TP1 – Analyse de Fourier</h1>
 <p>Ce notebook présente les exercices du TP1 en R. Les extraits de code sont basés sur le document fourni et comprennent des commentaires pour expliquer chaque étape.</p>
-<section id="les-complexes" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="les-complexes"><span class="header-section-number">1.1</span> 1. Les complexes</h2>
+<section id="les-complexes" class="level2">
+<h2 class="anchored" data-anchor-id="les-complexes">1. Les complexes</h2>
 <p>Dans cette section, nous manipulons des nombres complexes en R. Pour créer l’unité imaginaire, on utilise <code>1i</code>.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2472,8 +2472,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="intégrer-une-fonction" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="intégrer-une-fonction"><span class="header-section-number">1.2</span> 2.1 Intégrer une fonction</h2>
+<section id="intégrer-une-fonction" class="level2">
+<h2 class="anchored" data-anchor-id="intégrer-une-fonction">2.1 Intégrer une fonction</h2>
 <p>Nous calculons l’intégrale de <code>arctan(x)</code> sur l’intervalle <span class="math inline">\([0, 1]\)</span> à l’aide de la fonction <code>integrate</code>.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2508,8 +2508,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="la-fonction" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="la-fonction"><span class="header-section-number">1.3</span> 2.2 La fonction</h2>
+<section id="la-fonction" class="level2">
+<h2 class="anchored" data-anchor-id="la-fonction">2.2 La fonction</h2>
 <p>On définit une fonction périodique de période 2 sur l’intervalle <span class="math inline">\([-1, 1]\)</span>.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2533,8 +2533,8 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="coefficients-de-la-série-de-fourier" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="coefficients-de-la-série-de-fourier"><span class="header-section-number">1.4</span> 2.3 Coefficients de la série de Fourier</h2>
+<section id="coefficients-de-la-série-de-fourier" class="level2">
+<h2 class="anchored" data-anchor-id="coefficients-de-la-série-de-fourier">2.3 Coefficients de la série de Fourier</h2>
 <p>Cette fonction <code>coeff</code> calcule le coefficient de la série de Fourier pour une fonction <code>f</code> et un entier <code>n</code>.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2570,8 +2570,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="convergence-de-la-série-de-fourier" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="convergence-de-la-série-de-fourier"><span class="header-section-number">1.5</span> 2.4 Convergence de la série de Fourier</h2>
+<section id="convergence-de-la-série-de-fourier" class="level2">
+<h2 class="anchored" data-anchor-id="convergence-de-la-série-de-fourier">2.4 Convergence de la série de Fourier</h2>
 <p>On définit la fonction <code>SN</code> qui calcule la somme partielle de la série de Fourier pour l’ordre <code>N</code>. Nous traçons les sommes partielles pour différentes valeurs de <code>N</code>.</p>
 <div class="cell">
 <details open class="code-fold">
@@ -2605,8 +2605,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="travail-à-rendre-adaptation" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="travail-à-rendre-adaptation"><span class="header-section-number">1.6</span> 3. Travail à rendre (adaptation)</h2>
+<section id="travail-à-rendre-adaptation" class="level2">
+<h2 class="anchored" data-anchor-id="travail-à-rendre-adaptation">3. Travail à rendre (adaptation)</h2>
 <p>Pour adapter ces fonctions à une fonction de période définie sur l’intervalle , il suffit de remplacer les limites d’intégration et les facteurs de normalisation par et .</p>
 <p>Par exemple, pour calculer les coefficients de Fourier d’une fonction sur :</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { alpha <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">1</span> }</span>
