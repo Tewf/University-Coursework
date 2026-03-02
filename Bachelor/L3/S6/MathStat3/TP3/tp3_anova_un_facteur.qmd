@@ -1,0 +1,346 @@
+---
+title: "TP3 -- ANOVA à un facteur"
+author: "Statistique Mathématique 3 -- L3 MIASHS"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+  pdf:
+    toc: true
+lang: fr
+jupyter: ir
+---
+
+# Introduction
+
+Le but de cette séance est de s'éclairer sur le **lien potentiel entre l'abolition de la peine de mort et le taux de criminalité** aux États-Unis.
+
+Les données proviennent du site du FBI. Elles donnent le nombre de meurtres dans les différents états des États-Unis en 2009 ainsi que la population. Pour s'affranchir des différences de tailles de populations, on utilise le **taux de criminalité pour 1000 habitants**.
+
+Nous étudierons ensuite un second jeu de données sur l'**absorption de matière grasse par des beignets**, un cas classique d'**ANOVA à un facteur**.
+
+---
+
+# 1. Acquisition des données
+
+```{r}
+data = read.csv2("murderusa.csv")
+head(data)
+```
+
+Affectons les variables :
+
+```{r}
+txcrime09 = data$tauxmeurtres
+PDMabolie09 = data$PDMabolie09
+```
+
+Créons deux sous-groupes : états ayant **aboli** la peine de mort et ceux ne l'ayant **pas aboli** :
+
+```{r}
+abolie09 = txcrime09[PDMabolie09 == "oui"]
+nonabolie09 = txcrime09[PDMabolie09 == "non"]
+
+# Conversion en numérique si nécessaire
+abolie09 = as.numeric(abolie09)
+nonabolie09 = as.numeric(nonabolie09)
+
+cat("Nombre d'états ayant aboli :", length(abolie09))
+cat("\nNombre d'états n'ayant pas aboli :", length(nonabolie09))
+```
+
+---
+
+# 2. Effet de l'abolition sur le taux de meurtres
+
+## 2.1 Statistiques descriptives
+
+### Boîtes à moustaches
+
+```{r}
+boxplot(abolie09, nonabolie09,
+        main = "Taux de criminalité selon l'abolition de la peine de mort",
+        col = c("orange", "red"),
+        names = c("Abolie", "Non Abolie"),
+        ylab = "Taux de meurtres pour 1000 hab.")
+```
+
+On peut aussi utiliser directement la formule :
+
+```{r}
+boxplot(txcrime09 ~ PDMabolie09,
+        main = "Taux de criminalité",
+        col = c("orange", "red"),
+        ylab = "Taux de meurtres pour 1000 hab.")
+```
+
+**Observations :**
+
+- Tous les indicateurs (médiane, quartiles) sont **plus bas** dans les états ayant aboli la peine de mort.
+- Le taux de criminalité est **globalement plus bas** dans les états ayant aboli.
+- **Attention :** Aucun lien de cause à effet ne peut être dégagé ! (Est-ce l'abolition qui fait baisser le taux ? Est-ce un taux bas qui permet d'abolir ? Ou n'y a-t-il aucun lien ?)
+
+### Comparaison des moyennes
+
+```{r}
+cat("Moyenne (abolie) :", mean(abolie09))
+cat("\nMoyenne (non abolie) :", mean(nonabolie09))
+```
+
+## 2.2 ANOVA
+
+On teste si la différence entre les groupes est **statistiquement significative** :
+
+```{r}
+summary(aov(txcrime09 ~ PDMabolie09))
+```
+
+On obtient le même résultat avec `anova` :
+
+```{r}
+anova(lm(txcrime09 ~ PDMabolie09))
+```
+
+**Interprétation :** La p-value est **trop grande** pour rejeter l'égalité des moyennes. On **ne peut pas affirmer** qu'il y a un lien significatif entre l'abolition de la peine de mort et le taux de criminalité.
+
+## 2.3 Retrouver les résultats du tableau d'ANOVA
+
+### SCM (Somme des Carrés du Modèle)
+
+$$SCM = \sum_{i=1}^{2} n_i (\bar{X}_i - \bar{X})^2$$
+
+```{r}
+SCM = length(abolie09) * (mean(abolie09) - mean(txcrime09))^2 +
+      length(nonabolie09) * (mean(nonabolie09) - mean(txcrime09))^2
+cat("SCM =", round(SCM, 6))
+```
+
+### SCE (Somme des Carrés des Erreurs)
+
+$$SCE = \sum_{i=1}^{2} \sum_{j=1}^{n_i} (X_{ij} - \bar{X}_i)^2$$
+
+```{r}
+SCE = sum((abolie09 - mean(abolie09))^2) +
+      sum((nonabolie09 - mean(nonabolie09))^2)
+cat("SCE =", round(SCE, 6))
+```
+
+### Statistique de Fisher
+
+$$F_{obs} = \frac{SCM / (2-1)}{SCE / (50-2)} = \frac{SCM}{SCE / 48}$$
+
+```{r}
+Fobs = SCM / (SCE / 48)
+cat("F observé =", round(Fobs, 4))
+```
+
+### p-value
+
+La variable du test suit une loi de Fisher $\mathcal{F}_{1, 48}$ :
+
+```{r}
+pval = 1 - pf(Fobs, 1, 48)
+cat("p-value =", round(pval, 4))
+```
+
+---
+
+# 3. Et en 2016 ?
+
+Des résultats similaires ont été montrés en 2016 en L2. On peut charger le fichier `crime16.csv` pour une analyse comparable :
+
+```{r}
+crime16 = read.csv("crime16.csv", sep = ";")
+head(crime16)
+```
+
+```{r}
+boxplot(crime16$crime_nonabo, crime16$crime_abo,
+        names = c("Non abolie", "Abolie"),
+        main = "Taux de criminalité en 2016",
+        col = c("red", "orange"),
+        ylab = "Taux de criminalité")
+```
+
+---
+
+# 4. Beignets et matière grasse
+
+## 4.1 Contexte
+
+On étudie la variable « quantité de matière grasse absorbée par des beignets durant leur cuisson ». Pour chacune des **4 matières grasses**, on a constitué 6 fournées de 24 beignets chacune. Les valeurs ont été simplifiées en soustrayant 100g.
+
+C'est une **classification à une seule voie** : chaque matière grasse représente un **niveau du facteur**.
+
+## 4.2 Acquisition des données
+
+```{r}
+rm(list = ls())
+donnees <- read.table("beignets.txt", header = TRUE)
+head(donnees)
+```
+
+```{r}
+X = donnees[, "Gras"]
+Groupe = factor(donnees[, "Gr"])
+cat("Niveaux du facteur :", levels(Groupe))
+cat("\nNombre d'observations :", length(X))
+```
+
+> **Note :** Bien que codée de 1 à 4, la variable `Groupe` n'est pas numérique, c'est un **facteur**. C'est pour cela qu'on utilise `factor()`.
+
+## 4.3 Test de normalité par groupe
+
+Avant de faire une ANOVA, on vérifie l'hypothèse de normalité dans chaque groupe :
+
+```{r}
+tapply(X, Groupe, shapiro.test)
+```
+
+**Conclusion :** On ne rejette la normalité dans **aucun** groupe → on peut utiliser l'ANOVA.
+
+## 4.4 Tableau d'ANOVA
+
+```{r}
+summary(aov(X ~ Groupe))
+```
+
+```{r}
+anova(lm(X ~ Groupe))
+```
+
+**Conclusion :** On rejette l'égalité des moyennes → il y a un **effet significatif** du type de graisse sur l'absorption.
+
+## 4.5 Contrastes
+
+On souhaite tester l'hypothèse que les matières grasses **d'origine animale** (groupes 1 et 2) sont absorbées de la même façon que celles **d'origine végétale** (groupes 3 et 4) :
+
+$$\frac{\mu_1 + \mu_2}{2} = \frac{\mu_3 + \mu_4}{2} \iff \mu_1 + \mu_2 - \mu_3 - \mu_4 = 0$$
+
+Les coefficients du contraste sont $\lambda = (1, 1, -1, -1)$.
+
+```{r}
+lambda.i = c(1, 1, -1, -1)
+xbar.i = tapply(X, Groupe, mean)
+cat("Moyennes par groupe :\n")
+print(xbar.i)
+```
+
+```{r}
+n = length(X)
+n.i = tapply(rep(1, n), Groupe, sum)
+a = length(levels(Groupe))
+
+# Somme des carrés des erreurs
+Q.i = tapply(X, Groupe, var) * (n.i - 1)
+SCE = sum(Q.i)
+dl = n - a
+CME = SCE / dl
+
+# Contraste et test de Student
+phi = sum(xbar.i * lambda.i)
+s.phi = sqrt(CME * sum(lambda.i^2 / n.i))
+tvalue = (phi - 0) / s.phi
+pvaleur = pt(tvalue, dl)
+pvaleur = 2 * min(pvaleur, 1 - pvaleur)
+
+cat("Contraste estimé φ̂ =", round(phi, 2))
+cat("\nÉcart-type s(φ̂) =", round(s.phi, 2))
+cat("\nStatistique t =", round(tvalue, 4))
+cat("\np-value =", round(pvaleur, 4))
+cat("\nDegrés de liberté =", dl)
+```
+
+**Conclusion :** La nature de la matière grasse (animale vs végétale) a une **influence significative** sur l'absorption.
+
+### Fonction de test de contraste
+
+On peut encapsuler ce test dans une fonction réutilisable :
+
+```{r}
+contrast.test = function(X, Groupe, lambda.i, phi0 = 0) {
+  xbar.i = tapply(X, Groupe, mean)
+  n = length(X)
+  a = length(levels(Groupe))
+  n.i = tapply(rep(1, n), Groupe, sum)
+  Q.i = tapply(X, Groupe, var) * (n.i - 1)
+  SCE = sum(Q.i)
+  dl = n - a
+  CME = SCE / dl
+  phi = sum(xbar.i * lambda.i)
+  s.phi = sqrt(CME * sum(lambda.i^2 / n.i))
+  tvalue = (phi - phi0) / s.phi
+  pvaleur = pt(tvalue, dl)
+  pvaleur = 2 * min(pvaleur, 1 - pvaleur)
+  return(list(c(phi.hat = phi, s.phi = s.phi),
+              c(t = tvalue, p.value = pvaleur), dl = dl))
+}
+
+contrast.test(X, Groupe, c(1, 1, -1, -1), phi0 = 0)
+```
+
+## 4.6 Construction du tableau d'ANOVA à la main
+
+Pour bien comprendre l'ANOVA, construisons le tableau pas à pas :
+
+```{r}
+a <- length(levels(Groupe))
+n <- length(X)
+
+# Tailles de chaque groupe
+n.i <- tapply(rep(1, n), Groupe, sum)
+
+# Moyennes de chaque groupe
+xbar.i <- tapply(X, Groupe, mean)
+
+# Variation dans chaque groupe
+Q.i <- tapply(X, Groupe, var) * (n.i - 1)
+
+# Sommes des carrés
+SCT <- (n - 1) * var(X)
+SCE <- sum(Q.i)
+SCM <- SCT - SCE
+
+# Degrés de liberté
+dlE <- n - a
+dlM <- a - 1
+
+# Carrés moyens
+CMM <- SCM / dlM
+CME <- SCE / dlE
+
+# Statistique de Fisher et p-value
+F.obs <- CMM / CME
+seuil.crit <- 1 - pf(F.obs, dlM, dlE)
+```
+
+```{r}
+# Construction du tableau
+Anova.tableau <- matrix(
+  c(SCM, SCE, SCT, dlM, dlE, NA, CMM, CME, NA, F.obs, NA, NA, seuil.crit, NA, NA),
+  nrow = 3,
+  dimnames = list(c("Inter groupe", "Intra groupe", "Totale"),
+                  c("SC", "dl", "CM", "F.obs", "Pr(F)"))
+)
+Anova.tableau
+```
+
+---
+
+# Résumé
+
+| Concept | Description | Fonction R |
+|---------|-------------|------------|
+| Boxplot comparatif | Comparer deux distributions | `boxplot(x ~ facteur)` |
+| ANOVA à 1 facteur | Tester l'égalité des moyennes | `anova(lm())`, `aov()` |
+| SCM, SCE, SCT | Décomposition de la variance | Calcul manuel |
+| Contrastes | Tester une combinaison linéaire des moyennes | Fonction personnalisée |
+| `tapply` | Appliquer une fonction par sous-groupe | `tapply(var, facteur, fun)` |
+
+**Points clés :**
+
+- L'ANOVA teste si la différence entre les moyennes des groupes est significative.
+- Avant de faire une ANOVA, il faut vérifier la **normalité** dans chaque groupe.
+- L'ANOVA ne permet pas de conclure à un lien de **cause à effet**.
+- Les contrastes permettent de tester des hypothèses plus fines sur les moyennes.

@@ -1,0 +1,292 @@
+---
+title: "TP1 -- Graphiques Quantile-Quantile, Test de Normalité et Test du χ²"
+author: "Statistique Mathématique 3 -- L3 MIASHS"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+  pdf:
+    toc: true
+lang: fr
+jupyter: ir
+---
+
+# Introduction
+
+Dans ce TP, nous allons utiliser les outils de la **normalité** et de **l'indépendance** dans deux cadres :
+
+- Sur **données ordonnées** (regroupées par modalités) : nous reconstruirons tous les outils à la main.
+- Sur **données brutes** : nous utiliserons largement les fonctions de R.
+
+**Objectifs pédagogiques :**
+
+- Comprendre et tracer un QQ-plot
+- Réaliser un test du χ² d'adéquation (normalité)
+- Réaliser un test du χ² d'indépendance
+- Utiliser les fonctions R pour tester la normalité (Shapiro-Wilk, `qqnorm`)
+
+---
+
+# 1. Le QQ-Plot (graphique quantile-quantile)
+
+## 1.1 Rappels théoriques
+
+Le **QQ-plot** (Quantile-Quantile plot) est un outil graphique qui permet de visualiser rapidement si une série de données suit une distribution théorique donnée (gaussienne, Poisson, etc.).
+
+**Principe :**
+
+Soit $x_1, \ldots, x_n$ une série statistique et $F_0$ la fonction de répartition de la loi de probabilité de référence. On trace :
+
+- En **ordonnées** : les fractiles correspondant à la distribution **observée** ($q_i$)
+- En **abscisses** : les fractiles correspondant à la distribution **théorique** ($q_i^*$)
+
+**Interprétation :** Plus les points sont alignés sur la **diagonale**, plus l'adéquation de la loi théorique avec la loi observée est forte.
+
+Pour des données regroupées par modalités $m_1, \ldots, m_J$ avec des fréquences cumulées $F_1, \ldots, F_J$, les quantiles théoriques d'une loi normale sont : $q_J^* = F_0^{-1}(F_J)$, accessibles via `qnorm(F_J, m, σ)`.
+
+## 1.2 Application : tensions de pile
+
+**Contexte :** Xantane a relevé 500 fois les tensions ($x_i$) de sa pile. Les données sont regroupées dans le tableau suivant :
+
+| $x_i$ | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 |
+|--------|----|----|----|----|----|----|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| $n_i$  |  1 |  4 |  9 | 28 | 23 | 37 | 51 | 63 |  65 |  60 |  48 |  38 |  32 |  23 |  12 |   3 |   1 |   2 |
+
+### Étape 1 : Saisie des données
+
+```{r}
+qi = 92:109
+ni = c(1, 4, 9, 28, 23, 37, 51, 63, 65, 60, 48, 38, 32, 23, 12, 3, 1, 2)
+```
+
+### Étape 2 : Calcul de la moyenne pondérée
+
+La moyenne pondérée se calcule comme : $m = \frac{\sum q_i \cdot n_i}{\sum n_i}$
+
+```{r}
+m = sum(qi * ni) / sum(ni)
+cat("Moyenne pondérée m =", m)
+```
+
+### Étape 3 : Calcul de l'écart-type pondéré
+
+$\sigma = \sqrt{\frac{\sum n_i (q_i - m)^2}{\sum n_i - 1}}$
+
+```{r}
+sigma = sqrt(sum(ni * (qi - m)^2) / (sum(ni) - 1))
+cat("Écart-type pondéré sigma =", round(sigma, 2))
+```
+
+### Étape 4 : Fréquences cumulées et quantiles théoriques
+
+```{r}
+Fi = cumsum(ni) / sum(ni)
+qietoile = qnorm(Fi, m, sigma)
+```
+
+### Étape 5 : Tracé du QQ-plot
+
+```{r}
+plot(qi, qietoile,
+     main = "QQ-Plot : Tensions de pile",
+     xlab = "Quantiles observés (qi)",
+     ylab = "Quantiles théoriques (qi*)",
+     pch = 19, col = "blue")
+lines(c(90, 110), c(90, 110), col = "red", lwd = 2)
+legend("topleft", legend = "Diagonale y = x", col = "red", lwd = 2)
+```
+
+**Conclusion :** Les points sont bien alignés sur la diagonale. On observe une bonne adéquation avec une loi Normale $\mathcal{N}(m, \sigma)$.
+
+---
+
+# 2. Test du χ² pour la normalité
+
+Puisque nous ne disposons pas des données brutes, nous ne pouvons pas faire un test de Shapiro-Wilk. Nous allons donc utiliser le **test du χ²** pour vérifier l'adéquation à la loi normale.
+
+## 2.1 Fusion des effectifs faibles
+
+Pour que le test du χ² soit valide, il faut que les effectifs théoriques soient supérieurs à 5. On fusionne donc les 2 premiers et les 3 derniers effectifs :
+
+```{r}
+ni2 = c(ni[1] + ni[2], ni[3:15], ni[16] + ni[17] + ni[18])
+cat("Effectifs regroupés :", ni2)
+```
+
+## 2.2 Calcul des probabilités théoriques
+
+On calcule les probabilités théoriques $p_i$ en faisant la **correction de continuité** (bornes à ±0.5) :
+
+```{r}
+k = c(91, 93:106) + 0.5
+K = c(93:106.5, 109) + 0.5
+pi_theo = pnorm(K, 100, 3.1) - pnorm(k, 100, 3.1)
+ti = 500 * pi_theo
+```
+
+## 2.3 Calcul de la statistique du χ²
+
+```{r}
+dchi = sum((ni2 - ti)^2 / ti)
+cat("Statistique du chi-deux :", round(dchi, 4))
+```
+
+On peut aussi utiliser la fonction `chisq.test` :
+
+```{r}
+chisq.test(ni2, p = pi_theo)
+```
+
+## 2.4 Degrés de liberté et conclusion
+
+**Attention !** Les degrés de liberté valent $15 - 1 - 2 = 12$ (car nous avons estimé 2 paramètres : $m$ et $\sigma$). Or `chisq.test()` n'utilise pas les bons d.d.l. et donne une p-value erronée.
+
+Calculons la p-value correcte :
+
+```{r}
+cat("Quantile théorique χ²(0.95, 12) =", qchisq(0.95, 12))
+cat("\nStatistique observée =", round(dchi, 4))
+cat("\np-value correcte =", 1 - pchisq(dchi, 12))
+```
+
+**Conclusion :** La p-value est supérieure à 0.05 → on **ne rejette pas** l'hypothèse de normalité au seuil 5%.
+
+---
+
+# 3. Test du χ² d'indépendance
+
+## 3.1 Importation des données du Titanic
+
+Le fichier `titanic.csv` contient le registre des passagers du Titanic. L'objectif est d'étudier la relation entre **survie** et **classe** à l'aide du test d'indépendance de Chi-deux.
+
+```{r}
+titanic = read.csv("titanic.csv")
+head(titanic)
+```
+
+Stockons les variables d'intérêt :
+
+```{r}
+survived = titanic$Survived
+class = titanic$Pclass
+head(survived)
+head(class)
+```
+
+## 3.2 Test d'indépendance : Survie vs Classe
+
+Construisons le **tableau de contingence** :
+
+```{r}
+contingence1 = table(survived, class)
+contingence1
+```
+
+Effectuons le test du χ² d'indépendance :
+
+```{r}
+chisq.test(contingence1)
+```
+
+**Interprétation :** La p-value est inférieure à 0.05 (pratiquement égale à 0) → on **rejette** significativement l'hypothèse d'indépendance. La classe et la survie sont **dépendantes**. *Malheureusement, on le savait...*
+
+## 3.3 Autres tests d'indépendance
+
+### Survie vs Sexe
+
+```{r}
+contingence_sex = table(survived, titanic$Sex)
+contingence_sex
+chisq.test(contingence_sex)
+```
+
+### Classe vs Port d'embarquement
+
+```{r}
+contingence2 = table(class, titanic$Embarked)
+contingence2
+```
+
+On remarque une colonne vide (port inconnu). Supprimons-la :
+
+```{r}
+contingence2 = contingence2[, -1]
+contingence2
+chisq.test(contingence2)
+```
+
+### Survie vs Port d'embarquement
+
+```{r}
+contingence3 = table(survived, titanic$Embarked)
+contingence3 = contingence3[, -1]
+chisq.test(contingence3)
+```
+
+---
+
+# 4. Normalité et fonctions de R
+
+## 4.1 Acquisition de la variable `age`
+
+```{r}
+age = titanic$Age
+head(age)
+```
+
+Certains âges sont manquants (NA). Gardons seulement les âges connus :
+
+```{r}
+age = age[!is.na(age)]
+class2 = class[!is.na(titanic$Age)]
+cat("Nombre d'âges valides :", length(age))
+```
+
+## 4.2 Normalité de `age`
+
+### Densité estimée
+
+```{r}
+plot(density(age),
+     main = "Densité de la variable Age",
+     xlab = "Âge", ylab = "Densité",
+     col = "blue", lwd = 2)
+```
+
+### QQ-plot
+
+```{r}
+qqnorm(age, main = "QQ-plot de Age")
+qqline(age, col = "red")
+```
+
+### Test de Shapiro-Wilk
+
+```{r}
+shapiro.test(age)
+```
+
+**Conclusion :** La densité n'a pas l'allure d'une gaussienne, le QQ-plot dévie, et le test de Shapiro-Wilk rejette la normalité (p-value < 0.05). La variable `age` **n'est pas normale**.
+
+## 4.3 Normalité de `age` par classe
+
+La fonction `tapply` permet d'appliquer une fonction à une variable divisée par sous-groupes :
+
+```{r}
+tapply(age, class2, shapiro.test)
+```
+
+**Conclusion :** Seul en **première classe**, l'âge peut être considéré comme normal. Reste à savoir si cette information est vraiment intéressante...
+
+---
+
+# Résumé
+
+| Outil | Utilisation | Fonction R |
+|-------|-------------|------------|
+| QQ-plot | Visualiser l'adéquation à une loi | `qqnorm()`, `plot()` |
+| Test χ² d'adéquation | Tester si les données suivent une loi | `chisq.test()` |
+| Test χ² d'indépendance | Tester l'indépendance de 2 variables | `chisq.test(table())` |
+| Test de Shapiro-Wilk | Tester la normalité (données brutes) | `shapiro.test()` |
+| `tapply` | Appliquer une fonction par sous-groupe | `tapply(var, groupe, fun)` |

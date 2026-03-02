@@ -1,0 +1,421 @@
+---
+title: "TP4 -- ANOVA à deux facteurs et Tests Non Paramétriques"
+author: "Statistique Mathématique 3 -- L3 MIASHS"
+format:
+  html:
+    toc: true
+    code-fold: false
+    theme: cosmo
+  pdf:
+    toc: true
+lang: fr
+jupyter: ir
+---
+
+# Introduction
+
+Ce TP couvre trois thèmes importants :
+
+1. **Simulations et ANOVA à 1 facteur** : comprendre le comportement du test de Fisher par la simulation
+2. **ANOVA à deux facteurs** : prendre en compte l'effet simultané de deux facteurs
+3. **Tests non paramétriques** : alternatives quand l'hypothèse de normalité n'est pas vérifiée
+
+---
+
+# 1. Simulations et ANOVA à 1 facteur
+
+## 1.1 Principe
+
+Le test d'ANOVA (Fisher) teste l'égalité des moyennes entre groupes. La statistique est :
+
+$$F_{obs} = \frac{CMM}{CME}$$
+
+C'est un rapport entre la variance **due au modèle** et la variance **due aux erreurs**. Plus la variance de l'erreur est faible, plus on a de chances de rejeter l'égalité.
+
+## 1.2 Modèle sans erreur
+
+On suppose 3 niveaux avec 20 observations chacun et des moyennes 15, 20, 25 :
+
+```{r}
+x = c(rep(15, 20), rep(20, 20), rep(25, 20))
+a = c(rep("a", 20), rep("b", 20), rep("c", 20))
+```
+
+Si on lance une ANOVA sur ce modèle **sans erreur** :
+
+```{r}
+anova(lm(x ~ a))
+```
+
+R donne un avertissement : *les tests F d'ANOVA sur un ajustement pratiquement parfait ne sont pas fiables*. C'est logique : sans erreur, le test n'a pas de sens !
+
+## 1.3 Introduction de l'erreur
+
+On crée un vecteur d'erreurs normales centrées réduites :
+
+```{r}
+set.seed(42)
+err = rnorm(60)
+```
+
+On ajoute l'erreur multipliée par un écart-type (commençons par 0.5) :
+
+```{r}
+xe = x + 0.5 * err
+anova(lm(xe ~ a))
+```
+
+Avec un écart-type de 0.5, la p-value est très petite → rejet facile.
+
+## 1.4 Fonction pour automatiser
+
+```{r}
+anovalue = function(x, a, sigma) {
+  err = rnorm(length(x))
+  xe = x + sigma * err
+  return(anova(lm(xe ~ a))$Pr)
+}
+```
+
+## 1.5 Exploration de l'effet de sigma
+
+Faisons varier la valeur de `sigma` pour voir quand la p-value passe au-dessus de 5% :
+
+```{r}
+cat("sigma = 1 :", anovalue(x, a, 1), "\n")
+cat("sigma = 5 :", anovalue(x, a, 5), "\n")
+cat("sigma = 10 :", anovalue(x, a, 10), "\n")
+cat("sigma = 15 :", anovalue(x, a, 15), "\n")
+cat("sigma = 20 :", anovalue(x, a, 20), "\n")
+```
+
+> **Attention !** Puisque l'erreur est aléatoire, la p-value change à chaque appel. Près du seuil de 5%, relancez plusieurs fois pour observer les fluctuations.
+>
+> **Morale :** Voilà, vous savez pondre des études bidons maintenant ! C'est une leçon sur l'importance de ne pas p-hacker ses résultats.
+
+---
+
+# 2. ANOVA à deux facteurs
+
+## 2.1 Données de dureté de mèche
+
+### Contexte
+
+On compare la vitesse de pénétration de **4 marques de mèches** en acier sur **5 types de dureté** d'acier. Les temps sont mesurés en secondes.
+
+C'est une **classification à deux entrées** (mesures répétées).
+
+```{r}
+options(OutDec = ",")
+durtVit <- read.table("dureteMeche.txt", header = TRUE)
+head(durtVit)
+```
+
+```{r}
+Y = durtVit$Y
+D = factor(durtVit$D)  # Dureté (5 niveaux)
+M = factor(durtVit$M)  # Mèche (4 niveaux)
+```
+
+> **Note :** Les variables D et M sont codées avec des entiers mais ce sont bien des **variables qualitatives** (facteurs). On utilise `factor()` pour le préciser à R.
+
+### Graphe d'interaction
+
+```{r}
+interaction.plot(M, D, Y, main = "Graphe d'interaction",
+                 xlab = "Mèche", ylab = "Moyenne de Y",
+                 col = 1:5, lwd = 2)
+```
+
+**Interprétation :** Les lignes ne se croisent pas vraiment → l'interaction des deux facteurs influence **peu** la variable Y.
+
+## 2.2 Table d'ANOVA sans interaction
+
+On teste l'effet de 2 facteurs **sans** leur interaction (modèle additif) :
+
+```{r}
+summary(aov(Y ~ D + M))
+```
+
+**Résultat :** Chaque facteur influence **significativement** Y.
+
+### Avec interaction
+
+```{r}
+summary(aov(Y ~ D * M))
+```
+
+```{r}
+anova(lm(Y ~ D * M))
+```
+
+R renvoie un message d'erreur car il n'y a pas assez de données pour estimer l'interaction de manière fiable. Cela nous conforte dans l'idée que l'interaction n'influence pas Y.
+
+## 2.3 Attention : ANOVA à un facteur seul
+
+Il est fondamental de noter que pris séparément, un facteur ne suffit pas à expliquer Y :
+
+```{r}
+cat("=== ANOVA Y ~ M ===\n")
+summary(aov(Y ~ M))
+cat("\n=== ANOVA Y ~ D ===\n")
+summary(aov(Y ~ D))
+```
+
+**Observation :** Le facteur M semble expliquer Y seul, mais pas D. Pourtant, dans l'ANOVA à deux facteurs, les **deux** sont significatifs. C'est leur **action jointe** qui explique Y. Faire une ANOVA à un facteur sur ce jeu de données est une **mauvaise démarche**.
+
+## 2.4 ANOVA avec interaction (données engrais)
+
+Un second jeu de données avec un peu plus de données et une interaction plus marquée :
+
+```{r}
+engrais = read.table("engraisRegion.txt", header = TRUE)
+head(engrais)
+Y = engrais$Y
+R = factor(engrais$R)
+E = factor(engrais$E)
+```
+
+### ANOVA avec interaction
+
+```{r}
+anova(lm(Y ~ R * E))
+```
+
+**Résultat :** Seul le facteur E n'explique pas significativement Y. Par contre, R et l'interaction R:E sont significatifs.
+
+### Sans interaction
+
+```{r}
+anova(lm(Y ~ R + E))
+```
+
+### Graphe d'interaction
+
+```{r}
+interaction.plot(R, E, Y, main = "Graphe d'interaction (Engrais)",
+                 col = 1:4, lwd = 2)
+```
+
+---
+
+# 3. Tests non paramétriques
+
+Les tests non paramétriques n'exigent **pas** l'hypothèse de normalité. Ils sont basés sur les **rangs** plutôt que sur les valeurs brutes.
+
+## 3.1 Test de Wilcoxon contre Test du χ² -- Round 1
+
+### Simulation des données
+
+```{r}
+set.seed(42)
+x = sample(1:100, 100, replace = TRUE)
+quantile(x)
+Q1 = quantile(x)[2]
+Q3 = quantile(x)[4]
+```
+
+On crée X (valeurs **extérieures** aux quartiles) et Y (valeurs **intérieures**) :
+
+```{r}
+X = x[x < Q1 | x > Q3]
+Y = x[x > Q1 & x < Q3]
+
+# Ajout d'aléa pour les effectifs du test χ²
+X = c(X, sample(Q1:Q3, 5))
+Y = c(Y, sample(1:Q1, 5), sample(Q3:100, 5))
+X = sort(X)
+Y = sort(Y)
+```
+
+### Test du χ²
+
+On construit un tableau de contingence basé sur les quartiles :
+
+```{r}
+table_chi = rbind(c(1, 1, 1), c(1, 1, 1))
+table_chi[1, 1] = length(X[X < Q1])
+table_chi[1, 2] = length(X[X > Q1 & X < Q3])
+table_chi[1, 3] = length(X[X > Q3])
+table_chi[2, 1] = length(Y[Y < Q1])
+table_chi[2, 2] = length(Y[Y > Q1 & Y < Q3])
+table_chi[2, 3] = length(Y[Y > Q3])
+table_chi
+```
+
+```{r}
+chisq.test(table_chi)
+```
+
+**Résultat :** p-value proche de 0 → le χ² **détecte** la différence.
+
+### Test de Wilcoxon
+
+On classe toutes les valeurs de X et Y ensemble et on calcule la somme des rangs de X :
+
+```{r}
+matX = rbind(X, rep(1, length(X)))
+matY = rbind(Y, rep(0, length(Y)))
+matXY = cbind(matX, matY)
+mat = matXY[, order(matXY[1, ])]
+data_ranks = rbind(mat, 1:length(mat[1, ]))
+```
+
+```{r}
+rang = data_ranks[3, ]
+W = sum(rang[data_ranks[2, ] == 1])
+cat("Statistique W =", W)
+```
+
+### Conclusion du test de Wilcoxon
+
+L'hypothèse $H_0$ d'équidistribution est rejetée au seuil $\alpha$ si :
+
+$$\left|W - \frac{n_X(n+1)}{2}\right| > q_{\alpha/2} \sqrt{\frac{n_X n_Y (n+1)}{12}}$$
+
+```{r}
+U = W - length(X) * (length(X) + length(Y) + 1) / 2
+pval_wilcox = 1 - pnorm(abs(U), 0, sqrt(length(X) * length(Y) * (length(X) + length(Y) + 1) / 12))
+cat("p-value Wilcoxon =", pval_wilcox)
+```
+
+**Résultat :** Le test de Wilcoxon **ne détecte pas** la différence → Score : **χ² 1 - 0 Wilcoxon**.
+
+## 3.2 Round 2
+
+On redécoupe la variable x différemment :
+
+```{r}
+X2 = x[c(1:12, 25:36, 49:60, 73:84)]
+Y2 = x[c(13:24, 37:48, 61:72, 85:96)]
+```
+
+Refaisons les deux tests :
+
+```{r}
+# Test χ²
+table2 = rbind(c(1, 1, 1), c(1, 1, 1))
+table2[1, 1] = length(X2[X2 < Q1])
+table2[1, 2] = length(X2[X2 > Q1 & X2 < Q3])
+table2[1, 3] = length(X2[X2 > Q3])
+table2[2, 1] = length(Y2[Y2 < Q1])
+table2[2, 2] = length(Y2[Y2 > Q1 & Y2 < Q3])
+table2[2, 3] = length(Y2[Y2 > Q3])
+chisq.test(table2)
+```
+
+```{r}
+# Test de Wilcoxon (round 2)
+matX2 = rbind(X2, rep(1, length(X2)))
+matY2 = rbind(Y2, rep(0, length(Y2)))
+matXY2 = cbind(matX2, matY2)
+mat2 = matXY2[, order(matXY2[1, ])]
+data2 = rbind(mat2, 1:length(mat2[1, ]))
+rang2 = data2[3, ]
+W2 = sum(rang2[data2[2, ] == 1])
+U2 = W2 - length(X2) * (length(X2) + length(Y2) + 1) / 2
+pval2 = 1 - pnorm(abs(U2), 0, sqrt(length(X2) * length(Y2) * (length(X2) + length(Y2) + 1) / 12))
+cat("p-value Wilcoxon round 2 =", pval2)
+```
+
+**Résultat :** Cette fois, c'est le Wilcoxon qui détecte → Score : **1 partout !**
+
+Chaque test est sensible à un type différent de différence entre distributions.
+
+## 3.3 ANOVA contre tests non paramétriques (Ozone)
+
+### Contexte
+
+Étude sur la pollution de l'air : données de concentration d'ozone à Rennes durant l'été 2001. 112 observations, 13 variables.
+
+```{r}
+ozone = read.table("ozone.txt", sep = " ", dec = ".", header = TRUE)
+head(ozone)
+```
+
+```{r}
+vent = ozone$vent
+maxO3 = ozone$maxO3
+```
+
+### ANOVA : le vent influence-t-il l'ozone ?
+
+```{r}
+anova(lm(maxO3 ~ vent))
+```
+
+On aurait tendance à penser que le vent influence significativement la concentration en ozone.
+
+### Test de normalité par groupe
+
+Il est **indispensable** de vérifier la normalité pour valider l'ANOVA :
+
+```{r}
+tapply(maxO3, vent, shapiro.test)
+```
+
+**Problème :** Certains échantillons ne sont **pas gaussiens** → on devrait éviter l'ANOVA !
+
+### Test de Kruskal-Wallis (alternative non paramétrique)
+
+Le test de Kruskal-Wallis est un analogue de l'ANOVA, mais **sans hypothèse de normalité**. Il est basé sur les rangs.
+
+```{r}
+kruskal.test(maxO3 ~ vent)
+```
+
+**Résultat :** Même conclusion (le vent influence l'ozone), avec une p-value encore plus faible.
+
+### Test de corrélation de rang de Spearman
+
+On se demande si la température et la composante E-O du vent à 9h sont indépendantes :
+
+```{r}
+Vx9 = ozone$Vx9
+T9 = ozone$T9
+```
+
+#### À la main
+
+La statistique est le coefficient de corrélation des **rangs** :
+
+```{r}
+Rstar = cor(rank(Vx9), rank(T9))
+cat("Corrélation de Spearman R* =", round(Rstar, 4))
+```
+
+On compare `|R*|` au quantile $q_{0.975}$ de $\mathcal{N}(0, \sqrt{1/(n-1)})$ :
+
+```{r}
+seuil = qnorm(0.975, 0, sqrt(1 / (length(T9) - 1)))
+cat("Seuil critique =", round(seuil, 4))
+cat("\n|R*| =", round(abs(Rstar), 4))
+cat("\nRejet ?", abs(Rstar) > seuil)
+```
+
+#### Avec la fonction R
+
+```{r}
+cor.test(Vx9, T9, method = "spearman")
+```
+
+**Conclusion :** On rejette l'hypothèse de nullité de la corrélation → les variables sont **dépendantes**.
+
+---
+
+# Résumé
+
+| Test | Hypothèse de normalité | Utilisation | Fonction R |
+|------|----------------------|-------------|------------|
+| ANOVA (Fisher) | Oui | Comparer les moyennes de k groupes | `anova(lm())` |
+| Kruskal-Wallis | Non | Alternative à l'ANOVA | `kruskal.test()` |
+| Wilcoxon | Non | Comparer 2 échantillons | Calcul manuel |
+| χ² d'adéquation | Non | Comparer des distributions | `chisq.test()` |
+| Spearman | Non | Tester l'indépendance (corrélation de rangs) | `cor.test(method="spearman")` |
+
+**Points clés :**
+
+- Toujours vérifier la **normalité** avant d'utiliser l'ANOVA.
+- Les tests non paramétriques sont des alternatives robustes.
+- Différents tests détectent différents types de différences entre distributions.
+- L'ANOVA à deux facteurs capture l'effet **conjoint** de deux facteurs, ce qu'une ANOVA à un facteur ne peut pas faire.

@@ -207,7 +207,9 @@ data_rated %>%
 
 ```{r}
 #| label: fig-univar-accords
-#| fig-cap: "Accords olfactifs les plus fréquents"
+#| fig-cap: "Accords olfactifs avec une occurrence d'au moins 5%"
+n_parfums <- sum(!is.na(data_rated$Main_Accords))
+
 accords_all <- data_rated %>%
   filter(!is.na(Main_Accords)) %>%
   pull(Main_Accords) %>%
@@ -217,15 +219,20 @@ accords_all <- data_rated %>%
 
 accords_freq <- as.data.frame(table(accords_all), stringsAsFactors = FALSE)
 colnames(accords_freq) <- c("Accord", "Freq")
-accords_freq <- accords_freq[order(-accords_freq$Freq), ]
+accords_freq <- accords_freq %>%
+  mutate(Pct = Freq / n_parfums * 100) %>%
+  arrange(desc(Freq))
+
+n_total_accords <- nrow(accords_freq)
+cat("Nombre total d'accords distincts :", n_total_accords, "\n")
 
 accords_freq %>%
-  head(15) %>%
+  filter(Pct >= 5) %>%
   ggplot(aes(x = reorder(Accord, Freq), y = Freq)) +
   geom_bar(stat = "identity", fill = "steelblue") +
   coord_flip() +
   labs(x = "Accord", y = "Fréquence",
-       title = "Top 15 des accords olfactifs") +
+       title = paste0("Accords avec occurrence >= 5% (sur ", n_total_accords, " accords distincts)")) +
   theme_minimal()
 ```
 
