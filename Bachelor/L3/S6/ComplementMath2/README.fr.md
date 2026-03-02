@@ -19,13 +19,13 @@ Une introduction a l'apprentissage automatique supervise en R, combinant des tra
 
 Un pipeline ML complet predisant la satisfaction des utilisateurs a partir d'un jeu de donnees de ~60 000 parfums.
 
-| Etape | Notebook | Description |
-|-------|----------|-------------|
-| 1 | `01_exploration.qmd` | Analyse exploratoire : distributions, valeurs manquantes, visualisations |
-| 2 | `02_preparation.qmd` | Ingenierie de features, imputation, split train/test (70/30) |
-| 3 | `03_regression_logistique.qmd` | Regression logistique avec Elastic Net (CV 5 plis) |
-| 4 | `04_foret_aleatoire.qmd` | Foret aleatoire (500 arbres) avec tuning |
-| 5 | `05_comparaison.qmd` | Comparaison des modeles, courbes ROC, evaluation finale |
+| Etape | Notebook | Description | Demo |
+|-------|----------|-------------|------|
+| 1 | `01_exploration.qmd` | Analyse exploratoire : distributions, valeurs manquantes, visualisations | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | `02_preparation.qmd` | Ingenierie de features, imputation, split train/test (70/30) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | `03_regression_logistique.qmd` | Regression logistique avec Elastic Net (CV 5 plis) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | `04_foret_aleatoire.qmd` | Foret aleatoire (500 arbres) avec tuning | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
+| 5 | `05_comparaison.qmd` | Comparaison des modeles, courbes ROC, evaluation finale | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ### Structure du projet
 
