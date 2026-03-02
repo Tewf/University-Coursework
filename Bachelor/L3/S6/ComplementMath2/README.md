@@ -19,13 +19,13 @@ An introduction to supervised machine learning in R, combining practical exercis
 
 A complete ML pipeline predicting user satisfaction from a dataset of ~60,000 perfumes.
 
-| Step | Notebook | Description |
-|------|----------|-------------|
-| 1 | `01_exploration.qmd` | Exploratory Data Analysis: distributions, missing values, visualizations |
-| 2 | `02_preparation.qmd` | Feature engineering, imputation, train/test split (70/30) |
-| 3 | `03_regression_logistique.qmd` | Logistic regression with Elastic Net (5-fold CV) |
-| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 trees) with tuning |
-| 5 | `05_comparaison.qmd` | Model comparison, ROC curves, final evaluation |
+| Step | Notebook | Description | Live Demo |
+|------|----------|-------------|-----------|
+| 1 | `01_exploration.qmd` | Exploratory Data Analysis: distributions, missing values, visualizations | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | `02_preparation.qmd` | Feature engineering, imputation, train/test split (70/30) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | `03_regression_logistique.qmd` | Logistic regression with Elastic Net (5-fold CV) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 trees) with tuning | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
+| 5 | `05_comparaison.qmd` | Model comparison, ROC curves, final evaluation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ### Project Structure
 
