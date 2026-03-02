@@ -16,6 +16,8 @@ Travaux pratiques de statistiques en R couvrant la simulation, l'estimation et l
 
 ## Vue d'ensemble des TPs
 
+> **Parcourir tous les notebooks :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/)
+
 | TP | Theme | Concepts cles | Demo |
 |----|-------|---------------|------|
 | **TP1** | Simulation & Bootstrap | Generation aleatoire, reeechantillonnage, distributions empiriques | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/html/TP_Simulation_Bootstrap.html) |

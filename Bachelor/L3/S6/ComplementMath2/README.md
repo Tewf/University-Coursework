@@ -19,6 +19,8 @@ An introduction to supervised machine learning in R, combining practical exercis
 
 A complete ML pipeline predicting user satisfaction from a dataset of ~60,000 perfumes.
 
+> **Browse all project notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/)
+
 | Step | Notebook | Description | Live Demo |
 |------|----------|-------------|-----------|
 | 1 | `01_exploration.qmd` | Exploratory Data Analysis: distributions, missing values, visualizations | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/01_exploration.html) |
@@ -41,6 +43,8 @@ Projet/
 ## Practical Sessions (TPs)
 
 6 TPs covering foundational ML concepts using the Titanic dataset:
+
+> **Browse all TPs:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/)
 
 | TP | Topic | Live Demo |
 |----|-------|-----------|
