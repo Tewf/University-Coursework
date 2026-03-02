@@ -199,3 +199,45 @@ html {
   overflow-x: auto;
   padding: 0.5rem 0;
 }
+
+/* ── PDF download button ─────────────────────── */
+
+.pdf-download-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.1rem;
+  background: #2563eb;
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  z-index: 1050;
+}
+
+.pdf-download-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  transform: translateY(-2px);
+  color: #ffffff !important;
+}
+
+.pdf-download-btn svg {
+  flex-shrink: 0;
+}
+
+[data-bs-theme="dark"] .pdf-download-btn {
+  background: #1e40af;
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+}
+
+[data-bs-theme="dark"] .pdf-download-btn:hover {
+  background: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+}
