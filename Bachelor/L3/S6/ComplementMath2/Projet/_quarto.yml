@@ -4,7 +4,11 @@ project:
 
 title: "Prédiction de la Satisfaction Client pour les Parfums"
 subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
-author: "HAMLIL Mohamed"
+author:
+  - "HAMLIL Mohamed"
+  - "PARDO TERAN German"
+  - "EL KORAICHI Mohamed Yassine"
+  - "ANZID Keltoum"
 date: "2025-01-15"
 lang: fr
 

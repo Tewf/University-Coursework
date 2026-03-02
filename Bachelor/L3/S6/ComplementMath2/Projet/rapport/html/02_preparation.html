@@ -7,6 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="HAMLIL Mohamed">
+<meta name="author" content="PARDO TERAN German">
+<meta name="author" content="EL KORAICHI Mohamed Yassine">
+<meta name="author" content="ANZID Keltoum">
 <meta name="dcterms.date" content="2025-01-01">
 
 <title>Partie 2 : Préparation des Données</title>
@@ -2399,9 +2402,12 @@ vertical-align: -.125em;
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Auteur·rice</div>
+    <div class="quarto-title-meta-heading">Auteur·rice·s</div>
     <div class="quarto-title-meta-contents">
              <p>HAMLIL Mohamed </p>
+             <p>PARDO TERAN German </p>
+             <p>EL KORAICHI Mohamed Yassine </p>
+             <p>ANZID Keltoum </p>
           </div>
   </div>
     
@@ -2428,9 +2434,6 @@ vertical-align: -.125em;
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;data_rated.rds&quot;</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données chargées :&quot;</span>, <span class="fu">nrow</span>(data_rated), <span class="st">&quot;lignes,&quot;</span>, <span class="fu">ncol</span>(data_rated), <span class="st">&quot;colonnes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Données chargées : 30046 lignes, 14 colonnes</code></pre>
-</div>
 </div>
 </section>
 <section id="feature-engineering" class="level1">
@@ -2439,33 +2442,23 @@ vertical-align: -.125em;
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top accords</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>result_accords <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Main_Accords&quot;</span>, <span class="at">top_n =</span> <span class="dv">10</span>, <span class="at">prefix =</span> <span class="st">&quot;accord_&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_accords<span class="sc">$</span>data</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top accords :&quot;</span>, <span class="fu">paste</span>(result_accords<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Top accords : Floral, Spicy, Sweet, Woody, Fresh, Fruity, Citrus, Green, Powdery, Synthetic </code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de tête</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>result_top <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Top_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;topnote_&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_top<span class="sc">$</span>data</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top notes de tête :&quot;</span>, <span class="fu">paste</span>(result_top<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Top notes de tête : Bergamot, Mandarin orange, Lemon, Grapefruit, Pink pepper, Orange, Cardamom, Blackcurrant </code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de cœur</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result_mid <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Middle_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;midnote_&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_mid<span class="sc">$</span>data</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de fond</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>result_base <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Base_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;basenote_&quot;</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_base<span class="sc">$</span>data</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top accords</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>result_accords <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Main_Accords&quot;</span>, <span class="at">top_n =</span> <span class="dv">10</span>, <span class="at">prefix =</span> <span class="st">&quot;accord_&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_accords<span class="sc">$</span>data</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top accords :&quot;</span>, <span class="fu">paste</span>(result_accords<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de tête</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>result_top <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Top_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;topnote_&quot;</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_top<span class="sc">$</span>data</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top notes de tête :&quot;</span>, <span class="fu">paste</span>(result_top<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de cœur</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>result_mid <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Middle_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;midnote_&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_mid<span class="sc">$</span>data</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de fond</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>result_base <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Base_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;basenote_&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_base<span class="sc">$</span>data</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -2474,52 +2467,43 @@ vertical-align: -.125em;
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de notes pour chaque parfum (mesure de complexité)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_top_notes =</span> <span class="fu">str_count</span>(Top_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Top_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_mid_notes =</span> <span class="fu">str_count</span>(Middle_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Middle_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_base_notes =</span> <span class="fu">str_count</span>(Base_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Base_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_accords =</span> <span class="fu">str_count</span>(Main_Accords, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Main_Accords), <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoder Concentration</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Concentration), <span class="st">&quot;Unknown&quot;</span>, Concentration))</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Garder les concentrations fréquentes, regrouper les autres</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>top_concentrations <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Concentration, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Concentration)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(Concentration <span class="sc">%in%</span> top_concentrations,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                                 Concentration, <span class="st">&quot;Autre&quot;</span>))</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>Concentration <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_rated<span class="sc">$</span>Concentration)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélectionner les variables pour la modélisation</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Release_Year&quot;</span>, <span class="st">&quot;Rating_Count&quot;</span>, <span class="st">&quot;Concentration&quot;</span>,</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;nb_top_notes&quot;</span>, <span class="st">&quot;nb_mid_notes&quot;</span>, <span class="st">&quot;nb_base_notes&quot;</span>, <span class="st">&quot;nb_accords&quot;</span>,</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;^accord_|^topnote_|^midnote_|^basenote_&quot;</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">&quot;Satisfaction&quot;</span>)))</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variables du modèle :&quot;</span>, <span class="fu">ncol</span>(df_model) <span class="sc">-</span> <span class="dv">1</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de notes pour chaque parfum (mesure de complexité)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_top_notes =</span> <span class="fu">str_count</span>(Top_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Top_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_mid_notes =</span> <span class="fu">str_count</span>(Middle_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Middle_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_base_notes =</span> <span class="fu">str_count</span>(Base_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Base_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_accords =</span> <span class="fu">str_count</span>(Main_Accords, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Main_Accords), <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoder Concentration</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Concentration), <span class="st">&quot;Unknown&quot;</span>, Concentration))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Garder les concentrations fréquentes, regrouper les autres</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>top_concentrations <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Concentration, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Concentration)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(Concentration <span class="sc">%in%</span> top_concentrations,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                                 Concentration, <span class="st">&quot;Autre&quot;</span>))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>Concentration <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_rated<span class="sc">$</span>Concentration)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélectionner les variables pour la modélisation</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Release_Year&quot;</span>, <span class="st">&quot;Rating_Count&quot;</span>, <span class="st">&quot;Concentration&quot;</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;nb_top_notes&quot;</span>, <span class="st">&quot;nb_mid_notes&quot;</span>, <span class="st">&quot;nb_base_notes&quot;</span>, <span class="st">&quot;nb_accords&quot;</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;^accord_|^topnote_|^midnote_|^basenote_&quot;</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">&quot;Satisfaction&quot;</span>)))</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variables du modèle :&quot;</span>, <span class="fu">ncol</span>(df_model) <span class="sc">-</span> <span class="dv">1</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Observations :&quot;</span>, <span class="fu">nrow</span>(df_model), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Variables du modèle : 41 </code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Observations :&quot;</span>, <span class="fu">nrow</span>(df_model), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Observations : 30046 </code></pre>
-</div>
 </div>
 </section>
 <section id="traitement-des-valeurs-manquantes" class="level1">
@@ -2540,14 +2524,11 @@ vertical-align: -.125em;
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Valeurs manquantes restantes :&quot;</span>, <span class="fu">sum</span>(<span class="fu">is.na</span>(df_model)), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Valeurs manquantes restantes :&quot;</span>, <span class="fu">sum</span>(<span class="fu">is.na</span>(df_model)), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Valeurs manquantes restantes : 0 </code></pre>
-</div>
 </div>
 </section>
 <section id="séparation-train-test" class="level1">
@@ -2556,37 +2537,16 @@ vertical-align: -.125em;
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Train :&quot;</span>, <span class="fu">nrow</span>(train_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Train :&quot;</span>, <span class="fu">nrow</span>(train_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Test :&quot;</span>, <span class="fu">nrow</span>(test_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (train) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (test) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Train : 21033 observations</code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Test :&quot;</span>, <span class="fu">nrow</span>(test_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Test : 9013 observations</code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (train) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Proportion Oui (train) : 0.543 </code></pre>
-</div>
-<details open class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (test) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Proportion Oui (test) : 0.544 </code></pre>
-</div>
 </div>
 </section>
 <section id="sauvegarde" class="level1">
@@ -2594,13 +2554,10 @@ vertical-align: -.125em;
 <div class="cell">
 <details open class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;train_data.rds&quot;</span>))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;test_data.rds&quot;</span>))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données sauvegardées dans output/</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;train_data.rds&quot;</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;test_data.rds&quot;</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données sauvegardées dans output/</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Données sauvegardées dans output/</code></pre>
-</div>
 </div>
 <!-- -->
 
@@ -3086,131 +3043,131 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Partie 2 : Préparation des Données&quot;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;utils.R&quot;</span>))</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Chargement des données explorées</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;data_rated.rds&quot;</span>))</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données chargées :&quot;</span>, <span class="fu">nrow</span>(data_rated), <span class="st">&quot;lignes,&quot;</span>, <span class="fu">ncol</span>(data_rated), <span class="st">&quot;colonnes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="fu"># Feature Engineering</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>Nous transformons les variables textuelles (accords, notes) en indicatrices binaires pour les accords/notes les plus fréquents. La fonction <span class="in">`extract_top_features()`</span> définie dans <span class="in">`R/utils.R`</span> est utilisée pour cette tâche.</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: feature-engineering</span></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top accords</span></span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>result_accords <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Main_Accords&quot;</span>, <span class="at">top_n =</span> <span class="dv">10</span>, <span class="at">prefix =</span> <span class="st">&quot;accord_&quot;</span>)</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_accords<span class="sc">$</span>data</span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top accords :&quot;</span>, <span class="fu">paste</span>(result_accords<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de tête</span></span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>result_top <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Top_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;topnote_&quot;</span>)</span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_top<span class="sc">$</span>data</span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top notes de tête :&quot;</span>, <span class="fu">paste</span>(result_top<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de cœur</span></span>
-<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>result_mid <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Middle_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;midnote_&quot;</span>)</span>
-<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_mid<span class="sc">$</span>data</span>
-<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de fond</span></span>
-<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>result_base <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Base_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;basenote_&quot;</span>)</span>
-<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_base<span class="sc">$</span>data</span>
-<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a><span class="fu"># Construction du jeu de données final</span></span>
-<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dataset-final</span></span>
-<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de notes pour chaque parfum (mesure de complexité)</span></span>
-<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_top_notes =</span> <span class="fu">str_count</span>(Top_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Top_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_mid_notes =</span> <span class="fu">str_count</span>(Middle_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Middle_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_base_notes =</span> <span class="fu">str_count</span>(Base_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Base_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_accords =</span> <span class="fu">str_count</span>(Main_Accords, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Main_Accords), <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoder Concentration</span></span>
-<span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Concentration), <span class="st">&quot;Unknown&quot;</span>, Concentration))</span>
-<span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-69"><a href="#cb24-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Garder les concentrations fréquentes, regrouper les autres</span></span>
-<span id="cb24-70"><a href="#cb24-70" aria-hidden="true" tabindex="-1"></a>top_concentrations <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb24-71"><a href="#cb24-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Concentration, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Concentration)</span>
-<span id="cb24-74"><a href="#cb24-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-75"><a href="#cb24-75" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(Concentration <span class="sc">%in%</span> top_concentrations,</span>
-<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>                                 Concentration, <span class="st">&quot;Autre&quot;</span>))</span>
-<span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>Concentration <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_rated<span class="sc">$</span>Concentration)</span>
-<span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélectionner les variables pour la modélisation</span></span>
-<span id="cb24-81"><a href="#cb24-81" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb24-82"><a href="#cb24-82" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Release_Year&quot;</span>, <span class="st">&quot;Rating_Count&quot;</span>, <span class="st">&quot;Concentration&quot;</span>,</span>
-<span id="cb24-83"><a href="#cb24-83" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;nb_top_notes&quot;</span>, <span class="st">&quot;nb_mid_notes&quot;</span>, <span class="st">&quot;nb_base_notes&quot;</span>, <span class="st">&quot;nb_accords&quot;</span>,</span>
-<span id="cb24-84"><a href="#cb24-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;^accord_|^topnote_|^midnote_|^basenote_&quot;</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-85"><a href="#cb24-85" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">&quot;Satisfaction&quot;</span>)))</span>
-<span id="cb24-89"><a href="#cb24-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-90"><a href="#cb24-90" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variables du modèle :&quot;</span>, <span class="fu">ncol</span>(df_model) <span class="sc">-</span> <span class="dv">1</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Observations :&quot;</span>, <span class="fu">nrow</span>(df_model), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-93"><a href="#cb24-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-94"><a href="#cb24-94" aria-hidden="true" tabindex="-1"></a><span class="fu"># Traitement des valeurs manquantes</span></span>
-<span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>:::{.callout-important}</span>
-<span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix de conception</span></span>
-<span id="cb24-98"><a href="#cb24-98" aria-hidden="true" tabindex="-1"></a>L&#39;imputation par la **médiane** est privilégiée par rapport à la moyenne car elle est robuste aux valeurs extrêmes présentes notamment dans <span class="in">`Rating_Count`</span>.</span>
-<span id="cb24-99"><a href="#cb24-99" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb24-100"><a href="#cb24-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-103"><a href="#cb24-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-104"><a href="#cb24-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: imputation</span></span>
-<span id="cb24-105"><a href="#cb24-105" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
-<span id="cb24-106"><a href="#cb24-106" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
-<span id="cb24-107"><a href="#cb24-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-108"><a href="#cb24-108" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Valeurs manquantes restantes :&quot;</span>, <span class="fu">sum</span>(<span class="fu">is.na</span>(df_model)), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-110"><a href="#cb24-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-111"><a href="#cb24-111" aria-hidden="true" tabindex="-1"></a><span class="fu"># Séparation train / test</span></span>
-<span id="cb24-112"><a href="#cb24-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-113"><a href="#cb24-113" aria-hidden="true" tabindex="-1"></a>Nous utilisons une répartition **70% / 30%** avec stratification sur la variable cible.</span>
-<span id="cb24-114"><a href="#cb24-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-117"><a href="#cb24-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-118"><a href="#cb24-118" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: split</span></span>
-<span id="cb24-119"><a href="#cb24-119" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb24-120"><a href="#cb24-120" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb24-121"><a href="#cb24-121" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
-<span id="cb24-122"><a href="#cb24-122" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
-<span id="cb24-123"><a href="#cb24-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-124"><a href="#cb24-124" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Train :&quot;</span>, <span class="fu">nrow</span>(train_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-125"><a href="#cb24-125" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Test :&quot;</span>, <span class="fu">nrow</span>(test_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (train) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-127"><a href="#cb24-127" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (test) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-128"><a href="#cb24-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-129"><a href="#cb24-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-130"><a href="#cb24-130" aria-hidden="true" tabindex="-1"></a><span class="fu"># Sauvegarde</span></span>
-<span id="cb24-131"><a href="#cb24-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-134"><a href="#cb24-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-135"><a href="#cb24-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
-<span id="cb24-136"><a href="#cb24-136" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;train_data.rds&quot;</span>))</span>
-<span id="cb24-137"><a href="#cb24-137" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;test_data.rds&quot;</span>))</span>
-<span id="cb24-138"><a href="#cb24-138" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données sauvegardées dans output/</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb24-139"><a href="#cb24-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Partie 2 : Préparation des Données&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;utils.R&quot;</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Chargement des données explorées</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;data_rated.rds&quot;</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données chargées :&quot;</span>, <span class="fu">nrow</span>(data_rated), <span class="st">&quot;lignes,&quot;</span>, <span class="fu">ncol</span>(data_rated), <span class="st">&quot;colonnes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu"># Feature Engineering</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>Nous transformons les variables textuelles (accords, notes) en indicatrices binaires pour les accords/notes les plus fréquents. La fonction <span class="in">`extract_top_features()`</span> définie dans <span class="in">`R/utils.R`</span> est utilisée pour cette tâche.</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: feature-engineering</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top accords</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>result_accords <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Main_Accords&quot;</span>, <span class="at">top_n =</span> <span class="dv">10</span>, <span class="at">prefix =</span> <span class="st">&quot;accord_&quot;</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_accords<span class="sc">$</span>data</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top accords :&quot;</span>, <span class="fu">paste</span>(result_accords<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de tête</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>result_top <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Top_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;topnote_&quot;</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_top<span class="sc">$</span>data</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Top notes de tête :&quot;</span>, <span class="fu">paste</span>(result_top<span class="sc">$</span>items, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de cœur</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>result_mid <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Middle_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;midnote_&quot;</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_mid<span class="sc">$</span>data</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraire les top notes de fond</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>result_base <span class="ot">&lt;-</span> <span class="fu">extract_top_features</span>(data_rated, <span class="st">&quot;Base_Notes&quot;</span>, <span class="at">top_n =</span> <span class="dv">8</span>, <span class="at">prefix =</span> <span class="st">&quot;basenote_&quot;</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> result_base<span class="sc">$</span>data</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="fu"># Construction du jeu de données final</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dataset-final</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de notes pour chaque parfum (mesure de complexité)</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_top_notes =</span> <span class="fu">str_count</span>(Top_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Top_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_mid_notes =</span> <span class="fu">str_count</span>(Middle_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Middle_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_base_notes =</span> <span class="fu">str_count</span>(Base_Notes, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Base_Notes), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb_accords =</span> <span class="fu">str_count</span>(Main_Accords, <span class="st">&quot;,&quot;</span>) <span class="sc">+</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Main_Accords), <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Encoder Concentration</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Concentration), <span class="st">&quot;Unknown&quot;</span>, Concentration))</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Garder les concentrations fréquentes, regrouper les autres</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>top_concentrations <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Concentration, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Concentration)</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Concentration =</span> <span class="fu">ifelse</span>(Concentration <span class="sc">%in%</span> top_concentrations,</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>                                 Concentration, <span class="st">&quot;Autre&quot;</span>))</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>Concentration <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_rated<span class="sc">$</span>Concentration)</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélectionner les variables pour la modélisation</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Release_Year&quot;</span>, <span class="st">&quot;Rating_Count&quot;</span>, <span class="st">&quot;Concentration&quot;</span>,</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;nb_top_notes&quot;</span>, <span class="st">&quot;nb_mid_notes&quot;</span>, <span class="st">&quot;nb_base_notes&quot;</span>, <span class="st">&quot;nb_accords&quot;</span>,</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;^accord_|^topnote_|^midnote_|^basenote_&quot;</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">&quot;Satisfaction&quot;</span>)))</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variables du modèle :&quot;</span>, <span class="fu">ncol</span>(df_model) <span class="sc">-</span> <span class="dv">1</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Observations :&quot;</span>, <span class="fu">nrow</span>(df_model), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="fu"># Traitement des valeurs manquantes</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>:::{.callout-important}</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix de conception</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>L&#39;imputation par la **médiane** est privilégiée par rapport à la moyenne car elle est robuste aux valeurs extrêmes présentes notamment dans <span class="in">`Rating_Count`</span>.</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: imputation</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Valeurs manquantes restantes :&quot;</span>, <span class="fu">sum</span>(<span class="fu">is.na</span>(df_model)), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="fu"># Séparation train / test</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>Nous utilisons une répartition **70% / 30%** avec stratification sur la variable cible.</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: split</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Train :&quot;</span>, <span class="fu">nrow</span>(train_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Test :&quot;</span>, <span class="fu">nrow</span>(test_data), <span class="st">&quot;observations</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (train) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Proportion Oui (test) :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">&quot;Oui&quot;</span>), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="fu"># Sauvegarde</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;train_data.rds&quot;</span>))</span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;output&quot;</span>, <span class="st">&quot;test_data.rds&quot;</span>))</span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Données sauvegardées dans output/</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -1,6 +1,6 @@
 # Données : Parfumo Dataset
 
-**Source** : [Kaggle -- Parfumo Dataset](https://www.kaggle.com/datasets)
+**Source** : [Parfumo Fragrance Dataset -- TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-12-10/readme.md)
 
 **Fichier** : `parfumo_data_clean.csv`
 
