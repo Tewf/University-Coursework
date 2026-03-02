@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<!-- HTML5 document declaration -->
+
+<html lang="fr">
+<!-- Root element with French language -->
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Character encoding for special characters -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Responsive design for mobile devices -->
+
+    <title>Accueil - Portfolio de Mohamed HAMLIL</title>
+    <!-- Page title displayed in browser tab -->
+
+    <style>
+        /*
+            INTERNAL CSS (Cascading Style Sheets)
+            - CSS is used to STYLE and FORMAT HTML elements
+            - Written inside <style> tags in the <head>
+            - Better approach: external CSS file, but this works for learning
+
+            CSS SYNTAX:
+            selector {
+                property: value;
+            }
+        */
+
+        body {
+            /*
+                "body" is the SELECTOR - targets the <body> element
+                Everything inside { } applies to the body
+            */
+            font-family: Arial, sans-serif;
+            /* Sets the font for all text */
+
+            text-align: center;
+            /* Centers all text and inline elements */
+
+            background-color: #f0f0f0;
+            /* Light gray background (#f0f0f0 is a hex color code) */
+
+            padding: 20px;
+            /* Adds space inside the body (20 pixels on all sides) */
+        }
+
+        h1 {
+            color: #333;
+            /* Dark gray text color */
+
+            margin-bottom: 30px;
+            /* Space below the heading */
+        }
+
+        .logo-container {
+            /*
+                ".logo-container" is a CLASS SELECTOR
+                - The dot (.) means "select elements with class='logo-container'"
+                - Classes can be reused on multiple elements
+            */
+
+            display: flex;
+            /* Flexbox layout - modern way to arrange elements */
+
+            justify-content: center;
+            /* Centers items horizontally */
+
+            align-items: center;
+            /* Centers items vertically */
+
+            gap: 50px;
+            /* Space between items (50 pixels) */
+
+            flex-wrap: wrap;
+            /* Allows items to wrap to next line on small screens */
+
+            margin: 40px 0;
+            /* 40px space above and below, 0 on left and right */
+        }
+
+        .logo-link {
+            /* Styles for links around logos */
+            text-decoration: none;
+            /* Removes underline from links */
+
+            color: #333;
+            /* Text color */
+
+            transition: transform 0.3s;
+            /* Smooth animation when hovering (0.3 seconds) */
+        }
+
+        .logo-link:hover {
+            /*
+                ":hover" is a PSEUDO-CLASS
+                - Styles apply when mouse hovers over the element
+            */
+            transform: scale(1.1);
+            /* Enlarges the element by 10% on hover */
+        }
+
+        .logo-item {
+            /* Styles for each logo item */
+            display: flex;
+            /* Flexbox for vertical alignment */
+
+            flex-direction: column;
+            /* Stack items vertically (image on top, text below) */
+
+            align-items: center;
+            /* Center items horizontally */
+
+            padding: 20px;
+            /* Space inside each logo box */
+
+            background-color: white;
+            /* White background */
+
+            border-radius: 10px;
+            /* Rounded corners (10 pixels) */
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            /* Subtle shadow for depth effect */
+        }
+
+        .logo-item img {
+            /* Targets <img> elements inside .logo-item */
+            width: 80px;
+            /* Fixed width */
+
+            height: 80px;
+            /* Fixed height (creates square) */
+
+            margin-bottom: 10px;
+            /* Space below image */
+        }
+
+        footer {
+            margin-top: 50px;
+            /* Space above footer */
+
+            color: #666;
+            /* Medium gray text */
+        }
+    </style>
+    <!--
+        CSS allows us to:
+        - Change colors, fonts, sizes
+        - Create layouts (flexbox, grid)
+        - Add animations and effects
+        - Make pages responsive
+
+        Without CSS, web pages would be plain black text on white!
+    -->
+</head>
+
+<body>
+
+    <!-- ========================================
+         HEADER SECTION
+         ======================================== -->
+
+    <header id="top">
+        <!--
+            <header> tag: SEMANTIC element for introductory content
+            - Typically contains site title, logo, navigation
+            - id="top" allows links to jump to the top of the page
+        -->
+
+        <h1>Bienvenue sur mon Portfolio</h1>
+
+        <p>
+            Bonjour ! Je suis Mohamed HAMLIL, étudiant en Licence MIASHS (Parcours Économie).<br>
+            Spécialisé en mathématiques appliquées, optimisation et algorithmique.<br>
+            Explorez mon travail en cliquant sur les liens ci-dessous.
+        </p>
+    </header>
+
+    <!-- ========================================
+         MAIN NAVIGATION WITH LOGO LINKS
+         ======================================== -->
+
+    <main>
+        <!--
+            <main> tag: SEMANTIC element for the main content
+            - Should contain the primary content of the page
+            - Only ONE <main> per page
+            - Helps screen readers skip navigation and go to content
+        -->
+
+        <nav class="logo-container">
+            <!--
+                "class" attribute: Assigns a CSS class to this element
+                - class="logo-container" applies the .logo-container styles
+                - Classes are reusable (unlike id which must be unique)
+                - Multiple classes: class="class1 class2 class3"
+            -->
+
+            <!-- ========== LOGO 1: CV ========== -->
+            <a href="cv.html" class="logo-link">
+                <!--
+                    WRAPPING AN IMAGE IN A LINK:
+                    - <a> tag makes something clickable
+                    - Putting <img> inside <a> makes the image clickable
+                    - The entire image becomes a link
+                -->
+
+                <div class="logo-item">
+                    <!--
+                        <div> tag: Generic CONTAINER element
+                        - No semantic meaning (unlike <section>, <nav>, etc.)
+                        - Used for grouping and styling
+                        - Very common in layouts
+                    -->
+
+                    <img src="home/cv.svg" alt="Icône de CV - Document avec photo">
+                    <!--
+                        SVG IMAGE:
+                        - SVG = Scalable Vector Graphics
+                        - Vector images (don't get blurry when resized)
+                        - Perfect for icons and logos
+                        - Can also use .png, .jpg, .gif, .webp
+
+                        ALT TEXT BEST PRACTICE:
+                        - Describe what the icon represents, not just "icon"
+                        - "Icône de CV" is more helpful than just "icon"
+                    -->
+
+                    <span>Curriculum Vitae</span>
+                    <!--
+                        <span> tag: Inline container for text
+                        - Like <div> but for INLINE content (doesn't break to new line)
+                        - Used for styling specific parts of text
+                        - No semantic meaning
+                    -->
+                </div>
+            </a>
+
+            <!-- ========== LOGO 2: EMAIL ========== -->
+            <a href="mailto:hamlilm@yahoo.fr" class="logo-link">
+                <!--
+                    MAILTO LINK:
+                    - Opens the user's default email program
+                    - Pre-fills the recipient address
+                    - Can also add subject and body:
+                      href="mailto:email@example.com?subject=Hello&body=Message here"
+                -->
+
+                <div class="logo-item">
+                    <img src="home/mail.svg" alt="Icône d'email - Enveloppe">
+                    <span>Me contacter</span>
+                </div>
+            </a>
+
+            <!-- ========== LOGO 3: EXTERNAL LINK ========== -->
+            <a href="https://www.univ-grenoble-alpes.fr/" class="logo-link" target="_blank" rel="noopener noreferrer">
+                <!--
+                    EXTERNAL LINK ATTRIBUTES:
+
+                    target="_blank":
+                    - Opens link in a NEW TAB or window
+                    - Useful for external sites so users don't lose your page
+                    - Options: _blank (new), _self (same tab), _parent, _top
+
+                    rel="noopener noreferrer":
+                    - Security and performance attribute
+                    - "noopener": Prevents new page from accessing your page (security)
+                    - "noreferrer": Doesn't send referrer info (privacy)
+                    - ALWAYS use with target="_blank" for security!
+                -->
+
+                <div class="logo-item">
+                    <img src="home/ufr.svg" alt="Logo de l'Université Grenoble Alpes">
+                    <!--
+                        Logo alt text should describe what it is, not where it goes
+                        Good: "Logo de l'Université..."
+                        Bad: "Click here for university"
+                    -->
+
+                    <span>UFR SHS<br><small>Université Grenoble Alpes</small></span>
+                    <!-- <small> makes text slightly smaller -->
+                </div>
+            </a>
+
+        </nav>
+
+        <!-- ========================================
+             ADDITIONAL LINK - SCHEDULE
+             ======================================== -->
+
+        <p style="margin-top: 40px;">
+            <!--
+                INLINE STYLES:
+                - CSS written directly in the HTML element
+                - Uses the "style" attribute
+                - Syntax: style="property: value; property2: value2;"
+                - Not recommended for large projects (use external CSS)
+                - OK for quick single-use styles
+            -->
+
+            <a href="calendar.html">📅 Consulter mon emploi du temps</a>
+            <!--
+                EMOJI IN HTML:
+                - You can use emoji directly in HTML (thanks to UTF-8)
+                - Make sure your file is saved with UTF-8 encoding
+                - Emoji work in most modern browsers
+            -->
+        </p>
+
+    </main>
+
+    <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
+
+    <footer>
+        <hr>
+        <!-- Horizontal line separator -->
+
+        <p>
+            <small>
+                &copy; 2026 Mohamed HAMLIL | Tous droits réservés
+                <!--
+                    HTML ENTITIES:
+                    - Special characters written as &code;
+                    - &copy; = © (copyright symbol)
+                    - Other common entities:
+                        * &lt; = < (less than)
+                        * &gt; = > (greater than)
+                        * &amp; = & (ampersand)
+                        * &nbsp; = non-breaking space
+                        * &euro; = € (euro symbol)
+                        * &quot; = " (quotation mark)
+
+                    Why use entities?
+                    - Some characters have special meaning in HTML (like <, >, &)
+                    - Entities ensure they display correctly
+                    - Also useful for symbols not on your keyboard
+                -->
+            </small>
+        </p>
+
+        <p>
+            <small>
+                <a href="#top">↑ Retour en haut</a>
+                <!-- Internal link to jump to the top of the page -->
+            </small>
+        </p>
+    </footer>
+
+</body>
+
+<!--
+    ============================================
+    KEY CONCEPTS YOU JUST LEARNED:
+    ============================================
+
+    1. PAGE STRUCTURE:
+       - <header>: Introductory content
+       - <main>: Primary content (one per page)
+       - <nav>: Navigation links
+       - <footer>: Footer information
+       - <div>: Generic container (no semantic meaning)
+       - <span>: Inline container for text
+
+    2. CLICKABLE IMAGES:
+       - Wrap <img> inside <a> to make it clickable
+       - Example: <a href="page.html"><img src="icon.svg"></a>
+
+    3. LINK TYPES:
+       - Internal: href="page.html" (same website)
+       - Internal anchor: href="#section-id" (same page)
+       - External: href="https://example.com" (other website)
+       - Email: href="mailto:email@example.com"
+
+    4. EXTERNAL LINK SECURITY:
+       - Always use target="_blank" to open in new tab
+       - Always add rel="noopener noreferrer" for security
+       - Example: <a href="https://..." target="_blank" rel="noopener noreferrer">
+
+    5. CSS BASICS:
+       - Internal CSS: <style> in <head>
+       - Inline CSS: style="..." attribute
+       - External CSS: <link rel="stylesheet" href="style.css">
+
+       CSS Syntax:
+       selector {
+           property: value;
+       }
+
+    6. CSS SELECTORS:
+       - Element: body, h1, p (selects all of that element)
+       - Class: .classname (dot) - reusable
+       - ID: #idname (hash) - unique
+       - Pseudo-class: :hover, :active, :focus
+
+    7. ATTRIBUTES:
+       - class="name": CSS class(es) for styling
+       - id="name": Unique identifier
+       - style="css": Inline styles
+       - target="_blank": Open in new tab
+       - rel="noopener noreferrer": Security for external links
+
+    8. ALT TEXT FOR IMAGES:
+       - Required for accessibility
+       - Describes the image content or purpose
+       - Shown if image fails to load
+       - Read by screen readers for blind users
+       - Good: alt="Logo de l'Université"
+       - Bad: alt="image" or alt="logo"
+
+    9. HTML ENTITIES:
+       - &copy; = ©
+       - &nbsp; = non-breaking space
+       - &lt; = <
+       - &gt; = >
+       - &amp; = &
+       - Used for special characters
+
+    10. BEST PRACTICES:
+        - Use semantic HTML (<header>, <main>, <nav>, <footer>)
+        - Always include alt text on images
+        - Use external CSS for styling (not inline styles)
+        - Add security attributes to external links
+        - Keep structure clean and well-indented
+        - One <h1> per page
+        - Logical heading hierarchy (h1 > h2 > h3)
+-->
+
+</html>

@@ -1,0 +1,155 @@
+<!--
+    UNIVERSITY LOGO - SVG File
+    This creates a simple university/education icon (book with graduation cap)
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+
+    <!-- Background circle -->
+    <circle cx="50" cy="50" r="45" fill="#9C27B0" opacity="0.1"/>
+    <!-- Purple background circle -->
+
+    <!-- ========================================
+         BOOK SHAPE
+         ======================================== -->
+
+    <!-- Book pages (white) -->
+    <rect x="30" y="45" width="40" height="35" fill="#FFF" stroke="#9C27B0" stroke-width="2"/>
+    <!-- Main book body -->
+
+    <!-- Book spine (darker) -->
+    <rect x="30" y="45" width="5" height="35" fill="#7B1FA2"/>
+    <!-- Left edge of book (the binding) -->
+
+    <!-- Book pages detail lines -->
+    <line x1="38" y1="45" x2="38" y2="80" stroke="#9C27B0" stroke-width="1" opacity="0.3"/>
+    <line x1="42" y1="45" x2="42" y2="80" stroke="#9C27B0" stroke-width="1" opacity="0.3"/>
+    <!-- These lines suggest multiple pages -->
+
+    <!-- ========================================
+         GRADUATION CAP (Mortarboard)
+         ======================================== -->
+
+    <!-- Cap top (flat square board) -->
+    <path d="M 25 35 L 75 35 L 70 40 L 30 40 Z" fill="#9C27B0"/>
+    <!--
+        This creates the flat top of the graduation cap
+        - It's a slightly tilted parallelogram
+        - Z command closes the path back to the start
+    -->
+
+    <!-- Cap base (the part that sits on the head) -->
+    <ellipse cx="50" cy="40" rx="20" ry="5" fill="#7B1FA2"/>
+    <!--
+        <ellipse> element: Creates an oval/ellipse
+        - cx, cy: center point
+        - rx: radius in X direction (horizontal)
+        - ry: radius in Y direction (vertical)
+
+        When rx = ry, you get a circle
+        When rx ≠ ry, you get an ellipse (oval)
+
+        This creates a flat oval representing the cap base
+    -->
+
+    <!-- Tassel (the hanging cord) -->
+    <line x1="75" y1="35" x2="82" y2="28" stroke="#9C27B0" stroke-width="2" stroke-linecap="round"/>
+    <!-- The cord of the tassel -->
+
+    <circle cx="82" cy="28" r="3" fill="#FFD700"/>
+    <!-- The tassel end (golden) -->
+
+    <!-- ========================================
+         DECORATIVE ELEMENTS
+         ======================================== -->
+
+    <!-- Small stars representing excellence/achievement -->
+    <text x="15" y="25" font-size="12" fill="#FFD700">✦</text>
+    <text x="85" y="70" font-size="12" fill="#FFD700">✦</text>
+    <!--
+        Using Unicode characters in SVG text
+        - ✦ is a star symbol
+        - You can use any Unicode character
+        - Emoji also work in modern browsers!
+    -->
+
+</svg>
+
+<!--
+    ============================================
+    NEW SVG CONCEPTS IN THIS FILE:
+    ============================================
+
+    1. ELLIPSE ELEMENT:
+       <ellipse cx="cx" cy="cy" rx="rx" ry="ry"/>
+
+       - cx, cy: center coordinates
+       - rx: horizontal radius (width)
+       - ry: vertical radius (height)
+
+       Examples:
+       - <ellipse cx="50" cy="50" rx="40" ry="20"/>
+         Creates a wide, flat oval
+
+       - <ellipse cx="50" cy="50" rx="20" ry="40"/>
+         Creates a tall, narrow oval
+
+       - <ellipse cx="50" cy="50" rx="30" ry="30"/>
+         Same as <circle cx="50" cy="50" r="30"/>
+
+    2. PATH Z COMMAND:
+       - Z or z: Closes the path
+       - Draws a line back to the starting point
+       - Creates a closed shape
+
+       Example:
+       d="M 10 10 L 50 10 L 30 40 Z"
+       - Move to (10,10)
+       - Line to (50,10)
+       - Line to (30,40)
+       - Z closes back to (10,10) → makes a triangle
+
+    3. LAYERING IN SVG:
+       - SVG draws elements in ORDER
+       - Later elements appear ON TOP of earlier ones
+       - Like stacking papers on a desk
+
+       In this icon:
+       1. Background circle (bottom layer)
+       2. Book body
+       3. Book spine (on top of body)
+       4. Graduation cap (on top of book)
+       5. Stars (top layer)
+
+    4. OPACITY:
+       - opacity="0": completely transparent (invisible)
+       - opacity="0.5": half transparent
+       - opacity="1": completely opaque (solid)
+
+       Can be applied to entire elements or just fill/stroke:
+       - opacity="0.5": affects whole element
+       - fill-opacity="0.5": affects only the fill
+       - stroke-opacity="0.5": affects only the stroke
+
+    5. STROKE-LINECAP:
+       - stroke-linecap="butt": flat end (default)
+       - stroke-linecap="round": rounded end
+       - stroke-linecap="square": square end (extends slightly)
+
+       Most noticeable on thick lines:
+       <line stroke-width="10" stroke-linecap="round"/>
+
+    6. COLORS IN SVG:
+       You can use various color formats:
+       - Named colors: fill="red", fill="purple"
+       - Hex codes: fill="#FF0000", fill="#9C27B0"
+       - RGB: fill="rgb(255, 0, 0)"
+       - RGBA: fill="rgba(255, 0, 0, 0.5)" (includes opacity)
+       - HSL: fill="hsl(0, 100%, 50%)"
+
+    7. UNICODE IN SVG:
+       - You can use any Unicode character in <text>
+       - Common symbols: ★ ✓ ✗ ♥ ☀ ☁ ✦
+       - Emoji: 😀 🎓 📚 (support varies by browser)
+       - Find Unicode characters at: unicode-table.com
+-->

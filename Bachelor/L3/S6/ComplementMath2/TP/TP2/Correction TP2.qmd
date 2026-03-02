@@ -1,0 +1,338 @@
+---
+title: "TP 2 : Analyse préliminaire du jeu de données Titanic"
+author: "HAMLIL Mohamed"
+date: "2025-2026"
+format: 
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    include-in-header:
+      - text: |
+          \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[RO]{Lola Etiévant}
+          \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
+          \usepackage[most]{tcolorbox}
+editor: source
+execute: 
+  warning: false
+  message: false
+  fig-align: center
+---
+
+# Introduction
+
+En TP nous travaillerons principalement avec le jeu de données `titanic`. Notre but sera de prédire la survie des passagers au naufrage du Titanic.
+
+:::{.callout-note}
+## Objectif
+Préparer les données (Data Cleaning) et explorer les relations entre les variables (Data Exploration) avant la modélisation.
+:::
+
+## 1. Jeu de données
+
+### 1.1. Charger le jeu de données
+
+**Format du fichier :** `.csv` (Comma Separated Values).
+
+```{r}
+# Chargement des librairies
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+
+# Chargement des données
+# On utilise stringsAsFactors = FALSE pour garder la main sur les types
+data = read.csv("../titanic.csv", stringsAsFactors = FALSE)
+
+```
+
+### 1.2. Caractéristiques du jeu de données
+
+```{r}
+dim(data)
+
+```
+
+Le jeu de données contient **`r nrow(data)` individus** et **`r ncol(data)` variables**.
+
+### 1.3. Variables
+
+```{r}
+colnames(data)
+
+```
+
+**Description des variables :**
+
+* **Identifiants (peu utiles pour la prédiction) :** `PassengerId`, `Name`, `Ticket`.
+* **Target :** `Survived` (0 = Décédé, 1 = Survivant).
+* **Socio-démographique :** `Sex`, `Age`.
+* **Voyage :** `Pclass` (Classe), `Fare` (Prix), `Cabin`, `Embarked` (Port).
+* **Famille :** `SibSp` (Frères/Sœurs/Époux), `Parch` (Parents/Enfants).
+
+**Types de données attendus :**
+
+* *Quantitatives :* `Age`, `SibSp`, `Parch`, `Fare`.
+* *Qualitatives :* `Survived`, `Pclass`, `Sex`, `Embarked`.
+
+```{r}
+str(data)
+
+```
+
+### 1.4. Target
+
+La variable cible est **`Survived`**. Elle est initialement codée comme un entier (`int`).
+
+:::{.callout-tip}
+
+## Bonnes pratiques
+
+Il est préférable de convertir la target en **facteur** avec des labels explicites pour faciliter la lecture des graphiques et des résultats de modèles.
+:::
+
+```{r}
+target = factor(data$Survived, labels = c("Décédé", "Survivant"))
+data$Survived = as.factor(data$Survived)
+
+```
+
+### 1.5. Transformation de variables (Feature Engineering)
+
+Nous créons de nouvelles variables pour mieux capturer l'information contenue dans les données brutes.
+
+1. **Taille de la famille (`Fam`)** : Somme des conjoints, frères, sœurs, parents et enfants.
+2. **Indicateur de famille (`withFam`)** : Binaire, pour savoir si la personne est seule ou accompagnée.
+
+```{r}
+data$Fam = data$Parch + data$SibSp
+data$withFam = as.factor(ifelse(data$Fam > 0, 1, 0))
+
+```
+
+3. **Catégories d'âge (`Age_cat`)** : L'âge a souvent un effet non linéaire (les enfants sont sauvés en priorité).
+
+```{r}
+# Gestion de la valeur max pour inclure tout le monde
+max_age = max(data$Age, na.rm = TRUE)
+
+data$Age_cat = cut(data$Age, 
+                   breaks = c(0, 13, 18, 60, max_age + 1), 
+                   labels = c("Enfant", "Adolescent", "Adulte", "Senior"),
+                   right = FALSE)
+
+```
+
+:::{.callout-warning}
+
+## Attention
+
+La variable `Age` contient des valeurs manquantes (`NA`). Par conséquent, `Age_cat` contiendra aussi des `NA` pour ces individus.
+:::
+
+### 1.6. Sélection des variables prédictives
+
+Nous écartons les identifiants et nous assurons que les variables qualitatives sont bien typées.
+
+```{r}
+# Typage correct
+data$Pclass = as.factor(data$Pclass)
+data$Sex    = as.factor(data$Sex)
+if("Embarked" %in% colnames(data)) data$Embarked = as.factor(data$Embarked)
+
+# Séparation
+qualitative_vars  = data %>% select(Age_cat, Pclass, Sex, withFam)
+quantitative_vars = data %>% select(Age, SibSp, Parch, Fam, Fare)
+
+```
+
+## 2. Analyse univariée
+
+### 2.1. Statistiques descriptives
+
+#### Variables quantitatives
+
+```{r}
+summary(quantitative_vars)
+
+```
+
+**Observations :**
+
+* `Age` : Environ 20% de données manquantes.
+* `Fare` : Très dispersée (Moyenne = 32, Max = 512). Distribution probablement très asymétrique.
+
+#### Variables qualitatives
+
+```{r}
+summary(qualitative_vars)
+
+```
+
+:::{.callout-important}
+
+## Nettoyage des chaînes vides
+
+Parfois, les données manquantes dans les fichiers CSV sont encodées par du vide `""` au lieu de `NA`. Il faut les corriger.
+:::
+
+```{r}
+# Exemple de correction si nécessaire (notamment pour Embarked)
+# data$Embarked[data$Embarked == ""] <- NA
+# data$Embarked <- droplevels(data$Embarked)
+
+```
+
+#### Target
+
+```{r}
+table(target)
+prop.table(table(target))
+
+```
+
+Environ **38%** de survie. Les classes sont déséquilibrées, mais c'est gérable.
+
+### 2.2. Analyse graphique
+
+#### Variables quantitatives (Histogrammes)
+
+```{r}
+#| fig-cap: "Distribution des variables quantitatives"
+#| layout-ncol: 2
+
+# Transformation en format long pour ggplot
+quant_long = melt(quantitative_vars)
+
+ggplot(quant_long, aes(x = value)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  facet_wrap(~variable, scales = "free") +
+  theme_minimal() +
+  labs(x = "Valeur", y = "Fréquence")
+
+```
+
+**Remarque :** Les distributions ne sont pas gaussiennes (normales).
+
+* **Problème pour Naive Bayes :** Ce modèle suppose souvent la normalité des variables continues.
+* **Solutions :** Transformation logarithmique (`log(x+1)`) ou discrétisation.
+
+#### Variables qualitatives (Barplots)
+
+```{r}
+#| fig-cap: "Distribution des variables qualitatives"
+
+qual_long = melt(qualitative_vars, id.vars = NULL)
+
+ggplot(qual_long, aes(x = value)) +
+  geom_bar(fill = "coral", color = "black") +
+  facet_wrap(~variable, scales = "free") +
+  theme_minimal() +
+  labs(x = "Catégories", y = "Effectif")
+
+```
+
+## 3. Analyse multivariée
+
+### 3.1. Corrélations entre variables quantitatives
+
+```{r}
+#| fig-cap: "Matrice de corrélation"
+#| out-width: "70%"
+
+cor_mat = cor(quantitative_vars, use = "complete.obs")
+melted_cor_mat = melt(cor_mat)
+
+ggplot(data = melted_cor_mat, aes(x = Var1, y = Var2, fill = value)) + 
+  geom_tile() + 
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", limit = c(-1,1)) +
+  geom_text(aes(label = round(value, 2)), size = 3) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "", y = "", fill = "Corr")
+
+```
+
+**Multicolinéarité :** Forte corrélation entre `Fam`, `SibSp` et `Parch`. C'est attendu car `Fam = SibSp + Parch`. Il faudra éviter de mettre toutes ces variables ensemble dans certains modèles (ex: régression logistique) pour éviter la redondance.
+
+### 3.2. Variables quantitatives vs Target
+
+On utilise des **boxplots** pour voir si la distribution d'une variable change selon la survie.
+
+```{r}
+#| layout-ncol: 2
+#| fig-cap: "Impact des variables quantitatives sur la survie"
+
+plot_data = cbind(quantitative_vars, Target = target)
+plot_data_long = melt(plot_data, id.vars = "Target")
+
+ggplot(plot_data_long, aes(x = Target, y = value, fill = Target)) +
+  geom_boxplot() +
+  facet_wrap(~variable, scales = "free") +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  theme_minimal() +
+  labs(x = "")
+
+```
+
+**Interprétation :**
+
+* **Fare :** Les survivants ont payé plus cher en moyenne.
+* **Age :** Différence subtile, mais les enfants semblent avantagés (moins d'outliers bas chez les décédés).
+
+### 3.3. Variables qualitatives vs Target
+
+Nous comparons les **proportions** (fill) pour neutraliser l'effet d'effectif total.
+
+```{r}
+#| fig-cap: "Proportion de survie par catégorie"
+#| out-width: "80%"
+
+# Fonction pour générer les plots
+plot_list = list()
+for(col in names(qualitative_vars)){
+  p = ggplot(data = data.frame(var = qualitative_vars[[col]], Target = target) %>% na.omit(), 
+             aes(x = var, fill = Target)) +
+      geom_bar(position = "fill", color = "black") +
+      scale_fill_manual(values = c("gray70", "lightgreen")) +
+      theme_minimal() +
+      geom_hline(yintercept = 0.38, linetype="dashed", color="red") + # Moyenne survie
+      labs(title = col, x = "", y = "Proportion") +
+      theme(legend.position = "bottom")
+  plot_list[[col]] = p
+}
+
+grid.arrange(grobs = plot_list, ncol = 2)
+
+```
+
+**Conclusions majeures :**
+
+1. **Sex :** Les femmes ont beaucoup plus survécu.
+2. **Pclass :** La 1ère classe a un net avantage.
+3. **Age_cat :** Les enfants ont été protégés.
+
+## 4. Gestion des données manquantes
+
+```{r}
+colSums(is.na(data))
+
+```
+
+* **Qualitatives (ex: Cabin, Embarked)** : Créer une catégorie "Inconnu" ou imputer par le mode.
+* **Quantitatives (ex: Age)** : Imputer par la médiane ou utiliser une régression basée sur le titre (Mr, Mrs, Master...).
+
+## 5. Sauvegarde
+
+Nous sauvegardons les données nettoyées pour le prochain TP.
+
+```{r}
+write.csv(data, "titanic_pre_processed.csv", row.names = FALSE)
+write.csv(target, "titanic_pre_processed_target.csv", row.names = FALSE)
+write.csv(quantitative_vars, "titanic_pre_processed_quantitative_vars.csv", row.names = FALSE)
+write.csv(qualitative_vars, "titanic_pre_processed_qualitative_vars.csv", row.names = FALSE)
+
+```

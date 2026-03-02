@@ -1,0 +1,125 @@
+---
+title: "Partie 3 : Régression Logistique"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source(here::here("R", "utils.R"))
+library(glmnet)
+```
+
+# Chargement des données
+
+```{r}
+#| label: load
+train_data <- readRDS(here::here("output", "train_data.rds"))
+test_data <- readRDS(here::here("output", "test_data.rds"))
+cat("Train :", nrow(train_data), "| Test :", nrow(test_data), "\n")
+```
+
+# Régression Logistique
+
+## Principe
+
+:::{.callout-note}
+## Définition
+La régression logistique est un modèle linéaire généralisé qui modélise la probabilité d'appartenance à une classe via la fonction logistique :
+
+$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + ... + \beta_p X_p)}}$$
+:::
+
+C'est un modèle simple, interprétable et bien adapté à la classification binaire. Nous utilisons ici une régularisation **Elastic Net** (via `glmnet`) qui combine les pénalités L1 (Lasso) et L2 (Ridge) pour éviter le surapprentissage [@zou2005].
+
+## Justification
+
+- **Interprétabilité** : les coefficients indiquent l'effet de chaque variable sur la satisfaction.
+- **Robustesse** : la régularisation gère bien les cas où le nombre de variables est élevé.
+- **Baseline solide** : c'est un classifieur de référence pour comparer avec des méthodes plus complexes [@hastie2009].
+
+## Transformation des variables
+
+- Les variables numériques sont centrées-réduites pour la régularisation.
+- La variable `Concentration` est encodée en indicatrices (dummy encoding via la formule `model.matrix`).
+
+## Hyperparamètres
+
+Nous optimisons deux hyperparamètres :
+
+- **alpha** : mélange L1/L2 (0 = Ridge, 1 = Lasso)
+- **lambda** : force de la régularisation
+
+Nous utilisons la **validation croisée 5-fold** avec l'**AUC** (aire sous la courbe ROC) comme métrique.
+
+```{r}
+#| label: logistic-cv
+ctrl <- trainControl(
+  method = "cv",
+  number = 5,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary,
+  savePredictions = "final"
+)
+
+grid_glmnet <- expand.grid(
+  alpha = c(0, 0.25, 0.5, 0.75, 1),
+  lambda = 10^seq(-4, -1, length.out = 10)
+)
+
+set.seed(42)
+model_logistic <- train(
+  Satisfaction ~ .,
+  data = train_data,
+  method = "glmnet",
+  trControl = ctrl,
+  tuneGrid = grid_glmnet,
+  metric = "ROC",
+  preProcess = c("center", "scale")
+)
+```
+
+## Résultats de la validation croisée
+
+```{r}
+#| label: logistic-results
+cat("Meilleurs hyperparamètres :\n")
+cat("  alpha =", model_logistic$bestTune$alpha, "\n")
+cat("  lambda =", model_logistic$bestTune$lambda, "\n")
+cat("  AUC (CV) =", round(max(model_logistic$results$ROC), 4), "\n")
+```
+
+```{r}
+#| label: fig-logistic-tuning
+#| fig-cap: "Performance de la régression logistique selon les hyperparamètres"
+plot(model_logistic, main = "Régression Logistique - Tuning")
+```
+
+## Évaluation sur le jeu de test
+
+```{r}
+#| label: logistic-eval
+pred_logistic <- predict(model_logistic, test_data)
+prob_logistic <- predict(model_logistic, test_data, type = "prob")
+
+cm_logistic <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
+print(cm_logistic)
+```
+
+```{r}
+#| label: fig-logistic-roc
+#| fig-cap: "Courbe ROC -- Régression Logistique"
+roc_logistic <- roc(test_data$Satisfaction, prob_logistic$Oui)
+
+plot(roc_logistic, col = "blue", main = "Courbe ROC - Régression Logistique",
+     print.auc = TRUE, print.auc.x = 0.4, print.auc.y = 0.3)
+```
+
+# Sauvegarde
+
+```{r}
+#| label: save
+saveRDS(model_logistic, here::here("output", "model_logistic.rds"))
+saveRDS(cm_logistic, here::here("output", "cm_logistic.rds"))
+saveRDS(roc_logistic, here::here("output", "roc_logistic.rds"))
+cat("Modèle et résultats sauvegardés dans output/\n")
+```

@@ -1,0 +1,829 @@
+---
+output: pdf_document
+author: "Lola Etiévant"
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[RO]{Lola Etiévant}
+- \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS S2 2025-2026}
+---
+
+# Correction TP 1 : Jeux de données et variables
+
+## Exercice 0 : Prise en main 
+
+J'aime utiliser `Rstudio`, une interface du logiciel `R` qui est bien pratique car elle comprend :
+
+* Une fenêtre contenant notre script `R`
+* Une fenêtre console pour executer des commandes (comme dans `R`)
+* Une fenêtre contenant les onglets Environment (environnement)
+* Une fenêtre contenant les onglets Plots (graphiques), Packages, Help (aide)
+
+Pour installer `Rstudio` c'est [ici](https://posit.co/download/rstudio-desktop/#download)
+
+`R Markdown` permet de créer un document avec du texte, des extraits de code `R` et leurs résultats, et d'obtenir un beau PDF. Plus d'informations [ici](https://rmarkdown.rstudio.com/lesson-1.html).
+
+Si vous préférez vous pouvez aussi utiliser [Sweave](https://rpubs.com/yarrr/sweaveintro) 
+
+
+### 1. Installer un package 
+
+Le Comprehensive R Archive Network (CRAN) est le répertoire officiel de 
+packages `R`, et c'est le répertoire par défaut dans `Rstudio`. Avant de pouvoir 
+utiliser un package, il faut s'assurer que le package soit installé sur notre
+machine
+
+Pour installer un package, on peut utiliser la commande `install.packages` ; dans ce cas, faire attention aux guillements. Sinon, on peut cliquer sur l'onglet Packages de la fenêtre en bas à droite (dans `Rstudio`), puis indiquer le nom du package souhaité dans le prompt
+
+Par exemple, avec la ligne de code ci-dessous on installe les packages `tinytex` et `rmarkdown`
+```{r eval=FALSE}
+install.packages("tinytex")
+install.packages("rmarkdown")
+```
+
+*À faire :* Installer les packages `faraway` que l'on trouve dans CRAN
+
+```{r eval=FALSE}
+install.packages("faraway")
+```
+
+Note : on ne peut pas run de `install.packages` dans un Rmarkdown, c'est pourquoi dans les chunks ci-dessus on utilise `{r eval=FALSE}`
+
+
+### 2. Charger un package
+
+Une fois qu'un package est installé, il faut le charger avant de pouvoir l'utiliser. La commande `library` permet de faire cela
+
+Par exemple, avec la ligne de code ci-dessous on charge le package `faraway`
+```{r}
+library(faraway)
+```
+
+*À faire :* Installer et charger le package `ggplot2`
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
+```{r}
+library(ggplot2)
+```
+
+
+### 3. Documentation du package 
+
+On accède à la documentation du package en cliquant sur son nom dans l'onglet 
+Packages de la fenêtre en bas à droite. De là, on peut ensuite accèder à la 
+documentation de chacune des fonctions ou jeux de données contenus dans le 
+package
+
+On peut aussi accéder directement à la documentation grâce à la commande `?`
+
+Par exemple, avec la ligne de code ci-dessous on accède à la documentation de `pima`. C'est un jeu de données contenu dans le package `faraway`
+
+```{r}
+?pima
+```
+
+*À faire :* Accéder à la documentation d'un jeu de données contenu dans le package faraway à partir de l'onget Packages. Le nom du jeu de données est (par exemple) `beetle`
+
+### 4. Variables 
+
+On aime commencer avec un espace de travail vide
+```{r}
+rm(list = ls())
+```
+
+Les variables sont utilisées pour stocker des données
+
+Une variable peut avoir un nom court (par exemple `x` ou `y`) ou un nom plus 
+descriptif (par exemple que `bmi` ou `body_mass_index`). Mais :
+
+* Le nom d'une variable ne peut pas commencer par un chiffre ; il doit commencer par une lettre
+* Le nom d'une variable peut seulement contenir des caractères alphanumériques et des underscores (par exemple `az9_8`)
+* Le nom d'une variable est sensible aux majuscules et minuscules (par exemple `az9_8`, `Az9_8`, et `AZ9_8` sont différentes variables)
+
+! Attention à ne pas utiliser un nom déjà utilisé dans des packages pour nommer une fonction ou un jeu de données
+
+On utilise `=` pour assigner la valeur à la variable
+
+Par exemple, avec la ligne de code ci-dessous on assigne la valeur 7 à la variable nommée `az9_8`
+```{r}
+az9_8 = 7
+```
+
+On retrouve l'ensemble des objets stockés dans l'onglet Environment, avec la commande `ls` (pour list objects)
+```{r}
+ls()
+```
+
+La commande `rm` (pour remove) permet d'effacer un objet qui était stocké
+
+Par exemple, avec la ligne de code ci-dessous on supprime `az9_8`
+```{r}
+rm(az9_8)
+```
+
+### 5. Data types dans `R` 
+
+En plus du type `numeric` dont le nom est explicite, on a 
+
+* `integer` : entier
+* `character` : texte ou chaîne de texte
+* `logical` : object binaire (booléen) pouvant seulement avoir les valeurs TRUE ou FALSE
+* `factor` : object catégoriel (les `levels` sont ses valeurs possibles) 
+
+La commande `class` permet de connaître le type d'un objet, et on peut utiliser des commandes telles que `is.numeric`, `is.character`, `is.logical` pour savoir si un objet est de type numeric etc.
+
+```{r}
+class(2)
+class(2L)
+class("texte")
+class(TRUE)
+```
+
+Par exemple, la commande `is.factor` permet de savoir si un objet est de type factor
+
+`NULL` est l'objet vide
+
+La commande `levels` permets d'obtenir le nom des différentes catégories d'un objet catégoriel
+
+
+### 6. Operations
+
+*Question :* Que fait la ligne de code ci-dessous ? *Réponse :* Elle génère la séquence de nombres de 1 à 50
+```{r}
+1:50
+```
+
+Pour faire des opérations sur des variables :
+
+* Opérateurs élémentaires d'arithmétique : `+`, `-`, `*`, `/`, `^`, etc.
+```{r, results = "hide"}
+1 + 2
+3 * 6
+```
+
+* Opérateur pour générer une séquence : :
+
+```{r}
+200:209
+```
+
+* Opérateurs d'assignation : `=`
+```{r}
+x = 2
+y = (-1)^2
+z = 10 / 3
+w = "lapin" # Les guillemets de part et d'autre du texte indique que w est de type character
+class(w)
+```
+
+* Opérateurs de comparaison : `==`, `!=`, `>`, `<`, `>=`, `<=`
+```{r, results = "hide"}
+x > y
+```
+
+*Question :* Que fait que fait l'opérateur ci-dessous ? *Réponse :* Il teste si x et y sont égaux 
+```{r}
+x != y
+```
+
+* Opérateurs de logique : `&`, `|`, `!` 
+
+* Opérateur pour tester une condition et exécuter une instruction si elle est vérifiée : `if`
+```{r}
+if(z < 2){ z = "petit" }else{ z = "grand" }
+z
+
+if( (x > 1) | (y == 2) ){ print(z) }
+```
+
+* Opérateurs pour écrire une boucle : `for`, `while`
+```{r, results = "hide"}
+for(i in 1:3){ x = x + 1 }
+
+while(y > 0.1){ y = y / 2 }
+```
+
+* Opérateur pour accéder à des éléments d'un vecteur, d'une matrice, d'une liste
+ou d'un data frame : `[ ]`
+
+* Opérateur pour accéder à des éléments d'une liste ou d'un data frame : `$`
+
+* Et beaucoup d'autres
+
+### 7. Vecteurs
+
+Les vecteurs regroupent des éléments du même type sous forme de séquence. On peut utiliser la commande `c` pour créer un vecteur
+
+Par exemple, le vecteur ci-dessous contient les éléments 1, 2 et 4
+```{r}
+v = c(1, 2, 4)
+```
+
+On peut aussi utiliser l'opérateur permettant de générer une séquence. Par exemple, la ligne de code ci-dessous crée vecteur `w` contenant les éléments de 100 à 150
+
+```{r}
+w = 100:150
+```
+
+Avec la ligne de code ci-dessous, le vecteur `z` créé contient 1000 fois le texte "souris"
+```{r}
+z = rep("souris", times = 1000)
+```
+
+Avec la ligne de code ci-dessous, le vecteur `y` créé contient les valeurs de 0 à 1 par incrément de 0.1
+```{r}
+y = seq(from = 0, to = 1, by = 0.1)
+```
+
+On peut accéder à l'un (ou plusieurs) élément d'un vecteur en indiquant son indice entre crochet immédiatement après le nom du vecteur
+
+Par exemple, avec la ligne de code ci-dessous on accède au troisième élément de `v`
+```{r}
+v[3]
+```
+
+! Sous `R``, les indices commencent à 1
+
+Avec la ligne de code ci-dessous on accède à tous les éléments de `v`, sauf le deuxième
+```{r}
+v[-2]
+```
+
+Avec la ligne de code ci-dessous on accède au troisième et dixième, onzième et douzième éléments de w
+```{r}
+w[c(3, 10:12)]
+```
+
+La commande `length` permet de connaître la longueur d'un vecteur
+```{r}
+length(w)
+```
+
+On peut utiliser les commande `as.numeric`, `as.character`, `as.factor`, ou `as.logical` pour potentiellement changer le type d'un objet 
+
+Par exemple :
+```{r}
+as.logical(c(0,1,1))
+
+as.factor(c(1,2,2,5,1))
+```
+
+*Question :* Que font que font les lignes de code ci-dessous ? *Réponse :* Le vecteur v est de type `character`, on peut le transformer en `factor`, qui aura comme levels `"a"`, `"b"`, et `"c"`
+```{r}
+v = c("a","b","c","a","c","c")
+class(v)
+w = as.factor(v)
+class(w)
+levels(w)
+z = as.character(w)
+class(z)
+```
+
+### 8. Quelques fonctions usuelles
+
+Logarithme, exponentielle, fonctions trigonométriques etc.
+```{r, results = "hide"}
+a = log(1)
+b = exp(3)
+
+d = sin(pi)
+aa = cos(pi)
+
+bb = sqrt(4)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* Génèrent aléatoirement un échantillon de taille 10 sous la loi Uniforme U(0,1), sous la loi Bernouilli B(0.5), et sous la loi Binomiale B(5,0.5)
+```{r}
+x = runif(n = 10, min = 0, max = 1)
+
+y = rbinom(n = 10, size = 1, prob = 0.5)
+z = rbinom(n = 10, size = 5, prob = 0.5)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* tire aléatoirement et sans remplacement 8 éléments parmi l'ensemble {1,...,10}, et tire aléatoirement et avec remplacement 8 éléments parmi l'ensemble {1,...,10}
+```{r}
+x = sample(x = 1:10, size = 8, replace = FALSE)
+y = sample(x = 1:10, size = 8, replace = TRUE)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* Génère aléatoirement un échantillon de taille 1000 sous la loi Normale N(5,4), calcule la moyenne, la variance, les quartiles, et les déciles de cet échantillon
+```{r}
+x = rnorm(n = 1000, mean = 5, sd = 2)
+mean(x)
+var(x)
+quantile(x)
+quantile(x, probs = seq(0, 1, 0.1))
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* Génère aléatoirement un échantillon de taille 1000 sous la loi Normale N(5,4), et crée une variable catégorielle à partir du tirage avec remplacement de 1000 éléments parmi l'ensemble {1,2,3} et avec probabilités 0.2, 0.5, et 0.3
+```{r}
+x = rnorm(n = 1000, mean = 5, sd = 2)
+v = as.factor(sample(1:3, size = 1000, replace = TRUE, prob = c(0.2, 0.5, 0.3)))
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* résumés statistiques d'une variable qualitative (tables de contigence en effectif ou proportion) et d'une variable quantitative
+```{r}
+table(v)
+prop.table(table(v))
+summary(v)
+summary(x)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* classe les éléments du vecteur `v` par ordre croissant ou décroissant
+```{r}
+v = c(1,10,3,8,-5)
+sort(v)
+sort(v, decreasing = TRUE)
+```
+
+*Question :* Que fait la ligne de code ci-dessous ? *Réponse :* donne la permutation des éléments de `v` lorsque l'on veut les ordonner de manière croissante
+```{r}
+order(v) 
+```
+
+### 8. Matrice
+
+La commande `matrix` permet de créer une matrice
+```{r}
+M = matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3, byrow = TRUE,
+           dimnames = list(c("row1", "row2"), c("col1", "col2", "col3")))
+
+P = matrix(c(1,2,3,4,5,6), nrow = 2, ncol = 3, byrow = FALSE)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* M_{1,2}, 1e et 2e colonne de `P`, indique si `M` est une matrice 
+```{r}
+M[1,2]
+P[,1:2]
+is.matrix(M)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* nombre de lignes de `M`, nombre de colonnes de `M`
+```{r}
+nrow(M)
+ncol(M)
+```
+
+*Question :* Que fait la commande `t` ? *Réponse :* La commande `t` permet d'obtenir la transposée d'une matrice
+```{r}
+t(M)
+t(M) %*% P
+```
+
+La commande `solve` permet d'inverser une matrice (inversible)
+```{r}
+M = matrix(c(1,2,3,4), nrow = 2, ncol = 2)
+solve(M)
+```
+
+La commande `diag` permet d'extraire les éléments diagonaux d'une matrice
+```{r}
+diag(M)
+```
+
+La commande `diag` permet aussi de créer une matrice diagonale à partir d'un vecteur
+```{r, results = "hide"}
+diag(1:23)
+```
+
+*Exercice :* Créer une matrice carrée de type numeric et de taille 10, et vérifier que le produit de cette matrice par son inverse donne la matrice identité
+```{r, results = "hide"}
+M = matrix(rnorm(100), nrow = 10, ncol = 10)
+M %*% solve(M)
+```
+
+*Exercice :* Créer une matrice carrée nommée `P` de taille 5 dont tous les coefficients sont obtenus à partir de tirages Bernoulli avec probabilité de succès p = 0.6. Créer ensuite la matrice diagonale `Q` contenant les éléments  diagonaux de `P`
+
+```{r}
+P = matrix(rbinom(n = 25, size = 1, prob = 0.6), nrow = 5, ncol = 5)
+Q = diag(diag(P))
+```
+
+
+### 9. Listes
+
+La commande `list` permet de créer une liste
+```{r}
+l = list(1:10, c("lapin","souris"))
+l[[2]]
+l[[c(1,7)]]
+
+l = list(a = 1:10, b = c("lapin","souris"))
+l$a
+```
+
+La commande `is.list` indique si un objet est une liste
+```{r}
+is.list(l)
+```
+
+
+### 10. Données manquantes
+
+Les valeurs manquantes sont (généralement) indiquées par `NA`, pour Not Available
+```{r}
+x = c(1,2,3,NA)
+```
+
+La commande `is.na` indiques si une valeur est manquante
+```{r}
+is.na(x) 
+```
+
+! `NaN`, qui veut dire Not a Number, indique une valeur impossible, comme par exemple un forme indéterminée 0/0
+
+! `Inf` and `-Inf` indique + l'infini et - l'infini
+
+
+### 11. Écrire une fonction 
+
+La commande `function` permet de définir une fonction
+```{r}
+f = function(x){
+  x + 2
+}
+f(6)
+
+g = function(x, y = 2){
+  z = x + y
+  if(z > 4){
+    x = 9
+  }
+  return(list(x = x, z = z)) 
+}
+g(x = 1, y = 2)
+g(x = 1, y = 5) 
+res = g(x = 1, y = 5) # l'objet retourné par la fonction g est une list
+res$x
+```
+
+*Question :* Que se passe-t-il avec la ligne de code ci-dessous ? *Réponse :* on calcule `g(x = 1, y = 2)`, car la valeur par défaut de y est 2
+```{r}
+g(x = 1)
+```
+
+
+### 12. Structure classique de jeux de données
+
+Un data frame est une collection de variables ayant toutes le même nombre d'observations. Ces variables sont rangées en colonnes, et la structure du data frame est assez similaire à celle d'une matrice. Les colonnes du data frame peuvent être de types différents
+```{r}
+char = c("a", "b", "d", rep("f", 3), "s", rep("r", 3))
+x = rep(1, times = 10)
+y = 1:10
+d = data.frame(x = x, y = y, char = char)
+```
+
+*Question :* Que font les lignes de code ci-dessous ? *Réponse :* Liste des noms des colonnes de `d`, extrait la variable char de `d`, valeur de la 3e variable de `d` chez le premier individu
+```{r}
+colnames(d)
+d$char
+d[1,3]
+```
+
+### 13. Charger un jeu de données
+
+De nombreux jeux de données sont disponibles à travers les packages sur CRAN. Par exemple le package faraway contient le jeux de données pima
+
+*Question :* Que fait la ligne de code ci-dessous ? *Réponse :* on charge le jeu de donnée pima et le stocke dans la variable nommée `data`
+```{r}
+data = pima
+```
+
+On peut aussi charger un jeu de données depuis un fichier sur notre ordinateur ou un site internet (url). La commande à utiliser dépend du format du fichier, mais en général ce seront des fichiers au format .csv, et on utilera donc la 
+commande `read.csv`
+
+Le premier argument de cette fonction est `file`. Il faut y spécifier le chemin
+vers votre fichier (ou le nom du fichier s'il est dans le dossier que vous 
+utiliser déjà comme working directory), ou l'url
+
+```{r}
+data = read.csv("../titanic.csv")
+```
+
+
+### 15. Quelques fonctions graphiques
+
+Pour tracer un histogramme on utilise la commande `hist`
+```{r, fig.align = 'center', out.width = "50%"}
+v = rnorm(1000, mean = 4, sd = 2)
+hist(v, main = "Histogram of v, a random vector", xlab = "v", ylab = "count")
+```
+
+La commande `main` permet de spécifier le titre du graphique, `xlab` le nom de l'axe des abscisses, et `ylab` celui des ordonnées
+
+Pour tracer un boxplot on utilise la commande `boxplot`
+```{r, fig.align = 'center', out.width = "50%"}
+boxplot(v, col = 'lightgreen', main = "Boxplot of v, a random vector", ylab = "v")
+```
+
+La commande `col` permet de spécifier la couleur voulue pour le graphique
+
+*Question :* Que fait la ligne de code `par(mfrow = c(1,2))` ci-dessous ? *Réponse :* Elle permettra de placer les graphiques dans un tableau à une ligne et deux colonnes (c'est à dire cote à cote)
+```{r, fig.align = 'center', out.width = "50%"}
+x = seq(from = 0, to = 10, length.out = 1000)
+par(mfrow = c(1,2))
+plot(x, exp(x), type = 'l')
+plot(x, exp(x), type = 'l', col = '4', main = "Title", 
+     xlab = "x axis", ylab = "y axis")
+```
+
+*Question :* Que fait l'argument `ylim` ci-dessous ? *Réponse :* Spécifie les valeurs minimale et maximale souhaitée pour l'axe des ordonnées
+```{r, fig.align = 'center', out.width = "50%"}
+w = as.factor(sample(1:3, size = 1000, replace = TRUE, prob = c(0.2, 0.5, 0.3)))
+par(mfrow = c(1,2))
+barplot(table(w))
+barplot(table(w), ylim = c(0,600))
+```
+
+Lorsque l'on veut tracer un barplot on doit spécifier le nombre d'observations dans chacune des catégories. La commande `table` ou `summary` nous donne cette information
+
+*Question :* Comment s'appelle le graphique obtenu ci-dessous ? *Réponse :* Un nuage de points
+```{r, fig.align = 'center', out.width = "50%"}
+z = rnorm(1000, mean = 0, sd = 0.5)
+plot(v,z)
+```
+
+Le package `ggplot2` peut aussi créer de tels graphes, mais avec plus d'options
+graphiques (et de manière plus élégante). Par exemple
+
+```{r, fig.align = 'center', out.width = "50%"}
+w = as.data.frame(w)
+names(w) = "cat"
+ggplot(w, aes(x = cat, fill = cat)) + geom_bar( )
+```
+
+
+## Exercice 1 : Analyse préliminaire d'un jeu de données
+
+### 1. Charger le jeu de donnée `pima`
+
+Le jeu donnée est disponible dans le package `faraway`
+
+```{r}
+library(faraway)
+data(pima)
+```
+
+*Question :* Que fait la ligne de code ci-dessous ? *Réponse :* Elle imprime les 6 premières lignes du data frame
+
+```{r}
+head(pima)
+```
+
+*Question :* Quel est le nombre de lignes dans le jeu de données ? Le nombre de colonnes ? *Réponse :* 768 lignes et 9 colonnes
+
+```{r}
+nrow(pima)
+ncol(pima)
+```
+
+Dans le jeu de donnée `pima` il y a donc 768 individus et 9 variables
+
+*Question :* En utilisant ce qui a été fait précédemment, imprimer la liste des noms de toutes les variables. À l'aide de la documentation disponible, donner une description courte de chaque variable, et indiquer lesquelles devraient être qualitatives et lesquelles devraient être quantitatives 
+
+```{r}
+colnames(pima)
+?pima
+```
+
+Description :
+
+* ...
+* ...
+
+*Question :* Quelle ligne de code permet d'accéder à la variable `bmi` ? *Réponse :*
+
+```{r, results = "hide"}
+pima$bmi
+```
+
+Très souvent, la variable `age` est catégorisée (pour éventuellement atténuer l'effet de potentielles valeurs extrêmes, proposer un moyen de gérer les données manquantes, etc.). Dans ce cas il faut choisir les catégories. Nous avons plusieurs possibilités ; lesquelles ? Coder l'option choisie
+
+*Réponse :*
+
+* Catégories basées sur des intervalles d'âge de même largeur
+
+```{r}
+min(pima$age, na.rm = TRUE) # 21
+max(pima$age, na.rm = TRUE) # 81
+pima$age_cat  = cut(pima$age, 
+                    breaks = seq(from = 21, to = 81, length.out = 5),
+                    include.lowest = TRUE)  # 4 intervalles
+```
+
+Mais on pourrait se retrouver avec des catégories contenant très peu de femmes
+
+* Catégories basées sur des intervalles d'âge contenant le même nombre de femmes
+
+```{r}
+pima$age_cat  = cut(pima$age, 
+                    breaks = round(unname(quantile(pima$age, na.rm = TRUE))),
+                    include.lowest = TRUE) # 4 intervalles
+```
+
+J'ai arrondi les bornes des intervalles, c'est pourquoi on a *à peu près* le même nombre de femmes dans chaque catégorie
+
+* Catégories basée sur des groupes d'âges qui font sens, comme par exemple enfants (moins de 13 ans), adolescents (entre 13 et 18 ans), adultes (entre 18 et 60 ans), et seniors (plus de 60 ans), ou mineurs, adultes, et seniors. La définition de ces groupes dépend de l'application (par exemple en santé, de la maladie d'interêt)
+
+```{r, results = "hide"}
+pima$age_cat  = cut(pima$age, 
+                    breaks = c(21, 30, 55, 65, 81),
+                    include.lowest = TRUE)
+```
+
+### 2. Analyse statististique univariée
+
+*Question :* Quelles quantités calcule-t-on pour l'analyse statistique descriptive d'une variable quantitative ? Quelles commandes `R` peut-on utiliser pour cela ? *Réponse :* La moyenne, la variances, les quartiles
+
+Par exemple, pour la variable `glucose`:
+```{r}
+mean(pima$glucose)
+var(pima$glucose)
+quantile(pima$glucose)
+```
+
+*Question :* Et pour une variable qualitative ? *Réponse :* On compte le nombre d’observations tombées dans chacune des catégories
+
+Par exemple, pour la variable `age_cat`:
+```{r}
+table(pima$age_cat)
+prop.table(table(pima$age_cat))
+```
+
+Sinon on peut réaliser directement une telle analyse à l'aide de la commande `summary`
+
+```{r}
+summary(pima)
+```
+
+*Question :* Il y a-t-il quelque chose d'inattendu ?
+
+*Indices :* Quel devrait être le type d'une variable quantitative ? Quel devrait être le type d'une variable qualitative ?
+
+*Réponse :* Une variable quantitative devrait être de type `numeric`, et une variable catégorielle de type `factor`
+
+`test` est une variable binaire, mais à la vue du résumé elle est considérée par `R` comme une variable quantitative
+
+Ensuite, on regarde les valeurs maximales et minimales de chaque variable : max(pregnant) = 17 -> surprenant, mais pas impossible ; par contre blood pressure = 0 -> la personne devrait être morte...
+
+```{r, results = "hide"}
+sort(pima$diastolic)  
+```
+
+On a 36 valeurs qui sont égales à 0. Il semblerait que la valeur 0 ait été utilisée pour remplir les valeurs manquantes dans les variables `diastolic`, `glucose`, `triceps`, `insulin`, et `bmi`
+
+*À faire :* Eﬀectuer des modifications sur le jeu de données en fonction des remarques faites à la question précédente
+
+On indique à `R` que la variable `test` est binaire
+
+```{r}
+pima$test         = as.factor(pima$test)
+levels(pima$test) = c("négatif","positif")
+```
+
+On remplace les valeurs manquantes par des NA
+
+```{r}
+pima$diastolic[pima$diastolic == 0]   = NA  
+pima$glucose[pima$glucose == 0]       = NA
+pima$triceps[pima$triceps == 0]       = NA
+pima$insulin[pima$insulin == 0]       = NA
+pima$bmi[pima$bmi == 0]               = NA
+```
+
+*À faire :* Refaire l'analyse statistique descriptive des variables
+
+```{r}
+summary(pima)
+```
+
+### 3. Analyse graphique univariée
+
+*Question :* Quelles représentations graphiques peut-on utiliser pour décrire une variable quantitative ? Quelles commandes `R` peut-on utiliser pour cela ? *Réponse :* Un histogramme ou un boxplot, on peut utiliser les commandes `hist` et `boxplot`, ou la fonction `ggplot` du package `ggplot2`
+
+*Question :* Et pour une variable qualitative ? *Réponse :* Un barplot
+
+*À faire : * Considérons la pression sanguine diastolique. Représenter son histogramme et son boxplot
+
+```{r, out.width = "50%", fig.align = "center"}
+hist(pima$diastolic, col = "pink", main = "Histogramme de la pression \n sanguine diastolique", 
+     xlab = "Pression sanguine diastolique", ylab = "Nombre d'observations")
+boxplot(pima$diastolic, col = "pink", main = "Boxplot de la pression \n sanguine diastolique", 
+        ylab = "Pression sanguine diastolique")
+```
+Si l'on souhaite spécier les blocs/intervalles dans l'histogramme, il faut utiliser l'argument `breaks`
+
+Avec `ggplot` :
+
+```{r, out.width = "50%", fig.align = "center"}
+library(ggplot2)
+
+ggplot(pima, aes(x = diastolic)) + 
+  geom_histogram(fill = "pink", color = "black", bins = 11, na.rm = TRUE) +
+  labs( title = "Histogramme de la pression sanguine diastolique", 
+        x = "Pression sanguine diastolique", y = "Nombre d'observations") +
+  theme_minimal()
+
+ggplot(pima, aes(y = diastolic)) + geom_boxplot(fill = "pink", na.rm = TRUE) +
+  labs(title = "Boxplot de la pression sanguine diastolique", y = "Pression sanguine diastolique") +
+  theme_minimal()
+```
+
+*À faire : * Considérons l'age en catégoriel. Représenter son barplot ; on peut utiliser la commande `barplot`
+
+```{r, out.width = "50%", fig.align = "center"}
+barplot(summary(pima$age_cat), col = 2:5, xlab = "Catégorie d'âge", 
+        ylab = "Nombre d'observations")
+```
+ou `ggplot` :
+
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(pima, aes(x = age_cat, fill = age_cat)) + geom_bar() +
+  scale_fill_manual(values = c("red", "green", "blue", "cyan")) +
+  labs(title = "Distribution des catégories d'âge", x = "Catégorie d'âge",
+    y = "Nombre d'observations") + theme(legend.position = "none") +
+  theme_minimal()
+```
+
+
+### 4. Analyse multivariée
+
+Lorsque l'on souhaite représenter graphiquement la relation entre deux variables quantitatives on utilise un nuage de points
+
+*À faire : * Représenter graphiquement la relation entre les variables `diabetes` et `diastolic` (`diabetes` en fonction de  `diastolic`)
+
+```{r, out.width = "50%", fig.align = "center"}
+plot(pima$diastolic, pima$diabetes, col = "6", xlab = "Pression sanguine diastolique", 
+     ylab = "Score familial de diabète", 
+     main = "Score familial de diabète en fonction de \n la pression sanguine diastolique")
+```
+
+*Question :* Que fait la ligne de code ci-dessous ? *Réponse :* Les nuages de points des variables quantitatives 2 à 2
+
+```{r, out.width = "60%", fig.align = "center"}
+pairs(pima[,-c(9,10)], pch = 16, cex = 0.5) # les 9e et 10e variables sont qualitatives
+```
+
+Lorsque l'on souhaite représenter graphiquement la relation entre une variable quantitative et une variable qualitative on utilise une boite à moustaches (boxplot)
+
+*À faire : * Représenter graphiquement la relation entre les variables `diabetes` et `tests`
+
+```{r, out.width = "50%", fig.align = "center"}
+boxplot(pima$diabetes ~ pima$test, col = c("pink", "lightblue"), 
+        main = "Boxplot du score familial de diabète \n en fonction du test de \n diabète", 
+        xlab = "Test", ylab = "Score familial de diabète")
+```
+Avec `ggplot` :
+
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(pima, aes(x = test, y = diabetes, fill = test)) + geom_boxplot() +
+  scale_fill_manual(values = c("pink", "lightblue")) +
+  labs(title = "Boxplot du score familial de diabète en fonction du test de \n diabète",
+       x = "Test", y = "Score familial de diabète") + theme(legend.position = "none") +
+  theme_minimal()
+```
+
+On a un boxplot pour chacun des levels de la variable qualitative. Ici on en a 2 : un pour le test de diabète positif et un pour le test négatif
+
+Lorsque l'on souhaite représenter graphiquement la relation entre deux variable qualitatives on utilise un barplot
+
+Que font les chunks de code ci-dessous ?
+
+*Réponse : * On représente graphiquement la relation entre les variables `age_cat` et `tests`
+
+```{r, eval = FALSE}
+install.packages(reshape2)
+```
+
+```{r, out.width = "50%", fig.align = "center"}
+# il nous faut le nombre de femmes dans chacune des catégories définies par `age_cat` et `tests`
+library(reshape2)
+age_test_counts = melt(table(pima$age_cat, pima$test))
+colnames(age_test_counts) = c("age_cat", "test", "count")
+
+ggplot(data = age_test_counts, aes(x = age_cat, y = count, fill = test)) +
+geom_bar(stat = "identity", color = "black", position = position_dodge())+
+  theme_minimal() + labs(x =  "Age", fill = "Test de diabète", y = "Nombre de femmes")
+```
+
+On a un barplot pour chacun des levels de la variable `age_cat`
+
+On peut aussi empiler les barres, en retirant l'argument `position = position_dodge()`
+
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(data = age_test_counts, aes(x = age_cat, y = count, fill = test)) +
+geom_bar(stat = "identity", color = "black") +
+  theme_minimal() + labs(x =  "Age", fill = "Test de diabète", y = "Nombre de femmes")
+```
+
+Ou montrer la proportion de femmes ayant un test de diabète positif et négatif dans chacune des catégories d'age, grace à l'argument `position = "fill"`
+
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(data = age_test_counts, aes(x = age_cat, y = count, fill = test)) +
+geom_bar(stat = "identity", color = "black", position = "fill")+
+  theme_minimal() + labs(x =  "Age", fill = "Test de diabète", y = "Proportion de femmes")
+```
+
+

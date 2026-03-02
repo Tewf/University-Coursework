@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<!--
+    DOCTYPE Declaration: This tells the browser that this is an HTML5 document.
+    It must be the very first line of every HTML file.
+    Without it, the browser might display the page incorrectly.
+-->
+
+<html lang="fr">
+<!--
+    <html> tag: This is the ROOT element that wraps ALL content on the page.
+    - "lang" attribute: Specifies the language of the document (fr = French)
+    - This helps screen readers and search engines understand the content
+-->
+
+<head>
+    <!--
+        <head> section: Contains METADATA about the document
+        - This information is NOT displayed on the page itself
+        - It includes things like: title, character encoding, stylesheets, scripts
+    -->
+
+    <meta charset="UTF-8">
+    <!--
+        Character encoding: Tells the browser how to read special characters
+        - UTF-8 supports almost all languages and special symbols (é, ñ, 中, etc.)
+        - Always include this to avoid displaying weird symbols
+    -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+        Viewport meta tag: Makes the page responsive on mobile devices
+        - "width=device-width": Page width = device screen width
+        - "initial-scale=1.0": No zooming when page first loads
+    -->
+
+    <title>Mon Curriculum Vitae</title>
+    <!--
+        <title> tag: The text that appears in the browser tab
+        - Very important for SEO (search engines)
+        - Should be descriptive and unique for each page
+    -->
+</head>
+
+<body>
+    <!--
+        <body> section: Contains ALL the VISIBLE content of the page
+        - Everything the user sees goes inside this tag
+    -->
+
+    <!-- ========================================
+         HEADER SECTION - Main Title
+         ======================================== -->
+
+    <h1>Curriculum Vitae - Mohamed HAMLIL</h1>
+    <!--
+        <h1> tag: The MAIN heading of the page (Heading level 1)
+        - There should be only ONE <h1> per page
+        - It represents the most important title
+        - Headings go from h1 (most important) to h6 (least important)
+    -->
+
+    <!-- Navigation to homepage -->
+    <p>
+        <a href="index.html">← Retour à l'accueil</a>
+        <!--
+            <a> tag: Creates a HYPERLINK (clickable link)
+            - "href" attribute: The destination URL or file path
+            - href="index.html" means: link to the index.html file in the same folder
+        -->
+    </p>
+
+    <!-- Table of Contents - Navigation within this page -->
+    <nav>
+        <!--
+            <nav> tag: A SEMANTIC element for navigation links
+            - It tells browsers and screen readers: "this is navigation"
+            - Helps with accessibility and SEO
+        -->
+
+        <h2>Table des matières</h2>
+        <!--
+            <h2> tag: Secondary heading (Heading level 2)
+            - Used for major sections within the page
+            - Creates a hierarchy: h1 > h2 > h3, etc.
+        -->
+
+        <ul>
+            <!--
+                <ul> tag: Unordered List (bullet points)
+                - Used when the order of items doesn't matter
+                - Each item goes in an <li> (list item) tag
+            -->
+
+            <li><a href="#diplomes">Diplômes</a></li>
+            <li><a href="#experiences">Expériences professionnelles</a></li>
+            <li><a href="#activites">Activités et loisirs</a></li>
+            <!--
+                Internal links with "#":
+                - href="#diplomes" means: jump to the element with id="diplomes"
+                - This creates "anchor links" within the same page
+                - Clicking these will scroll to that section
+            -->
+        </ul>
+    </nav>
+
+    <!-- ========================================
+         PERSONAL INFORMATION SECTION
+         ======================================== -->
+
+    <p>
+        <!--
+            <p> tag: Paragraph
+            - The most basic element for text content
+            - Browsers automatically add space before and after paragraphs
+        -->
+
+        <img src="photo.jpg" alt="Photo de Mohamed HAMLIL" width="150" height="150">
+        <!--
+            <img> tag: Image element
+            - This is a SELF-CLOSING tag (no </img> needed)
+            - "src" attribute: The path to the image file
+            - "alt" attribute: Alternative text if image can't load
+                * VERY IMPORTANT for accessibility (screen readers)
+                * Describes the image for blind users
+                * Also shown if image fails to load
+            - "width" and "height": Size in pixels (optional but recommended)
+        -->
+
+        <br>
+        <!--
+            <br> tag: Line Break
+            - Forces text to continue on a new line
+            - Self-closing tag (no </br> needed)
+            - Use sparingly - prefer separate <p> tags for readability
+        -->
+
+        <strong>Nom:</strong> Mohamed HAMLIL
+        <!--
+            <strong> tag: Makes text bold AND indicates importance
+            - Has semantic meaning (tells search engines this is important)
+            - Alternative: <b> tag (just bold, no semantic meaning)
+        -->
+
+        <br>
+        <strong>Email:</strong> <a href="mailto:hamlilm@yahoo.fr">hamlilm@yahoo.fr</a>
+        <!--
+            mailto: link:
+            - href="mailto:email@example.com" opens the user's email program
+            - Creates a new email with this address already filled in
+        -->
+
+        <br>
+        <strong>Téléphone:</strong> +33 7 45 90 76 60<br>
+        <strong>Adresse:</strong> Grenoble, France<br>
+        <strong>Langues:</strong> Arabe (Maternel), Français (B2+), Anglais (B2+), Espagnol (A1)
+    </p>
+
+    <!-- ========================================
+         SECTION 1: DIPLOMAS (DEGREES)
+         ======================================== -->
+
+    <section id="diplomes">
+        <!--
+            <section> tag: A SEMANTIC element representing a standalone section
+            - Used to divide content into logical parts
+            - Better than using <div> because it has meaning
+            - "id" attribute: Unique identifier for this element
+                * Must be unique on the page
+                * Used for anchor links (like #diplomes in navigation)
+                * Can also be used with CSS and JavaScript
+        -->
+
+        <h2>Diplômes</h2>
+
+        <ul>
+            <li>
+                <strong>2023 - 2026</strong> - Licence MIASHS, Parcours Économie
+                <!-- Using <strong> to emphasize the year -->
+                <br>
+                <em>Université Grenoble Alpes (UGA)</em>
+                <!--
+                    <em> tag: Emphasis (italic text)
+                    - Has semantic meaning (indicates stress/emphasis)
+                    - Alternative: <i> tag (just italic, no semantic meaning)
+                -->
+                <br>
+                Boursier d'Excellence EFELIA (Cluster MIAI - Intelligence Artificielle)
+            </li>
+            <li>
+                <strong>2022 - 2023</strong> - Licence 1 Recherche Opérationnelle (RO)<br>
+                <em>USTHB Alger, Algérie</em><br>
+                Spécialisation : Mathématiques discrètes, structures de données et optimisation combinatoire
+            </li>
+            <li>
+                <strong>Juin 2022</strong> - Double Baccalauréat Scientifique (Français & Algérien)<br>
+                <em>Série Générale : Mathématiques, Physique-Chimie, SVT</em>
+            </li>
+        </ul>
+
+        <p><a href="#top">↑ Retour en haut</a></p>
+        <!--
+            "Back to top" link:
+            - We need to add id="top" to an element at the top of the page
+            - Or we can use href="#" to go to the very top
+        -->
+    </section>
+
+    <!-- ========================================
+         SECTION 2: PROFESSIONAL EXPERIENCE
+         ======================================== -->
+
+    <section id="experiences">
+        <h2>Expériences de recherche</h2>
+
+        <dl>
+            <!--
+                <dl> tag: Description List (Definition List)
+                - Used for term/description pairs
+                - Contains <dt> (term) and <dd> (description) elements
+                - Perfect for CVs, glossaries, metadata
+            -->
+
+            <dt><strong>Janvier 2025 - Avril 2025: IA & Stratégies Économiques</strong></dt>
+            <!--
+                <dt> tag: Description Term (the title/term being defined)
+                - The "term" or "name" in a description list
+            -->
+
+            <dd>
+                <!--
+                    <dd> tag: Description Details (the definition/description)
+                    - The explanation or details for the <dt> term
+                    - Can contain multiple paragraphs, lists, etc.
+                -->
+
+                <em>GAEL Lab (UGA, INRAE)</em><br>
+                Supervision : Alexis Garapin (Professeur UGA) & Olivier Bonroy (Directeur de recherche INRAE)
+                <ul>
+                    <li>Rédiger une revue de littérature académique approfondie sur l'impact de l'intelligence artificielle dans les interactions économiques et stratégiques entre agents</li>
+                    <li>Développer et programmer des algorithmes en Python et Prolog pour la simulation d'interactions stratégiques (Mirroring/Tit-for-Tat, Équilibre de Nash, Q-learning...)</li>
+                    <li>Réaliser un état de l'art sur la collusion algorithmique et l'intégration des modèles de langage (LLM) en tant qu'agents économiques simulés (Homo Silicus)</li>
+                </ul>
+            </dd>
+
+            <dt><strong>Mai 2024 - Juillet 2024: Optimisation & Calcul Mathématique</strong></dt>
+            <dd>
+                <em>Laboratoire Jean Kuntzmann (LJK)</em><br>
+                Supervision : Jean-Guillaume Dumas (Professeur des Universités)
+                <ul>
+                    <li>Réduire la complexité temporelle d'algorithmes bilinéaires via la décomposition creuse et la minimisation du rang de tenseurs à automorphismes près</li>
+                    <li>Implémenter en Julia et Python des algorithmes d'optimisation de la littérature scientifique, notamment les travaux de Beniamini & Schwartz (2020)</li>
+                    <li>Concevoir des heuristiques efficaces pour l'approximation de solutions optimales liées à des problèmes de complexité NP-difficile et NP-complet</li>
+                </ul>
+            </dd>
+        </dl>
+
+        <p><a href="#top">↑ Retour en haut</a></p>
+    </section>
+
+    <!-- ========================================
+         SECTION 3: ACTIVITIES AND HOBBIES
+         ======================================== -->
+
+    <section id="activites">
+        <h2>Engagement & Certifications</h2>
+
+        <ul>
+            <!--
+                <ul> tag: Unordered List (bullet points)
+                - Used when the order of items doesn't matter
+                - Each item goes in an <li> (list item) tag
+            -->
+
+            <li>
+                <strong>Preneur de notes - UGA (2025-2026):</strong> Transcription et structuration de cours (MIASHS) pour le Service Handiversité
+            </li>
+            <li>
+                <strong>Tutorat & Parrainage - UGA (2025-2026):</strong> Accompagnement méthodologique des étudiants de L1/L2
+            </li>
+            <li>
+                <strong>Certification IBM Quantum (2024):</strong> Fondements de l'information quantique (téléportation, intrication, circuits)
+            </li>
+            <li>
+                <strong>Certification ML GoMyCode (2022):</strong> Algorithmes de Machine Learning (Random Forest, K-clustering) avec Scikitlearn
+            </li>
+            <li>
+                <strong>Compétences techniques:</strong>
+                <!-- We can nest lists inside list items -->
+                <ul>
+                    <li>Mathématiques : Probabilités, Optimisation convexe & numérique, Inférence & Apprentissage statistique</li>
+                    <li>Microéconomie : Théorie des jeux, Concurrence imparfaite, Théorie des contrats</li>
+                    <li>Informatique : Python, Java, R, Julia, C, SQL, OCaml, Prolog, Latex, Git, Linux</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p><a href="#top">↑ Retour en haut</a></p>
+    </section>
+
+    <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
+
+    <footer>
+        <!--
+            <footer> tag: A SEMANTIC element for footer content
+            - Typically contains copyright, contact info, links
+            - Can be used for the whole page or within sections
+        -->
+
+        <hr>
+        <!--
+            <hr> tag: Horizontal Rule (divider line)
+            - Creates a visual separation between sections
+            - Self-closing tag
+        -->
+
+        <p>
+            <small>
+                <!--
+                    <small> tag: Smaller text (fine print)
+                    - Often used for copyright notices, disclaimers
+                    - Has semantic meaning (legal text, small print)
+                -->
+
+                Dernière mise à jour: Février 2026 | Contact: <a href="mailto:hamlilm@yahoo.fr">hamlilm@yahoo.fr</a> |
+                <a href="calendar.html">Voir mon emploi du temps</a>
+            </small>
+        </p>
+    </footer>
+
+</body>
+
+<!--
+    ============================================
+    KEY HTML CONCEPTS YOU JUST LEARNED:
+    ============================================
+
+    1. STRUCTURE: Every HTML page has <!DOCTYPE>, <html>, <head>, and <body>
+
+    2. SEMANTIC TAGS: Use meaningful tags like <nav>, <section>, <footer>
+       - Better than generic <div> tags
+       - Helps accessibility and SEO
+
+    3. HEADINGS: h1 to h6 create a hierarchy (h1 is most important)
+
+    4. TEXT FORMATTING:
+       - <p> for paragraphs
+       - <strong> for important/bold text
+       - <em> for emphasized/italic text
+       - <br> for line breaks
+
+    5. LISTS:
+       - <ul> for unordered lists (bullets)
+       - <ol> for ordered lists (numbers)
+       - <dl>, <dt>, <dd> for description lists
+       - <li> for list items
+
+    6. LINKS:
+       - <a href="file.html">: link to another page
+       - <a href="#id">: link to a section on same page
+       - <a href="mailto:email">: link to send email
+
+    7. IMAGES:
+       - <img src="path" alt="description">
+       - Always include "alt" for accessibility!
+
+    8. ATTRIBUTES:
+       - id="unique-name" - unique identifier for an element
+       - href="url" - destination of a link
+       - src="path" - source of an image
+       - alt="text" - alternative text for images
+
+    9. NESTING: Elements can contain other elements
+       - Proper nesting: <p><strong>text</strong></p>
+       - Always close tags in reverse order of opening
+
+    10. ACCESSIBILITY: Use semantic tags and alt text to help everyone access your content
+-->
+
+</html>

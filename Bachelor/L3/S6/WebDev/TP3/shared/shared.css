@@ -1,0 +1,163 @@
+/*
+  =============================================
+  FEUILLE DE STYLE PARTAGÉE - shared.css
+  =============================================
+
+  Ce fichier est PARTAGÉ par toutes les pages du site.
+  C'est comme un "règlement intérieur" que toutes les pages suivent.
+
+  On y met :
+  - Les variables de couleurs (la palette)
+  - La police de caractères
+  - Les styles de base communs à toutes les pages
+*/
+
+/* =============================================
+   VARIABLES CSS (Custom Properties)
+   =============================================
+
+   On définit nos couleurs ici, UNE SEULE FOIS.
+   Ensuite, on les utilise partout avec var(--nom).
+
+   :root signifie "la racine du document" = tout le document.
+   Les variables définies ici sont accessibles PARTOUT.
+
+   Notre palette va du foncé au clair :
+   --color-0 = le plus foncé (presque noir)
+   --color-6 = le plus clair (presque blanc)
+*/
+:root {
+  --color-0: #6d6875;   /* Gris foncé violet - pour les titres et le menu */
+  --color-1: #b5838d;   /* Rose ancien - pour les accents */
+  --color-2: #e5989b;   /* Rose clair - pour les liens au survol */
+  --color-3: #ffb4a2;   /* Pêche - pour les bordures */
+  --color-4: #ffcdb2;   /* Pêche clair - pour les fonds légers */
+  --color-5: #f5ebe0;   /* Beige - pour les arrière-plans */
+  --color-6: #f7e7de;   /* Beige très clair - pour le texte sur fond foncé */
+}
+
+/* =============================================
+   POLICE DE CARACTÈRES
+   =============================================
+
+   font-family : quelle police utiliser
+   "Gill Sans" est la police principale.
+   Si elle n'est pas disponible, le navigateur utilise
+   la prochaine dans la liste (fallback = solution de repli).
+
+   sans-serif = police sans "petits pieds" sur les lettres
+   (plus moderne et lisible sur écran)
+*/
+body {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  /* La liste de polices = plan A, plan B, plan C, plan D */
+
+  font-size: 20px;
+  /* Taille de base du texte = 20 pixels de haut */
+
+  margin: 0;
+  /* Enlève la marge par défaut du body (les navigateurs en ajoutent une) */
+
+  padding: 0;
+  /* Enlève le padding par défaut */
+
+  background-color: white;
+  /* Fond blanc pour tout le site */
+
+  color: #333;
+  /* Couleur du texte : gris très foncé (plus doux que le noir pur) */
+
+  line-height: 1.6;
+  /* Espacement entre les lignes = 1.6 fois la taille de la police */
+  /* Rend le texte plus aéré et facile à lire */
+}
+
+/* =============================================
+   TITRES
+   =============================================
+
+   On colorie les titres h1 et h2 avec notre couleur foncée.
+   La virgule entre h1 et h2 veut dire "h1 ET h2".
+*/
+h1, h2 {
+  color: var(--color-0);
+  /* Utilise notre variable --color-0 (gris violet foncé) */
+}
+
+/* =============================================
+   CONTENU PRINCIPAL
+   =============================================
+
+   max-width : le contenu ne dépassera JAMAIS 800px de large
+   Pourquoi ? Sur un grand écran, les lignes trop longues sont
+   difficiles à lire. 800px est une largeur confortable.
+
+   margin: 0 auto :
+   - 0 = pas de marge en haut et en bas
+   - auto = marge automatique à gauche et à droite = CENTRÉ !
+
+   padding: 0 20px :
+   - 0 = pas de padding en haut et en bas
+   - 20px = 20 pixels de padding à gauche et à droite
+   - Évite que le texte colle aux bords sur petit écran
+*/
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =============================================
+   LIENS
+   =============================================
+*/
+a {
+  color: var(--color-1);
+  /* Les liens sont en rose ancien */
+
+  text-decoration: none;
+  /* Enlève le soulignement par défaut des liens */
+}
+
+a:hover {
+  color: var(--color-2);
+  /* Quand la souris survole le lien, il change de couleur */
+  /* :hover = pseudo-classe = "quand la souris est dessus" */
+
+  text-decoration: underline;
+  /* Et on remet le soulignement au survol */
+}
+
+/* =============================================
+   PIED DE PAGE (FOOTER)
+   =============================================
+*/
+footer {
+  text-align: center;
+  /* Centre le texte dans le footer */
+
+  padding: 20px;
+  /* Espace intérieur de 20px tout autour */
+
+  color: var(--color-0);
+  /* Texte en gris violet */
+
+  font-size: 0.8em;
+  /* 0.8em = 80% de la taille normale du texte */
+  /* em = unité relative à la taille de police du parent */
+}
+
+/* =============================================
+   LIGNE HORIZONTALE
+   =============================================
+*/
+hr {
+  border: none;
+  /* Enlève la bordure par défaut (souvent en relief) */
+
+  border-top: 1px solid var(--color-4);
+  /* Ajoute une fine ligne en haut, couleur pêche clair */
+
+  margin: 20px 0;
+  /* 20px d'espace au-dessus et en dessous */
+}

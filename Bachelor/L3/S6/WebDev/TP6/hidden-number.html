@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Devinez le Nombre !</title>
+
+    <style>
+        body {
+            font-family: "Gill Sans", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #1a1a2e;
+            color: #eee;
+        }
+
+        .jeu {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            text-align: center;
+            min-width: 380px;
+            max-width: 450px;
+        }
+
+        h1 { color: #e94560; font-size: 1.5em; }
+
+        .info { color: #a0a0b0; margin: 10px 0; }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            font-size: 20px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            text-align: center;
+            background: #0f3460;
+            color: white;
+        }
+
+        .boutons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover { transform: scale(1.05); }
+
+        .btn-deviner { background-color: #e94560; color: white; }
+        .btn-deviner:hover { background-color: #d63851; }
+
+        .btn-abandonner { background-color: #555; color: white; }
+        .btn-abandonner:hover { background-color: #666; }
+
+        .btn-rejouer { background-color: #4ecca3; color: #1a1a2e; font-weight: bold; }
+        .btn-rejouer:hover { background-color: #45b593; }
+
+        #message {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .trop-haut { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .trop-bas  { background-color: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .gagne     { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .perdu     { background-color: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+
+        #tentatives { color: #a0a0b0; }
+
+        #historique {
+            text-align: left;
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            /*
+              overflow-y: auto = si le contenu dépasse 200px de haut,
+              une barre de défilement VERTICALE apparaît.
+              Comme ça, la liste de tentatives ne fait pas grandir la page.
+            */
+        }
+
+        #historique h3 { color: #a0a0b0; font-size: 0.9em; }
+
+        .tentative {
+            padding: 5px 10px;
+            margin: 3px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+            background-color: rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="jeu">
+        <h1>Devinez le Nombre !</h1>
+        <p class="info">Je pense à un nombre entre 0 et 100. Vous avez 8 essais !</p>
+
+        <div>
+            <input type="number" id="proposition" min="0" max="100" placeholder="?">
+            <!--
+                min="0" max="100" : limites du champ numérique
+                Le navigateur empêche d'entrer des valeurs hors limites
+                (avec les flèches du champ)
+            -->
+        </div>
+
+        <div class="boutons">
+            <button class="btn-deviner" id="btn-deviner">Deviner</button>
+            <button class="btn-abandonner" id="btn-abandonner">Abandonner</button>
+            <button class="btn-rejouer" id="btn-rejouer" style="display: none;">Rejouer</button>
+            <!--
+                style="display: none;" cache le bouton Rejouer au début.
+                On le montrera quand la partie est finie.
+            -->
+        </div>
+
+        <div id="message"></div>
+
+        <p id="tentatives"></p>
+
+        <div id="historique">
+            <h3>Historique des tentatives :</h3>
+            <div id="liste-tentatives"></div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // JAVASCRIPT DU JEU "DEVINEZ LE NOMBRE"
+        // =============================================
+
+        // ---- VARIABLES DU JEU ----
+
+        let nombreSecret;
+        // Le nombre que l'ordinateur a choisi (entre 0 et 100)
+
+        let tentativesRestantes;
+        // Combien d'essais il reste au joueur
+
+        let jeuTermine;
+        // true si la partie est finie, false sinon
+
+        // ---- ÉLÉMENTS DU DOM ----
+
+        const inputProposition = document.getElementById("proposition");
+        const btnDeviner = document.getElementById("btn-deviner");
+        const btnAbandonner = document.getElementById("btn-abandonner");
+        const btnRejouer = document.getElementById("btn-rejouer");
+        const divMessage = document.getElementById("message");
+        const pTentatives = document.getElementById("tentatives");
+        const divListeTentatives = document.getElementById("liste-tentatives");
+
+        // ---- FONCTION D'INITIALISATION ----
+
+        function initialiserJeu() {
+            // Cette fonction remet le jeu à zéro
+
+            nombreSecret = Math.floor(Math.random() * 101);
+            //
+            // Math.random()
+            //   = génère un nombre ALÉATOIRE entre 0 (inclus) et 1 (exclus)
+            //   Exemples : 0.4521, 0.9987, 0.0001, 0.7342...
+            //
+            // Math.random() * 101
+            //   = nombre aléatoire entre 0 et 100.999...
+            //   On multiplie par 101 car on veut inclure 100
+            //
+            // Math.floor(...)
+            //   = arrondi vers le BAS (enlève les décimales)
+            //   Math.floor(7.9) → 7
+            //   Math.floor(3.1) → 3
+            //   Math.floor(0.5) → 0
+            //
+            // Résultat final : un nombre ENTIER entre 0 et 100
+
+            tentativesRestantes = 8;
+            // Le joueur a 8 essais
+
+            jeuTermine = false;
+            // La partie n'est pas encore finie
+
+            // Remettre l'interface à zéro
+            divMessage.textContent = "";
+            divMessage.className = "";
+            // className = "" enlève toutes les classes CSS
+
+            divListeTentatives.innerHTML = "";
+            // innerHTML = "" vide tout le contenu HTML de l'élément
+            // Efface l'historique des tentatives précédentes
+
+            mettreAJourTentatives();
+            // Affiche le nombre de tentatives restantes
+
+            // Afficher/cacher les boutons appropriés
+            btnDeviner.style.display = "inline-block";
+            // inline-block = visible + sur la même ligne que les autres boutons
+
+            btnAbandonner.style.display = "inline-block";
+            btnRejouer.style.display = "none";
+            // none = caché
+
+            inputProposition.disabled = false;
+            // disabled = false → le champ est ACTIF (on peut écrire dedans)
+            // disabled = true  → le champ est GRISÉ (impossible d'écrire)
+
+            inputProposition.value = "";
+            // Vide le champ de saisie
+
+            inputProposition.focus();
+            // .focus() place le curseur dans le champ
+            // L'utilisateur peut taper directement sans cliquer d'abord
+        }
+
+        // ---- AFFICHER LES TENTATIVES RESTANTES ----
+
+        function mettreAJourTentatives() {
+            pTentatives.textContent = `Tentatives restantes : ${tentativesRestantes} / 8`;
+        }
+
+        // ---- AJOUTER UNE TENTATIVE À L'HISTORIQUE ----
+
+        function ajouterHistorique(proposition, indice) {
+            const div = document.createElement("div");
+            // document.createElement("div")
+            //   = crée un NOUVEL élément <div> qui n'existe pas encore dans la page
+            //   C'est comme fabriquer une brique avant de la poser
+
+            div.className = "tentative";
+            // Ajoute la classe CSS "tentative" pour le style
+
+            const numero = 8 - tentativesRestantes;
+            // Calcule le numéro de la tentative (1, 2, 3...)
+
+            div.textContent = `#${numero} : ${proposition} → ${indice}`;
+            // Affiche le numéro, la proposition, et l'indice
+
+            divListeTentatives.appendChild(div);
+            // .appendChild(element)
+            //   = ajoute l'élément COMME DERNIER ENFANT du conteneur
+            //   C'est comme poser la brique sur le mur
+
+            divListeTentatives.scrollTop = divListeTentatives.scrollHeight;
+            // Fait défiler vers le bas pour montrer la dernière tentative
+            // scrollTop = position de défilement vertical
+            // scrollHeight = hauteur totale du contenu
+        }
+
+        // ---- FIN DE PARTIE ----
+
+        function finDePartie() {
+            jeuTermine = true;
+
+            // Désactiver les boutons de jeu
+            btnDeviner.style.display = "none";
+            btnAbandonner.style.display = "none";
+            inputProposition.disabled = true;
+
+            // Afficher le bouton Rejouer
+            btnRejouer.style.display = "inline-block";
+        }
+
+        // ---- ÉVÉNEMENT : DEVINER ----
+
+        btnDeviner.addEventListener("click", function () {
+            // Si le jeu est déjà fini, on ne fait rien
+            if (jeuTermine) return;
+
+            const proposition = parseInt(inputProposition.value);
+            // parseInt = convertit en nombre ENTIER
+            // On ne veut pas de décimales pour ce jeu
+
+            // Vérifier que c'est un nombre valide entre 0 et 100
+            if (isNaN(proposition) || proposition < 0 || proposition > 100) {
+                divMessage.textContent = "Entrez un nombre entre 0 et 100 !";
+                divMessage.className = "";
+                return;
+            }
+
+            // Décrémenter les tentatives
+            tentativesRestantes--;
+            // tentativesRestantes-- équivaut à tentativesRestantes = tentativesRestantes - 1
+
+            mettreAJourTentatives();
+
+            // Comparer la proposition au nombre secret
+            if (proposition === nombreSecret) {
+                // GAGNÉ !
+                divMessage.textContent = `Bravo ! Le nombre était bien ${nombreSecret} !`;
+                divMessage.className = "gagne";
+                ajouterHistorique(proposition, "GAGNÉ !");
+                finDePartie();
+
+            } else if (proposition < nombreSecret) {
+                // Trop bas
+                divMessage.textContent = "Trop bas ! Le nombre est plus GRAND.";
+                divMessage.className = "trop-bas";
+                ajouterHistorique(proposition, "Trop bas ↑");
+
+            } else {
+                // Trop haut
+                divMessage.textContent = "Trop haut ! Le nombre est plus PETIT.";
+                divMessage.className = "trop-haut";
+                ajouterHistorique(proposition, "Trop haut ↓");
+            }
+
+            // Vérifier s'il reste des tentatives
+            if (tentativesRestantes === 0 && proposition !== nombreSecret) {
+                divMessage.textContent = `Perdu ! Le nombre était ${nombreSecret}.`;
+                divMessage.className = "perdu";
+                finDePartie();
+            }
+
+            // Vider le champ et remettre le focus
+            inputProposition.value = "";
+            inputProposition.focus();
+        });
+
+        // ---- ÉVÉNEMENT : ABANDONNER ----
+
+        btnAbandonner.addEventListener("click", function () {
+            if (jeuTermine) return;
+
+            divMessage.textContent = `Vous abandonnez ! Le nombre était ${nombreSecret}.`;
+            divMessage.className = "perdu";
+            finDePartie();
+        });
+
+        // ---- ÉVÉNEMENT : REJOUER ----
+
+        btnRejouer.addEventListener("click", function () {
+            initialiserJeu();
+            // Remet tout à zéro et choisit un nouveau nombre
+        });
+
+        // ---- ÉVÉNEMENT : TOUCHE ENTRÉE ----
+
+        inputProposition.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                btnDeviner.click();
+                // Simule un clic sur "Deviner" quand on appuie sur Entrée
+            }
+        });
+
+        // ---- LANCER LE JEU ----
+
+        initialiserJeu();
+        // Appelle la fonction pour démarrer la première partie
+    </script>
+
+</body>
+</html>

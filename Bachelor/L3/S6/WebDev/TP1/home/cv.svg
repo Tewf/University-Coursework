@@ -1,0 +1,135 @@
+<!--
+    SVG (Scalable Vector Graphics) FILE
+    ===================================
+
+    What is SVG?
+    - SVG is an XML-based format for vector images
+    - Vector = made of mathematical shapes, not pixels
+    - Advantages:
+        * Scales perfectly at any size (no blurry/pixelated images)
+        * Small file size
+        * Can be styled with CSS
+        * Can be animated
+        * Accessible (can add text descriptions)
+
+    SVG Structure:
+    - <svg> is the root element (like <html> in HTML)
+    - Contains shapes: <circle>, <rect>, <path>, <line>, <polygon>, etc.
+    - Uses coordinates (x, y) and measurements (width, height)
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <!--
+        <svg> attributes explained:
+
+        xmlns="http://www.w3.org/2000/svg"
+        - XML namespace for SVG
+        - Required for SVG to work properly
+        - Always include this
+
+        viewBox="0 0 100 100"
+        - Defines the coordinate system
+        - Format: "min-x min-y width height"
+        - viewBox="0 0 100 100" means:
+            * Start at point (0,0) - top left corner
+            * Canvas is 100 units wide and 100 units tall
+        - Think of it as a "virtual canvas"
+
+        width="100" height="100"
+        - The actual display size in pixels
+        - Can be different from viewBox (SVG will scale)
+        - Can use %, px, em, or other CSS units
+    -->
+
+    <!-- Background circle -->
+    <circle cx="50" cy="50" r="45" fill="#4CAF50" opacity="0.1"/>
+    <!--
+        <circle> element creates a circle
+        - cx: center X coordinate (50 = middle horizontally)
+        - cy: center Y coordinate (50 = middle vertically)
+        - r: radius (45 units)
+        - fill: color (can use names, hex, rgb)
+        - opacity: transparency (0 = invisible, 1 = solid)
+    -->
+
+    <!-- Document/paper shape -->
+    <rect x="30" y="20" width="40" height="60" rx="2" fill="#4CAF50"/>
+    <!--
+        <rect> element creates a rectangle
+        - x: left edge position
+        - y: top edge position
+        - width: how wide
+        - height: how tall
+        - rx: corner radius (rounded corners)
+        - fill: color (#4CAF50 is green)
+    -->
+
+    <!-- Folded corner effect -->
+    <polygon points="70,20 70,30 60,20" fill="#388E3C"/>
+    <!--
+        <polygon> element creates a shape from multiple points
+        - points: list of x,y coordinates
+        - Format: "x1,y1 x2,y2 x3,y3"
+        - This creates a small triangle for the folded corner
+    -->
+
+    <!-- Lines representing text on the document -->
+    <line x1="35" y1="35" x2="55" y2="35" stroke="white" stroke-width="2"/>
+    <line x1="35" y1="42" x2="65" y2="42" stroke="white" stroke-width="2"/>
+    <line x1="35" y1="49" x2="65" y2="49" stroke="white" stroke-width="2"/>
+    <line x1="35" y1="56" x2="60" y2="56" stroke="white" stroke-width="2"/>
+    <!--
+        <line> element creates a straight line
+        - x1, y1: starting point coordinates
+        - x2, y2: ending point coordinates
+        - stroke: line color
+        - stroke-width: thickness of the line
+        - Note: lines don't have "fill", they have "stroke"
+    -->
+
+    <!-- Small photo icon on the document -->
+    <rect x="35" y="62" width="12" height="12" fill="white" opacity="0.8"/>
+    <circle cx="41" cy="68" r="5" fill="#4CAF50"/>
+    <!-- Simple representation of a photo/profile picture -->
+
+</svg>
+
+<!--
+    ============================================
+    KEY SVG CONCEPTS:
+    ============================================
+
+    1. COORDINATE SYSTEM:
+       - (0,0) is the TOP-LEFT corner
+       - X increases going RIGHT
+       - Y increases going DOWN (opposite of math!)
+
+       (0,0) ────────> X
+         |
+         |
+         v
+         Y
+
+    2. COMMON SHAPES:
+       - <circle cx="x" cy="y" r="radius">
+       - <rect x="x" y="y" width="w" height="h">
+       - <line x1="x1" y1="y1" x2="x2" y2="y2">
+       - <polygon points="x1,y1 x2,y2 ...">
+       - <path d="commands"> (most flexible, complex)
+
+    3. STYLING:
+       - fill: interior color
+       - stroke: outline color
+       - stroke-width: outline thickness
+       - opacity: transparency (0-1)
+
+    4. WHY USE SVG?
+       - Icons and logos (sharp at any size)
+       - Charts and graphs
+       - Animations
+       - Better than PNG/JPG for simple graphics
+
+    5. SVG vs PNG/JPG:
+       - SVG: Vector, scalable, small file size, editable
+       - PNG/JPG: Raster, fixed size, photos and complex images
+-->

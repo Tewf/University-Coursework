@@ -1,0 +1,179 @@
+/*
+  =============================================
+  STYLE B : Classique avec Cadre
+  =============================================
+
+  Caractéristiques :
+  - Gros cadre coloré autour du tableau (10px)
+  - 20px de padding entre le cadre et le contenu
+  - border-collapse: separate (cellules séparées)
+  - La ligne de total EST visible
+  - Ligne de 2px au-dessus du total
+  - Ambiance "document officiel"
+*/
+
+/* =============================================
+   POLICE DE BASE
+   ============================================= */
+body {
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  margin: 40px;
+  background-color: #fff8f0;
+  /* Fond crème chaud */
+}
+
+h1 {
+  color: #8b4513;
+  /* Brun chocolat pour le titre */
+
+  text-align: center;
+}
+
+/* =============================================
+   LE TABLEAU AVEC CADRE
+   ============================================= */
+#liste-courses {
+  width: 80%;
+  margin: 20px auto;
+
+  border-collapse: separate;
+  /*
+    Les cellules sont SÉPARÉES (chacune a sa propre bordure).
+    C'est le mode par défaut, mais on l'écrit explicitement
+    car c'est important pour comprendre la différence avec collapse.
+
+    Avec separate, on peut utiliser :
+    - border-spacing : espace entre les cellules
+    - padding sur le tableau lui-même
+  */
+
+  border-spacing: 0;
+  /*
+    Espace entre les cellules = 0.
+    Même en mode separate, on ne veut pas d'espace ici
+    car le cadre extérieur donne déjà de l'espace.
+  */
+
+  border: 10px solid #8b4513;
+  /*
+    Le CADRE ! 10 pixels d'épaisseur, couleur brun chocolat.
+    C'est le gros cadre visible autour de tout le tableau.
+
+    Format : épaisseur style couleur
+    Styles possibles :
+    - solid  = ligne pleine
+    - dashed = tirets
+    - dotted = pointillés
+    - double = double ligne
+    - groove = effet 3D enfoncé
+    - ridge  = effet 3D surélevé
+  */
+
+  padding: 20px;
+  /*
+    20px d'espace entre le cadre et le contenu du tableau.
+    Crée un "coussin" entre la bordure et les cellules.
+
+    NOTE : padding sur <table> ne fonctionne qu'avec
+    border-collapse: separate ! Avec collapse, ça ne marche pas.
+  */
+
+  background-color: white;
+  /* Fond blanc à l'intérieur du cadre */
+}
+
+/* =============================================
+   EN-TÊTE DU TABLEAU
+   ============================================= */
+thead th {
+  background-color: #deb887;
+  /* Fond beige doré (burlywood) pour les en-têtes */
+
+  color: #3e2723;
+  /* Texte brun très foncé */
+
+  padding: 10px 15px;
+  font-weight: bold;
+
+  border-bottom: 2px solid #8b4513;
+  /* Ligne épaisse sous les en-têtes */
+}
+
+/* =============================================
+   CELLULES DE DONNÉES
+   ============================================= */
+td {
+  padding: 8px 15px;
+  border-bottom: 1px solid #e0d5c5;
+  /* Lignes de séparation discrètes entre les articles */
+}
+
+/* =============================================
+   ALIGNEMENT DES COLONNES
+   ============================================= */
+.col-article {
+  text-align: left;
+}
+
+.col-quantite,
+.col-prix,
+.col-total {
+  text-align: center;
+}
+
+/* =============================================
+   EFFET AU SURVOL
+   ============================================= */
+tbody tr:hover {
+  background-color: #fef3e2;
+  /* Fond crème chaud au survol */
+}
+
+/* =============================================
+   PIED DE TABLEAU : VISIBLE !
+   ============================================= */
+
+/*
+  Contrairement au Style A, ici on MONTRE le total.
+  On n'a pas besoin de display: none car par défaut
+  les éléments sont visibles (display n'est pas none).
+*/
+
+.ligne-total td {
+  border-top: 2px solid #8b4513;
+  /*
+    Ligne de 2px AU-DESSUS de la ligne de total.
+    Sépare visuellement le total des articles.
+    C'est une convention dans les documents financiers.
+  */
+
+  padding-top: 12px;
+  /* Un peu plus d'espace au-dessus du total */
+
+  font-weight: bold;
+  /* Total en gras */
+}
+
+.label-total {
+  text-align: right;
+  /*
+    Le mot "Total" est aligné à droite.
+    Se rapproche de la colonne des montants.
+  */
+
+  font-size: 14px;
+  /* Un peu plus grand que le reste */
+
+  color: #8b4513;
+  /* Même couleur que le cadre */
+}
+
+.montant-total {
+  text-align: center;
+  font-size: 14px;
+  color: #8b4513;
+
+  background-color: #fef3e2;
+  /* Fond léger pour mettre en évidence le montant total */
+}

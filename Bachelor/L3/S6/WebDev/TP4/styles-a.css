@@ -1,0 +1,170 @@
+/*
+  =============================================
+  STYLE A : Moderne & Zébré
+  =============================================
+
+  Caractéristiques :
+  - En-tête coloré (bleu)
+  - Lignes alternées (gris clair / blanc)
+  - Séparation de 1px entre les lignes
+  - Colonnes centrées sauf Article (à gauche)
+  - PAS de ligne de total visible
+  - Look moderne et épuré
+*/
+
+/* =============================================
+   POLICE DE BASE
+   ============================================= */
+body {
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  /* Tahoma = police demandée par l'exercice */
+
+  font-size: 13px;
+  /* Taille demandée : 13 pixels */
+
+  margin: 40px;
+  /* Espace autour de toute la page */
+
+  background-color: #fafafa;
+  /* Fond très légèrement gris (presque blanc) */
+}
+
+/* =============================================
+   TITRE
+   ============================================= */
+h1 {
+  color: #2c3e50;
+  /* Bleu foncé pour le titre */
+
+  text-align: center;
+  /* Centre le titre */
+}
+
+/* =============================================
+   LE TABLEAU
+   ============================================= */
+#liste-courses {
+  width: 80%;
+  /* Le tableau prend 80% de la largeur de la page */
+
+  margin: 20px auto;
+  /* Centre le tableau horizontalement (margin auto) */
+
+  border-collapse: collapse;
+  /*
+    Fusionne les bordures des cellules.
+    Les cellules partagent leurs bordures = lignes fines et propres.
+  */
+}
+
+/* =============================================
+   EN-TÊTE DU TABLEAU
+   ============================================= */
+thead th {
+  background-color: #4a90d9;
+  /* Fond bleu pour les en-têtes */
+
+  color: white;
+  /* Texte blanc sur fond bleu */
+
+  padding: 10px 15px;
+  /* Espace intérieur : 10px haut/bas, 15px gauche/droite */
+
+  text-transform: uppercase;
+  /*
+    Transforme le texte en MAJUSCULES.
+    "Article" devient "ARTICLE"
+    Autres valeurs :
+    - lowercase = tout en minuscules
+    - capitalize = première lettre en majuscule
+    - none = pas de transformation (par défaut)
+  */
+
+  font-size: 11px;
+  /* Texte un peu plus petit pour les en-têtes */
+
+  letter-spacing: 1px;
+  /*
+    Espace entre les lettres.
+    A R T I C L E  au lieu de  ARTICLE
+    Donne un look moderne aux en-têtes en majuscules.
+  */
+}
+
+/* =============================================
+   CELLULES DE DONNÉES
+   ============================================= */
+td {
+  padding: 8px 15px;
+  /* Espace intérieur dans chaque cellule */
+
+  border-bottom: 1px solid #e0e0e0;
+  /*
+    Bordure UNIQUEMENT en bas de chaque cellule.
+    Crée des lignes de séparation horizontales fines.
+    Pas de bordure verticale = look épuré.
+  */
+}
+
+/* =============================================
+   LIGNES ALTERNÉES (Zebra Striping)
+   ============================================= */
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+  /*
+    Les lignes PAIRES ont un fond gris clair.
+    :nth-child(even) = 2ème, 4ème, 6ème... ligne
+
+    L'alternance aide l'œil à suivre une ligne
+    de gauche à droite sans se perdre.
+  */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white;
+  /* Les lignes IMPAIRES restent blanches */
+}
+
+/* =============================================
+   EFFET AU SURVOL
+   ============================================= */
+tbody tr:hover {
+  background-color: #e3f2fd;
+  /*
+    Fond bleu très clair quand on survole une ligne.
+    Aide à identifier la ligne qu'on regarde.
+  */
+}
+
+/* =============================================
+   ALIGNEMENT DES COLONNES
+   ============================================= */
+.col-article {
+  text-align: left;
+  /* Les noms d'articles sont alignés à GAUCHE */
+}
+
+.col-quantite,
+.col-prix,
+.col-total {
+  text-align: center;
+  /* Les chiffres sont CENTRÉS */
+}
+
+/* =============================================
+   PIED DE TABLEAU : CACHÉ !
+   ============================================= */
+tfoot {
+  display: none;
+  /*
+    display: none = l'élément DISPARAÎT complètement.
+    Il n'est plus visible ET ne prend plus de place.
+
+    Dans le Style A, on ne veut pas afficher le total.
+    Le même HTML est présent, mais le CSS le cache !
+
+    Différence avec visibility: hidden :
+    - display: none     = disparaît + ne prend pas de place
+    - visibility: hidden = invisible MAIS garde sa place
+  */
+}

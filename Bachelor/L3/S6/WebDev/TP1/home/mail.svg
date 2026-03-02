@@ -1,0 +1,111 @@
+<!--
+    EMAIL ICON - SVG File
+    This creates a simple envelope/mail icon
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+
+    <!-- Background circle for visual appeal -->
+    <circle cx="50" cy="50" r="45" fill="#2196F3" opacity="0.1"/>
+    <!-- Blue background circle with low opacity -->
+
+    <!-- Envelope body (main rectangle) -->
+    <rect x="20" y="30" width="60" height="40" rx="3" fill="none" stroke="#2196F3" stroke-width="3"/>
+    <!--
+        This creates the envelope outline
+        - fill="none": No interior color (transparent)
+        - stroke="#2196F3": Blue outline
+        - stroke-width="3": Thick outline (3 units)
+
+        Why fill="none"?
+        - We want just the outline, not a solid rectangle
+        - The envelope needs to look hollow
+    -->
+
+    <!-- Envelope flap (top part) -->
+    <path d="M 20 30 L 50 55 L 80 30" fill="none" stroke="#2196F3" stroke-width="3" stroke-linejoin="round"/>
+    <!--
+        <path> element: The most flexible SVG shape
+        - "d" attribute contains drawing commands
+
+        PATH COMMANDS:
+        - M = Move to (pick up pen, move to point)
+        - L = Line to (draw line to point)
+        - Numbers are X,Y coordinates
+
+        This path draws:
+        1. M 20 30: Move to point (20, 30) - left top of envelope
+        2. L 50 55: Draw line to (50, 55) - middle, down (flap point)
+        3. L 80 30: Draw line to (80, 30) - right top of envelope
+
+        Result: A "V" shape representing the envelope flap
+
+        stroke-linejoin="round"
+        - Makes the corners rounded instead of sharp
+    -->
+
+    <!-- Optional: Small circle to represent unread notification -->
+    <circle cx="75" cy="35" r="6" fill="#FF5722"/>
+    <text x="75" y="38" font-size="10" fill="white" text-anchor="middle" font-weight="bold">1</text>
+    <!--
+        <text> element: Adds text to SVG
+        - x, y: position
+        - font-size: text size
+        - text-anchor="middle": centers text horizontally at x position
+        - font-weight="bold": makes text bold
+
+        This creates a notification badge showing "1 new message"
+    -->
+
+</svg>
+
+<!--
+    ============================================
+    NEW SVG CONCEPTS IN THIS FILE:
+    ============================================
+
+    1. STROKE vs FILL:
+       - fill: Color INSIDE the shape
+       - stroke: Color of the OUTLINE
+       - You can use both, one, or neither
+
+       Examples:
+       - fill="red" stroke="blue": Red interior, blue outline
+       - fill="none" stroke="black": Hollow shape with black outline
+       - fill="green" stroke="none": Solid green, no outline
+
+    2. PATH ELEMENT:
+       The <path> is the most powerful SVG element
+
+       Common commands:
+       - M x y: Move to point (don't draw)
+       - L x y: Line to point
+       - H x: Horizontal line to x
+       - V y: Vertical line to y
+       - C: Curve (Bezier curve)
+       - Z: Close path (back to start)
+
+       Example:
+       d="M 10 10 L 50 10 L 50 50 Z"
+       This draws a triangle:
+       1. Move to (10,10)
+       2. Line to (50,10)
+       3. Line to (50,50)
+       4. Z closes back to (10,10)
+
+    3. TEXT IN SVG:
+       <text x="x" y="y">Your text</text>
+
+       Attributes:
+       - font-size: text size
+       - font-family: font type
+       - text-anchor: alignment (start, middle, end)
+       - fill: text color
+       - font-weight: normal, bold
+
+    4. STROKE PROPERTIES:
+       - stroke-width: thickness
+       - stroke-linecap: end style (butt, round, square)
+       - stroke-linejoin: corner style (miter, round, bevel)
+       - stroke-dasharray: creates dashed lines
+-->

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda - Mohamed HAMLIL</title>
+    <link rel="stylesheet" href="shared/shared.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <style>
+        /*
+          STYLES SPÉCIFIQUES AU TABLEAU D'EMPLOI DU TEMPS
+          ================================================
+
+          Le tableau est l'élément central de cette page.
+          On va le styliser pour qu'il soit joli et lisible.
+        */
+
+        /* Le tableau principal */
+        table {
+            width: 100%;
+            /*
+              100% = prend toute la largeur disponible.
+              Le tableau s'étend de bord à bord du contenu principal.
+            */
+
+            border-collapse: collapse;
+            /*
+              IMPORTANT : fusionne les bordures des cellules.
+
+              Sans border-collapse: collapse :
+              ┌───┐ ┌───┐   (bordures séparées, double épaisseur entre les cellules)
+              │ A │ │ B │
+              └───┘ └───┘
+
+              Avec border-collapse: collapse :
+              ┌───┬───┐     (bordures fusionnées, une seule ligne)
+              │ A │ B │
+              └───┴───┘
+
+              C'est presque toujours ce qu'on veut !
+            */
+
+            margin: 20px 0;
+            /* Espace au-dessus et en dessous du tableau */
+        }
+
+        /* En-tête du tableau */
+        thead th {
+            background-color: var(--color-0);
+            /* Fond foncé pour les en-têtes */
+
+            color: var(--color-6);
+            /* Texte clair sur fond foncé */
+
+            padding: 12px 8px;
+            /* Espace intérieur dans chaque cellule d'en-tête */
+
+            text-align: center;
+            /* Centre le texte des en-têtes */
+        }
+
+        /* Cellules de données */
+        td, th {
+            border: 1px solid var(--color-3);
+            /*
+              Bordure de 1 pixel, style solide, couleur pêche.
+              S'applique à TOUTES les cellules (td ET th).
+            */
+
+            padding: 10px 8px;
+            /* Espace intérieur (le texte ne colle pas aux bords) */
+
+            text-align: center;
+            /* Centre le texte dans les cellules */
+        }
+
+        /* En-têtes de ligne (les horaires) */
+        tbody th {
+            background-color: var(--color-4);
+            /* Fond pêche clair pour les horaires */
+
+            font-weight: bold;
+            /* En gras */
+
+            white-space: nowrap;
+            /*
+              Empêche le texte de passer à la ligne.
+              "8h - 10h" reste sur une seule ligne.
+              Sans ça, "8h" pourrait être sur une ligne et "- 10h" sur l'autre.
+            */
+        }
+
+        /* Largeur égale pour chaque colonne */
+        th, td {
+            width: calc(100% / 6);
+            /*
+              calc() = fait un calcul mathématique en CSS !
+              100% / 6 = chaque colonne fait 1/6 de la largeur totale.
+              6 colonnes = horaire + 5 jours.
+
+              calc() est super utile pour des mises en page précises.
+            */
+        }
+
+        /* Lignes alternées (zébrées) pour faciliter la lecture */
+        tbody tr:nth-child(even) {
+            background-color: var(--color-5);
+            /*
+              :nth-child(even) = les lignes PAIRES (2ème, 4ème, 6ème...)
+              even = pair (2, 4, 6...)
+              odd  = impair (1, 3, 5...)
+
+              L'alternance de couleurs aide l'œil à suivre une ligne.
+              C'est un design classique appelé "zebra striping".
+            */
+        }
+
+        /* Survol d'une ligne */
+        tbody tr:hover {
+            background-color: var(--color-4);
+            /*
+              Quand la souris survole une ligne, elle change de couleur.
+              Aide à voir quelle ligne on regarde.
+            */
+        }
+
+        /* Pied de tableau */
+        tfoot td {
+            background-color: var(--color-5);
+            font-style: italic;
+            /* italic = texte penché */
+
+            font-size: 0.85em;
+            /* Texte un peu plus petit */
+        }
+
+        /* Légende */
+        .legende {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--color-5);
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .legende h3 {
+            margin-top: 0;
+            color: var(--color-0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <ul class="menu-bar">
+            <li><a href=".">Accueil</a></li>
+            <li><a href="cv.html">Mon CV</a></li>
+            <li><a href="calendar.html" class="current">Agenda</a></li>
+            <li><a href="gallery.html">Photos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Emploi du Temps Hebdomadaire</h1>
+        <p>Semaine du 10 au 14 Février 2026</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Horaire</th>
+                    <th>Lundi</th>
+                    <th>Mardi</th>
+                    <th>Mercredi</th>
+                    <th>Jeudi</th>
+                    <th>Vendredi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th scope="row">8h - 10h</th>
+                    <td>Mathématiques</td>
+                    <td>Programmation Web</td>
+                    <td></td>
+                    <td>Bases de Données</td>
+                    <td>Anglais</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">10h - 12h</th>
+                    <td>Programmation Web</td>
+                    <td>Mathématiques</td>
+                    <td>Sport</td>
+                    <td colspan="2">Projet Tutoré</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">12h - 14h</th>
+                    <td colspan="5">Pause Déjeuner</td>
+                </tr>
+
+                <tr>
+                    <th scope="row">14h - 16h</th>
+                    <td>TP Informatique</td>
+                    <td rowspan="2">Cours Magistral<br>Algorithmique</td>
+                    <td>Réseaux</td>
+                    <td>Systèmes</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <th scope="row">16h - 18h</th>
+                    <td>Bases de Données</td>
+                    <td>TP Web</td>
+                    <td>Projet Info</td>
+                    <td>Libre</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <small><em>Note : Les horaires peuvent être modifiés. Consultez régulièrement.</em></small>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Légende du tableau -->
+        <div class="legende">
+            <h3>Légende</h3>
+            <ul>
+                <li><strong>colspan</strong> = cellule qui s'étend sur plusieurs colonnes</li>
+                <li><strong>rowspan</strong> = cellule qui s'étend sur plusieurs lignes</li>
+                <li>Les cases vides = pas de cours</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <hr>
+        <p><small>&copy; 2026 Mohamed HAMLIL - Emploi du Temps</small></p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+---
+title: "Partie 5 : Comparaison des Classifieurs et Conclusion"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source(here::here("R", "utils.R"))
+```
+
+# Chargement des résultats
+
+```{r}
+#| label: load
+model_logistic <- readRDS(here::here("output", "model_logistic.rds"))
+model_rf <- readRDS(here::here("output", "model_rf.rds"))
+cm_logistic <- readRDS(here::here("output", "cm_logistic.rds"))
+cm_rf <- readRDS(here::here("output", "cm_rf.rds"))
+roc_logistic <- readRDS(here::here("output", "roc_logistic.rds"))
+roc_rf <- readRDS(here::here("output", "roc_rf.rds"))
+cat("Tous les résultats chargés.\n")
+```
+
+# Comparaison des classifieurs
+
+## Tableau récapitulatif
+
+```{r}
+#| label: tbl-comparison
+#| tbl-cap: "Comparaison des performances des classifieurs"
+results_df <- data.frame(
+  Modèle = c("Régression Logistique", "Forêt Aléatoire"),
+  AUC_CV = c(round(max(model_logistic$results$ROC), 4),
+             round(max(model_rf$results$ROC), 4)),
+  AUC_Test = c(round(auc(roc_logistic), 4),
+               round(auc(roc_rf), 4)),
+  Accuracy = c(round(cm_logistic$overall["Accuracy"], 4),
+               round(cm_rf$overall["Accuracy"], 4)),
+  Sensibilité = c(round(cm_logistic$byClass["Sensitivity"], 4),
+                  round(cm_rf$byClass["Sensitivity"], 4)),
+  Spécificité = c(round(cm_logistic$byClass["Specificity"], 4),
+                  round(cm_rf$byClass["Specificity"], 4)),
+  F1 = c(round(cm_logistic$byClass["F1"], 4),
+         round(cm_rf$byClass["F1"], 4))
+)
+
+kable(results_df, booktabs = TRUE)
+```
+
+Le @tbl-comparison résume les performances des deux classifieurs sur le jeu de test.
+
+## Courbes ROC comparées
+
+```{r}
+#| label: fig-roc-comparison
+#| fig-cap: "Comparaison des courbes ROC"
+plot(roc_logistic, col = "blue", main = "Comparaison des courbes ROC")
+plot(roc_rf, col = "darkgreen", add = TRUE)
+legend("bottomright",
+       legend = c(
+         paste0("Rég. Logistique (AUC = ", round(auc(roc_logistic), 3), ")"),
+         paste0("Forêt Aléatoire (AUC = ", round(auc(roc_rf), 3), ")")
+       ),
+       col = c("blue", "darkgreen"),
+       lwd = 2)
+```
+
+## Validation croisée comparée
+
+```{r}
+#| label: fig-cv-comparison
+#| fig-cap: "Comparaison des AUC par validation croisée"
+resamps <- resamples(list(
+  Logistique = model_logistic,
+  RandomForest = model_rf
+))
+summary(resamps)
+bwplot(resamps, metric = "ROC", main = "Comparaison des AUC (5-fold CV)")
+```
+
+## Choix final et justification
+
+```{r}
+#| label: final-choice
+if (auc(roc_rf) > auc(roc_logistic)) {
+  cat("Le modèle retenu est la Forêt Aléatoire.\n")
+  cat("Justification : meilleure AUC sur le jeu de test, capacité à capturer\n")
+  cat("les relations non-linéaires entre les notes olfactives et la satisfaction.\n")
+} else {
+  cat("Le modèle retenu est la Régression Logistique.\n")
+  cat("Justification : performance comparable ou supérieure avec une meilleure\n")
+  cat("interprétabilité des résultats.\n")
+}
+```
+
+:::{.callout-important}
+## Modèle retenu
+Le choix du modèle final repose sur la comparaison de l'AUC sur le jeu de test, combinée à l'analyse de la sensibilité, de la spécificité et du score F1. Voir la @fig-roc-comparison pour la visualisation des courbes ROC.
+:::
+
+{{< pagebreak >}}
+
+# Conclusion
+
+Dans ce projet, nous avons construit un pipeline complet de classification supervisée pour prédire la satisfaction des utilisateurs vis-à-vis des parfums.
+
+**Résumé des étapes :**
+
+1. **Analyse exploratoire** : nous avons identifié les distributions des variables, les valeurs manquantes et les relations avec la variable cible.
+
+2. **Feature engineering** : les variables textuelles (accords, notes) ont été transformées en indicatrices binaires. Des variables de comptage (nombre de notes) ont été ajoutées.
+
+3. **Modélisation** : deux classifieurs ont été entraînés et comparés :
+   - La **régression logistique** avec régularisation Elastic Net offre un modèle interprétable [@zou2005].
+   - La **forêt aléatoire** capture les interactions non-linéaires entre variables [@breiman2001].
+
+4. **Évaluation** : les modèles ont été évalués par validation croisée 5-fold et sur un jeu de test indépendant (30%), en utilisant l'AUC, l'accuracy, la sensibilité et la spécificité [@kuhn2008].
+
+## Pistes non explorées
+
+- **Autres classifieurs** : SVM, XGBoost, ou réseaux de neurones pourraient améliorer les performances.
+- **NLP plus avancé** : un encodage TF-IDF ou des embeddings des notes olfactives pourrait mieux capturer l'information textuelle.
+- **Données supplémentaires** : le nom de la marque et le parfumeur pourraient être des prédicteurs utiles après encodage adéquat.
+
+## Utilisation de l'IA
+
+*[À compléter : préciser les tâches pour lesquelles l'IA a été utilisée et le pourcentage estimé.]*
+
+## Contributions individuelles
+
+*[À compléter : préciser la contribution de chaque membre du groupe.]*
+
+# Références

@@ -1,0 +1,10 @@
+{
+  "name": "tp8-serveur-web",
+  "version": "1.0.0",
+  "description": "Mon premier serveur web Node.js (sans Express)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+    =============================================
+    MA TOUTE PREMIÈRE PAGE WEB !
+    =============================================
+
+    Ce fichier est une page HTML. HTML veut dire
+    "HyperText Markup Language" = "Langage de Balisage HyperTexte"
+
+    C'est quoi une "balise" ?
+    - C'est un mot entouré de < et >
+    - Exemple : <p> est une balise
+    - La plupart des balises vont par paires :
+      <p>texte</p>  (ouverture + fermeture)
+    - La balise de fermeture a un / devant le nom
+
+    Analogie : les balises sont comme des boîtes.
+    <p> = ouvre la boîte
+    </p> = ferme la boîte
+    Le texte entre les deux = ce qu'il y a dans la boîte
+-->
+
+<!--
+    <!DOCTYPE html>
+    Cette ligne dit au navigateur :
+    "Attention ! Ce fichier est du HTML version 5 (la plus récente)"
+
+    C'est TOUJOURS la première ligne d'un fichier HTML.
+    Sans elle, le navigateur pourrait mal comprendre ta page.
+
+    Ce n'est PAS une balise HTML, c'est une déclaration.
+-->
+
+<html lang="fr">
+<!--
+    <html> = La boîte qui contient TOUT
+
+    lang="fr" = on dit au navigateur que la page est en français
+    Ça aide :
+    - Les lecteurs d'écran (pour les personnes malvoyantes) à prononcer correctement
+    - Google à comprendre la langue de ta page
+    - Le navigateur à proposer la traduction si besoin
+-->
+
+<head>
+    <!--
+        <head> = La partie INVISIBLE de ta page
+
+        C'est comme l'étiquette sur un colis :
+        - Le destinataire ne voit pas l'étiquette
+        - Mais le facteur en a besoin pour livrer le colis
+
+        Le <head> contient des informations POUR le navigateur,
+        pas pour l'utilisateur.
+    -->
+
+    <meta charset="UTF-8">
+    <!--
+        <meta charset="UTF-8">
+
+        C'est quoi UTF-8 ?
+        L'ordinateur ne comprend que les chiffres (0 et 1).
+        UTF-8 est un "dictionnaire" qui traduit les lettres en chiffres.
+
+        UTF-8 comprend TOUTES les langues : é, è, à, ç, ñ, ü, 中文, العربية...
+
+        Sans cette ligne, les accents français pourraient ressembler à : Ã©
+
+        RÈGLE D'OR : Toujours mettre cette ligne dans CHAQUE page HTML !
+    -->
+
+    <title>Test - Ma première page web</title>
+    <!--
+        <title> = Le titre de ta page
+
+        Où est-ce qu'on le voit ?
+        1. Dans l'onglet du navigateur (en haut)
+        2. Dans les résultats Google
+        3. Dans les favoris/signets
+
+        ATTENTION : ce titre n'apparaît PAS dans la page elle-même !
+        C'est un titre "administratif", pas un titre visible.
+
+        OBLIGATOIRE : chaque page HTML DOIT avoir un <title>
+    -->
+</head>
+
+<body>
+    <!--
+        <body> = La partie VISIBLE de ta page
+
+        TOUT ce que l'utilisateur voit est ici :
+        texte, images, liens, vidéos, boutons...
+
+        Il n'y a qu'UN SEUL <body> par page.
+    -->
+
+    <h1>Bienvenue dans le développement web !</h1>
+    <!--
+        <h1> = Titre principal (Heading 1)
+
+        C'est le titre le PLUS IMPORTANT de la page.
+        Le navigateur l'affiche en gros et en gras.
+
+        Il existe 6 niveaux de titres :
+        <h1> = Titre principal (le plus gros)
+        <h2> = Sous-titre
+        <h3> = Sous-sous-titre
+        <h4> = Encore plus petit
+        <h5> = Encore plus petit
+        <h6> = Le plus petit titre
+
+        RÈGLE : Un seul <h1> par page !
+        C'est comme le titre d'un livre : il n'y en a qu'un.
+    -->
+
+    <p>
+        Si tu vois cette page dans ton navigateur, bravo !
+        Ton environnement de développement fonctionne correctement.
+    </p>
+    <!--
+        <p> = Paragraphe (Paragraph)
+
+        Regroupe du texte en un bloc.
+        Le navigateur ajoute automatiquement un espace
+        au-dessus et en dessous de chaque paragraphe.
+
+        C'est comme un paragraphe dans un livre :
+        une idée = un paragraphe = un <p>
+    -->
+
+    <h2>Ce que tu vas apprendre dans ce cours</h2>
+    <!--
+        <h2> = Sous-titre
+        On passe de h1 à h2 (jamais sauter un niveau !)
+        h1 → h2 → h3  ✅
+        h1 → h3        ❌ (on a sauté h2 !)
+    -->
+
+    <ul>
+        <!--
+            <ul> = Unordered List = Liste non ordonnée (avec des puces •)
+
+            Utilise <ul> quand l'ordre n'a PAS d'importance.
+            Chaque élément de la liste est un <li> (List Item).
+
+            Analogie : c'est comme une liste de courses.
+            L'ordre dans lequel tu achètes n'a pas d'importance.
+        -->
+
+        <li>HTML - La structure des pages web (le squelette)</li>
+        <!--
+            <li> = List Item = Élément de liste
+
+            DOIT être à l'intérieur d'un <ul> ou <ol>.
+            Ne peut pas être utilisé tout seul !
+        -->
+
+        <li>CSS - La mise en forme et le design (les vêtements)</li>
+        <li>JavaScript - L'interactivité et la logique (le cerveau)</li>
+        <li>Le DOM - Modifier les pages avec JavaScript</li>
+        <li>Node.js - JavaScript côté serveur</li>
+        <li>Express - Un framework pour créer des serveurs web</li>
+    </ul>
+
+    <h2>Comment vérifier que tout fonctionne ?</h2>
+
+    <ol>
+        <!--
+            <ol> = Ordered List = Liste ordonnée (avec des numéros 1, 2, 3...)
+
+            Utilise <ol> quand l'ORDRE est important.
+            Comme des instructions à suivre étape par étape.
+
+            Analogie : c'est comme une recette de cuisine.
+            L'ordre des étapes compte !
+        -->
+
+        <li>Tu vois cette page dans ton navigateur</li>
+        <li>Le texte s'affiche correctement (pas de symboles bizarres)</li>
+        <li>Les accents marchent : é è à ç ù ê î ô û</li>
+        <li>Tu peux ouvrir les outils de développement (touche F12)</li>
+    </ol>
+
+    <hr>
+    <!--
+        <hr> = Horizontal Rule = Ligne horizontale
+
+        Crée une séparation visuelle entre deux sections.
+        C'est une balise "auto-fermante" : pas besoin de </hr>
+
+        Analogie : c'est comme une ligne tracée à la règle
+        pour séparer deux parties d'une feuille.
+    -->
+
+    <p>
+        <strong>Prochaine étape :</strong> passe au
+        <a href="../TP1/index1.html">TP1 - Introduction au HTML</a>
+        pour créer ton premier vrai site web !
+    </p>
+    <!--
+        <strong> = Texte important (affiché en gras)
+        Le navigateur le met en gras ET les lecteurs d'écran
+        le lisent avec plus d'insistance.
+
+        <a href="..."> = Lien hypertexte (Anchor)
+        href = l'adresse de destination
+        Le texte entre <a> et </a> est cliquable
+    -->
+
+    <footer>
+        <!--
+            <footer> = Pied de page
+            Contient généralement les infos de copyright,
+            les liens légaux, etc.
+        -->
+        <hr>
+        <p>
+            <small>&copy; 2026 - TP0 Introduction aux Technologies du Web</small>
+        </p>
+        <!--
+            <small> = Petit texte (mentions légales, copyright)
+            &copy; = Le symbole © (copyright)
+        -->
+    </footer>
+
+</body>
+
+</html>

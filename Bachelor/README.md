@@ -18,7 +18,7 @@ This directory contains all coursework and projects from my bachelor's degree st
 - **[MathStat2/](L3/S5/MathStat2/)** – Statistical practicals on simulation, bootstrap, estimation, and hypothesis testing using R
 
 #### Semester 6 (S6)
-- **ComplementMath2/** – Advanced mathematical complements
+- **ComplementMath2/** – Machine Learning
 - **Econometrie2/** – Advanced econometrics
 - **MathStat3/** – Advanced statistics
 - **WebDev/** – Web development coursework

@@ -1,0 +1,196 @@
+/*
+  =============================================
+  STYLES DE LA TODO LIST
+  =============================================
+*/
+
+/* ---- STYLES GLOBAUX ---- */
+body {
+  font-family: "Gill Sans", "Segoe UI", sans-serif;
+  max-width: 500px;           /* Largeur maximale de la page */
+  margin: 40px auto;          /* Centre la page horizontalement */
+  padding: 0 20px;            /* Espace sur les côtés (pour petits écrans) */
+  background-color: #f8f9fa;  /* Fond gris très clair */
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* ---- FORMULAIRE ---- */
+#add-task {
+  display: flex;
+  /* Met l'input et le bouton sur la même ligne */
+
+  gap: 10px;
+  /* Espace entre l'input et le bouton */
+
+  margin-bottom: 20px;
+}
+
+#add-task input[type="text"] {
+  flex: 1;
+  /*
+    flex: 1 = prend tout l'espace disponible restant.
+    Le bouton prend sa taille naturelle,
+    et l'input remplit tout le reste.
+  */
+
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+
+  outline: none;
+  /*
+    outline = la bordure bleue qui apparaît quand on clique dans le champ.
+    On la retire pour la remplacer par notre propre style.
+  */
+}
+
+#add-task input[type="text"]:focus {
+  border-color: #4a90d9;
+  /*
+    :focus = quand le champ est sélectionné (le curseur est dedans)
+    On change la couleur de la bordure pour indiquer le focus.
+  */
+}
+
+#add-task button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #4a90d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  white-space: nowrap;
+  /*
+    Empêche le texte du bouton de passer à la ligne.
+    "Ajouter" reste toujours sur une seule ligne.
+  */
+}
+
+#add-task button:hover {
+  background-color: #357abd;
+}
+
+/* ---- LISTE DES TÂCHES ---- */
+#todo-list {
+  list-style: none;
+  /* Enlève les puces (•) de la liste */
+
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- CHAQUE TÂCHE (élément <li>) ---- */
+#todo-list li {
+  display: flex;
+  /* Texte à gauche, boutons à droite */
+
+  align-items: center;
+  /* Centre verticalement le texte et les boutons */
+
+  justify-content: space-between;
+  /* Pousse le texte à gauche et les boutons à droite */
+
+  padding: 12px 15px;
+  margin-bottom: 8px;
+
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+  /*
+    Animation douce quand la tâche apparaît ou change.
+    transform et box-shadow changeront en 0.2 secondes.
+  */
+}
+
+#todo-list li:hover {
+  transform: translateX(5px);
+  /* Petit décalage vers la droite au survol */
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  /* Ombre légère au survol */
+}
+
+/* ---- TEXTE DE LA TÂCHE ---- */
+#todo-list li span {
+  flex: 1;
+  /* Prend tout l'espace disponible (pousse les boutons à droite) */
+
+  font-size: 16px;
+}
+
+/* ---- GROUPE DE BOUTONS ---- */
+.boutons {
+  display: flex;
+  gap: 5px;
+  /* Espace entre les boutons d'action */
+
+  margin-left: 10px;
+  /* Espace entre le texte et les boutons */
+}
+
+/* ---- BOUTONS D'ACTION ---- */
+.boutons button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.boutons button:hover {
+  transform: scale(1.1);
+  /* Agrandit légèrement le bouton au survol */
+}
+
+/* Bouton Monter (↑) */
+.btn-monter {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+.btn-monter:hover {
+  background-color: #bbdefb;
+}
+
+/* Bouton Descendre (↓) */
+.btn-descendre {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+.btn-descendre:hover {
+  background-color: #c8e6c9;
+}
+
+/* Bouton Supprimer (✕) */
+.btn-supprimer {
+  background-color: #ffebee;
+  color: #c62828;
+}
+.btn-supprimer:hover {
+  background-color: #ffcdd2;
+}
+
+/* ---- MESSAGE QUAND LA LISTE EST VIDE ---- */
+/* (géré par JavaScript) */
+.message-vide {
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  padding: 30px 0;
+}

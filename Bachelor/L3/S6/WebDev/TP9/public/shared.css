@@ -1,0 +1,199 @@
+/*
+  =============================================
+  STYLES PARTAGÉS - TP9
+  =============================================
+
+  Ce fichier CSS est servi STATIQUEMENT par Express.
+  Il est dans le dossier "public/", donc accessible directement
+  via l'URL : http://localhost:8080/shared.css
+*/
+
+/* ---- Variables CSS ---- */
+:root {
+  --primary: #4a90d9;
+  --primary-dark: #357abd;
+  --danger: #e74c3c;
+  --danger-dark: #c0392b;
+  --success: #2ecc71;
+  --text: #333;
+  --text-light: #666;
+  --bg: #f8f9fa;
+  --white: #fff;
+  --border: #ddd;
+  --radius: 8px;
+}
+
+/* ---- Reset et base ---- */
+* {
+  box-sizing: border-box;
+  /* Tous les éléments incluent padding et border dans leur taille */
+}
+
+body {
+  font-family: "Gill Sans", "Segoe UI", sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* ---- Conteneur principal ---- */
+.container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 30px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Titres ---- */
+h1 {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  color: var(--text);
+  margin-top: 0;
+}
+
+/* ---- Formulaires ---- */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* ---- Boutons ---- */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  text-align: center;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Bouton principal (bleu) */
+.btn {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Bouton secondaire (gris) */
+.btn-secondary {
+  background-color: var(--text-light);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background-color: #555;
+}
+
+/* Bouton danger (rouge) */
+.btn-danger {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-dark);
+}
+
+/* Bouton pleine largeur */
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* ---- Messages ---- */
+.message {
+  padding: 12px;
+  border-radius: var(--radius);
+  margin-bottom: 15px;
+  font-size: 14px;
+  display: none;
+  /* Caché par défaut, affiché par JavaScript */
+}
+
+.message-error {
+  background-color: #ffe0e0;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.message-success {
+  background-color: #e0ffe0;
+  color: #27ae60;
+  border: 1px solid var(--success);
+}
+
+.message.visible {
+  display: block;
+  /* Affiché quand la classe "visible" est ajoutée par JS */
+}
+
+/* ---- Actions (groupe de boutons) ---- */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* ---- Liens ---- */
+.text-center {
+  text-align: center;
+}
+
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* ---- Footer des formulaires ---- */
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--text-light);
+}

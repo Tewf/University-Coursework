@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Galerie Photos - Mohamed HAMLIL</title>
+    <link rel="stylesheet" href="shared/shared.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <style>
+        /*
+          STYLES DE LA GALERIE PHOTOS
+          ============================
+
+          On utilise CSS GRID pour la galerie.
+
+          CSS Grid vs Flexbox :
+          - Flexbox = une dimension (ligne OU colonne)
+          - Grid    = deux dimensions (lignes ET colonnes)
+
+          Pour une galerie, Grid est parfait car on veut
+          un quadrillage régulier (comme un damier).
+        */
+
+        .gallery-grid {
+            display: grid;
+            /*
+              Active CSS Grid sur ce conteneur.
+              Tous les enfants directs deviennent des "items" de la grille.
+            */
+
+            grid-template-columns: repeat(3, 1fr);
+            /*
+              Crée 3 colonnes de taille égale.
+
+              repeat(3, 1fr) signifie :
+              - repeat(3, ...) = répète 3 fois
+              - 1fr = 1 fraction de l'espace disponible
+
+              3 colonnes de 1fr chacune = chaque colonne prend 1/3 de la largeur.
+
+              Autres exemples :
+              - repeat(4, 1fr) = 4 colonnes égales
+              - repeat(2, 200px) = 2 colonnes de 200px chacune
+              - 1fr 2fr = 2 colonnes, la 2ème est 2 fois plus large
+            */
+
+            gap: 15px;
+            /* Espace entre les éléments de la grille (lignes ET colonnes) */
+
+            margin: 20px 0;
+        }
+
+        /* Chaque "carte" photo dans la grille */
+        .photo-card {
+            background-color: var(--color-5);
+            /* Fond beige clair */
+
+            border-radius: 8px;
+            /* Coins arrondis */
+
+            overflow: hidden;
+            /*
+              Cache ce qui dépasse de la carte.
+              Si une image est trop grande, elle est coupée proprement
+              au lieu de déborder sur les autres cartes.
+            */
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            /* Ombre légère pour un effet de "carte flottante" */
+
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Animation douce au survol */
+        }
+
+        /* Effet au survol d'une carte */
+        .photo-card:hover {
+            transform: translateY(-5px);
+            /*
+              translateY(-5px) = déplace la carte de 5px vers le HAUT.
+              Valeur négative = vers le haut.
+              Crée un effet de "soulèvement" au survol.
+            */
+
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            /* Ombre plus prononcée = effet de hauteur */
+        }
+
+        /* Zone de l'image dans la carte */
+        .photo-placeholder {
+            width: 100%;
+            height: 200px;
+            /* Hauteur fixe pour toutes les images */
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Centre le texte au milieu de la zone */
+
+            font-size: 3em;
+            /* Grande taille pour l'emoji */
+
+            color: white;
+        }
+
+        /* Légende sous l'image */
+        .photo-caption {
+            padding: 12px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--color-0);
+        }
+
+        /*
+          COULEURS DIFFÉRENTES pour chaque carte
+          ========================================
+
+          :nth-child() permet de cibler un élément par sa position.
+          On peut créer un pattern de couleurs qui se répète.
+        */
+        .photo-card:nth-child(1) .photo-placeholder { background-color: var(--color-0); }
+        .photo-card:nth-child(2) .photo-placeholder { background-color: var(--color-1); }
+        .photo-card:nth-child(3) .photo-placeholder { background-color: var(--color-2); }
+        .photo-card:nth-child(4) .photo-placeholder { background-color: var(--color-2); }
+        .photo-card:nth-child(5) .photo-placeholder { background-color: var(--color-0); }
+        .photo-card:nth-child(6) .photo-placeholder { background-color: var(--color-1); }
+
+        /*
+          RESPONSIVE DESIGN
+          ==================
+
+          @media = règle conditionnelle.
+          "Si la largeur de l'écran est inférieure à 768px..."
+
+          768px ≈ largeur d'une tablette en portrait.
+
+          C'est comme un "si" en programmation :
+          SI écran < 768px ALORS appliquer ces styles.
+        */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* Sur tablette : 2 colonnes au lieu de 3 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                /* Sur téléphone : 1 seule colonne */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <ul class="menu-bar">
+            <li><a href=".">Accueil</a></li>
+            <li><a href="cv.html">Mon CV</a></li>
+            <li><a href="calendar.html">Agenda</a></li>
+            <li><a href="gallery.html" class="current">Photos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Galerie Photos</h1>
+        <p>Quelques moments et projets marquants.</p>
+
+        <!--
+            GALERIE EN GRILLE CSS
+            =====================
+
+            Chaque .photo-card est un item de la grille.
+            CSS Grid les place automatiquement en rangées de 3.
+
+            Ici on utilise des "placeholders" (emplacements factices)
+            car on n'a pas encore de vraies photos.
+            Remplace les emojis par de vraies images <img> !
+        -->
+        <div class="gallery-grid">
+
+            <div class="photo-card">
+                <div class="photo-placeholder">🎓</div>
+                <div class="photo-caption">Remise des diplômes</div>
+            </div>
+
+            <div class="photo-card">
+                <div class="photo-placeholder">💻</div>
+                <div class="photo-caption">Projet de programmation</div>
+            </div>
+
+            <div class="photo-card">
+                <div class="photo-placeholder">🏔️</div>
+                <div class="photo-caption">Grenoble et ses montagnes</div>
+            </div>
+
+            <div class="photo-card">
+                <div class="photo-placeholder">🔬</div>
+                <div class="photo-caption">Stage au laboratoire</div>
+            </div>
+
+            <div class="photo-card">
+                <div class="photo-placeholder">📊</div>
+                <div class="photo-caption">Analyse de données</div>
+            </div>
+
+            <div class="photo-card">
+                <div class="photo-placeholder">🤝</div>
+                <div class="photo-caption">Travail en équipe</div>
+            </div>
+
+        </div>
+
+        <p><em>Pour ajouter de vraies photos, remplace les <code>&lt;div class="photo-placeholder"&gt;</code>
+        par des balises <code>&lt;img src="ta-photo.jpg" alt="description"&gt;</code></em></p>
+    </main>
+
+    <footer>
+        <hr>
+        <p><small>&copy; 2026 Mohamed HAMLIL - Galerie Photos</small></p>
+    </footer>
+
+</body>
+</html>

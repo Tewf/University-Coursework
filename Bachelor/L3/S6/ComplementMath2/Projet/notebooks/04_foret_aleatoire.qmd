@@ -1,0 +1,134 @@
+---
+title: "Partie 4 : Forêt Aléatoire"
+---
+
+```{r}
+#| label: setup
+#| include: false
+source(here::here("R", "utils.R"))
+library(randomForest)
+```
+
+# Chargement des données
+
+```{r}
+#| label: load
+train_data <- readRDS(here::here("output", "train_data.rds"))
+test_data <- readRDS(here::here("output", "test_data.rds"))
+cat("Train :", nrow(train_data), "| Test :", nrow(test_data), "\n")
+```
+
+# Forêt Aléatoire (Random Forest)
+
+## Principe
+
+:::{.callout-note}
+## Définition
+La forêt aléatoire est un ensemble de $B$ arbres de décision, chacun entraîné sur un échantillon bootstrap des données. À chaque nœud, seul un sous-ensemble aléatoire de $m$ variables est considéré. La prédiction finale est obtenue par **vote majoritaire** [@breiman2001].
+:::
+
+Cette méthode réduit la variance par rapport à un arbre unique et capture naturellement les relations non-linéaires et les interactions entre variables.
+
+## Justification
+
+- **Non-linéarité** : peut capturer des relations complexes entre les notes olfactives et la satisfaction.
+- **Robustesse** : gère implicitement les données hétérogènes.
+- **Importance des variables** : fournit un classement des variables les plus prédictives.
+- **Peu de prétraitement** : pas besoin de centrer/réduire.
+
+## Traitement des données manquantes
+
+Les valeurs manquantes ont été imputées par la médiane lors de la préparation. La forêt aléatoire est intrinsèquement robuste à ce type d'imputation.
+
+## Hyperparamètres
+
+Nous optimisons :
+
+- **mtry** : nombre de variables candidates à chaque nœud ($\sqrt{p}$ par défaut)
+
+Nous utilisons la même **validation croisée 5-fold** avec l'**AUC**.
+
+```{r}
+#| label: rf-cv
+ctrl <- trainControl(
+  method = "cv",
+  number = 5,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary,
+  savePredictions = "final"
+)
+
+grid_rf <- expand.grid(
+  mtry = c(3, 5, 7, 10, 15, 20)
+)
+
+set.seed(42)
+model_rf <- train(
+  Satisfaction ~ .,
+  data = train_data,
+  method = "rf",
+  trControl = ctrl,
+  tuneGrid = grid_rf,
+  metric = "ROC",
+  ntree = 500,
+  importance = TRUE
+)
+```
+
+## Résultats de la validation croisée
+
+```{r}
+#| label: rf-results
+cat("Meilleur mtry :", model_rf$bestTune$mtry, "\n")
+cat("AUC (CV) :", round(max(model_rf$results$ROC), 4), "\n")
+```
+
+```{r}
+#| label: fig-rf-tuning
+#| fig-cap: "Performance de la forêt aléatoire selon mtry"
+plot(model_rf, main = "Random Forest - Tuning de mtry")
+```
+
+## Importance des variables
+
+```{r}
+#| label: fig-rf-importance
+#| fig-cap: "Importance des variables (Random Forest)"
+var_imp <- varImp(model_rf)
+plot(var_imp, top = 20, main = "Top 20 des variables les plus importantes")
+```
+
+:::{.callout-tip}
+## Interprétation
+Le classement de l'importance des variables permet d'identifier quelles caractéristiques des parfums (accords, notes, concentration) influencent le plus la satisfaction des utilisateurs.
+:::
+
+## Évaluation sur le jeu de test
+
+```{r}
+#| label: rf-eval
+pred_rf <- predict(model_rf, test_data)
+prob_rf <- predict(model_rf, test_data, type = "prob")
+
+cm_rf <- confusionMatrix(pred_rf, test_data$Satisfaction, positive = "Oui")
+print(cm_rf)
+```
+
+```{r}
+#| label: fig-rf-roc
+#| fig-cap: "Courbe ROC -- Forêt Aléatoire"
+roc_rf <- roc(test_data$Satisfaction, prob_rf$Oui)
+
+plot(roc_rf, col = "darkgreen", main = "Courbe ROC - Forêt Aléatoire",
+     print.auc = TRUE, print.auc.x = 0.4, print.auc.y = 0.3)
+```
+
+# Sauvegarde
+
+```{r}
+#| label: save
+saveRDS(model_rf, here::here("output", "model_rf.rds"))
+saveRDS(cm_rf, here::here("output", "cm_rf.rds"))
+saveRDS(roc_rf, here::here("output", "roc_rf.rds"))
+cat("Modèle et résultats sauvegardés dans output/\n")
+```

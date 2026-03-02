@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CV - Mohamed HAMLIL</title>
+    <link rel="stylesheet" href="shared/shared.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <style>
+        /*
+          STYLES SPÉCIFIQUES À LA PAGE CV
+          ================================
+        */
+
+        /* Section "État civil" : photo + texte côte à côte */
+        .etat-civil {
+            display: flex;
+            /*
+              Flexbox pour mettre la photo et les infos côte à côte.
+              Sans flexbox, la photo serait AU-DESSUS du texte.
+              Avec flexbox, ils sont L'UN À CÔTÉ DE L'AUTRE.
+            */
+
+            gap: 30px;
+            /* 30px d'espace entre la photo et le texte */
+
+            align-items: flex-start;
+            /*
+              Aligne les éléments en haut (pas au milieu).
+              flex-start = début de l'axe vertical = en haut.
+            */
+
+            margin: 20px 0;
+            /* 20px d'espace au-dessus et en dessous */
+
+            flex-wrap: wrap;
+            /*
+              Si l'écran est trop petit, la photo et le texte
+              passent l'un sous l'autre au lieu de se comprimer.
+            */
+        }
+
+        /* La photo de profil */
+        .photo-profil {
+            height: 12rem;
+            /*
+              12rem = 12 × la taille de base de la police (root em).
+              rem est une unité relative : si la taille de base change,
+              la photo s'adapte proportionnellement.
+
+              Pourquoi rem au lieu de px ?
+              - px = fixe, ne change jamais
+              - rem = proportionnel à la taille de police
+              - Plus accessible pour les utilisateurs qui agrandissent le texte
+            */
+
+            border-radius: 8px;
+            /* Coins légèrement arrondis */
+
+            border: 3px solid var(--color-3);
+            /* Bordure pêche autour de la photo */
+        }
+
+        /* Les sections du CV (diplômes, expériences, etc.) */
+        .cv-section {
+            margin-bottom: 30px;
+            /* Espace entre chaque section */
+
+            padding: 20px;
+            /* Espace intérieur */
+
+            background-color: var(--color-5);
+            /* Fond beige léger pour se démarquer */
+
+            border-radius: 8px;
+            /* Coins arrondis */
+
+            border-left: 4px solid var(--color-1);
+            /*
+              Bordure colorée à GAUCHE seulement.
+              Crée un effet visuel élégant de "barre latérale".
+              border-left = bordure du côté gauche uniquement.
+            */
+        }
+
+        /* Titres h2 dans les sections */
+        .cv-section h2 {
+            margin-top: 0;
+            /* Enlève l'espace au-dessus du titre dans la section */
+
+            border-bottom: 2px solid var(--color-3);
+            /* Ligne sous le titre */
+
+            padding-bottom: 10px;
+            /* Espace entre le titre et la ligne */
+        }
+
+        /* Termes dans les listes de description (dl > dt) */
+        dt {
+            font-weight: bold;
+            /* Les termes/titres en gras */
+
+            color: var(--color-0);
+            /* Couleur foncée pour les termes */
+
+            margin-top: 15px;
+            /* Espace au-dessus de chaque terme */
+        }
+
+        /* Définitions dans les listes de description (dl > dd) */
+        dd {
+            margin-left: 20px;
+            /* Indentation des définitions */
+
+            color: #555;
+            /* Gris moyen pour les détails */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Barre de navigation (même sur chaque page) -->
+    <nav>
+        <ul class="menu-bar">
+            <li><a href=".">Accueil</a></li>
+            <li><a href="cv.html" class="current">Mon CV</a></li>
+            <!-- class="current" car on est sur cv.html -->
+            <li><a href="calendar.html">Agenda</a></li>
+            <li><a href="gallery.html">Photos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1 id="haut">Mohamed HAMLIL</h1>
+        <p>Étudiant en Licence MIASHS (Parcours Économie)</p>
+
+        <!-- État civil : photo + infos -->
+        <section class="etat-civil">
+            <img src="home/photo.jpg" alt="Photo de Mohamed HAMLIL" class="photo-profil">
+            <!--
+                Si tu n'as pas de photo, l'alt s'affichera à la place.
+                Mets ta propre photo dans le dossier home/ !
+            -->
+
+            <div>
+                <h2>Informations Personnelles</h2>
+                <p>
+                    <strong>Adresse :</strong> Grenoble, France<br>
+                    <strong>Téléphone :</strong> +33 7 45 90 76 60<br>
+                    <strong>Email :</strong> <a href="mailto:hamlilm@yahoo.fr">hamlilm@yahoo.fr</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Sommaire (navigation interne) -->
+        <nav>
+            <h2>Sommaire</h2>
+            <ul>
+                <li><a href="#diplomes">Diplômes</a></li>
+                <li><a href="#experiences">Expériences Professionnelles</a></li>
+                <li><a href="#engagements">Engagements & Certifications</a></li>
+            </ul>
+        </nav>
+
+        <!-- Section Diplômes -->
+        <section class="cv-section" id="diplomes">
+            <h2>Diplômes</h2>
+            <ul>
+                <li><strong>2023 - 2026</strong> - Licence MIASHS, Parcours Économie (UGA)</li>
+                <li><strong>2022 - 2023</strong> - Licence 1 Recherche Opérationnelle, USTHB Alger</li>
+                <li><strong>Juin 2022</strong> - Double Baccalauréat Scientifique (Français & Algérien)</li>
+            </ul>
+        </section>
+
+        <!-- Section Expériences -->
+        <section class="cv-section" id="experiences">
+            <h2>Expériences Professionnelles</h2>
+            <dl>
+                <dt>Janvier 2025 - Avril 2025 : IA & Stratégies Économiques</dt>
+                <dd>
+                    <em>GAEL Lab (UGA, INRAE)</em>
+                    <ul>
+                        <li>Revue de littérature sur l'impact de l'IA dans les interactions économiques</li>
+                        <li>Développement d'algorithmes en Python et Prolog</li>
+                        <li>État de l'art sur la collusion algorithmique et les LLM</li>
+                    </ul>
+                </dd>
+
+                <dt>Mai 2024 - Juillet 2024 : Optimisation & Calcul Mathématique</dt>
+                <dd>
+                    <em>Laboratoire Jean Kuntzmann (LJK)</em>
+                    <ul>
+                        <li>Réduction de la complexité d'algorithmes bilinéaires</li>
+                        <li>Implémentation en Julia et Python d'algorithmes d'optimisation</li>
+                        <li>Conception d'heuristiques pour l'approximation NP-difficile</li>
+                    </ul>
+                </dd>
+            </dl>
+        </section>
+
+        <!-- Section Engagements -->
+        <section class="cv-section" id="engagements">
+            <h2>Engagements & Certifications</h2>
+            <ol>
+                <li><strong>Preneur de notes - UGA (2025-2026)</strong> : Transcription de cours MIASHS</li>
+                <li><strong>Tutorat & Parrainage - UGA (2025-2026)</strong> : Accompagnement méthodologique</li>
+                <li><strong>Certification IBM Quantum (2024)</strong> : Fondements de l'information quantique</li>
+                <li><strong>Certification ML GoMyCode (2022)</strong> : Machine Learning</li>
+            </ol>
+        </section>
+
+        <hr>
+        <p>
+            <a href="#haut">↑ Retour en haut</a> |
+            <a href="calendar.html">Voir mon emploi du temps</a>
+        </p>
+    </main>
+
+    <footer>
+        <hr>
+        <p><small>&copy; 2026 Mohamed HAMLIL - Curriculum Vitae</small></p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Portfolio de Mohamed HAMLIL</title>
+
+    <!--
+        LIAISON DES FICHIERS CSS EXTERNES
+        ==================================
+
+        <link> = relie un fichier externe à cette page
+        - rel="stylesheet" = c'est une feuille de style CSS
+        - href="chemin" = où se trouve le fichier
+
+        On charge DEUX fichiers CSS :
+        1. shared.css = styles communs à TOUTES les pages
+        2. menu.css   = styles spécifiques au menu de navigation
+
+        L'ordre compte ! shared.css est chargé en premier,
+        puis menu.css peut surcharger si besoin.
+    -->
+    <link rel="stylesheet" href="shared/shared.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <!--
+        STYLES SPÉCIFIQUES À CETTE PAGE
+        ================================
+
+        Ces styles ne s'appliquent qu'à CETTE page (index.html).
+        On les met dans <style> au lieu d'un fichier externe
+        car ils sont petits et spécifiques.
+    -->
+    <style>
+        /*
+          STYLES DE LA PAGE D'ACCUEIL
+          ============================
+        */
+
+        /* Le contenu principal de cette page est centré */
+        .accueil-content {
+            text-align: center;
+            /* Centre tout le texte et les éléments inline */
+
+            padding: 40px 20px;
+            /* 40px en haut/bas, 20px à gauche/droite */
+        }
+
+        /* Les icônes de navigation (CV, mail, UFR) */
+        .accueil-icons {
+            display: flex;
+            /* Met les icônes en ligne */
+
+            justify-content: center;
+            /* Centre les icônes horizontalement */
+
+            gap: 40px;
+            /* 40px d'espace entre chaque icône */
+
+            margin-top: 30px;
+            /* 30px d'espace au-dessus des icônes */
+
+            flex-wrap: wrap;
+            /*
+              Si l'écran est trop petit pour tout afficher en ligne,
+              les icônes passent à la ligne suivante.
+              C'est le RESPONSIVE DESIGN : s'adapter à la taille de l'écran.
+            */
+        }
+
+        /* Chaque icône individuelle */
+        .accueil-icons img {
+            height: 50px;
+            /* Hauteur fixe de 50 pixels */
+
+            width: auto;
+            /*
+              Largeur automatique pour garder les proportions.
+              Si on fixe la hauteur, la largeur s'ajuste proportionnellement.
+              Ça évite que l'image soit déformée (étirée ou écrasée).
+            */
+
+            transition: transform 0.3s ease;
+            /*
+              Animation douce quand l'image change de taille.
+              transform = propriété qui permet de modifier visuellement l'élément.
+            */
+        }
+
+        /* Effet au survol des icônes */
+        .accueil-icons img:hover {
+            transform: scale(1.2);
+            /*
+              scale(1.2) = agrandir à 120% de la taille originale.
+              L'icône grossit quand la souris passe dessus !
+
+              Autres transformations possibles :
+              - scale(0.5) = réduire à 50%
+              - rotate(45deg) = tourner de 45 degrés
+              - translateX(10px) = décaler de 10px à droite
+            */
+        }
+
+        /* Texte sous les icônes */
+        .icon-label {
+            display: block;
+            /* Passe à la ligne (sous l'image) */
+
+            margin-top: 8px;
+            /* Petit espace entre l'image et le texte */
+
+            font-size: 0.8em;
+            /* Texte plus petit que la normale */
+
+            color: var(--color-0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================================
+         BARRE DE NAVIGATION
+         ======================================== -->
+    <nav>
+        <!--
+            Le menu est identique sur TOUTES les pages.
+            On copie-colle le même HTML.
+            (Plus tard, avec JavaScript, on pourra éviter cette répétition !)
+
+            class="current" est sur le lien de la page actuelle.
+            Ici, c'est "Accueil" car on est sur index.html.
+        -->
+        <ul class="menu-bar">
+            <li><a href="." class="current">Accueil</a></li>
+            <!--
+                href="." = lien vers le dossier courant.
+                Quand le serveur voit un dossier, il cherche index.html dedans.
+                C'est une façon élégante de faire un lien vers la page d'accueil.
+            -->
+            <li><a href="cv.html">Mon CV</a></li>
+            <li><a href="calendar.html">Agenda</a></li>
+            <li><a href="gallery.html">Photos</a></li>
+        </ul>
+    </nav>
+
+    <!-- ========================================
+         CONTENU PRINCIPAL
+         ======================================== -->
+    <main>
+        <div class="accueil-content">
+            <!--
+                <div> = Division / conteneur générique
+                Pas de signification sémantique (contrairement à <section>, <article>...)
+                On l'utilise juste pour regrouper des éléments et les styliser.
+
+                Ici, class="accueil-content" permet de cibler ce bloc en CSS.
+            -->
+
+            <h1>Mohamed HAMLIL</h1>
+            <p>Étudiant en Licence MIASHS - Parcours Économie</p>
+
+            <!-- Les 3 icônes de navigation -->
+            <div class="accueil-icons">
+
+                <a href="cv.html">
+                    <img src="home/cv.svg" alt="Icône de CV - Document">
+                    <span class="icon-label">Mon CV</span>
+                </a>
+
+                <a href="mailto:hamlilm@yahoo.fr">
+                    <img src="home/mail.svg" alt="Icône d'email - Enveloppe">
+                    <span class="icon-label">Email</span>
+                </a>
+
+                <a href="https://www.univ-grenoble-alpes.fr/" target="_blank" rel="noopener noreferrer">
+                    <img src="home/ufr.svg" alt="Logo de l'Université Grenoble Alpes">
+                    <span class="icon-label">UGA</span>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================
+         PIED DE PAGE
+         ======================================== -->
+    <footer>
+        <hr>
+        <p><small>&copy; 2026 Mohamed HAMLIL | Tous droits réservés</small></p>
+    </footer>
+
+</body>
+</html>

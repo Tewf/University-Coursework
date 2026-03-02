@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calculatrice</title>
+
+    <style>
+        /* Style de la calculatrice */
+        body {
+            font-family: "Gill Sans", sans-serif;
+            display: flex;                /* Centre tout verticalement et horizontalement */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;            /* vh = viewport height = hauteur de l'écran */
+            margin: 0;
+            background-color: #f0f4f8;
+        }
+
+        .calculatrice {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 320px;
+        }
+
+        h1 { color: #2c3e50; font-size: 1.5em; }
+
+        .inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background-color: #4a90d9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;              /* Le curseur devient une main au survol */
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        #resultat {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            min-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculatrice">
+        <h1>Calculatrice</h1>
+
+        <div class="inputs">
+            <input type="number" id="nombre1" placeholder="0">
+            <!--
+                type="number" : le navigateur n'accepte que des chiffres
+                id="nombre1" : identifiant unique pour le cibler en JS
+                placeholder="0" : texte grisé affiché quand le champ est vide
+            -->
+
+            <select id="operateur">
+                <!--
+                    <select> = menu déroulant
+                    Chaque <option> est un choix possible
+                    value = la valeur récupérée en JavaScript
+                -->
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">&times;</option>
+                <!-- &times; = le symbole × (multiplication) -->
+                <option value="/">&divide;</option>
+                <!-- &divide; = le symbole ÷ (division) -->
+            </select>
+
+            <input type="number" id="nombre2" placeholder="0">
+        </div>
+
+        <button id="btn-calculer">Calculer</button>
+
+        <div id="resultat">
+            <!-- Le résultat s'affichera ici grâce à JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // JAVASCRIPT DE LA CALCULATRICE
+        // =============================================
+
+        // ÉTAPE 1 : Récupérer les éléments du DOM
+        // ==========================================
+
+        const input1 = document.getElementById("nombre1");
+        // document.getElementById("nombre1")
+        // = "Dans le document, trouve l'élément qui a id='nombre1'"
+        // Retourne l'élément <input> correspondant
+
+        const input2 = document.getElementById("nombre2");
+        const selectOperateur = document.getElementById("operateur");
+        const btnCalculer = document.getElementById("btn-calculer");
+        const divResultat = document.getElementById("resultat");
+
+        // ÉTAPE 2 : Écouter le clic sur le bouton
+        // ==========================================
+
+        btnCalculer.addEventListener("click", function () {
+            // addEventListener("click", fonction)
+            // = "Quand quelqu'un CLIQUE sur ce bouton, exécute cette fonction"
+            //
+            // "click" est un ÉVÉNEMENT. Autres événements utiles :
+            // - "dblclick" : double-clic
+            // - "mouseenter" : la souris entre sur l'élément
+            // - "keydown" : une touche est enfoncée
+            // - "submit" : un formulaire est soumis
+            // - "input" : la valeur d'un champ change
+
+            // ÉTAPE 3 : Récupérer les valeurs des inputs
+            // =============================================
+
+            // ⚠️ LE PIÈGE !
+            // input1.value retourne TOUJOURS une CHAÎNE DE CARACTÈRES !
+            // Même si l'utilisateur tape 5, on obtient "5" (un texte, pas un nombre)
+
+            // ❌ VERSION AVEC BUG (commentée) :
+            // const a = input1.value;  // "5" (chaîne !)
+            // const b = input2.value;  // "3" (chaîne !)
+            // Si on fait a + b avec l'opérateur +, on obtient "53" au lieu de 8 !
+            // Car "5" + "3" = "53" (concaténation de texte, pas addition !)
+
+            // ✅ VERSION CORRIGÉE :
+            const a = parseFloat(input1.value);
+            // parseFloat("5") → 5 (le nombre)
+            // parseFloat convertit une chaîne de caractères en nombre décimal
+            //
+            // Alternatives :
+            // - parseInt("5")    → 5 (nombre ENTIER, pas de décimales)
+            // - Number("5")      → 5 (conversion générique)
+            // - parseFloat("5.7") → 5.7 (garde les décimales)
+            // - parseInt("5.7")   → 5 (coupe les décimales !)
+
+            const b = parseFloat(input2.value);
+
+            const operateur = selectOperateur.value;
+            // .value sur un <select> donne la valeur de l'option sélectionnée
+
+            // ÉTAPE 4 : Vérifier que les valeurs sont valides
+            // ==================================================
+
+            if (isNaN(a) || isNaN(b)) {
+                // isNaN() = "is Not a Number" = "est-ce que ce n'est PAS un nombre ?"
+                // isNaN(5)       → false (c'est un nombre)
+                // isNaN("texte") → true  (ce n'est PAS un nombre)
+                // || = OU logique (si l'un OU l'autre est vrai)
+
+                divResultat.textContent = "Veuillez entrer des nombres valides !";
+                divResultat.style.color = "red";
+                // .style.propriété = modifier le CSS directement en JavaScript
+                return;
+                // return = arrête la fonction ici (ne continue pas le calcul)
+            }
+
+            // ÉTAPE 5 : Faire le calcul
+            // ===========================
+
+            let resultat;
+            // On déclare la variable sans l'initialiser.
+            // Sa valeur dépend de l'opérateur choisi.
+
+            switch (operateur) {
+                // switch est comme une série de if/else if
+                // mais plus lisible quand on compare une variable à plusieurs valeurs
+
+                case "+":
+                    resultat = a + b;
+                    // ✅ Maintenant c'est une ADDITION car a et b sont des NOMBRES
+                    // grâce à parseFloat() !
+                    break;
+                    // break = "sors du switch" (sinon il continue dans les cases suivantes)
+
+                case "-":
+                    resultat = a - b;
+                    break;
+
+                case "*":
+                    resultat = a * b;
+                    break;
+
+                case "/":
+                    if (b === 0) {
+                        divResultat.textContent = "Division par zéro impossible !";
+                        divResultat.style.color = "red";
+                        return;
+                    }
+                    resultat = a / b;
+                    break;
+
+                default:
+                    // default = "si aucun des cas ci-dessus ne correspond"
+                    // Ne devrait jamais arriver ici, mais c'est une bonne pratique
+                    resultat = "Erreur";
+            }
+
+            // ÉTAPE 6 : Afficher le résultat
+            // ================================
+
+            divResultat.textContent = `${a} ${operateur} ${b} = ${resultat}`;
+            // Les backticks (`) permettent d'insérer des variables dans un texte
+            // ${variable} est remplacé par la valeur de la variable
+            // C'est un "template literal" (ou template string)
+            //
+            // Équivalent sans template literal :
+            // divResultat.textContent = a + " " + operateur + " " + b + " = " + resultat;
+
+            divResultat.style.color = "#2c3e50";
+            // Remet la couleur normale (au cas où elle était rouge après une erreur)
+        });
+    </script>
+
+</body>
+</html>

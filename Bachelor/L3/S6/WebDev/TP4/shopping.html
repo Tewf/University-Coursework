@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Faisons les courses !</title>
+
+    <!--
+        CHANGEMENT DE STYLE
+        ====================
+
+        Pour changer l'apparence du tableau,
+        remplace "styles-a.css" par "styles-b.css" ci-dessous.
+
+        Le HTML ne change PAS du tout !
+        Seul le CSS change → l'apparence change.
+    -->
+    <link rel="stylesheet" href="styles-a.css">
+</head>
+
+<body>
+
+    <h1>Faisons les courses !</h1>
+    <!--
+        Cette page contient UN SEUL tableau avec nos courses.
+        On n'utilise que des attributs class et id pour le CSS.
+        AUCUN style inline (pas de style="...") !
+    -->
+
+    <table id="liste-courses">
+        <!--
+            id="liste-courses" : identifiant unique pour ce tableau.
+            On pourra le cibler en CSS avec #liste-courses { }
+        -->
+
+        <thead>
+            <tr>
+                <th class="col-article">Article</th>
+                <th class="col-quantite">Quantité</th>
+                <th class="col-prix">Prix unitaire</th>
+                <th class="col-total">Total</th>
+            </tr>
+            <!--
+                Chaque <th> a une classe pour pouvoir styliser
+                chaque colonne différemment (alignement, largeur...).
+            -->
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="col-article">Pain de campagne</td>
+                <td class="col-quantite">2</td>
+                <td class="col-prix">1,50 &euro;</td>
+                <td class="col-total">3,00 &euro;</td>
+            </tr>
+            <!--
+                &euro; = le symbole € (euro)
+                On pourrait aussi écrire directement € grâce à UTF-8,
+                mais l'entité HTML est garantie de fonctionner partout.
+            -->
+
+            <tr>
+                <td class="col-article">Lait demi-écrémé (1L)</td>
+                <td class="col-quantite">3</td>
+                <td class="col-prix">1,20 &euro;</td>
+                <td class="col-total">3,60 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Oeufs (x12)</td>
+                <td class="col-quantite">1</td>
+                <td class="col-prix">3,50 &euro;</td>
+                <td class="col-total">3,50 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Fromage Comté (200g)</td>
+                <td class="col-quantite">1</td>
+                <td class="col-prix">4,80 &euro;</td>
+                <td class="col-total">4,80 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Pommes Golden (1kg)</td>
+                <td class="col-quantite">2</td>
+                <td class="col-prix">2,30 &euro;</td>
+                <td class="col-total">4,60 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Pâtes Penne (500g)</td>
+                <td class="col-quantite">3</td>
+                <td class="col-prix">1,10 &euro;</td>
+                <td class="col-total">3,30 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Sauce tomate (400g)</td>
+                <td class="col-quantite">2</td>
+                <td class="col-prix">1,80 &euro;</td>
+                <td class="col-total">3,60 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Beurre doux (250g)</td>
+                <td class="col-quantite">1</td>
+                <td class="col-prix">2,40 &euro;</td>
+                <td class="col-total">2,40 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Yaourts nature (x8)</td>
+                <td class="col-quantite">1</td>
+                <td class="col-prix">2,90 &euro;</td>
+                <td class="col-total">2,90 &euro;</td>
+            </tr>
+
+            <tr>
+                <td class="col-article">Jus d'orange (1L)</td>
+                <td class="col-quantite">2</td>
+                <td class="col-prix">1,70 &euro;</td>
+                <td class="col-total">3,40 &euro;</td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <!--
+                Le pied de tableau contient le TOTAL.
+                Dans le style A, ce <tfoot> est CACHÉ (display: none).
+                Dans le style B, il est VISIBLE.
+                Même HTML, rendu différent !
+            -->
+            <tr class="ligne-total">
+                <td colspan="3" class="label-total">Total</td>
+                <!--
+                    colspan="3" : cette cellule occupe 3 colonnes
+                    (Article + Quantité + Prix unitaire = 3 colonnes).
+                -->
+                <td class="montant-total">35,10 &euro;</td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+</body>
+</html>

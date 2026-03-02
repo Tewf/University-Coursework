@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="/shared.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Créer un compte</h1>
+
+        <!--
+            Zone de message (erreur ou succès)
+            Cachée par défaut (display: none dans le CSS)
+            JavaScript la rendra visible si besoin
+        -->
+        <div id="message" class="message"></div>
+
+        <form id="signup-form">
+            <!--
+                Pas d'attribut action ni method !
+                On gère la soumission ENTIÈREMENT en JavaScript.
+                Le JS intercepte le submit et envoie les données via fetch().
+            -->
+
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" placeholder="jean_dupont" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Nom complet</label>
+                <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <!--
+                    type="password" :
+                    - Les caractères tapés sont cachés (remplacés par des •)
+                    - Le navigateur ne propose pas d'auto-complétion de texte
+                    - Certains navigateurs proposent de générer un mot de passe fort
+                -->
+            </div>
+
+            <button type="submit" class="btn btn-block">S'inscrire</button>
+        </form>
+
+        <div class="form-footer">
+            Déjà un compte ? <a href="/login">Se connecter</a>
+        </div>
+    </div>
+
+    <!--
+        SCRIPT CÔTÉ CLIENT
+        ===================
+
+        Ce JavaScript s'exécute dans le NAVIGATEUR (pas sur le serveur !).
+        Il intercepte le formulaire et envoie les données au serveur via fetch().
+    -->
+    <script src="/sign-up.js" defer></script>
+
+</body>
+</html>
