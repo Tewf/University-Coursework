@@ -1,6 +1,7 @@
 /* ───────────────────────────────────────────────
-   University Coursework — Shared Card Layout
-   Cosmo-blue accent (#2780e3) · No dependencies
+   University Coursework — Polished Card Layout
+   Dark mode · Gradient header · CSS counters
+   No external dependencies
    ─────────────────────────────────────────────── */
 
 *,
@@ -12,17 +13,41 @@
 }
 
 :root {
-  --accent: #2780e3;
-  --accent-light: #e8f0fe;
-  --bg: #f7f8fa;
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --bg: #f8fafc;
   --card-bg: #ffffff;
-  --text: #1e1e1e;
-  --text-muted: #5a5f6b;
-  --border: #e2e4e8;
-  --radius: 10px;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 6px 20px rgba(39, 128, 227, 0.15);
-  --transition: 0.25s ease;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 12px 28px rgba(37, 99, 235, 0.13), 0 4px 10px rgba(0, 0, 0, 0.04);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --header-from: #1e3a5f;
+  --header-to: #2563eb;
+  --counter-color: rgba(37, 99, 235, 0.07);
+  --arrow-color: var(--text-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #60a5fa;
+    --accent-soft: rgba(96, 165, 250, 0.08);
+    --bg: #0b1120;
+    --card-bg: #162032;
+    --text: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e3050;
+    --shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 12px 28px rgba(96, 165, 250, 0.1), 0 4px 10px rgba(0, 0, 0, 0.3);
+    --header-from: #0b1120;
+    --header-to: #1e40af;
+    --counter-color: rgba(96, 165, 250, 0.06);
+    --arrow-color: var(--text-muted);
+  }
 }
 
 html {
@@ -31,11 +56,11 @@ html {
 }
 
 body {
-  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter,
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -44,33 +69,46 @@ body {
 /* ── Header ──────────────────────────────────── */
 
 .site-header {
-  background: var(--card-bg);
-  border-bottom: 3px solid var(--accent);
-  padding: 2.5rem 1.5rem 2rem;
+  background: linear-gradient(135deg, var(--header-from), var(--header-to));
+  padding: 3.2rem 2rem 2.6rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 40%, rgba(255, 255, 255, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 60%, rgba(255, 255, 255, 0.04) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .site-header h1 {
   font-size: 1.85rem;
   font-weight: 700;
-  color: var(--accent);
+  color: #ffffff;
   letter-spacing: -0.02em;
+  position: relative;
 }
 
 .site-header .subtitle {
-  margin-top: 0.35rem;
-  font-size: 0.95rem;
-  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
+  position: relative;
 }
 
 /* ── Main content ────────────────────────────── */
 
 .content {
-  max-width: 1060px;
+  max-width: 1100px;
   width: 100%;
-  margin: 2rem auto;
-  padding: 0 1.25rem;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
   flex: 1;
 }
 
@@ -78,58 +116,109 @@ body {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.25rem;
   list-style: none;
+  counter-reset: card-counter;
 }
 
 .card {
+  counter-increment: card-counter;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: box-shadow var(--transition), transform var(--transition),
-    border-color var(--transition);
-  display: flex;
-  flex-direction: column;
+  transition:
+    box-shadow 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   border-color: var(--accent);
 }
 
+/* faint large number watermark */
+.card::before {
+  content: counter(card-counter, decimal-leading-zero);
+  position: absolute;
+  top: -0.15rem;
+  right: 0.8rem;
+  font-size: 3.8rem;
+  font-weight: 800;
+  color: var(--counter-color);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.3s var(--ease);
+}
+
+.card:hover::before {
+  color: var(--accent-soft);
+}
+
+/* link fills the whole card */
 .card a {
   display: flex;
   flex-direction: column;
-  padding: 1.4rem 1.5rem;
+  justify-content: center;
+  padding: 1.6rem 1.6rem 1.6rem 1.5rem;
   text-decoration: none;
   color: inherit;
-  height: 100%;
+  min-height: 120px;
+  position: relative;
 }
 
 .card .card-title {
   font-size: 1.05rem;
   font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  transition: color 0.3s var(--ease);
+}
+
+.card:hover .card-title {
   color: var(--accent);
-  margin-bottom: 0.45rem;
 }
 
 .card .card-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* arrow indicator */
+.card a::after {
+  content: "\2192";
+  position: absolute;
+  right: 1.3rem;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  font-size: 1.15rem;
+  color: var(--arrow-color);
+  opacity: 0;
+  transition:
+    opacity 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+.card:hover a::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  color: var(--accent);
 }
 
 /* ── Footer ──────────────────────────────────── */
 
 .site-footer {
   text-align: center;
-  padding: 1.5rem 1rem;
+  padding: 2rem 1rem;
   font-size: 0.82rem;
   color: var(--text-muted);
-  border-top: 1px solid var(--border);
   margin-top: auto;
 }
 
@@ -137,21 +226,23 @@ body {
   color: var(--accent);
   text-decoration: none;
   font-weight: 500;
+  transition: opacity 0.2s;
 }
 
 .site-footer a:hover {
   text-decoration: underline;
+  opacity: 0.85;
 }
 
 /* ── Responsive ──────────────────────────────── */
 
 @media (max-width: 640px) {
   .site-header {
-    padding: 1.8rem 1rem 1.4rem;
+    padding: 2.2rem 1rem 1.8rem;
   }
 
   .site-header h1 {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
 
   .card-grid {
@@ -160,5 +251,10 @@ body {
 
   .content {
     padding: 0 0.75rem;
+    margin: 1.5rem auto;
+  }
+
+  .card::before {
+    font-size: 2.8rem;
   }
 }
