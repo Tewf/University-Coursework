@@ -24,17 +24,17 @@ HTML (structure) -> CSS (style) -> JavaScript (logique) -> DOM (interactivite) -
 
 ## Vue d'ensemble des TPs
 
-| TP | Theme | Ce qu'on apprend | Fichiers cles |
+| TP | Theme | Ce qu'on apprend | Demo en ligne |
 |----|-------|------------------|---------------|
-| **TP0** | Mise en place | VS Code, Node.js, serveur local, terminal | `test-protocol.html` |
-| **TP1** | HTML | Structure, balises, liens, images, tableaux, SVG | `index1.html`, `cv1.html`, `calendar1.html` |
-| **TP3** | CSS | Selecteurs, proprietes, flexbox, variables, hover, responsive | `shared.css`, `menu.css`, `gallery.html` |
-| **TP4** | CSS + Tableaux | Styliser des tableaux, 2 CSS pour 1 HTML | `shopping.html`, `styles-a.css`, `styles-b.css` |
-| **TP5** | JavaScript | Boucles, objets, closures, callbacks, currying | `exercices.js` (8 exercices) |
-| **TP6** | DOM | Selection, modification, evenements, formulaires | `calc.html`, `degrees.html`, `hidden-number.html` |
-| **TP7** | Application web | Todo list, createElement, evenements, manipulation DOM | `todo-list.js` |
-| **TP8** | Serveur Node.js | HTTP, requetes/reponses, cookies, formulaires POST | `server.js`, `pages/` |
-| **TP9** | Express complet | Middleware, SQLite, hashage, sessions, authentification | `server.js`, `routes/`, `lib/` |
+| **TP0** | Mise en place | VS Code, Node.js, serveur local, terminal | — |
+| **TP1** | HTML | Structure, balises, liens, images, tableaux, SVG | [index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/index1.html), [cv](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/cv1.html), [calendar](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/calendar1.html) |
+| **TP3** | CSS | Selecteurs, proprietes, flexbox, variables, hover, responsive | [gallery](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP3/gallery.html), [cv](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP3/cv.html) |
+| **TP4** | CSS + Tableaux | Styliser des tableaux, 2 CSS pour 1 HTML | [shopping](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP4/shopping.html) |
+| **TP5** | JavaScript | Boucles, objets, closures, callbacks, currying | — (console) |
+| **TP6** | DOM | Selection, modification, evenements, formulaires | [calc](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/calc.html), [degrees](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/degrees.html), [hidden-number](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/hidden-number.html) |
+| **TP7** | Application web | Todo list, createElement, evenements, manipulation DOM | [todo](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP7/todo-list.html) |
+| **TP8** | Serveur Node.js | HTTP, requetes/reponses, cookies, formulaires POST | — (serveur) |
+| **TP9** | Express complet | Middleware, SQLite, hashage, sessions, authentification | — (serveur) |
 
 > Note : Le TP2 n'existe pas dans le programme du cours.
 
