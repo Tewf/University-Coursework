@@ -33,7 +33,7 @@ format:
     number-sections: true
     colorlinks: true
     fig-cap-location: bottom
-    date-format: "x"
+    date-format: "D MMMM YYYY"
     include-in-header:
       - text: |
           \usepackage{fancyhdr}
