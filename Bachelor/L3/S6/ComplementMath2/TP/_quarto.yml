@@ -17,7 +17,7 @@ format:
     code-tools: true
     embed-resources: true
     highlight-style: github
-    date-format: "YYYY"
+    date-format: "D MMMM YYYY"
 
 execute:
   warning: false
