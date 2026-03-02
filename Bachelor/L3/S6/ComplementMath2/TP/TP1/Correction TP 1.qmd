@@ -1,7 +1,7 @@
 ---
 title: "Correction TP 1 : Jeux de données et variables"
 author: "HAMLIL Mohamed"
-date: "2025-2026"
+date: "2025-01-15"
 format: 
   pdf:
     toc: true

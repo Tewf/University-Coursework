@@ -1,7 +1,7 @@
 ---
 title: "Section 3.7 – Travaux Pratiques : Simulation et Bootstrap"
 author: "HAMLIL Mohamed"
-date: "2024-2025"
+date: "2024-09-01"
 format:
   pdf:
     documentclass: article
