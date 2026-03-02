@@ -16,13 +16,13 @@ Travaux pratiques de statistiques en R couvrant la simulation, l'estimation et l
 
 ## Vue d'ensemble des TPs
 
-| TP | Theme | Concepts cles |
-|----|-------|---------------|
-| **TP1** | Simulation & Bootstrap | Generation aleatoire, reeechantillonnage, distributions empiriques |
-| **TP2** | Estimation | Biais, variance, EQM, convergence des estimateurs |
-| **TP3** | Maximum de vraisemblance | Derivation du MLE, information de Fisher, proprietes asymptotiques |
-| **TP4** | Intervalles de confiance | Quantites pivotales, probabilite de couverture, taille d'echantillon |
-| **TP5** | Tests d'hypothese | Tests du chi-deux, conformite, homogeneite, independance |
+| TP | Theme | Concepts cles | Demo |
+|----|-------|---------------|------|
+| **TP1** | Simulation & Bootstrap | Generation aleatoire, reeechantillonnage, distributions empiriques | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Simulation_Bootstrap.html) |
+| **TP2** | Estimation | Biais, variance, EQM, convergence des estimateurs | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Statistiques.html) |
+| **TP3** | Maximum de vraisemblance | Derivation du MLE, information de Fisher, proprietes asymptotiques | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Synthese_Fil_Conducteur.html) |
+| **TP4** | Intervalles de confiance | Quantites pivotales, probabilite de couverture, taille d'echantillon | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Conformite.html) |
+| **TP5** | Tests d'hypothese | Tests du chi-deux, conformite, homogeneite, independance | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Homogeneite.html), [synthese](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/TPs/code/TP_Tests_Homogeneite_Synthese.html) |
 
 ## Jeux de donnees
 

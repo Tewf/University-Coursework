@@ -1,14 +1,7 @@
 ---
 title: "TP1 -- Graphiques Quantile-Quantile, Test de Normalité et Test du χ²"
-author: "Statistique Mathématique 3 -- L3 MIASHS"
-format:
-  html:
-    toc: true
-    code-fold: false
-    theme: cosmo
-  pdf:
-    toc: true
-lang: fr
+author: "HAMLIL Mohamed"
+date: "2025-2026"
 jupyter: ir
 ---
 
@@ -135,7 +128,7 @@ cat("Statistique du chi-deux :", round(dchi, 4))
 On peut aussi utiliser la fonction `chisq.test` :
 
 ```{r}
-chisq.test(ni2, p = pi_theo)
+chisq.test(ni2, p = pi_theo, rescale.p = TRUE)
 ```
 
 ## 2.4 Degrés de liberté et conclusion

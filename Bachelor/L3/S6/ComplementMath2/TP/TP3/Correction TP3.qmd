@@ -8,9 +8,7 @@ format:
     toc: true
     number-sections: true
     colorlinks: true
-execute:
-  warning: false
-  message: false
+editor: source
 ---
 
 # Introduction

@@ -1,13 +1,13 @@
 ---
 title: "Section 5.5 – Tests d'Homogénéité"
-format: 
+author: "HAMLIL Mohamed"
+date: "2024-2025"
+format:
   pdf:
-    toc: true
     documentclass: article
     geometry: margin=1in
 editor: visual
 engine: knitr
-output-dir: output
 ---
 
 # Section 5.5 – Tests d'Homogénéité (Échantillons Indépendants et Appariés)

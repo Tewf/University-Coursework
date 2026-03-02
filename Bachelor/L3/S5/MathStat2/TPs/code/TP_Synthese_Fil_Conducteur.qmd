@@ -1,13 +1,13 @@
 ---
 title: "TP3 : Tests Statistiques — Fil Conducteur"
-format: 
+author: "HAMLIL Mohamed"
+date: "2024-2025"
+format:
   pdf:
-    toc: true
     documentclass: article
     geometry: margin=1in
 editor: visual
 engine: knitr
-output-dir: output
 ---
 
 # TP3 : Tests Statistiques — Fil Conducteur
@@ -32,7 +32,7 @@ output-dir: output
 #| label: import-intima
 
 # Importation des données
-Intima_Media <- read.table("../data/post-199413-Intima_Media.txt", header = TRUE, sep = " ", dec = ",")
+Intima_Media <- read.table("../../data/post-199413-Intima_Media.txt", header = TRUE, sep = " ", dec = ",")
 
 # Aperçu des données
 head(Intima_Media)
@@ -113,7 +113,7 @@ t.test(mesure1, mu = 0.58, alternative = "greater")
 #| label: import-preval
 
 library(readxl)
-preval <- read_excel("../data/post-199414-prevalsidafric.xls")
+preval <- read_excel("../../data/post-199414-prevalsidafric.xls")
 head(preval)
 
 attach(preval)

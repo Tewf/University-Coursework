@@ -1,13 +1,13 @@
 ---
 title: "TP2 – Transformée de Fourier et traitement du signal"
+author: "HAMLIL Mohamed"
+date: "2024-2025"
 format:
   pdf:
-    toc: true
     documentclass: article
     geometry: margin=1in
 editor: visual
 engine: knitr
-output-dir: output
 ---
 
 # TP2 – Transformée de Fourier et traitement du signal

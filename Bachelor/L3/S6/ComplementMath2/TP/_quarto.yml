@@ -1,0 +1,20 @@
+project:
+  type: default
+
+lang: fr
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    number-sections: true
+    highlight-style: github
+
+execute:
+  warning: false
+  message: false
+  fig-align: center
