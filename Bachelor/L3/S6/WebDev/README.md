@@ -24,17 +24,17 @@ HTML (structure) -> CSS (style) -> JavaScript (logic) -> DOM (interactivity) -> 
 
 ## TP Overview
 
-| TP | Topic | Key Concepts | Key Files |
+| TP | Topic | Key Concepts | Live Demo |
 |----|-------|-------------|-----------|
-| **TP0** | Setup | VS Code, Node.js, local server, terminal | `test-protocol.html` |
-| **TP1** | HTML | Structure, tags, links, images, tables, SVG | `index1.html`, `cv1.html`, `calendar1.html` |
-| **TP3** | CSS | Selectors, properties, flexbox, variables, hover, responsive | `shared.css`, `menu.css`, `gallery.html` |
-| **TP4** | CSS + Tables | Styling tables, 2 CSS files for 1 HTML | `shopping.html`, `styles-a.css`, `styles-b.css` |
-| **TP5** | JavaScript | Loops, objects, closures, callbacks, currying | `exercices.js` (8 exercises) |
-| **TP6** | DOM | Selection, modification, events, forms | `calc.html`, `degrees.html`, `hidden-number.html` |
-| **TP7** | Web App | Todo list, createElement, events, DOM manipulation | `todo-list.js` |
-| **TP8** | Node.js Server | HTTP, request/response, cookies, POST forms | `server.js`, `pages/` |
-| **TP9** | Full Express | Middleware, SQLite, hashing, sessions, authentication | `server.js`, `routes/`, `lib/` |
+| **TP0** | Setup | VS Code, Node.js, local server, terminal | — |
+| **TP1** | HTML | Structure, tags, links, images, tables, SVG | [index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/index1.html), [cv](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/cv1.html), [calendar](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP1/calendar1.html) |
+| **TP3** | CSS | Selectors, properties, flexbox, variables, hover, responsive | [gallery](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP3/gallery.html), [cv](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP3/cv.html) |
+| **TP4** | CSS + Tables | Styling tables, 2 CSS files for 1 HTML | [shopping](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP4/shopping.html) |
+| **TP5** | JavaScript | Loops, objects, closures, callbacks, currying | — (console) |
+| **TP6** | DOM | Selection, modification, events, forms | [calc](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/calc.html), [degrees](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/degrees.html), [hidden-number](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP6/hidden-number.html) |
+| **TP7** | Web App | Todo list, createElement, events, DOM manipulation | [todo](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/TP7/todo-list.html) |
+| **TP8** | Node.js Server | HTTP, request/response, cookies, POST forms | — (server) |
+| **TP9** | Full Express | Middleware, SQLite, hashing, sessions, authentication | — (server) |
 
 > Note: TP2 does not exist in this course.
 
