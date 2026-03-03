@@ -3,6 +3,14 @@
 
 # Java build artifacts
 target/
+*.class
+bin/
+bin_backup*/
+
+# Eclipse IDE
+.settings/
+.classpath
+.project
 
 # IDE / editor configs
 .vscode/
@@ -26,6 +34,7 @@ __pycache__/
 .Rhistory
 .Rproj.user/
 .RData
+*.rds
 
 # Quarto
 _site/
