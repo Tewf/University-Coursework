@@ -1,5 +1,7 @@
 # University Coursework
 
+[![CI](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml/badge.svg)](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml)
+
 > [Lire en francais](README.fr.md)
 
 A comprehensive collection of coursework, projects, and assignments from my university studies at **Universite Grenoble Alpes**. This repository serves as both a **learning portfolio** and a **pedagogical resource** for students in applied mathematics, computer science, and economics.

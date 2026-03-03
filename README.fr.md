@@ -1,5 +1,7 @@
 # Travaux Universitaires
 
+[![CI](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml/badge.svg)](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml)
+
 > [Read in English](README.md)
 
 Une collection complete de travaux pratiques, projets et exercices realises durant mes etudes a l'**Universite Grenoble Alpes**. Ce repository sert a la fois de **portfolio d'apprentissage** et de **ressource pedagogique** pour les etudiants en mathematiques appliquees, informatique et economie.
