@@ -13,9 +13,6 @@ output/*.rds
 .RData
 .Rproj.user/
 
-# Rapports rendus (régénérables)
-rapport/
-
 # Données volumineuses (téléchargeables depuis Kaggle)
 data/*.csv
 data/*.zip
