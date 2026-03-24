@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Lola Etiévant">
+<meta name="author" content="HAMLIL Mohamed">
 
 <title>TP 6 : Apprentissage supervisé et classification naïve bayésienne</title>
 <style>
@@ -2569,14 +2569,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Auteur·rice</div>
     <div class="quarto-title-meta-contents">
-             <p>Lola Etiévant </p>
+             <p>HAMLIL Mohamed </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2 mars 2026</p>
+      <p class="date">17 mars 2026</p>
     </div>
   </div>
   
@@ -3946,466 +3946,461 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;TP 6 : Apprentissage supervisé et classification naïve bayésienne&quot;</span></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> &quot;Compléments de Mathématiques 2 - L3 MIASHS&quot;</span></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;Lola Etiévant&quot;</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> &quot;HAMLIL Mohamed&quot;</span></span>
 <span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="co">  pdf:</span></span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="co">    colorlinks: true</span></span>
-<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> source</span></span>
-<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># Préparation des données</span></span>
-<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement du jeu de données</span></span>
-<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-data</span></span>
-<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>qualitative_vars  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_qualitative_vars.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a>quantitative_vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_quantitative_vars.csv&quot;</span>)</span>
-<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>target            <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_target.csv&quot;</span>)</span>
-<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>target            <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(target<span class="sc">$</span>x)</span>
-<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a>Suppression des observations avec valeurs manquantes pour <span class="in">`Sex`</span> (seulement 2 sur 876, soit &lt; 0.2%) :</span>
-<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: clean-sex</span></span>
-<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>isMissingSex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(qualitative_vars<span class="sc">$</span>Sex) <span class="sc">|</span> qualitative_vars<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(isMissingSex) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a>  qualitative_vars  <span class="ot">&lt;-</span> qualitative_vars[<span class="sc">-</span>isMissingSex, ]</span>
-<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>  quantitative_vars <span class="ot">&lt;-</span> quantitative_vars[<span class="sc">-</span>isMissingSex, ]</span>
-<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>  target            <span class="ot">&lt;-</span> target[<span class="sc">-</span>isMissingSex]</span>
-<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb64-40"><a href="#cb64-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-41"><a href="#cb64-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-42"><a href="#cb64-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vérification des types</span></span>
-<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: check-types</span></span>
-<span id="cb64-48"><a href="#cb64-48" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>Pclass  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>Pclass)</span>
-<span id="cb64-49"><a href="#cb64-49" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>Sex     <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>Sex)</span>
-<span id="cb64-50"><a href="#cb64-50" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>withFam <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>withFam)</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> source</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Préparation des données</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement du jeu de données</span></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-data</span></span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>qualitative_vars  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_qualitative_vars.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>quantitative_vars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_quantitative_vars.csv&quot;</span>)</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>target            <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../TP2/titanic_pre_processed_target.csv&quot;</span>)</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>target            <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(target<span class="sc">$</span>x)</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a>Suppression des observations avec valeurs manquantes pour <span class="in">`Sex`</span> (seulement 2 sur 876, soit &lt; 0.2%) :</span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: clean-sex</span></span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>isMissingSex <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(qualitative_vars<span class="sc">$</span>Sex) <span class="sc">|</span> qualitative_vars<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(isMissingSex) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a>  qualitative_vars  <span class="ot">&lt;-</span> qualitative_vars[<span class="sc">-</span>isMissingSex, ]</span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a>  quantitative_vars <span class="ot">&lt;-</span> quantitative_vars[<span class="sc">-</span>isMissingSex, ]</span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a>  target            <span class="ot">&lt;-</span> target[<span class="sc">-</span>isMissingSex]</span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vérification des types</span></span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-41"><a href="#cb64-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-42"><a href="#cb64-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: check-types</span></span>
+<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>Pclass  <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>Pclass)</span>
+<span id="cb64-44"><a href="#cb64-44" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>Sex     <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>Sex)</span>
+<span id="cb64-45"><a href="#cb64-45" aria-hidden="true" tabindex="-1"></a>qualitative_vars<span class="sc">$</span>withFam <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(qualitative_vars<span class="sc">$</span>withFam)</span>
+<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(qualitative_vars)</span>
+<span id="cb64-48"><a href="#cb64-48" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(quantitative_vars)</span>
+<span id="cb64-49"><a href="#cb64-49" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(target)</span>
+<span id="cb64-50"><a href="#cb64-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-51"><a href="#cb64-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-52"><a href="#cb64-52" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(qualitative_vars)</span>
-<span id="cb64-53"><a href="#cb64-53" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(quantitative_vars)</span>
-<span id="cb64-54"><a href="#cb64-54" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(target)</span>
-<span id="cb64-55"><a href="#cb64-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-56"><a href="#cb64-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-57"><a href="#cb64-57" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur bayésien naïf</span></span>
+<span id="cb64-52"><a href="#cb64-52" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur bayésien naïf</span></span>
+<span id="cb64-53"><a href="#cb64-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-54"><a href="#cb64-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rappel</span></span>
+<span id="cb64-55"><a href="#cb64-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-56"><a href="#cb64-56" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb64-57"><a href="#cb64-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hyperparamètre</span></span>
 <span id="cb64-58"><a href="#cb64-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-59"><a href="#cb64-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rappel</span></span>
-<span id="cb64-60"><a href="#cb64-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-61"><a href="#cb64-61" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb64-62"><a href="#cb64-62" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hyperparamètre</span></span>
+<span id="cb64-59"><a href="#cb64-59" aria-hidden="true" tabindex="-1"></a>Il n&#39;y a **pas d&#39;hyperparamètre** à choisir avec la méthode de classification naïve bayésienne. Il n&#39;y a donc pas besoin de jeu de validation : on partage le jeu de données en **deux parties** seulement (Train / Test).</span>
+<span id="cb64-60"><a href="#cb64-60" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-61"><a href="#cb64-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-62"><a href="#cb64-62" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables explicatives quantitatives</span></span>
 <span id="cb64-63"><a href="#cb64-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-64"><a href="#cb64-64" aria-hidden="true" tabindex="-1"></a>Il n&#39;y a **pas d&#39;hyperparamètre** à choisir avec la méthode de classification naïve bayésienne. Il n&#39;y a donc pas besoin de jeu de validation : on partage le jeu de données en **deux parties** seulement (Train / Test).</span>
-<span id="cb64-65"><a href="#cb64-65" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-64"><a href="#cb64-64" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb64-65"><a href="#cb64-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Encoding et normalisation</span></span>
 <span id="cb64-66"><a href="#cb64-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-67"><a href="#cb64-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables explicatives quantitatives</span></span>
+<span id="cb64-67"><a href="#cb64-67" aria-hidden="true" tabindex="-1"></a>Avec le classifieur naïf bayésien, on n&#39;a **pas besoin** de transformer les variables qualitatives (dummy coding ou label encoding) ni de normaliser/standardiser les variables quantitatives. Le classifieur travaille directement avec les distributions conditionnelles de chaque variable.</span>
 <span id="cb64-68"><a href="#cb64-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-69"><a href="#cb64-69" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb64-70"><a href="#cb64-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Encoding et normalisation</span></span>
+<span id="cb64-69"><a href="#cb64-69" aria-hidden="true" tabindex="-1"></a>En revanche, on fait l&#39;hypothèse que les variables explicatives sont **indépendantes conditionnellement à la target**, et pour les variables quantitatives on suppose qu&#39;elles suivent une **loi normale** conditionnellement à la target.</span>
+<span id="cb64-70"><a href="#cb64-70" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb64-71"><a href="#cb64-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-72"><a href="#cb64-72" aria-hidden="true" tabindex="-1"></a>Avec le classifieur naïf bayésien, on n&#39;a **pas besoin** de transformer les variables qualitatives (dummy coding ou label encoding) ni de normaliser/standardiser les variables quantitatives. Le classifieur travaille directement avec les distributions conditionnelles de chaque variable.</span>
+<span id="cb64-72"><a href="#cb64-72" aria-hidden="true" tabindex="-1"></a>On exclut <span class="in">`Fam`</span>, <span class="in">`Parch`</span> et <span class="in">`SibSp`</span> puisqu&#39;on utilisera <span class="in">`withFam`</span>. Vérifions l&#39;hypothèse de normalité pour <span class="in">`Age`</span> et <span class="in">`Fare`</span> :</span>
 <span id="cb64-73"><a href="#cb64-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-74"><a href="#cb64-74" aria-hidden="true" tabindex="-1"></a>En revanche, on fait l&#39;hypothèse que les variables explicatives sont **indépendantes conditionnellement à la target**, et pour les variables quantitatives on suppose qu&#39;elles suivent une **loi normale** conditionnellement à la target.</span>
-<span id="cb64-75"><a href="#cb64-75" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-76"><a href="#cb64-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-77"><a href="#cb64-77" aria-hidden="true" tabindex="-1"></a>On exclut <span class="in">`Fam`</span>, <span class="in">`Parch`</span> et <span class="in">`SibSp`</span> puisqu&#39;on utilisera <span class="in">`withFam`</span>. Vérifions l&#39;hypothèse de normalité pour <span class="in">`Age`</span> et <span class="in">`Fare`</span> :</span>
-<span id="cb64-78"><a href="#cb64-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-81"><a href="#cb64-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-82"><a href="#cb64-82" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-age</span></span>
-<span id="cb64-83"><a href="#cb64-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de Age&quot;</span></span>
-<span id="cb64-84"><a href="#cb64-84" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
-<span id="cb64-85"><a href="#cb64-85" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-86"><a href="#cb64-86" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>Age, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
-<span id="cb64-87"><a href="#cb64-87" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de Age&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Age&quot;</span>)</span>
-<span id="cb64-88"><a href="#cb64-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-89"><a href="#cb64-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-90"><a href="#cb64-90" aria-hidden="true" tabindex="-1"></a><span class="in">`Age`</span> semble à peu près suivre une distribution unimodale, compatible avec l&#39;hypothèse gaussienne.</span>
-<span id="cb64-91"><a href="#cb64-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-94"><a href="#cb64-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-95"><a href="#cb64-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-fare</span></span>
-<span id="cb64-96"><a href="#cb64-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de Fare&quot;</span></span>
-<span id="cb64-97"><a href="#cb64-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
-<span id="cb64-98"><a href="#cb64-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-99"><a href="#cb64-99" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>Fare, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
-<span id="cb64-100"><a href="#cb64-100" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de Fare&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Fare&quot;</span>)</span>
-<span id="cb64-101"><a href="#cb64-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-102"><a href="#cb64-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-103"><a href="#cb64-103" aria-hidden="true" tabindex="-1"></a><span class="in">`Fare`</span> est très asymétrique à droite (skewed right), ce qui n&#39;est **pas compatible** avec l&#39;hypothèse gaussienne. On applique une transformation **logarithmique** pour se rapprocher d&#39;une distribution normale :</span>
-<span id="cb64-104"><a href="#cb64-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-107"><a href="#cb64-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-108"><a href="#cb64-108" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-logfare</span></span>
-<span id="cb64-109"><a href="#cb64-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de log(Fare + 1)&quot;</span></span>
-<span id="cb64-110"><a href="#cb64-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
-<span id="cb64-111"><a href="#cb64-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-112"><a href="#cb64-112" aria-hidden="true" tabindex="-1"></a>quantitative_vars<span class="sc">$</span>logFare <span class="ot">&lt;-</span> <span class="fu">log</span>(quantitative_vars<span class="sc">$</span>Fare <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb64-113"><a href="#cb64-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-114"><a href="#cb64-114" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>logFare, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;mediumpurple&quot;</span>,</span>
-<span id="cb64-115"><a href="#cb64-115" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de log(Fare + 1)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(Fare + 1)&quot;</span>)</span>
-<span id="cb64-116"><a href="#cb64-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-117"><a href="#cb64-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-118"><a href="#cb64-118" aria-hidden="true" tabindex="-1"></a>La distribution de <span class="in">`log(Fare + 1)`</span> est bien plus proche d&#39;une gaussienne.</span>
-<span id="cb64-119"><a href="#cb64-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-120"><a href="#cb64-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables explicatives utilisées pour la prédiction</span></span>
-<span id="cb64-121"><a href="#cb64-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-124"><a href="#cb64-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-125"><a href="#cb64-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predictive-vars</span></span>
-<span id="cb64-126"><a href="#cb64-126" aria-hidden="true" tabindex="-1"></a>predictive_vars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb64-127"><a href="#cb64-127" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
-<span id="cb64-128"><a href="#cb64-128" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age     =</span> quantitative_vars<span class="sc">$</span>Age,</span>
-<span id="cb64-129"><a href="#cb64-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">logFare =</span> quantitative_vars<span class="sc">$</span>logFare</span>
-<span id="cb64-130"><a href="#cb64-130" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb64-131"><a href="#cb64-131" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(predictive_vars)</span>
-<span id="cb64-132"><a href="#cb64-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-133"><a href="#cb64-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-134"><a href="#cb64-134" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur naïf bayésien avec Holdout</span></span>
-<span id="cb64-135"><a href="#cb64-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-136"><a href="#cb64-136" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partage du jeu de données</span></span>
-<span id="cb64-137"><a href="#cb64-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-140"><a href="#cb64-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-141"><a href="#cb64-141" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-split</span></span>
-<span id="cb64-142"><a href="#cb64-142" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb64-143"><a href="#cb64-143" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(predictive_vars)</span>
-<span id="cb64-144"><a href="#cb64-144" aria-hidden="true" tabindex="-1"></a>inTrain <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.8</span> <span class="sc">*</span> n))</span>
-<span id="cb64-145"><a href="#cb64-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-146"><a href="#cb64-146" aria-hidden="true" tabindex="-1"></a>predictive_vars_train <span class="ot">&lt;-</span> predictive_vars[inTrain, ]</span>
-<span id="cb64-147"><a href="#cb64-147" aria-hidden="true" tabindex="-1"></a>predictive_vars_test  <span class="ot">&lt;-</span> predictive_vars[<span class="sc">-</span>inTrain, ]</span>
-<span id="cb64-148"><a href="#cb64-148" aria-hidden="true" tabindex="-1"></a>target_train          <span class="ot">&lt;-</span> target[inTrain]</span>
-<span id="cb64-149"><a href="#cb64-149" aria-hidden="true" tabindex="-1"></a>target_test           <span class="ot">&lt;-</span> target[<span class="sc">-</span>inTrain]</span>
-<span id="cb64-150"><a href="#cb64-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-151"><a href="#cb64-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-152"><a href="#cb64-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gestion des données manquantes</span></span>
-<span id="cb64-153"><a href="#cb64-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-154"><a href="#cb64-154" aria-hidden="true" tabindex="-1"></a>On utilise la médiane imputation pour <span class="in">`Age`</span>, en calculant la médiane sur le Train uniquement pour éviter le data leakage :</span>
-<span id="cb64-155"><a href="#cb64-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-158"><a href="#cb64-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-159"><a href="#cb64-159" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: imputation</span></span>
-<span id="cb64-160"><a href="#cb64-160" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb64-76"><a href="#cb64-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-77"><a href="#cb64-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-age</span></span>
+<span id="cb64-78"><a href="#cb64-78" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de Age&quot;</span></span>
+<span id="cb64-79"><a href="#cb64-79" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
+<span id="cb64-80"><a href="#cb64-80" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-81"><a href="#cb64-81" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>Age, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
+<span id="cb64-82"><a href="#cb64-82" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de Age&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Age&quot;</span>)</span>
+<span id="cb64-83"><a href="#cb64-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-84"><a href="#cb64-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-85"><a href="#cb64-85" aria-hidden="true" tabindex="-1"></a><span class="in">`Age`</span> semble à peu près suivre une distribution unimodale, compatible avec l&#39;hypothèse gaussienne.</span>
+<span id="cb64-86"><a href="#cb64-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-89"><a href="#cb64-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-90"><a href="#cb64-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-fare</span></span>
+<span id="cb64-91"><a href="#cb64-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de Fare&quot;</span></span>
+<span id="cb64-92"><a href="#cb64-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
+<span id="cb64-93"><a href="#cb64-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-94"><a href="#cb64-94" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>Fare, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
+<span id="cb64-95"><a href="#cb64-95" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de Fare&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Fare&quot;</span>)</span>
+<span id="cb64-96"><a href="#cb64-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-97"><a href="#cb64-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-98"><a href="#cb64-98" aria-hidden="true" tabindex="-1"></a><span class="in">`Fare`</span> est très asymétrique à droite (skewed right), ce qui n&#39;est **pas compatible** avec l&#39;hypothèse gaussienne. On applique une transformation **logarithmique** pour se rapprocher d&#39;une distribution normale :</span>
+<span id="cb64-99"><a href="#cb64-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-102"><a href="#cb64-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-103"><a href="#cb64-103" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-hist-logfare</span></span>
+<span id="cb64-104"><a href="#cb64-104" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distribution de log(Fare + 1)&quot;</span></span>
+<span id="cb64-105"><a href="#cb64-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
+<span id="cb64-106"><a href="#cb64-106" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-107"><a href="#cb64-107" aria-hidden="true" tabindex="-1"></a>quantitative_vars<span class="sc">$</span>logFare <span class="ot">&lt;-</span> <span class="fu">log</span>(quantitative_vars<span class="sc">$</span>Fare <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb64-108"><a href="#cb64-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-109"><a href="#cb64-109" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(quantitative_vars<span class="sc">$</span>logFare, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">&quot;mediumpurple&quot;</span>,</span>
+<span id="cb64-110"><a href="#cb64-110" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Histogramme de log(Fare + 1)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(Fare + 1)&quot;</span>)</span>
+<span id="cb64-111"><a href="#cb64-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-112"><a href="#cb64-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-113"><a href="#cb64-113" aria-hidden="true" tabindex="-1"></a>La distribution de <span class="in">`log(Fare + 1)`</span> est bien plus proche d&#39;une gaussienne.</span>
+<span id="cb64-114"><a href="#cb64-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-115"><a href="#cb64-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables explicatives utilisées pour la prédiction</span></span>
+<span id="cb64-116"><a href="#cb64-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-119"><a href="#cb64-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-120"><a href="#cb64-120" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predictive-vars</span></span>
+<span id="cb64-121"><a href="#cb64-121" aria-hidden="true" tabindex="-1"></a>predictive_vars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb64-122"><a href="#cb64-122" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
+<span id="cb64-123"><a href="#cb64-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age     =</span> quantitative_vars<span class="sc">$</span>Age,</span>
+<span id="cb64-124"><a href="#cb64-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">logFare =</span> quantitative_vars<span class="sc">$</span>logFare</span>
+<span id="cb64-125"><a href="#cb64-125" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-126"><a href="#cb64-126" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(predictive_vars)</span>
+<span id="cb64-127"><a href="#cb64-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-128"><a href="#cb64-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-129"><a href="#cb64-129" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur naïf bayésien avec Holdout</span></span>
+<span id="cb64-130"><a href="#cb64-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-131"><a href="#cb64-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## Partage du jeu de données</span></span>
+<span id="cb64-132"><a href="#cb64-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-135"><a href="#cb64-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-136"><a href="#cb64-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-split</span></span>
+<span id="cb64-137"><a href="#cb64-137" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb64-138"><a href="#cb64-138" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(predictive_vars)</span>
+<span id="cb64-139"><a href="#cb64-139" aria-hidden="true" tabindex="-1"></a>inTrain <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.8</span> <span class="sc">*</span> n))</span>
+<span id="cb64-140"><a href="#cb64-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-141"><a href="#cb64-141" aria-hidden="true" tabindex="-1"></a>predictive_vars_train <span class="ot">&lt;-</span> predictive_vars[inTrain, ]</span>
+<span id="cb64-142"><a href="#cb64-142" aria-hidden="true" tabindex="-1"></a>predictive_vars_test  <span class="ot">&lt;-</span> predictive_vars[<span class="sc">-</span>inTrain, ]</span>
+<span id="cb64-143"><a href="#cb64-143" aria-hidden="true" tabindex="-1"></a>target_train          <span class="ot">&lt;-</span> target[inTrain]</span>
+<span id="cb64-144"><a href="#cb64-144" aria-hidden="true" tabindex="-1"></a>target_test           <span class="ot">&lt;-</span> target[<span class="sc">-</span>inTrain]</span>
+<span id="cb64-145"><a href="#cb64-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-146"><a href="#cb64-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-147"><a href="#cb64-147" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gestion des données manquantes</span></span>
+<span id="cb64-148"><a href="#cb64-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-149"><a href="#cb64-149" aria-hidden="true" tabindex="-1"></a>On utilise la médiane imputation pour <span class="in">`Age`</span>, en calculant la médiane sur le Train uniquement pour éviter le data leakage :</span>
+<span id="cb64-150"><a href="#cb64-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-153"><a href="#cb64-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-154"><a href="#cb64-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: imputation</span></span>
+<span id="cb64-155"><a href="#cb64-155" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb64-156"><a href="#cb64-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-157"><a href="#cb64-157" aria-hidden="true" tabindex="-1"></a>Proc <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(predictive_vars_train, <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
+<span id="cb64-158"><a href="#cb64-158" aria-hidden="true" tabindex="-1"></a>predictive_vars_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_train)</span>
+<span id="cb64-159"><a href="#cb64-159" aria-hidden="true" tabindex="-1"></a>predictive_vars_test  <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_test)</span>
+<span id="cb64-160"><a href="#cb64-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-161"><a href="#cb64-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-162"><a href="#cb64-162" aria-hidden="true" tabindex="-1"></a>Proc <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(predictive_vars_train, <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
-<span id="cb64-163"><a href="#cb64-163" aria-hidden="true" tabindex="-1"></a>predictive_vars_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_train)</span>
-<span id="cb64-164"><a href="#cb64-164" aria-hidden="true" tabindex="-1"></a>predictive_vars_test  <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_test)</span>
-<span id="cb64-165"><a href="#cb64-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-166"><a href="#cb64-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-167"><a href="#cb64-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase d&#39;apprentissage</span></span>
-<span id="cb64-168"><a href="#cb64-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-171"><a href="#cb64-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-172"><a href="#cb64-172" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: naive-bayes-fit</span></span>
-<span id="cb64-173"><a href="#cb64-173" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span>
-<span id="cb64-174"><a href="#cb64-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-175"><a href="#cb64-175" aria-hidden="true" tabindex="-1"></a>classif <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> predictive_vars_train, <span class="at">y =</span> target_train)</span>
-<span id="cb64-176"><a href="#cb64-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-162"><a href="#cb64-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase d&#39;apprentissage</span></span>
+<span id="cb64-163"><a href="#cb64-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-166"><a href="#cb64-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-167"><a href="#cb64-167" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: naive-bayes-fit</span></span>
+<span id="cb64-168"><a href="#cb64-168" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span>
+<span id="cb64-169"><a href="#cb64-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-170"><a href="#cb64-170" aria-hidden="true" tabindex="-1"></a>classif <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> predictive_vars_train, <span class="at">y =</span> target_train)</span>
+<span id="cb64-171"><a href="#cb64-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-172"><a href="#cb64-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-173"><a href="#cb64-173" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb64-174"><a href="#cb64-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Que retourne `classif` ?</span></span>
+<span id="cb64-175"><a href="#cb64-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-176"><a href="#cb64-176" aria-hidden="true" tabindex="-1"></a>L&#39;objet retourné contient les distributions conditionnelles estimées de chaque variable explicative sachant la target :</span>
 <span id="cb64-177"><a href="#cb64-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-178"><a href="#cb64-178" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb64-179"><a href="#cb64-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### Que retourne `classif` ?</span></span>
-<span id="cb64-180"><a href="#cb64-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-181"><a href="#cb64-181" aria-hidden="true" tabindex="-1"></a>L&#39;objet retourné contient les distributions conditionnelles estimées de chaque variable explicative sachant la target :</span>
+<span id="cb64-178"><a href="#cb64-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pour les variables **qualitatives** : les probabilités conditionnelles $\hat{P}(X^{(l)} = x | Y = y)$ (tables de probabilités).</span>
+<span id="cb64-179"><a href="#cb64-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pour les variables **quantitatives** : les paramètres $(\hat{\mu}, \hat{\sigma})$ de la loi normale conditionnelle estimée.</span>
+<span id="cb64-180"><a href="#cb64-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les **probabilités a priori** $\hat{P}(Y = y)$.</span>
+<span id="cb64-181"><a href="#cb64-181" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb64-182"><a href="#cb64-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-183"><a href="#cb64-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pour les variables **qualitatives** : les probabilités conditionnelles $\hat{P}(X^{(l)} = x | Y = y)$ (tables de probabilités).</span>
-<span id="cb64-184"><a href="#cb64-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pour les variables **quantitatives** : les paramètres $(\hat{\mu}, \hat{\sigma})$ de la loi normale conditionnelle estimée.</span>
-<span id="cb64-185"><a href="#cb64-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Les **probabilités a priori** $\hat{P}(Y = y)$.</span>
-<span id="cb64-186"><a href="#cb64-186" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-187"><a href="#cb64-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-190"><a href="#cb64-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-191"><a href="#cb64-191" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: classif-summary</span></span>
-<span id="cb64-192"><a href="#cb64-192" aria-hidden="true" tabindex="-1"></a>classif</span>
-<span id="cb64-193"><a href="#cb64-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-194"><a href="#cb64-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-195"><a href="#cb64-195" aria-hidden="true" tabindex="-1"></a>Représentation graphique des distributions conditionnelles :</span>
-<span id="cb64-196"><a href="#cb64-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-199"><a href="#cb64-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-200"><a href="#cb64-200" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-conditional</span></span>
-<span id="cb64-201"><a href="#cb64-201" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distributions conditionnelles des variables explicatives&quot;</span></span>
-<span id="cb64-202"><a href="#cb64-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;50%&quot;</span></span>
-<span id="cb64-203"><a href="#cb64-203" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-204"><a href="#cb64-204" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classif, <span class="at">prob =</span> <span class="st">&quot;conditional&quot;</span>)</span>
-<span id="cb64-205"><a href="#cb64-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-206"><a href="#cb64-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-207"><a href="#cb64-207" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb64-208"><a href="#cb64-208" aria-hidden="true" tabindex="-1"></a><span class="fu">### Laplace smoothing</span></span>
+<span id="cb64-185"><a href="#cb64-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-186"><a href="#cb64-186" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: classif-summary</span></span>
+<span id="cb64-187"><a href="#cb64-187" aria-hidden="true" tabindex="-1"></a>classif</span>
+<span id="cb64-188"><a href="#cb64-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-189"><a href="#cb64-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-190"><a href="#cb64-190" aria-hidden="true" tabindex="-1"></a>Représentation graphique des distributions conditionnelles :</span>
+<span id="cb64-191"><a href="#cb64-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-194"><a href="#cb64-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-195"><a href="#cb64-195" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-conditional</span></span>
+<span id="cb64-196"><a href="#cb64-196" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Distributions conditionnelles des variables explicatives&quot;</span></span>
+<span id="cb64-197"><a href="#cb64-197" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;50%&quot;</span></span>
+<span id="cb64-198"><a href="#cb64-198" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-199"><a href="#cb64-199" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classif, <span class="at">prob =</span> <span class="st">&quot;conditional&quot;</span>)</span>
+<span id="cb64-200"><a href="#cb64-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-201"><a href="#cb64-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-202"><a href="#cb64-202" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb64-203"><a href="#cb64-203" aria-hidden="true" tabindex="-1"></a><span class="fu">### Laplace smoothing</span></span>
+<span id="cb64-204"><a href="#cb64-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-205"><a href="#cb64-205" aria-hidden="true" tabindex="-1"></a>Si une combinaison catégorie-réponse n&#39;apparaît pas dans les données d&#39;entraînement, on obtient $\hat{P}(X^{(l)} = x^{(l)} | Y) = 0$. L&#39;argument <span class="in">`laplace`</span> de <span class="in">`naive_bayes`</span> permet d&#39;appliquer un lissage additif pour éviter ce problème.</span>
+<span id="cb64-206"><a href="#cb64-206" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-207"><a href="#cb64-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-208"><a href="#cb64-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prédiction des probabilités</span></span>
 <span id="cb64-209"><a href="#cb64-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-210"><a href="#cb64-210" aria-hidden="true" tabindex="-1"></a>Si une combinaison catégorie-réponse n&#39;apparaît pas dans les données d&#39;entraînement, on obtient $\hat{P}(X^{(l)} = x^{(l)} | Y) = 0$. L&#39;argument <span class="in">`laplace`</span> de <span class="in">`naive_bayes`</span> permet d&#39;appliquer un lissage additif pour éviter ce problème.</span>
-<span id="cb64-211"><a href="#cb64-211" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-212"><a href="#cb64-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-213"><a href="#cb64-213" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prédiction des probabilités</span></span>
-<span id="cb64-214"><a href="#cb64-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-217"><a href="#cb64-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-218"><a href="#cb64-218" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-probs</span></span>
-<span id="cb64-219"><a href="#cb64-219" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
-<span id="cb64-220"><a href="#cb64-220" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred)</span>
-<span id="cb64-221"><a href="#cb64-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-222"><a href="#cb64-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-223"><a href="#cb64-223" aria-hidden="true" tabindex="-1"></a>Cette ligne prédit pour chaque individu du jeu de test la **probabilité d&#39;appartenir à chaque catégorie** de la target (Décédé / Survivant).</span>
-<span id="cb64-224"><a href="#cb64-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-225"><a href="#cb64-225" aria-hidden="true" tabindex="-1"></a>Pour obtenir directement la **catégorie prédite**, on utilise <span class="in">`type = &quot;class&quot;`</span> au lieu de <span class="in">`type = &quot;prob&quot;`</span>.</span>
-<span id="cb64-226"><a href="#cb64-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-227"><a href="#cb64-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prédiction et évaluation</span></span>
-<span id="cb64-228"><a href="#cb64-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-231"><a href="#cb64-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-232"><a href="#cb64-232" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-eval</span></span>
-<span id="cb64-233"><a href="#cb64-233" aria-hidden="true" tabindex="-1"></a>target_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb64-234"><a href="#cb64-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-235"><a href="#cb64-235" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(target_pred, target_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
-<span id="cb64-236"><a href="#cb64-236" aria-hidden="true" tabindex="-1"></a>cm</span>
-<span id="cb64-237"><a href="#cb64-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-238"><a href="#cb64-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-241"><a href="#cb64-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-242"><a href="#cb64-242" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-metrics</span></span>
-<span id="cb64-243"><a href="#cb64-243" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy  :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-244"><a href="#cb64-244" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Recall    :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-245"><a href="#cb64-245" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Precision :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-246"><a href="#cb64-246" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-247"><a href="#cb64-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-248"><a href="#cb64-248" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb64-249"><a href="#cb64-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sensibilité au seed</span></span>
+<span id="cb64-212"><a href="#cb64-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-213"><a href="#cb64-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-probs</span></span>
+<span id="cb64-214"><a href="#cb64-214" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;prob&quot;</span>)</span>
+<span id="cb64-215"><a href="#cb64-215" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pred)</span>
+<span id="cb64-216"><a href="#cb64-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-217"><a href="#cb64-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-218"><a href="#cb64-218" aria-hidden="true" tabindex="-1"></a>Cette ligne prédit pour chaque individu du jeu de test la **probabilité d&#39;appartenir à chaque catégorie** de la target (Décédé / Survivant).</span>
+<span id="cb64-219"><a href="#cb64-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-220"><a href="#cb64-220" aria-hidden="true" tabindex="-1"></a>Pour obtenir directement la **catégorie prédite**, on utilise <span class="in">`type = &quot;class&quot;`</span> au lieu de <span class="in">`type = &quot;prob&quot;`</span>.</span>
+<span id="cb64-221"><a href="#cb64-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-222"><a href="#cb64-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prédiction et évaluation</span></span>
+<span id="cb64-223"><a href="#cb64-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-226"><a href="#cb64-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-227"><a href="#cb64-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-eval</span></span>
+<span id="cb64-228"><a href="#cb64-228" aria-hidden="true" tabindex="-1"></a>target_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb64-229"><a href="#cb64-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-230"><a href="#cb64-230" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(target_pred, target_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-231"><a href="#cb64-231" aria-hidden="true" tabindex="-1"></a>cm</span>
+<span id="cb64-232"><a href="#cb64-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-233"><a href="#cb64-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-236"><a href="#cb64-236" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-237"><a href="#cb64-237" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: holdout-metrics</span></span>
+<span id="cb64-238"><a href="#cb64-238" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy  :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-239"><a href="#cb64-239" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Recall    :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-240"><a href="#cb64-240" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Precision :&quot;</span>, <span class="fu">round</span>(cm<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-241"><a href="#cb64-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-242"><a href="#cb64-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-243"><a href="#cb64-243" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb64-244"><a href="#cb64-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sensibilité au seed</span></span>
+<span id="cb64-245"><a href="#cb64-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-246"><a href="#cb64-246" aria-hidden="true" tabindex="-1"></a>En recompilant avec d&#39;autres seeds, les métriques varient car le partage Train/Test est aléatoire. On pourrait proposer d&#39;utiliser la **validation croisée** pour obtenir des estimations plus stables des performances.</span>
+<span id="cb64-247"><a href="#cb64-247" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-248"><a href="#cb64-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-249"><a href="#cb64-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pour aller plus loin : importance des variables</span></span>
 <span id="cb64-250"><a href="#cb64-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-251"><a href="#cb64-251" aria-hidden="true" tabindex="-1"></a>En recompilant avec d&#39;autres seeds, les métriques varient car le partage Train/Test est aléatoire. On pourrait proposer d&#39;utiliser la **validation croisée** pour obtenir des estimations plus stables des performances.</span>
-<span id="cb64-252"><a href="#cb64-252" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-253"><a href="#cb64-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-254"><a href="#cb64-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pour aller plus loin : importance des variables</span></span>
-<span id="cb64-255"><a href="#cb64-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-256"><a href="#cb64-256" aria-hidden="true" tabindex="-1"></a>On peut visualiser l&#39;influence de chaque variable explicative sur les probabilités prédites.</span>
-<span id="cb64-257"><a href="#cb64-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-258"><a href="#cb64-258" aria-hidden="true" tabindex="-1"></a>Pour une variable **qualitative** comme <span class="in">`Sex`</span> :</span>
-<span id="cb64-259"><a href="#cb64-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-262"><a href="#cb64-262" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-263"><a href="#cb64-263" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-importance-sex</span></span>
-<span id="cb64-264"><a href="#cb64-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Probabilité prédite de survivre selon Sex&quot;</span></span>
-<span id="cb64-265"><a href="#cb64-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
-<span id="cb64-266"><a href="#cb64-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-267"><a href="#cb64-267" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(pred[, <span class="dv">2</span>] <span class="sc">~</span> predictive_vars_test<span class="sc">$</span>Sex, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;pink&quot;</span>, <span class="st">&quot;lightblue&quot;</span>),</span>
-<span id="cb64-268"><a href="#cb64-268" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Importance de Sex&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;P(Survivant)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Sex&quot;</span>)</span>
-<span id="cb64-269"><a href="#cb64-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-270"><a href="#cb64-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-271"><a href="#cb64-271" aria-hidden="true" tabindex="-1"></a>Pour une variable **quantitative** comme `logFare`, on utiliserait un **nuage de points** (scatter plot) :</span>
-<span id="cb64-272"><a href="#cb64-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-275"><a href="#cb64-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-276"><a href="#cb64-276" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-importance-fare</span></span>
-<span id="cb64-277"><a href="#cb64-277" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Probabilité prédite de survivre selon log(Fare)&quot;</span></span>
-<span id="cb64-278"><a href="#cb64-278" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
-<span id="cb64-279"><a href="#cb64-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
-<span id="cb64-280"><a href="#cb64-280" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predictive_vars_test<span class="sc">$</span>logFare, pred[, <span class="dv">2</span>],</span>
-<span id="cb64-281"><a href="#cb64-281" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="fl">0.5</span>),</span>
-<span id="cb64-282"><a href="#cb64-282" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;log(Fare + 1)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;P(Survivant)&quot;</span>,</span>
-<span id="cb64-283"><a href="#cb64-283" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Importance de logFare&quot;</span>)</span>
-<span id="cb64-284"><a href="#cb64-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-285"><a href="#cb64-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-286"><a href="#cb64-286" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur naïf bayésien avec 10-fold cross-validation</span></span>
-<span id="cb64-287"><a href="#cb64-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-288"><a href="#cb64-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assignation des folds</span></span>
-<span id="cb64-289"><a href="#cb64-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-292"><a href="#cb64-292" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-293"><a href="#cb64-293" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-folds</span></span>
-<span id="cb64-294"><a href="#cb64-294" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb64-295"><a href="#cb64-295" aria-hidden="true" tabindex="-1"></a>nfolds <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb64-296"><a href="#cb64-296" aria-hidden="true" tabindex="-1"></a>folds  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-297"><a href="#cb64-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-298"><a href="#cb64-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-299"><a href="#cb64-299" aria-hidden="true" tabindex="-1"></a><span class="fu">## Boucle de validation croisée</span></span>
-<span id="cb64-300"><a href="#cb64-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-303"><a href="#cb64-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-304"><a href="#cb64-304" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-loop</span></span>
-<span id="cb64-305"><a href="#cb64-305" aria-hidden="true" tabindex="-1"></a>accuracy_fold  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-306"><a href="#cb64-306" aria-hidden="true" tabindex="-1"></a>recall_fold    <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-307"><a href="#cb64-307" aria-hidden="true" tabindex="-1"></a>precision_fold <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-308"><a href="#cb64-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-309"><a href="#cb64-309" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
-<span id="cb64-310"><a href="#cb64-310" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds <span class="sc">==</span> k)</span>
+<span id="cb64-251"><a href="#cb64-251" aria-hidden="true" tabindex="-1"></a>On peut visualiser l&#39;influence de chaque variable explicative sur les probabilités prédites.</span>
+<span id="cb64-252"><a href="#cb64-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-253"><a href="#cb64-253" aria-hidden="true" tabindex="-1"></a>Pour une variable **qualitative** comme <span class="in">`Sex`</span> :</span>
+<span id="cb64-254"><a href="#cb64-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-257"><a href="#cb64-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-258"><a href="#cb64-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-importance-sex</span></span>
+<span id="cb64-259"><a href="#cb64-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Probabilité prédite de survivre selon Sex&quot;</span></span>
+<span id="cb64-260"><a href="#cb64-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
+<span id="cb64-261"><a href="#cb64-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-262"><a href="#cb64-262" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(pred[, <span class="dv">2</span>] <span class="sc">~</span> predictive_vars_test<span class="sc">$</span>Sex, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;pink&quot;</span>, <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb64-263"><a href="#cb64-263" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Importance de Sex&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;P(Survivant)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Sex&quot;</span>)</span>
+<span id="cb64-264"><a href="#cb64-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-265"><a href="#cb64-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-266"><a href="#cb64-266" aria-hidden="true" tabindex="-1"></a>Pour une variable **quantitative** comme `logFare`, on utiliserait un **nuage de points** (scatter plot) :</span>
+<span id="cb64-267"><a href="#cb64-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-270"><a href="#cb64-270" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-271"><a href="#cb64-271" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-importance-fare</span></span>
+<span id="cb64-272"><a href="#cb64-272" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: &quot;Probabilité prédite de survivre selon log(Fare)&quot;</span></span>
+<span id="cb64-273"><a href="#cb64-273" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: &quot;60%&quot;</span></span>
+<span id="cb64-274"><a href="#cb64-274" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: center</span></span>
+<span id="cb64-275"><a href="#cb64-275" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predictive_vars_test<span class="sc">$</span>logFare, pred[, <span class="dv">2</span>],</span>
+<span id="cb64-276"><a href="#cb64-276" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="fl">0.5</span>),</span>
+<span id="cb64-277"><a href="#cb64-277" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;log(Fare + 1)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;P(Survivant)&quot;</span>,</span>
+<span id="cb64-278"><a href="#cb64-278" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Importance de logFare&quot;</span>)</span>
+<span id="cb64-279"><a href="#cb64-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-280"><a href="#cb64-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-281"><a href="#cb64-281" aria-hidden="true" tabindex="-1"></a><span class="fu"># Classifieur naïf bayésien avec 10-fold cross-validation</span></span>
+<span id="cb64-282"><a href="#cb64-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-283"><a href="#cb64-283" aria-hidden="true" tabindex="-1"></a><span class="fu">## Assignation des folds</span></span>
+<span id="cb64-284"><a href="#cb64-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-287"><a href="#cb64-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-288"><a href="#cb64-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-folds</span></span>
+<span id="cb64-289"><a href="#cb64-289" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb64-290"><a href="#cb64-290" aria-hidden="true" tabindex="-1"></a>nfolds <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb64-291"><a href="#cb64-291" aria-hidden="true" tabindex="-1"></a>folds  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-292"><a href="#cb64-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-293"><a href="#cb64-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-294"><a href="#cb64-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## Boucle de validation croisée</span></span>
+<span id="cb64-295"><a href="#cb64-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-298"><a href="#cb64-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-299"><a href="#cb64-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-loop</span></span>
+<span id="cb64-300"><a href="#cb64-300" aria-hidden="true" tabindex="-1"></a>accuracy_fold  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-301"><a href="#cb64-301" aria-hidden="true" tabindex="-1"></a>recall_fold    <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-302"><a href="#cb64-302" aria-hidden="true" tabindex="-1"></a>precision_fold <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-303"><a href="#cb64-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-304"><a href="#cb64-304" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
+<span id="cb64-305"><a href="#cb64-305" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds <span class="sc">==</span> k)</span>
+<span id="cb64-306"><a href="#cb64-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-307"><a href="#cb64-307" aria-hidden="true" tabindex="-1"></a>  predictive_vars_test  <span class="ot">&lt;-</span> predictive_vars[inFold, ]</span>
+<span id="cb64-308"><a href="#cb64-308" aria-hidden="true" tabindex="-1"></a>  target_test           <span class="ot">&lt;-</span> target[inFold]</span>
+<span id="cb64-309"><a href="#cb64-309" aria-hidden="true" tabindex="-1"></a>  predictive_vars_train <span class="ot">&lt;-</span> predictive_vars[<span class="sc">-</span>inFold, ]</span>
+<span id="cb64-310"><a href="#cb64-310" aria-hidden="true" tabindex="-1"></a>  target_train          <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
 <span id="cb64-311"><a href="#cb64-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-312"><a href="#cb64-312" aria-hidden="true" tabindex="-1"></a>  predictive_vars_test  <span class="ot">&lt;-</span> predictive_vars[inFold, ]</span>
-<span id="cb64-313"><a href="#cb64-313" aria-hidden="true" tabindex="-1"></a>  target_test           <span class="ot">&lt;-</span> target[inFold]</span>
-<span id="cb64-314"><a href="#cb64-314" aria-hidden="true" tabindex="-1"></a>  predictive_vars_train <span class="ot">&lt;-</span> predictive_vars[<span class="sc">-</span>inFold, ]</span>
-<span id="cb64-315"><a href="#cb64-315" aria-hidden="true" tabindex="-1"></a>  target_train          <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
+<span id="cb64-312"><a href="#cb64-312" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Median imputation (sans data leakage)</span></span>
+<span id="cb64-313"><a href="#cb64-313" aria-hidden="true" tabindex="-1"></a>  Proc <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(predictive_vars_train, <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
+<span id="cb64-314"><a href="#cb64-314" aria-hidden="true" tabindex="-1"></a>  predictive_vars_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_train)</span>
+<span id="cb64-315"><a href="#cb64-315" aria-hidden="true" tabindex="-1"></a>  predictive_vars_test  <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_test)</span>
 <span id="cb64-316"><a href="#cb64-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-317"><a href="#cb64-317" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Median imputation (sans data leakage)</span></span>
-<span id="cb64-318"><a href="#cb64-318" aria-hidden="true" tabindex="-1"></a>  Proc <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(predictive_vars_train, <span class="at">method =</span> <span class="st">&quot;medianImpute&quot;</span>)</span>
-<span id="cb64-319"><a href="#cb64-319" aria-hidden="true" tabindex="-1"></a>  predictive_vars_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_train)</span>
-<span id="cb64-320"><a href="#cb64-320" aria-hidden="true" tabindex="-1"></a>  predictive_vars_test  <span class="ot">&lt;-</span> <span class="fu">predict</span>(Proc, predictive_vars_test)</span>
-<span id="cb64-321"><a href="#cb64-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-322"><a href="#cb64-322" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Apprentissage et prédiction</span></span>
-<span id="cb64-323"><a href="#cb64-323" aria-hidden="true" tabindex="-1"></a>  classif     <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> predictive_vars_train, <span class="at">y =</span> target_train)</span>
-<span id="cb64-324"><a href="#cb64-324" aria-hidden="true" tabindex="-1"></a>  target_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb64-325"><a href="#cb64-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-326"><a href="#cb64-326" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calcul des métriques</span></span>
-<span id="cb64-327"><a href="#cb64-327" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(target_pred, target_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-317"><a href="#cb64-317" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Apprentissage et prédiction</span></span>
+<span id="cb64-318"><a href="#cb64-318" aria-hidden="true" tabindex="-1"></a>  classif     <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> predictive_vars_train, <span class="at">y =</span> target_train)</span>
+<span id="cb64-319"><a href="#cb64-319" aria-hidden="true" tabindex="-1"></a>  target_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif, predictive_vars_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb64-320"><a href="#cb64-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-321"><a href="#cb64-321" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calcul des métriques</span></span>
+<span id="cb64-322"><a href="#cb64-322" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(target_pred, target_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-323"><a href="#cb64-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-324"><a href="#cb64-324" aria-hidden="true" tabindex="-1"></a>  accuracy_fold[k]  <span class="ot">&lt;-</span> cm<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
+<span id="cb64-325"><a href="#cb64-325" aria-hidden="true" tabindex="-1"></a>  recall_fold[k]    <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
+<span id="cb64-326"><a href="#cb64-326" aria-hidden="true" tabindex="-1"></a>  precision_fold[k] <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
+<span id="cb64-327"><a href="#cb64-327" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb64-328"><a href="#cb64-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-329"><a href="#cb64-329" aria-hidden="true" tabindex="-1"></a>  accuracy_fold[k]  <span class="ot">&lt;-</span> cm<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
-<span id="cb64-330"><a href="#cb64-330" aria-hidden="true" tabindex="-1"></a>  recall_fold[k]    <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
-<span id="cb64-331"><a href="#cb64-331" aria-hidden="true" tabindex="-1"></a>  precision_fold[k] <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
-<span id="cb64-332"><a href="#cb64-332" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-329"><a href="#cb64-329" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(accuracy_fold)  <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
+<span id="cb64-330"><a href="#cb64-330" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(recall_fold)    <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
+<span id="cb64-331"><a href="#cb64-331" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(precision_fold) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
+<span id="cb64-332"><a href="#cb64-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-333"><a href="#cb64-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-334"><a href="#cb64-334" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(accuracy_fold)  <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
-<span id="cb64-335"><a href="#cb64-335" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(recall_fold)    <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
-<span id="cb64-336"><a href="#cb64-336" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(precision_fold) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;fold_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nfolds)</span>
-<span id="cb64-337"><a href="#cb64-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-338"><a href="#cb64-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-339"><a href="#cb64-339" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats par fold</span></span>
-<span id="cb64-340"><a href="#cb64-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-343"><a href="#cb64-343" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-344"><a href="#cb64-344" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-results-fold</span></span>
-<span id="cb64-345"><a href="#cb64-345" aria-hidden="true" tabindex="-1"></a>accuracy_fold</span>
-<span id="cb64-346"><a href="#cb64-346" aria-hidden="true" tabindex="-1"></a>recall_fold</span>
-<span id="cb64-347"><a href="#cb64-347" aria-hidden="true" tabindex="-1"></a>precision_fold</span>
-<span id="cb64-348"><a href="#cb64-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-349"><a href="#cb64-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-350"><a href="#cb64-350" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb64-351"><a href="#cb64-351" aria-hidden="true" tabindex="-1"></a><span class="fu">### Commentaire</span></span>
+<span id="cb64-334"><a href="#cb64-334" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats par fold</span></span>
+<span id="cb64-335"><a href="#cb64-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-338"><a href="#cb64-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-339"><a href="#cb64-339" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-results-fold</span></span>
+<span id="cb64-340"><a href="#cb64-340" aria-hidden="true" tabindex="-1"></a>accuracy_fold</span>
+<span id="cb64-341"><a href="#cb64-341" aria-hidden="true" tabindex="-1"></a>recall_fold</span>
+<span id="cb64-342"><a href="#cb64-342" aria-hidden="true" tabindex="-1"></a>precision_fold</span>
+<span id="cb64-343"><a href="#cb64-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-344"><a href="#cb64-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-345"><a href="#cb64-345" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb64-346"><a href="#cb64-346" aria-hidden="true" tabindex="-1"></a><span class="fu">### Commentaire</span></span>
+<span id="cb64-347"><a href="#cb64-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-348"><a href="#cb64-348" aria-hidden="true" tabindex="-1"></a>Les valeurs varient d&#39;un fold à l&#39;autre car chaque fold utilise un sous-ensemble différent pour le test. C&#39;est normal et c&#39;est précisément ce que la CV cherche à capturer : la variabilité des performances selon le découpage.</span>
+<span id="cb64-349"><a href="#cb64-349" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-350"><a href="#cb64-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-351"><a href="#cb64-351" aria-hidden="true" tabindex="-1"></a><span class="fu">## Moyennes cross-validées</span></span>
 <span id="cb64-352"><a href="#cb64-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-353"><a href="#cb64-353" aria-hidden="true" tabindex="-1"></a>Les valeurs varient d&#39;un fold à l&#39;autre car chaque fold utilise un sous-ensemble différent pour le test. C&#39;est normal et c&#39;est précisément ce que la CV cherche à capturer : la variabilité des performances selon le découpage.</span>
-<span id="cb64-354"><a href="#cb64-354" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-355"><a href="#cb64-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-356"><a href="#cb64-356" aria-hidden="true" tabindex="-1"></a><span class="fu">## Moyennes cross-validées</span></span>
-<span id="cb64-357"><a href="#cb64-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-360"><a href="#cb64-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-361"><a href="#cb64-361" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-means</span></span>
-<span id="cb64-362"><a href="#cb64-362" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(accuracy_fold), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-363"><a href="#cb64-363" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(recall_fold), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-364"><a href="#cb64-364" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(precision_fold, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-365"><a href="#cb64-365" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-366"><a href="#cb64-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-367"><a href="#cb64-367" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb64-368"><a href="#cb64-368" aria-hidden="true" tabindex="-1"></a><span class="fu">### Stabilité</span></span>
+<span id="cb64-355"><a href="#cb64-355" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-356"><a href="#cb64-356" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cv-means</span></span>
+<span id="cb64-357"><a href="#cb64-357" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(accuracy_fold), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-358"><a href="#cb64-358" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(recall_fold), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-359"><a href="#cb64-359" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(precision_fold, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-360"><a href="#cb64-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-361"><a href="#cb64-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-362"><a href="#cb64-362" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb64-363"><a href="#cb64-363" aria-hidden="true" tabindex="-1"></a><span class="fu">### Stabilité</span></span>
+<span id="cb64-364"><a href="#cb64-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-365"><a href="#cb64-365" aria-hidden="true" tabindex="-1"></a>En recompilant avec une autre seed, les résultats moyens sont **beaucoup plus stables** qu&#39;avec le Holdout simple. C&#39;est l&#39;avantage principal de la validation croisée : elle réduit la dépendance au découpage aléatoire.</span>
+<span id="cb64-366"><a href="#cb64-366" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb64-367"><a href="#cb64-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-368"><a href="#cb64-368" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pour aller plus loin</span></span>
 <span id="cb64-369"><a href="#cb64-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-370"><a href="#cb64-370" aria-hidden="true" tabindex="-1"></a>En recompilant avec une autre seed, les résultats moyens sont **beaucoup plus stables** qu&#39;avec le Holdout simple. C&#39;est l&#39;avantage principal de la validation croisée : elle réduit la dépendance au découpage aléatoire.</span>
-<span id="cb64-371"><a href="#cb64-371" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb64-372"><a href="#cb64-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-373"><a href="#cb64-373" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pour aller plus loin</span></span>
-<span id="cb64-374"><a href="#cb64-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-375"><a href="#cb64-375" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus : version catégorielle de Age</span></span>
-<span id="cb64-376"><a href="#cb64-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-377"><a href="#cb64-377" aria-hidden="true" tabindex="-1"></a>On crée 4 catégories : enfants (&lt; 13), adolescents (13-18), adultes (18-60), seniors (&gt; 60).</span>
-<span id="cb64-378"><a href="#cb64-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-379"><a href="#cb64-379" aria-hidden="true" tabindex="-1"></a><span class="fu">### Avec Holdout</span></span>
-<span id="cb64-380"><a href="#cb64-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-383"><a href="#cb64-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-384"><a href="#cb64-384" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: age-cat-holdout</span></span>
-<span id="cb64-385"><a href="#cb64-385" aria-hidden="true" tabindex="-1"></a>Age_cat <span class="ot">&lt;-</span> <span class="fu">cut</span>(quantitative_vars<span class="sc">$</span>Age,</span>
-<span id="cb64-386"><a href="#cb64-386" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">60</span>, <span class="cn">Inf</span>),</span>
-<span id="cb64-387"><a href="#cb64-387" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Enfant&quot;</span>, <span class="st">&quot;Adolescent&quot;</span>, <span class="st">&quot;Adulte&quot;</span>, <span class="st">&quot;Senior&quot;</span>))</span>
-<span id="cb64-388"><a href="#cb64-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-389"><a href="#cb64-389" aria-hidden="true" tabindex="-1"></a>predictive_vars_cat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb64-390"><a href="#cb64-390" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
-<span id="cb64-391"><a href="#cb64-391" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age_cat =</span> Age_cat,</span>
-<span id="cb64-392"><a href="#cb64-392" aria-hidden="true" tabindex="-1"></a>  <span class="at">logFare =</span> quantitative_vars<span class="sc">$</span>logFare</span>
-<span id="cb64-393"><a href="#cb64-393" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb64-394"><a href="#cb64-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-395"><a href="#cb64-395" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb64-396"><a href="#cb64-396" aria-hidden="true" tabindex="-1"></a>inTrain <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.8</span> <span class="sc">*</span> n))</span>
+<span id="cb64-370"><a href="#cb64-370" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus : version catégorielle de Age</span></span>
+<span id="cb64-371"><a href="#cb64-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-372"><a href="#cb64-372" aria-hidden="true" tabindex="-1"></a>On crée 4 catégories : enfants (&lt; 13), adolescents (13-18), adultes (18-60), seniors (&gt; 60).</span>
+<span id="cb64-373"><a href="#cb64-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-374"><a href="#cb64-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Avec Holdout</span></span>
+<span id="cb64-375"><a href="#cb64-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-378"><a href="#cb64-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-379"><a href="#cb64-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: age-cat-holdout</span></span>
+<span id="cb64-380"><a href="#cb64-380" aria-hidden="true" tabindex="-1"></a>Age_cat <span class="ot">&lt;-</span> <span class="fu">cut</span>(quantitative_vars<span class="sc">$</span>Age,</span>
+<span id="cb64-381"><a href="#cb64-381" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">60</span>, <span class="cn">Inf</span>),</span>
+<span id="cb64-382"><a href="#cb64-382" aria-hidden="true" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Enfant&quot;</span>, <span class="st">&quot;Adolescent&quot;</span>, <span class="st">&quot;Adulte&quot;</span>, <span class="st">&quot;Senior&quot;</span>))</span>
+<span id="cb64-383"><a href="#cb64-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-384"><a href="#cb64-384" aria-hidden="true" tabindex="-1"></a>predictive_vars_cat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb64-385"><a href="#cb64-385" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
+<span id="cb64-386"><a href="#cb64-386" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age_cat =</span> Age_cat,</span>
+<span id="cb64-387"><a href="#cb64-387" aria-hidden="true" tabindex="-1"></a>  <span class="at">logFare =</span> quantitative_vars<span class="sc">$</span>logFare</span>
+<span id="cb64-388"><a href="#cb64-388" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-389"><a href="#cb64-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-390"><a href="#cb64-390" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb64-391"><a href="#cb64-391" aria-hidden="true" tabindex="-1"></a>inTrain <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.8</span> <span class="sc">*</span> n))</span>
+<span id="cb64-392"><a href="#cb64-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-393"><a href="#cb64-393" aria-hidden="true" tabindex="-1"></a>train_cat <span class="ot">&lt;-</span> predictive_vars_cat[inTrain, ]</span>
+<span id="cb64-394"><a href="#cb64-394" aria-hidden="true" tabindex="-1"></a>test_cat  <span class="ot">&lt;-</span> predictive_vars_cat[<span class="sc">-</span>inTrain, ]</span>
+<span id="cb64-395"><a href="#cb64-395" aria-hidden="true" tabindex="-1"></a>y_train   <span class="ot">&lt;-</span> target[inTrain]</span>
+<span id="cb64-396"><a href="#cb64-396" aria-hidden="true" tabindex="-1"></a>y_test    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inTrain]</span>
 <span id="cb64-397"><a href="#cb64-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-398"><a href="#cb64-398" aria-hidden="true" tabindex="-1"></a>train_cat <span class="ot">&lt;-</span> predictive_vars_cat[inTrain, ]</span>
-<span id="cb64-399"><a href="#cb64-399" aria-hidden="true" tabindex="-1"></a>test_cat  <span class="ot">&lt;-</span> predictive_vars_cat[<span class="sc">-</span>inTrain, ]</span>
-<span id="cb64-400"><a href="#cb64-400" aria-hidden="true" tabindex="-1"></a>y_train   <span class="ot">&lt;-</span> target[inTrain]</span>
-<span id="cb64-401"><a href="#cb64-401" aria-hidden="true" tabindex="-1"></a>y_test    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inTrain]</span>
-<span id="cb64-402"><a href="#cb64-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-403"><a href="#cb64-403" aria-hidden="true" tabindex="-1"></a><span class="co"># Imputation mode pour Age_cat, médiane pour logFare</span></span>
-<span id="cb64-404"><a href="#cb64-404" aria-hidden="true" tabindex="-1"></a><span class="co"># (pas de NA dans logFare, donc on gère juste Age_cat)</span></span>
-<span id="cb64-405"><a href="#cb64-405" aria-hidden="true" tabindex="-1"></a><span class="co"># Si Age est NA, Age_cat sera NA =&gt; on impute par le mode</span></span>
-<span id="cb64-406"><a href="#cb64-406" aria-hidden="true" tabindex="-1"></a>mode_age_cat <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_cat<span class="sc">$</span>Age_cat)))</span>
-<span id="cb64-407"><a href="#cb64-407" aria-hidden="true" tabindex="-1"></a>train_cat<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_cat<span class="sc">$</span>Age_cat)] <span class="ot">&lt;-</span> mode_age_cat</span>
-<span id="cb64-408"><a href="#cb64-408" aria-hidden="true" tabindex="-1"></a>test_cat<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_cat<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_age_cat</span>
-<span id="cb64-409"><a href="#cb64-409" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-410"><a href="#cb64-410" aria-hidden="true" tabindex="-1"></a>classif_cat  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_cat, <span class="at">y =</span> y_train)</span>
-<span id="cb64-411"><a href="#cb64-411" aria-hidden="true" tabindex="-1"></a>pred_cat     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_cat, test_cat, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb64-412"><a href="#cb64-412" aria-hidden="true" tabindex="-1"></a>cm_cat       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_cat, y_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-398"><a href="#cb64-398" aria-hidden="true" tabindex="-1"></a><span class="co"># Imputation mode pour Age_cat, médiane pour logFare</span></span>
+<span id="cb64-399"><a href="#cb64-399" aria-hidden="true" tabindex="-1"></a><span class="co"># (pas de NA dans logFare, donc on gère juste Age_cat)</span></span>
+<span id="cb64-400"><a href="#cb64-400" aria-hidden="true" tabindex="-1"></a><span class="co"># Si Age est NA, Age_cat sera NA =&gt; on impute par le mode</span></span>
+<span id="cb64-401"><a href="#cb64-401" aria-hidden="true" tabindex="-1"></a>mode_age_cat <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_cat<span class="sc">$</span>Age_cat)))</span>
+<span id="cb64-402"><a href="#cb64-402" aria-hidden="true" tabindex="-1"></a>train_cat<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_cat<span class="sc">$</span>Age_cat)] <span class="ot">&lt;-</span> mode_age_cat</span>
+<span id="cb64-403"><a href="#cb64-403" aria-hidden="true" tabindex="-1"></a>test_cat<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_cat<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_age_cat</span>
+<span id="cb64-404"><a href="#cb64-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-405"><a href="#cb64-405" aria-hidden="true" tabindex="-1"></a>classif_cat  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_cat, <span class="at">y =</span> y_train)</span>
+<span id="cb64-406"><a href="#cb64-406" aria-hidden="true" tabindex="-1"></a>pred_cat     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_cat, test_cat, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb64-407"><a href="#cb64-407" aria-hidden="true" tabindex="-1"></a>cm_cat       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_cat, y_test, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-408"><a href="#cb64-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-409"><a href="#cb64-409" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy  :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-410"><a href="#cb64-410" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Recall    :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-411"><a href="#cb64-411" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Precision :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-412"><a href="#cb64-412" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-413"><a href="#cb64-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-414"><a href="#cb64-414" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy  :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-415"><a href="#cb64-415" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Recall    :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-416"><a href="#cb64-416" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Precision :&quot;</span>, <span class="fu">round</span>(cm_cat<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>], <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-417"><a href="#cb64-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-418"><a href="#cb64-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-419"><a href="#cb64-419" aria-hidden="true" tabindex="-1"></a><span class="fu">### Avec 10-fold CV</span></span>
-<span id="cb64-420"><a href="#cb64-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-423"><a href="#cb64-423" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-424"><a href="#cb64-424" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: age-cat-cv</span></span>
-<span id="cb64-425"><a href="#cb64-425" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb64-426"><a href="#cb64-426" aria-hidden="true" tabindex="-1"></a>folds_cat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-427"><a href="#cb64-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-428"><a href="#cb64-428" aria-hidden="true" tabindex="-1"></a>acc_cat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-429"><a href="#cb64-429" aria-hidden="true" tabindex="-1"></a>rec_cat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-430"><a href="#cb64-430" aria-hidden="true" tabindex="-1"></a>prec_cat <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-431"><a href="#cb64-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-432"><a href="#cb64-432" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
-<span id="cb64-433"><a href="#cb64-433" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds_cat <span class="sc">==</span> k)</span>
+<span id="cb64-414"><a href="#cb64-414" aria-hidden="true" tabindex="-1"></a><span class="fu">### Avec 10-fold CV</span></span>
+<span id="cb64-415"><a href="#cb64-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-418"><a href="#cb64-418" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-419"><a href="#cb64-419" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: age-cat-cv</span></span>
+<span id="cb64-420"><a href="#cb64-420" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb64-421"><a href="#cb64-421" aria-hidden="true" tabindex="-1"></a>folds_cat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-422"><a href="#cb64-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-423"><a href="#cb64-423" aria-hidden="true" tabindex="-1"></a>acc_cat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-424"><a href="#cb64-424" aria-hidden="true" tabindex="-1"></a>rec_cat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-425"><a href="#cb64-425" aria-hidden="true" tabindex="-1"></a>prec_cat <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-426"><a href="#cb64-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-427"><a href="#cb64-427" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
+<span id="cb64-428"><a href="#cb64-428" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds_cat <span class="sc">==</span> k)</span>
+<span id="cb64-429"><a href="#cb64-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-430"><a href="#cb64-430" aria-hidden="true" tabindex="-1"></a>  train_k <span class="ot">&lt;-</span> predictive_vars_cat[<span class="sc">-</span>inFold, ]</span>
+<span id="cb64-431"><a href="#cb64-431" aria-hidden="true" tabindex="-1"></a>  test_k  <span class="ot">&lt;-</span> predictive_vars_cat[inFold, ]</span>
+<span id="cb64-432"><a href="#cb64-432" aria-hidden="true" tabindex="-1"></a>  y_tr    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
+<span id="cb64-433"><a href="#cb64-433" aria-hidden="true" tabindex="-1"></a>  y_te    <span class="ot">&lt;-</span> target[inFold]</span>
 <span id="cb64-434"><a href="#cb64-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-435"><a href="#cb64-435" aria-hidden="true" tabindex="-1"></a>  train_k <span class="ot">&lt;-</span> predictive_vars_cat[<span class="sc">-</span>inFold, ]</span>
-<span id="cb64-436"><a href="#cb64-436" aria-hidden="true" tabindex="-1"></a>  test_k  <span class="ot">&lt;-</span> predictive_vars_cat[inFold, ]</span>
-<span id="cb64-437"><a href="#cb64-437" aria-hidden="true" tabindex="-1"></a>  y_tr    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
-<span id="cb64-438"><a href="#cb64-438" aria-hidden="true" tabindex="-1"></a>  y_te    <span class="ot">&lt;-</span> target[inFold]</span>
+<span id="cb64-435"><a href="#cb64-435" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Imputation mode pour Age_cat</span></span>
+<span id="cb64-436"><a href="#cb64-436" aria-hidden="true" tabindex="-1"></a>  mode_val <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Age_cat)))</span>
+<span id="cb64-437"><a href="#cb64-437" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Age_cat)] <span class="ot">&lt;-</span> mode_val</span>
+<span id="cb64-438"><a href="#cb64-438" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_val</span>
 <span id="cb64-439"><a href="#cb64-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-440"><a href="#cb64-440" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Imputation mode pour Age_cat</span></span>
-<span id="cb64-441"><a href="#cb64-441" aria-hidden="true" tabindex="-1"></a>  mode_val <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Age_cat)))</span>
-<span id="cb64-442"><a href="#cb64-442" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Age_cat)] <span class="ot">&lt;-</span> mode_val</span>
-<span id="cb64-443"><a href="#cb64-443" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_val</span>
-<span id="cb64-444"><a href="#cb64-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-445"><a href="#cb64-445" aria-hidden="true" tabindex="-1"></a>  classif_k  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_k, <span class="at">y =</span> y_tr)</span>
-<span id="cb64-446"><a href="#cb64-446" aria-hidden="true" tabindex="-1"></a>  pred_k     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_k, test_k, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb64-447"><a href="#cb64-447" aria-hidden="true" tabindex="-1"></a>  cm_k       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_k, y_te, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-440"><a href="#cb64-440" aria-hidden="true" tabindex="-1"></a>  classif_k  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_k, <span class="at">y =</span> y_tr)</span>
+<span id="cb64-441"><a href="#cb64-441" aria-hidden="true" tabindex="-1"></a>  pred_k     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_k, test_k, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb64-442"><a href="#cb64-442" aria-hidden="true" tabindex="-1"></a>  cm_k       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_k, y_te, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-443"><a href="#cb64-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-444"><a href="#cb64-444" aria-hidden="true" tabindex="-1"></a>  acc_cat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
+<span id="cb64-445"><a href="#cb64-445" aria-hidden="true" tabindex="-1"></a>  rec_cat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
+<span id="cb64-446"><a href="#cb64-446" aria-hidden="true" tabindex="-1"></a>  prec_cat[k] <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
+<span id="cb64-447"><a href="#cb64-447" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb64-448"><a href="#cb64-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-449"><a href="#cb64-449" aria-hidden="true" tabindex="-1"></a>  acc_cat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
-<span id="cb64-450"><a href="#cb64-450" aria-hidden="true" tabindex="-1"></a>  rec_cat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
-<span id="cb64-451"><a href="#cb64-451" aria-hidden="true" tabindex="-1"></a>  prec_cat[k] <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
-<span id="cb64-452"><a href="#cb64-452" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-449"><a href="#cb64-449" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(acc_cat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-450"><a href="#cb64-450" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rec_cat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-451"><a href="#cb64-451" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(prec_cat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-452"><a href="#cb64-452" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb64-453"><a href="#cb64-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-454"><a href="#cb64-454" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(acc_cat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-455"><a href="#cb64-455" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rec_cat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-456"><a href="#cb64-456" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(prec_cat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-457"><a href="#cb64-457" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb64-458"><a href="#cb64-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-459"><a href="#cb64-459" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus : version catégorielle de Fare</span></span>
-<span id="cb64-460"><a href="#cb64-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-463"><a href="#cb64-463" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb64-464"><a href="#cb64-464" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fare-cat</span></span>
-<span id="cb64-465"><a href="#cb64-465" aria-hidden="true" tabindex="-1"></a>Fare_cat <span class="ot">&lt;-</span> <span class="fu">cut</span>(quantitative_vars<span class="sc">$</span>Fare,</span>
-<span id="cb64-466"><a href="#cb64-466" aria-hidden="true" tabindex="-1"></a>                <span class="at">breaks =</span> <span class="fu">quantile</span>(quantitative_vars<span class="sc">$</span>Fare, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb64-467"><a href="#cb64-467" aria-hidden="true" tabindex="-1"></a>                <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bas&quot;</span>, <span class="st">&quot;Moyen-Bas&quot;</span>, <span class="st">&quot;Moyen-Haut&quot;</span>, <span class="st">&quot;Haut&quot;</span>),</span>
-<span id="cb64-468"><a href="#cb64-468" aria-hidden="true" tabindex="-1"></a>                <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-469"><a href="#cb64-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-470"><a href="#cb64-470" aria-hidden="true" tabindex="-1"></a>predictive_vars_allcat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb64-471"><a href="#cb64-471" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
-<span id="cb64-472"><a href="#cb64-472" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age_cat  =</span> Age_cat,</span>
-<span id="cb64-473"><a href="#cb64-473" aria-hidden="true" tabindex="-1"></a>  <span class="at">Fare_cat =</span> Fare_cat</span>
-<span id="cb64-474"><a href="#cb64-474" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb64-475"><a href="#cb64-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-476"><a href="#cb64-476" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb64-477"><a href="#cb64-477" aria-hidden="true" tabindex="-1"></a>folds_allcat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb64-478"><a href="#cb64-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-479"><a href="#cb64-479" aria-hidden="true" tabindex="-1"></a>acc_allcat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-480"><a href="#cb64-480" aria-hidden="true" tabindex="-1"></a>rec_allcat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-481"><a href="#cb64-481" aria-hidden="true" tabindex="-1"></a>prec_allcat <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
-<span id="cb64-482"><a href="#cb64-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-483"><a href="#cb64-483" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
-<span id="cb64-484"><a href="#cb64-484" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds_allcat <span class="sc">==</span> k)</span>
+<span id="cb64-454"><a href="#cb64-454" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonus : version catégorielle de Fare</span></span>
+<span id="cb64-455"><a href="#cb64-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-458"><a href="#cb64-458" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-459"><a href="#cb64-459" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fare-cat</span></span>
+<span id="cb64-460"><a href="#cb64-460" aria-hidden="true" tabindex="-1"></a>Fare_cat <span class="ot">&lt;-</span> <span class="fu">cut</span>(quantitative_vars<span class="sc">$</span>Fare,</span>
+<span id="cb64-461"><a href="#cb64-461" aria-hidden="true" tabindex="-1"></a>                <span class="at">breaks =</span> <span class="fu">quantile</span>(quantitative_vars<span class="sc">$</span>Fare, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb64-462"><a href="#cb64-462" aria-hidden="true" tabindex="-1"></a>                <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Bas&quot;</span>, <span class="st">&quot;Moyen-Bas&quot;</span>, <span class="st">&quot;Moyen-Haut&quot;</span>, <span class="st">&quot;Haut&quot;</span>),</span>
+<span id="cb64-463"><a href="#cb64-463" aria-hidden="true" tabindex="-1"></a>                <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-464"><a href="#cb64-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-465"><a href="#cb64-465" aria-hidden="true" tabindex="-1"></a>predictive_vars_allcat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb64-466"><a href="#cb64-466" aria-hidden="true" tabindex="-1"></a>  qualitative_vars[, <span class="fu">c</span>(<span class="st">&quot;Pclass&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;withFam&quot;</span>)],</span>
+<span id="cb64-467"><a href="#cb64-467" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age_cat  =</span> Age_cat,</span>
+<span id="cb64-468"><a href="#cb64-468" aria-hidden="true" tabindex="-1"></a>  <span class="at">Fare_cat =</span> Fare_cat</span>
+<span id="cb64-469"><a href="#cb64-469" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-470"><a href="#cb64-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-471"><a href="#cb64-471" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb64-472"><a href="#cb64-472" aria-hidden="true" tabindex="-1"></a>folds_allcat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>nfolds, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-473"><a href="#cb64-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-474"><a href="#cb64-474" aria-hidden="true" tabindex="-1"></a>acc_allcat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-475"><a href="#cb64-475" aria-hidden="true" tabindex="-1"></a>rec_allcat  <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-476"><a href="#cb64-476" aria-hidden="true" tabindex="-1"></a>prec_allcat <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nfolds)</span>
+<span id="cb64-477"><a href="#cb64-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-478"><a href="#cb64-478" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nfolds) {</span>
+<span id="cb64-479"><a href="#cb64-479" aria-hidden="true" tabindex="-1"></a>  inFold <span class="ot">&lt;-</span> <span class="fu">which</span>(folds_allcat <span class="sc">==</span> k)</span>
+<span id="cb64-480"><a href="#cb64-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-481"><a href="#cb64-481" aria-hidden="true" tabindex="-1"></a>  train_k <span class="ot">&lt;-</span> predictive_vars_allcat[<span class="sc">-</span>inFold, ]</span>
+<span id="cb64-482"><a href="#cb64-482" aria-hidden="true" tabindex="-1"></a>  test_k  <span class="ot">&lt;-</span> predictive_vars_allcat[inFold, ]</span>
+<span id="cb64-483"><a href="#cb64-483" aria-hidden="true" tabindex="-1"></a>  y_tr    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
+<span id="cb64-484"><a href="#cb64-484" aria-hidden="true" tabindex="-1"></a>  y_te    <span class="ot">&lt;-</span> target[inFold]</span>
 <span id="cb64-485"><a href="#cb64-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-486"><a href="#cb64-486" aria-hidden="true" tabindex="-1"></a>  train_k <span class="ot">&lt;-</span> predictive_vars_allcat[<span class="sc">-</span>inFold, ]</span>
-<span id="cb64-487"><a href="#cb64-487" aria-hidden="true" tabindex="-1"></a>  test_k  <span class="ot">&lt;-</span> predictive_vars_allcat[inFold, ]</span>
-<span id="cb64-488"><a href="#cb64-488" aria-hidden="true" tabindex="-1"></a>  y_tr    <span class="ot">&lt;-</span> target[<span class="sc">-</span>inFold]</span>
-<span id="cb64-489"><a href="#cb64-489" aria-hidden="true" tabindex="-1"></a>  y_te    <span class="ot">&lt;-</span> target[inFold]</span>
-<span id="cb64-490"><a href="#cb64-490" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-491"><a href="#cb64-491" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Imputation mode</span></span>
-<span id="cb64-492"><a href="#cb64-492" aria-hidden="true" tabindex="-1"></a>  mode_age  <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Age_cat)))</span>
-<span id="cb64-493"><a href="#cb64-493" aria-hidden="true" tabindex="-1"></a>  mode_fare <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Fare_cat)))</span>
-<span id="cb64-494"><a href="#cb64-494" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_age</span>
-<span id="cb64-495"><a href="#cb64-495" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Age_cat)]     <span class="ot">&lt;-</span> mode_age</span>
-<span id="cb64-496"><a href="#cb64-496" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Fare_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Fare_cat)] <span class="ot">&lt;-</span> mode_fare</span>
-<span id="cb64-497"><a href="#cb64-497" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Fare_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Fare_cat)]   <span class="ot">&lt;-</span> mode_fare</span>
-<span id="cb64-498"><a href="#cb64-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-499"><a href="#cb64-499" aria-hidden="true" tabindex="-1"></a>  classif_k  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_k, <span class="at">y =</span> y_tr)</span>
-<span id="cb64-500"><a href="#cb64-500" aria-hidden="true" tabindex="-1"></a>  pred_k     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_k, test_k, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb64-501"><a href="#cb64-501" aria-hidden="true" tabindex="-1"></a>  cm_k       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_k, y_te, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-486"><a href="#cb64-486" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Imputation mode</span></span>
+<span id="cb64-487"><a href="#cb64-487" aria-hidden="true" tabindex="-1"></a>  mode_age  <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Age_cat)))</span>
+<span id="cb64-488"><a href="#cb64-488" aria-hidden="true" tabindex="-1"></a>  mode_fare <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which.max</span>(<span class="fu">table</span>(train_k<span class="sc">$</span>Fare_cat)))</span>
+<span id="cb64-489"><a href="#cb64-489" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Age_cat)]   <span class="ot">&lt;-</span> mode_age</span>
+<span id="cb64-490"><a href="#cb64-490" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Age_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Age_cat)]     <span class="ot">&lt;-</span> mode_age</span>
+<span id="cb64-491"><a href="#cb64-491" aria-hidden="true" tabindex="-1"></a>  train_k<span class="sc">$</span>Fare_cat[<span class="fu">is.na</span>(train_k<span class="sc">$</span>Fare_cat)] <span class="ot">&lt;-</span> mode_fare</span>
+<span id="cb64-492"><a href="#cb64-492" aria-hidden="true" tabindex="-1"></a>  test_k<span class="sc">$</span>Fare_cat[<span class="fu">is.na</span>(test_k<span class="sc">$</span>Fare_cat)]   <span class="ot">&lt;-</span> mode_fare</span>
+<span id="cb64-493"><a href="#cb64-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-494"><a href="#cb64-494" aria-hidden="true" tabindex="-1"></a>  classif_k  <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="at">x =</span> train_k, <span class="at">y =</span> y_tr)</span>
+<span id="cb64-495"><a href="#cb64-495" aria-hidden="true" tabindex="-1"></a>  pred_k     <span class="ot">&lt;-</span> <span class="fu">predict</span>(classif_k, test_k, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb64-496"><a href="#cb64-496" aria-hidden="true" tabindex="-1"></a>  cm_k       <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_k, y_te, <span class="at">positive =</span> <span class="st">&quot;Survivant&quot;</span>)</span>
+<span id="cb64-497"><a href="#cb64-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-498"><a href="#cb64-498" aria-hidden="true" tabindex="-1"></a>  acc_allcat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
+<span id="cb64-499"><a href="#cb64-499" aria-hidden="true" tabindex="-1"></a>  rec_allcat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
+<span id="cb64-500"><a href="#cb64-500" aria-hidden="true" tabindex="-1"></a>  prec_allcat[k] <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
+<span id="cb64-501"><a href="#cb64-501" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb64-502"><a href="#cb64-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-503"><a href="#cb64-503" aria-hidden="true" tabindex="-1"></a>  acc_allcat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
-<span id="cb64-504"><a href="#cb64-504" aria-hidden="true" tabindex="-1"></a>  rec_allcat[k]  <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Sensitivity&quot;</span>]</span>
-<span id="cb64-505"><a href="#cb64-505" aria-hidden="true" tabindex="-1"></a>  prec_allcat[k] <span class="ot">&lt;-</span> cm_k<span class="sc">$</span>byClass[<span class="st">&quot;Pos Pred Value&quot;</span>]</span>
-<span id="cb64-506"><a href="#cb64-506" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb64-507"><a href="#cb64-507" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-508"><a href="#cb64-508" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(acc_allcat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-509"><a href="#cb64-509" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rec_allcat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-510"><a href="#cb64-510" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(prec_allcat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb64-511"><a href="#cb64-511" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb64-503"><a href="#cb64-503" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Accuracy  :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(acc_allcat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-504"><a href="#cb64-504" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Recall    :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rec_allcat), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-505"><a href="#cb64-505" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV Mean Precision :&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(prec_allcat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb64-506"><a href="#cb64-506" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

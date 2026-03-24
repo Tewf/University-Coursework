@@ -18,6 +18,16 @@ format:
     embed-resources: true
     highlight-style: github
     date-format: "D MMMM YYYY"
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    include-in-header:
+      - text: |
+          \usepackage{fancyhdr}
+          \pagestyle{fancy}
+          \fancyhead[RO]{Lola Etiévant}
+          \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
 
 execute:
   warning: false

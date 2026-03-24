@@ -8,118 +8,170 @@ title: "Partie 2 : Préparation des Données"
 source(here::here("R", "utils.R"))
 ```
 
-# Chargement des données explorées
+## Chargement des données
 
 ```{r}
 #| label: load
+#| output: false
 data_rated <- readRDS(here::here("output", "data_rated.rds"))
-cat("Données chargées :", nrow(data_rated), "lignes,", ncol(data_rated), "colonnes\n")
+cat("Données :", nrow(data_rated), "lignes,", ncol(data_rated), "colonnes\n")
 ```
 
-# Feature Engineering
+## Feature Engineering par familles olfactives
 
-Nous transformons les variables textuelles (accords, notes) en indicatrices binaires pour les accords/notes les plus fréquents. La fonction `extract_top_features()` définie dans `R/utils.R` est utilisée pour cette tâche.
+Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire), nous regroupons accords et notes par **famille olfactive** selon une roue des parfums. Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nos 10 familles : Citrus, Green, Aquatic, Floral, Fruity, Spicy, Woody, Gourmand, Leather/Smoky, Powdery/Amber.
+
+### Accords → familles
+
+Chaque accord (`mainaccord1` à `mainaccord5`) est mappé vers sa famille. Les accords non reconnus → "autre".
 
 ```{r}
-#| label: feature-engineering
-# Extraire les top accords
-result_accords <- extract_top_features(data_rated, "Main_Accords", top_n = 10, prefix = "accord_")
-data_rated <- result_accords$data
-cat("Top accords :", paste(result_accords$items, collapse = ", "), "\n")
+#| label: tbl-accords-families
+#| tbl-cap: "Distribution des familles olfactives (accords)"
+accord_cols <- c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
+data_rated <- map_accords_to_families(data_rated, accord_cols)
 
-# Extraire les top notes de tête
-result_top <- extract_top_features(data_rated, "Top_Notes", top_n = 8, prefix = "topnote_")
-data_rated <- result_top$data
-cat("Top notes de tête :", paste(result_top$items, collapse = ", "), "\n")
-
-# Extraire les top notes de cœur
-result_mid <- extract_top_features(data_rated, "Middle_Notes", top_n = 8, prefix = "midnote_")
-data_rated <- result_mid$data
-
-# Extraire les top notes de fond
-result_base <- extract_top_features(data_rated, "Base_Notes", top_n = 8, prefix = "basenote_")
-data_rated <- result_base$data
+fam_cols <- grep("^fam_", names(data_rated), value = TRUE)
+fam_sums <- colSums(data_rated[fam_cols])
+fam_df <- data.frame(
+  Famille = gsub("^fam_", "", names(fam_sums)),
+  Effectif = fam_sums,
+  Pct = round(fam_sums / nrow(data_rated) * 100, 1)
+)
+fam_df <- fam_df[order(-fam_df$Effectif), ]
+rownames(fam_df) <- NULL
+kable(fam_df, col.names = c("Famille", "Parfums", "%"), booktabs = TRUE)
 ```
 
-# Construction du jeu de données final
+Les familles **woody**, **gourmand** et **floral** couvrent la majorité des parfums, cohérent avec les tendances du marché.
+
+### Notes → familles
+
+Chaque note individuelle (tête, cœur, fond) est classée par correspondance de mots-clés → 30 indicatrices (10 familles x 3 phases).
+
+```{r}
+#| label: map-notes
+#| output: false
+data_rated <- map_notes_to_families(data_rated, "Top", prefix = "top_")
+data_rated <- map_notes_to_families(data_rated, "Middle", prefix = "mid_")
+data_rated <- map_notes_to_families(data_rated, "Base", prefix = "base_")
+cat("Indicatrices créées : Tête", length(grep("^top_", names(data_rated))),
+    "| Coeur", length(grep("^mid_", names(data_rated))),
+    "| Fond", length(grep("^base_", names(data_rated))), "\n")
+```
+
+## Variables catégorielles
+
+### Gender
+
+```{r}
+#| label: encode-gender
+data_rated <- data_rated %>%
+  mutate(
+    gender_women = as.integer(Gender == "women"),
+    gender_men = as.integer(Gender == "men"),
+    gender_unisex = as.integer(Gender == "unisex")
+  )
+```
+
+### Country (regroupement < 5%)
+
+Les pays rares sont regroupés en "Autre" pour éviter des indicatrices trop creuses.
+
+```{r}
+#| label: tbl-country-merge
+#| tbl-cap: "Pays après regroupement (seuil 5%)"
+data_rated <- merge_rare_categories(data_rated, "Country", threshold_pct = 5)
+
+country_freq <- data_rated %>%
+  filter(!is.na(Country)) %>%
+  count(Country, sort = TRUE) %>%
+  mutate(Pct = round(n / sum(n) * 100, 1))
+kable(country_freq, col.names = c("Pays", "Effectif", "%"), booktabs = TRUE)
+
+countries_kept <- country_freq$Country
+for (country in countries_kept) {
+  col_name <- paste0("country_", make.names(country))
+  data_rated[[col_name]] <- as.integer(data_rated$Country == country & !is.na(data_rated$Country))
+}
+```
+
+## Jeu de données final
 
 ```{r}
 #| label: dataset-final
-# Nombre de notes pour chaque parfum (mesure de complexité)
-data_rated <- data_rated %>%
-  mutate(
-    nb_top_notes = str_count(Top_Notes, ",") + ifelse(!is.na(Top_Notes), 1, 0),
-    nb_mid_notes = str_count(Middle_Notes, ",") + ifelse(!is.na(Middle_Notes), 1, 0),
-    nb_base_notes = str_count(Base_Notes, ",") + ifelse(!is.na(Base_Notes), 1, 0),
-    nb_accords = str_count(Main_Accords, ",") + ifelse(!is.na(Main_Accords), 1, 0)
-  )
-
-# Encoder Concentration
-data_rated <- data_rated %>%
-  mutate(Concentration = ifelse(is.na(Concentration), "Unknown", Concentration))
-
-# Garder les concentrations fréquentes, regrouper les autres
-top_concentrations <- data_rated %>%
-  count(Concentration, sort = TRUE) %>%
-  head(8) %>%
-  pull(Concentration)
-
-data_rated <- data_rated %>%
-  mutate(Concentration = ifelse(Concentration %in% top_concentrations,
-                                 Concentration, "Autre"))
-data_rated$Concentration <- factor(data_rated$Concentration)
-
-# Sélectionner les variables pour la modélisation
+#| output: false
 feature_cols <- c(
-  "Release_Year", "Rating_Count", "Concentration",
-  "nb_top_notes", "nb_mid_notes", "nb_base_notes", "nb_accords",
-  grep("^accord_|^topnote_|^midnote_|^basenote_", names(data_rated), value = TRUE)
+  "Year", "Rating_Count",
+  "gender_women", "gender_men", "gender_unisex",
+  grep("^country_", names(data_rated), value = TRUE),
+  grep("^fam_", names(data_rated), value = TRUE),
+  grep("^top_", names(data_rated), value = TRUE),
+  grep("^mid_", names(data_rated), value = TRUE),
+  grep("^base_", names(data_rated), value = TRUE)
 )
 
 df_model <- data_rated %>%
   select(all_of(c(feature_cols, "Satisfaction")))
-
-cat("Variables du modèle :", ncol(df_model) - 1, "\n")
-cat("Observations :", nrow(df_model), "\n")
 ```
 
-# Traitement des valeurs manquantes
+```{r}
+#| label: tbl-variables-final
+#| tbl-cap: "Variables retenues pour la modélisation"
+var_df <- data.frame(
+  Variable = feature_cols,
+  Type = case_when(
+    feature_cols %in% c("Year", "Rating_Count") ~ "Numérique",
+    grepl("^gender_", feature_cols) ~ "Genre (binaire)",
+    grepl("^country_", feature_cols) ~ "Pays (binaire)",
+    grepl("^fam_", feature_cols) ~ "Famille accord (binaire)",
+    grepl("^top_", feature_cols) ~ "Famille note tête (binaire)",
+    grepl("^mid_", feature_cols) ~ "Famille note cœur (binaire)",
+    grepl("^base_", feature_cols) ~ "Famille note fond (binaire)",
+    TRUE ~ "Autre"
+  )
+)
+cat(nrow(var_df), "variables explicatives |", nrow(df_model), "observations\n\n")
+kable(var_df, col.names = c("Variable", "Catégorie"), booktabs = TRUE)
+```
 
-:::{.callout-important}
-## Choix de conception
-L'imputation par la **médiane** est privilégiée par rapport à la moyenne car elle est robuste aux valeurs extrêmes présentes notamment dans `Rating_Count`.
-:::
+## Imputation et split
+
+L'imputation par la **médiane** est robuste aux valeurs extrêmes (`Rating_Count`).
 
 ```{r}
-#| label: imputation
+#| label: tbl-split
+#| tbl-cap: "Répartition train / test"
 preprocess_median <- preProcess(df_model[, feature_cols], method = "medianImpute")
 df_model[, feature_cols] <- predict(preprocess_median, df_model[, feature_cols])
 
-cat("Valeurs manquantes restantes :", sum(is.na(df_model)), "\n")
-```
-
-# Séparation train / test
-
-Nous utilisons une répartition **70% / 30%** avec stratification sur la variable cible.
-
-```{r}
-#| label: split
 set.seed(42)
 train_index <- createDataPartition(df_model$Satisfaction, p = 0.7, list = FALSE)
 train_data <- df_model[train_index, ]
 test_data <- df_model[-train_index, ]
 
-cat("Train :", nrow(train_data), "observations\n")
-cat("Test :", nrow(test_data), "observations\n")
-cat("Proportion Oui (train) :", round(mean(train_data$Satisfaction == "Oui"), 3), "\n")
-cat("Proportion Oui (test) :", round(mean(test_data$Satisfaction == "Oui"), 3), "\n")
+kable(data.frame(
+  Ensemble = c("Train", "Test"),
+  Observations = c(nrow(train_data), nrow(test_data)),
+  Pct_Oui = c(round(mean(train_data$Satisfaction == "Oui"), 3),
+               round(mean(test_data$Satisfaction == "Oui"), 3))
+), col.names = c("Ensemble", "Observations", "Prop. Oui"), booktabs = TRUE)
 ```
 
-# Sauvegarde
+## Choix des classifieurs
+
+Données binaires/numériques, cible équilibrée, pas de valeurs manquantes → deux classifieurs complémentaires :
+
+1. **Régression logistique (Elastic Net)** : baseline interprétable, sélection automatique de variables par régularisation.
+2. **Forêt aléatoire** : capture les interactions non-linéaires entre familles olfactives, classement d'importance des variables.
+
+Métrique principale : **AUC** (capacité discriminante indépendante du seuil).
+
+## Sauvegarde
 
 ```{r}
 #| label: save
+#| include: false
 saveRDS(train_data, here::here("output", "train_data.rds"))
 saveRDS(test_data, here::here("output", "test_data.rds"))
-cat("Données sauvegardées dans output/\n")
 ```

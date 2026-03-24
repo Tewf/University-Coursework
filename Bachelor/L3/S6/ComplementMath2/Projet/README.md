@@ -8,62 +8,67 @@
 
 ## Description
 
-Ce projet vise à **prédire la satisfaction des utilisateurs** vis-à-vis des parfums à partir de leurs caractéristiques (concentration, accords olfactifs, notes de tête/cœur/fond, année de sortie). Nous utilisons un jeu de données de ~60 000 parfums issu de [Parfumo via TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-12-10/readme.md).
+Prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives. Le dataset provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) (~24 000 parfums).
 
-La satisfaction est définie comme une variable binaire (Oui/Non) basée sur la médiane de `Rating_Value`.
+La satisfaction est une variable binaire (Oui/Non) basée sur la médiane de `Rating_Value`.
 
-## Structure du projet
+## Structure
 
 ```
 .
-├── _quarto.yml          # Configuration Quarto partagée
-├── README.md
-├── .gitignore
-├── references.bib       # Bibliographie BibTeX
-├── data/                # Données brutes
-│   ├── README.md
-│   └── parfumo_data_clean.csv
-├── R/                   # Fonctions utilitaires partagées
-│   └── utils.R
-├── notebooks/           # Analyses Quarto (à exécuter dans l'ordre)
+├── _quarto.yml              # Config Quarto (type: book → PDF unique)
+├── index.qmd                # Introduction du rapport
+├── notebooks/               # Analyses (exécuter dans l'ordre)
 │   ├── 01_exploration.qmd
 │   ├── 02_preparation.qmd
 │   ├── 03_regression_logistique.qmd
 │   ├── 04_foret_aleatoire.qmd
 │   └── 05_comparaison.qmd
-├── output/              # Fichiers intermédiaires (.rds)
-├── rapport/             # PDFs générés
-└── consignes/           # Consignes du projet
+├── R/utils.R                # Fonctions partagées (familles olfactives, CV)
+├── data/
+│   ├── fra_cleaned.csv      # Dataset (gitignored, voir lien Kaggle)
+│   └── README.md            # Dictionnaire des variables
+├── output/                  # Cache .rds (gitignored)
+├── rapport/                 # HTML + PDF rendus (gitignored)
+├── post-render.sh           # Tri auto HTML/PDF après render
+├── references.bib
+├── custom.css
+└── consignes/               # Consignes du projet
 ```
 
-## Pipeline d'analyse
+## Pipeline
 
-| Étape | Fichier | Description |
-|-------|---------|-------------|
-| 1 | `01_exploration.qmd` | Analyse exploratoire, valeurs manquantes, création de la variable cible |
-| 2 | `02_preparation.qmd` | Feature engineering, imputation, séparation train/test (70/30) |
-| 3 | `03_regression_logistique.qmd` | Régression logistique Elastic Net, validation croisée 5-fold |
-| 4 | `04_foret_aleatoire.qmd` | Forêt aléatoire (500 arbres), importance des variables |
-| 5 | `05_comparaison.qmd` | Comparaison des modèles, courbes ROC, conclusion |
+> **Consulter le rapport en ligne :** [page d'accueil](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
-## Prérequis
-
-- **R** >= 4.0
-- **Quarto** >= 1.4
-- Packages R : `tidyverse`, `caret`, `glmnet`, `randomForest`, `pROC`, `corrplot`, `knitr`, `here`
+| Étape | Fichier | Description | HTML |
+|-------|---------|-------------|------|
+| 1 | `01_exploration.qmd` | Analyse exploratoire, valeurs manquantes, variable cible | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | `02_preparation.qmd` | Feature engineering par familles olfactives, imputation, split 70/30 | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | `03_regression_logistique.qmd` | Elastic Net, validation croisée 5-fold, AUC | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 arbres), importance des variables | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
+| 5 | `05_comparaison.qmd` | Comparaison, courbes ROC, regard critique, conclusion | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ## Exécution
 
-Les notebooks doivent être exécutés **dans l'ordre** car chacun sauvegarde des fichiers `.rds` intermédiaires utilisés par le suivant.
+Les notebooks s'exécutent **dans l'ordre** (chacun sauvegarde des `.rds` pour le suivant). Les modèles sont cachés : s'ils existent dans `output/`, ils ne sont pas re-entraînés.
 
 ```bash
-# Depuis la racine du projet
+# Render tout le projet (un seul PDF + site HTML)
+quarto render
+
+# Ou notebook par notebook
 quarto render notebooks/01_exploration.qmd
 quarto render notebooks/02_preparation.qmd
 quarto render notebooks/03_regression_logistique.qmd
 quarto render notebooks/04_foret_aleatoire.qmd
 quarto render notebooks/05_comparaison.qmd
 ```
+
+## Prérequis
+
+- **R** >= 4.0
+- **Quarto** >= 1.4
+- Packages R : `tidyverse`, `caret`, `glmnet`, `ranger`, `pROC`, `corrplot`, `knitr`, `here`, `stringi`
 
 ## Auteurs
 

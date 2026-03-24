@@ -1,15 +1,29 @@
 project:
-  type: default
+  type: book
   output-dir: rapport
+  post-render:
+    - ./post-render.sh
 
-title: "Prédiction de la Satisfaction Client pour les Parfums"
-subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
-author:
-  - "HAMLIL Mohamed"
-  - "PARDO TERAN German"
-  - "EL KORAICHI Mohamed Yassine"
-  - "ANZID Keltoum"
-date: today
+book:
+  title: "Prédiction de la Satisfaction Client pour les Parfums"
+  subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
+  author:
+    - "HAMLIL Mohamed"
+    - "PARDO TERAN German"
+    - "EL KORAICHI Mohamed Yassine"
+    - "ANZID Keltoum"
+  date: today
+  date-format: "D MMMM YYYY"
+  chapters:
+    - index.qmd
+    - notebooks/01_exploration.qmd
+    - notebooks/02_preparation.qmd
+    - notebooks/03_regression_logistique.qmd
+    - notebooks/04_foret_aleatoire.qmd
+    - notebooks/05_comparaison.qmd
+  repo-url: https://github.com/mohamedhamlil/University-Coursework
+  repo-subdir: Bachelor/L3/S6/ComplementMath2/Projet
+
 lang: fr
 
 format:
@@ -18,22 +32,20 @@ format:
       light: cosmo
       dark: darkly
     css: custom.css
-    include-after-body: pdf-link.html
-    format-links: false
     toc: true
     toc-depth: 3
     code-fold: show
     code-tools: true
-    embed-resources: true
     highlight-style: github
-    date-format: "D MMMM YYYY"
   pdf:
     toc: true
-    toc-depth: 3
+    toc-depth: 2
     number-sections: true
     colorlinks: true
     fig-cap-location: bottom
-    date-format: "D MMMM YYYY"
+    echo: false
+    documentclass: scrreprt
+    classoption: [open=any, DIV=12]
     include-in-header:
       - text: |
           \usepackage{fancyhdr}
@@ -44,12 +56,17 @@ format:
           \usepackage{booktabs}
           \floatplacement{figure}{H}
           \usepackage[most]{tcolorbox}
+          \usepackage{etoolbox}
+          \makeatletter
+          \patchcmd{\scr@startchapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\clearpage}{}{}
+          \makeatother
 
 execute:
+  cache: true
   warning: false
   message: false
   fig-align: center
-  fig-width: 7
-  fig-height: 5
+  fig-width: 5
+  fig-height: 3
 
 bibliography: references.bib

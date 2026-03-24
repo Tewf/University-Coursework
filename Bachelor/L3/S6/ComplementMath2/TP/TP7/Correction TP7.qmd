@@ -1,0 +1,365 @@
+---
+title: "TP 7 : Apprentissage supervisé et arbre de décision"
+subtitle: "Compléments de Mathématiques 2 - L3 MIASHS"
+author: "HAMLIL Mohamed"
+date: today
+editor: source
+---
+
+# Préparation des données
+
+## Chargement du jeu de données
+
+```{r}
+#| label: load-data
+qualitative_vars  <- read.csv("../TP2/titanic_pre_processed_qualitative_vars.csv", stringsAsFactors = TRUE)
+quantitative_vars <- read.csv("../TP2/titanic_pre_processed_quantitative_vars.csv")
+target            <- read.csv("../TP2/titanic_pre_processed_target.csv")
+target            <- as.factor(target$x)
+```
+
+Suppression des observations avec valeurs manquantes pour `Sex` (seulement 2 sur 876, soit < 0.2%) :
+
+```{r}
+#| label: clean-sex
+isMissingSex <- which(is.na(qualitative_vars$Sex) | qualitative_vars$Sex == "")
+if (length(isMissingSex) > 0) {
+  qualitative_vars  <- qualitative_vars[-isMissingSex, ]
+  quantitative_vars <- quantitative_vars[-isMissingSex, ]
+  target            <- target[-isMissingSex]
+}
+```
+
+## Vérification des types
+
+```{r}
+#| label: check-types
+qualitative_vars$Pclass  <- as.factor(qualitative_vars$Pclass)
+qualitative_vars$Sex     <- as.factor(qualitative_vars$Sex)
+qualitative_vars$withFam <- as.factor(qualitative_vars$withFam)
+
+str(qualitative_vars)
+str(quantitative_vars)
+str(target)
+```
+
+# Arbre de décision
+
+## Variables explicatives utilisées pour la prédiction
+
+::: {.callout-note}
+### Encoding et normalisation
+
+Pour construire un arbre de décision, on n'a **pas besoin** de transformer les variables qualitatives (dummy coding ou label encoding) ni de normaliser/standardiser les variables quantitatives. L'arbre travaille avec des règles de division sur chaque variable individuellement, il gère nativement les variables qualitatives et quantitatives sur des échelles différentes.
+:::
+
+On exclut `Fam`, `Parch` et `SibSp` puisqu'on utilisera `withFam` :
+
+```{r}
+#| label: predictive-vars
+predictive_vars <- data.frame(
+  qualitative_vars[, c("Pclass", "Sex", "withFam")],
+  Age  = quantitative_vars$Age,
+  Fare = quantitative_vars$Fare
+)
+str(predictive_vars)
+```
+
+# Arbre de décision avec Holdout
+
+## Partage du jeu de données
+
+```{r}
+#| label: holdout-split
+set.seed(1234)
+n <- nrow(predictive_vars)
+inTrain <- sample(1:n, size = round(0.8 * n))
+
+predictive_vars_train <- predictive_vars[inTrain, ]
+predictive_vars_test  <- predictive_vars[-inTrain, ]
+target_train          <- target[inTrain]
+target_test           <- target[-inTrain]
+```
+
+## Gestion des données manquantes
+
+On utilise la médiane imputation pour `Age`, en calculant la médiane sur le Train uniquement pour éviter le data leakage :
+
+```{r}
+#| label: imputation
+library(caret)
+
+Proc <- preProcess(predictive_vars_train, method = "medianImpute")
+predictive_vars_train <- predict(Proc, predictive_vars_train)
+predictive_vars_test  <- predict(Proc, predictive_vars_test)
+```
+
+## Phase d'apprentissage
+
+```{r}
+#| label: load-rpart
+library(rpart)
+library(rpart.plot)
+```
+
+La ligne ci-dessous entraîne un arbre de décision de classification (`method = "class"`) sur les données d'entraînement. La formule `target_train ~ .` signifie que l'on utilise toutes les variables de `predictive_vars_train` pour prédire `target_train`.
+
+```{r}
+#| label: tree-fit
+classifTree <- rpart(target_train ~ ., data = predictive_vars_train,
+                     method = "class")
+```
+
+::: {.callout-note}
+### Critère de division
+
+Par défaut, `rpart` utilise l'**indice de Gini** (impureté de Gini) pour choisir la meilleure règle de division à chaque noeud. On peut changer ce critère en utilisant l'argument `parms = list(split = "information")` pour utiliser l'**entropie** (gain d'information).
+:::
+
+Visualisation de l'arbre :
+
+```{r}
+#| label: fig-tree
+#| fig-cap: "Arbre de décision (sans élagage)"
+#| out-width: "90%"
+#| fig-align: center
+rpart.plot(x = classifTree, type = 3, extra = 2, fallen.leaves = TRUE,
+           main = "Arbre de prédiction de la survie des passagers au naufrage du Titanic")
+```
+
+## Prédiction et évaluation sur le jeu de test
+
+```{r}
+#| label: holdout-eval
+target_pred <- predict(classifTree, predictive_vars_test, type = "class")
+
+cm <- confusionMatrix(target_pred, target_test, positive = "Survivant")
+cm
+```
+
+```{r}
+#| label: holdout-metrics
+cat("Accuracy  :", round(cm$overall["Accuracy"], 4), "\n")
+cat("Recall    :", round(cm$byClass["Sensitivity"], 4), "\n")
+cat("Precision :", round(cm$byClass["Pos Pred Value"], 4), "\n")
+```
+
+## Élagage de l'arbre
+
+La fonction `plotcp` affiche l'erreur de validation croisée (relative cross-validation error) en fonction du paramètre de complexité `cp`. Cela permet de choisir la bonne taille d'arbre pour éviter le surapprentissage.
+
+```{r}
+#| label: fig-plotcp
+#| fig-cap: "Erreur de CV relative en fonction du paramètre de complexité"
+#| out-width: "80%"
+#| fig-align: center
+plotcp(classifTree, upper = "splits")
+```
+
+::: {.callout-tip}
+### Choix du cp optimal
+
+Selon la documentation, un bon choix est la valeur de `cp` correspondant à l'arbre le plus petit dont l'erreur de CV relative est **à moins d'un écart-type** du minimum (règle du "1-SE"). La ligne horizontale en pointillés sur le graphique correspond à `min(xerror) + xstd` au minimum.
+:::
+
+```{r}
+#| label: cptable
+classifTree$cptable
+```
+
+```{r}
+#| label: best-cp
+xerror     <- classifTree$cptable[, "xerror"]
+xstd       <- classifTree$cptable[, "xstd"]
+cp         <- classifTree$cptable[, "CP"]
+min.xerror <- which.min(xerror)
+
+# Règle du 1-SE : plus petit arbre dont xerror < min(xerror) + xstd au minimum
+threshold <- xerror[min.xerror] + xstd[min.xerror]
+bestcp_idx <- min(which(xerror <= threshold))
+bestcp     <- cp[bestcp_idx]
+
+cat("Meilleur cp (règle 1-SE) :", bestcp, "\n")
+cat("Nombre de splits associé :", classifTree$cptable[bestcp_idx, "nsplit"], "\n")
+```
+
+Élagage de l'arbre avec la valeur optimale du `cp` :
+
+```{r}
+#| label: prune
+prunedTree <- prune(classifTree, cp = bestcp)
+```
+
+```{r}
+#| label: fig-pruned-tree
+#| fig-cap: "Arbre de décision élagué"
+#| out-width: "90%"
+#| fig-align: center
+rpart.plot(prunedTree, type = 3, extra = 2, fallen.leaves = TRUE,
+           main = "Arbre élagué")
+```
+
+## Prédiction avec l'arbre élagué
+
+```{r}
+#| label: pruned-eval
+target_pred_pruned <- predict(prunedTree, predictive_vars_test, type = "class")
+
+cm_pruned <- confusionMatrix(target_pred_pruned, target_test, positive = "Survivant")
+cm_pruned
+```
+
+```{r}
+#| label: pruned-metrics
+cat("Accuracy  (élagué) :", round(cm_pruned$overall["Accuracy"], 4), "\n")
+cat("Recall    (élagué) :", round(cm_pruned$byClass["Sensitivity"], 4), "\n")
+cat("Precision (élagué) :", round(cm_pruned$byClass["Pos Pred Value"], 4), "\n")
+```
+
+::: {.callout-note}
+### Comparaison
+
+L'arbre élagué est plus simple (moins de noeuds) tout en conservant des performances comparables, voire identiques, à l'arbre complet. C'est le principe du rasoir d'Occam : on préfère le modèle le plus simple qui explique aussi bien les données. L'élagage réduit le risque de surapprentissage.
+:::
+
+# Arbre de décision avec 10-fold cross-validation
+
+## Sans élagage
+
+```{r}
+#| label: cv-folds
+set.seed(1234)
+nfolds <- 10
+folds  <- sample(1:nfolds, n, replace = TRUE)
+```
+
+```{r}
+#| label: cv-no-prune
+accuracy_fold  <- numeric(nfolds)
+recall_fold    <- numeric(nfolds)
+precision_fold <- numeric(nfolds)
+
+for (k in 1:nfolds) {
+  inFold <- which(folds == k)
+
+  predictive_vars_test  <- predictive_vars[inFold, ]
+  target_test           <- target[inFold]
+  predictive_vars_train <- predictive_vars[-inFold, ]
+  target_train          <- target[-inFold]
+
+  # Median imputation (sans data leakage)
+  Proc <- preProcess(predictive_vars_train, method = "medianImpute")
+  predictive_vars_train <- predict(Proc, predictive_vars_train)
+  predictive_vars_test  <- predict(Proc, predictive_vars_test)
+
+  # Apprentissage
+  classifTree <- rpart(target_train ~ ., data = predictive_vars_train,
+                       method = "class")
+
+  # Prédiction
+  target_pred <- predict(classifTree, predictive_vars_test, type = "class")
+
+  # Métriques
+  cm <- confusionMatrix(target_pred, target_test, positive = "Survivant")
+
+  accuracy_fold[k]  <- cm$overall["Accuracy"]
+  recall_fold[k]    <- cm$byClass["Sensitivity"]
+  precision_fold[k] <- cm$byClass["Pos Pred Value"]
+}
+
+names(accuracy_fold)  <- paste0("fold_", 1:nfolds)
+names(recall_fold)    <- paste0("fold_", 1:nfolds)
+names(precision_fold) <- paste0("fold_", 1:nfolds)
+```
+
+```{r}
+#| label: cv-no-prune-results
+accuracy_fold
+recall_fold
+precision_fold
+```
+
+```{r}
+#| label: cv-no-prune-means
+cat("10-fold CV Mean Accuracy  :", round(mean(accuracy_fold), 4), "\n")
+cat("10-fold CV Mean Recall    :", round(mean(recall_fold), 4), "\n")
+cat("10-fold CV Mean Precision :", round(mean(precision_fold, na.rm = TRUE), 4), "\n")
+```
+
+::: {.callout-tip}
+### Nested cross-validation
+
+On fait ici de la **nested cross-validation** : la boucle externe (nos 10 folds) sert à évaluer le classifieur, tandis que la boucle interne (réalisée automatiquement par `rpart`) utilise la cross-validation pour choisir la meilleure valeur du paramètre de complexité `cp`.
+:::
+
+## Avec élagage
+
+```{r}
+#| label: cv-pruned
+accuracy_fold_p  <- numeric(nfolds)
+recall_fold_p    <- numeric(nfolds)
+precision_fold_p <- numeric(nfolds)
+
+for (k in 1:nfolds) {
+  inFold <- which(folds == k)
+
+  predictive_vars_test  <- predictive_vars[inFold, ]
+  target_test           <- target[inFold]
+  predictive_vars_train <- predictive_vars[-inFold, ]
+  target_train          <- target[-inFold]
+
+  # Median imputation (sans data leakage)
+  Proc <- preProcess(predictive_vars_train, method = "medianImpute")
+  predictive_vars_train <- predict(Proc, predictive_vars_train)
+  predictive_vars_test  <- predict(Proc, predictive_vars_test)
+
+  # Apprentissage
+  classifTree <- rpart(target_train ~ ., data = predictive_vars_train,
+                       method = "class")
+
+  # Élagage (règle du 1-SE)
+  xerror     <- classifTree$cptable[, "xerror"]
+  xstd       <- classifTree$cptable[, "xstd"]
+  cp_vals    <- classifTree$cptable[, "CP"]
+  min_idx    <- which.min(xerror)
+  threshold  <- xerror[min_idx] + xstd[min_idx]
+  best_idx   <- min(which(xerror <= threshold))
+  best_cp    <- cp_vals[best_idx]
+
+  prunedTree  <- prune(classifTree, cp = best_cp)
+
+  # Prédiction avec l'arbre élagué
+  target_pred <- predict(prunedTree, predictive_vars_test, type = "class")
+
+  # Métriques
+  cm <- confusionMatrix(target_pred, target_test, positive = "Survivant")
+
+  accuracy_fold_p[k]  <- cm$overall["Accuracy"]
+  recall_fold_p[k]    <- cm$byClass["Sensitivity"]
+  precision_fold_p[k] <- cm$byClass["Pos Pred Value"]
+}
+
+names(accuracy_fold_p)  <- paste0("fold_", 1:nfolds)
+names(recall_fold_p)    <- paste0("fold_", 1:nfolds)
+names(precision_fold_p) <- paste0("fold_", 1:nfolds)
+```
+
+```{r}
+#| label: cv-pruned-results
+accuracy_fold_p
+recall_fold_p
+precision_fold_p
+```
+
+```{r}
+#| label: cv-pruned-means
+cat("10-fold CV Mean Accuracy  (élagué) :", round(mean(accuracy_fold_p), 4), "\n")
+cat("10-fold CV Mean Recall    (élagué) :", round(mean(recall_fold_p), 4), "\n")
+cat("10-fold CV Mean Precision (élagué) :", round(mean(precision_fold_p, na.rm = TRUE), 4), "\n")
+```
+
+::: {.callout-note}
+### Comparaison
+
+Les performances avec et sans élagage sont généralement très proches, ce qui confirme que l'élagage simplifie l'arbre sans dégrader significativement les performances. L'arbre élagué est préférable car il est plus interprétable et moins susceptible de surapprentissage.
+:::

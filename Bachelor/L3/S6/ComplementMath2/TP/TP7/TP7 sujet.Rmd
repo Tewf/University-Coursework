@@ -1,0 +1,247 @@
+---
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+author: "Lola Etiévant"
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[RO]{Lola Etiévant}
+- "\\fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS S2 2025-2026}"
+---
+# TP 7 : Apprentissage supervisé et arbre de décision 
+
+### 0. Charger le jeu de données
+
+Charger le jeu de données (sans preprocessing, c'est à dire celui qu'on avait à la fin du TP 2)
+
+```{r}
+qualitative_vars  = # à compléter
+quantitative_vars = # à compléter
+target            = # à compléter
+```
+
+Je vais supprimer les observations avec des valeurs manquantes pour la variable `Sex` afin de simplifier mon code (je me le permets parce que ce n'est le cas que pour deux des 876 passagers, soit moins de 0.2% du jeu de données). Vous pouvez bien sûr choisir de gérer les valeurs manquantes pour ces deux observations différemment
+
+```{r}
+isMissingSex = which(is.na(qualitative_vars$Sex))
+qualitative_vars  = qualitative_vars[-isMissingSex, ]
+quantitative_vars = quantitative_vars[-isMissingSex, ]
+target            = target[-isMissingSex, ]
+```
+
+Vérifier que toutes les variables sont bien du bon data type
+
+*Réponse :*
+```{r}
+
+```
+
+## 1. Arbre de décision
+
+### 1.1. Variables explicatives utilisée pour la prédiction
+
+Pour pouvoir construire un arbre de décision, a-t-on besoin de transformer au préalable les variables explicatives qualitatives en utilisant le codage binaire ou le label encoding ? De normaliser ou standardiser les variables explicatives quantitatives ?
+
+*Réponse :* 
+
+Créer un dataframe nommé `predictive_vars` contenant les variables qualitatives et quantitatives que l'on souhaite utiliser pour prédire la target
+
+```{r}
+predictive_vars = # à compléter
+```
+
+*Remarque :* Je décide de ne pas inclure `Fam`, `Parch` ou `Sibsp` puisque j'utiliserai `withFam` pour faire la prédiction. Vous pouvez faire différemment
+
+## 2. Arbre de décision avec partage du jeu de données en Holdout
+
+### 2.1 Partage du jeu de données
+
+Comme fait aux TPs précédents, partager le jeu de données en Train/Test, avec 80% des observations placées dans l’ensemble d’apprentissage
+
+*Réponse :*
+```{r}
+
+```
+
+### 2.2. Gestion des données manquantes
+
+On souhaite faire de la median imputation pour imputer les valeurs manquantes de la variable `Age`. Utiliser le package `caret` et la commande `preProcess` comme fait aux TPs précédents pour imputer les valeurs manquantes de `Age` par la médiane, en faisant attention à ne pas avoir de data leakage
+
+```{r, results = "hide", message = FALSE}
+library(caret)
+```
+
+*Réponse :*
+```{r}
+
+```
+
+### 2.3. Phase d'apprentissage
+
+Installer puis charger les packages `rpart` et `rpart.plot`. Lire la documentation des commandes `rpart` et `rpart.plot`
+
+```{r, eval = FALSE, message = FALSE}
+install.packages("rpart")
+install.packages("rpart.plot")
+```
+
+```{r, results = "hide", message = FALSE}
+library(rpart)
+library(rpart.plot)
+?rpart
+?rpart.plot
+```
+
+Que fait la ligne de code ci-dessous ? 
+
+```{r}
+classifTree = rpart(target_train ~ ., data = predictive_vars_train, 
+                    method = "class")
+```
+
+*Réponse :* 
+
+Quel critère est utilisé par défaut pour choisir la meilleure règle de division/split ?
+
+*Réponse :* 
+
+Lire la documentation de la commande `rpart.plot`. Compléter le chunk de code ci-dessous pour tracer l'arbre de décision obtenu
+
+```{r}
+rpart.plot(x = # à compléter, type = 3, extra = 2, fallen.leaves = TRUE,  
+           main = "Arbre de prédiction de la survie des passagers au naufrage du Titanic")  
+```
+
+Changer la valeur des arguments `type` et `extra` si vous le souhaitez
+
+### 2.4. Prédiction de la target avec l'arbre de décision sur le jeu de données de test 
+
+Lire la documentation de la commande `predict.rpart` et l'utiliser sur le classifieur entraîné (i.e., l'arbre construit) à la Partie 2.3 pour prédire la catégorie d'appartenance des individus dans la partie Test, et calculer l'accuracy, le recall, et la précision (à l'aide du package `caret` comme fait aux TPs précédents, relire la documentation si besoin)
+
+*Réponse :* 
+```{r}
+
+```
+
+### 2.5. Élagage de l'arbre
+
+Que fait la ligne de code dans le chunk ci-dessous ? Lire la documentation de `plotcp` 
+
+```{r}
+plotcp(classifTree, upper = "splits")
+```
+
+*Réponse :* 
+
+Selon la documentation, quelle valeur du paramètre de complexité est en général un bon choix ? Combien il y a-t-il de noeuds de décision dans le sous-arbre associé à cette valeur du cp ?
+
+*Réponse :* 
+
+À quoi correspond la ligne horizontale en pointillés ? Dans quelles colonnes de la table ci-dessous trouve-t-on ces valeurs ?
+
+*Réponse :* 
+
+```{R}
+classifTree$cptable
+#xerror  = classifTree$cptable[, # à compléter]
+#xstd    = classifTree$cptable[, # à compléter]
+```
+
+*Réponse :* 
+
+Compléter le chunck de code ci-dessous pour obtenir cette meilleure valeur du paramètre de complexité
+
+```{r}
+#cp          = classifTree$cptable[, # à compléter]
+min.xerror  = which.min(xerror)
+#bestcp      = cp[# à compléter]
+```
+
+Lire la documentation de la function `prune` et élaguer l'arbre en utilisant cette valeur du paramètre de complexité
+
+```{r}
+prunedTree = prune(# à compléter)
+```
+
+Tracer l'arbre élagué obtenu
+
+```{r}
+rpart.plot(# à compléter)  
+```
+
+### 2.6. Prédiction de la target avec l'arbre élagué sur le jeu de données de test 
+
+Utiliser l'arbre élagué à la Partie 2.5 pour prédire la catégorie d'appartenance des individus dans la partie Test, et calculer l'accuracy, le recall, et la précision. Que remarque-t-on ? 
+
+*Réponse :* 
+```{r}
+
+```
+
+## 3. Arbre de décision avec évaluation des performances en 10-fold cross-validation
+
+### 3.1. Sans élagage
+
+Comme fait aux TPs précédents, assigner chacun des individus du jeu de données à un des 10 folds
+
+*Réponse :* 
+```{r}
+
+```
+
+Puis utiliser de manière répétée les différents folds du jeu de données pour entraîner et puis tester l'arbre de décision (sans élagage) en calculant l'accuracy, le recall, et la précision
+
+```{r}
+accuracy_fold   = numeric(nfolds)
+recall_fold     = numeric(nfolds)
+precision_fold  = numeric(nfolds)
+for(k in 1:nfolds){ # pour faire les itérations de la CV
+  inFold                  = # à compléter
+  
+  predictive_vars_test    = # à compléter
+  target_test             = # à compléter
+  predictive_vars_train   = # à compléter
+  target_train            = # à compléter
+  
+  # (pre-processing) median imputation
+  # à compléter
+ 
+  # apprentissage sur le train
+  # à compléter
+  
+  # prédiction sur le test
+  # à compléter
+  
+  accuracy_test   = mean(target_pred == target_test)
+  recall_test     = recall(target_pred, target_test, relevant = "survivant")
+  precision_test  = precision(target_pred, target_test, relevant = "survivant")
+  
+  accuracy_fold[k]  = accuracy_test
+  recall_fold[k]    = recall_test
+  precision_fold[k] = precision_test
+}
+names(accuracy_fold) = paste0("fold_",1:nfolds)
+names(recall_fold) = paste0("fold_",1:nfolds)
+names(precision_fold) = paste0("fold_",1:nfolds)
+```
+
+Calculer la 10-fold cross validated mean accuracy, la 10-fold cross validated mean recall, et la 10-fold cross validated mean precision
+
+*Réponse :* 
+```{r}
+
+```
+
+*Remarque :* On fait de la nested cross-validation : la boucle externe permet d'évaluer le classifieur, et la boucle interne (faite par la fonction `rpart`) de choisir la meilleure valeur du complexity parameter
+
+### 3.2. Avec élagage
+
+Recopier puis modifier le chunk de code en Section 3.1. pour incorporer l'élagage
+
+*Réponse :* 
+```{r}
+
+```
+

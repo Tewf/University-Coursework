@@ -1,0 +1,19 @@
+# Introduction {.unnumbered}
+
+Ce projet s'inscrit dans le cadre du cours de **Compléments de Mathématiques 2** (Introduction au Machine Learning), L3 MIASHS, Université Grenoble Alpes.
+
+### Objectif
+
+Réaliser une **classification supervisée binaire** à partir d'un jeu de données réel : prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.
+
+### Données
+
+Le dataset utilisé provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs.
+
+### Plan du rapport
+
+1. **Analyse exploratoire** : présentation des données, analyse univariée et multivariée
+2. **Préparation** : feature engineering par familles olfactives, traitement des valeurs manquantes
+3. **Régression logistique** : modèle linéaire avec régularisation Elastic Net
+4. **Forêt aléatoire** : modèle non-linéaire par ensemble d'arbres
+5. **Comparaison** : évaluation comparative, choix final et conclusion

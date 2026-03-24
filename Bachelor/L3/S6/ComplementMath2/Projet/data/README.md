@@ -1,24 +1,26 @@
-# Données : Parfumo Dataset
+# Données : Fragrantica Fragrance Dataset
 
-**Source** : [Parfumo Fragrance Dataset -- TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-12-10/readme.md)
+**Source** : [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset)
 
-**Fichier** : `parfumo_data_clean.csv`
+**Fichier** : `fra_cleaned.csv` (séparateur `;`)
 
-**Taille** : ~59 000 lignes
+**Taille** : ~24 000 lignes
 
 ## Dictionnaire des variables
 
 | Variable | Type | Description |
 |----------|------|-------------|
-| `Name` | Texte | Nom du parfum |
+| `url` | Texte | Lien Fragrantica |
+| `Perfume` | Texte | Nom du parfum |
 | `Brand` | Texte | Marque |
-| `Release_Year` | Numérique | Année de sortie |
-| `Concentration` | Catégorielle | Type (EDP, EDT, Cologne, etc.) |
-| `Rating_Value` | Numérique | Note moyenne des utilisateurs |
-| `Rating_Count` | Numérique | Nombre d'évaluations |
-| `Main_Accords` | Texte (liste) | Accords olfactifs principaux |
-| `Top_Notes` | Texte (liste) | Notes de tête |
-| `Middle_Notes` | Texte (liste) | Notes de cœur |
-| `Base_Notes` | Texte (liste) | Notes de fond |
-| `Perfumers` | Texte | Nom(s) du/des parfumeur(s) |
-| `URL` | Texte | Lien Parfumo |
+| `Country` | Texte | Pays d'origine de la marque |
+| `Gender` | Catégorielle | Genre cible (men, women, unisex) |
+| `Rating Value` | Numérique | Note moyenne (virgule décimale) |
+| `Rating Count` | Numérique | Nombre d'évaluations |
+| `Year` | Numérique | Année de sortie |
+| `Top` | Texte (liste) | Notes de tête (séparées par des virgules) |
+| `Middle` | Texte (liste) | Notes de cœur (séparées par des virgules) |
+| `Base` | Texte (liste) | Notes de fond (séparées par des virgules) |
+| `Perfumer1` | Texte | Parfumeur principal |
+| `Perfumer2` | Texte | Parfumeur secondaire |
+| `mainaccord1`--`mainaccord5` | Texte | Accords olfactifs principaux (du plus au moins dominant) |
