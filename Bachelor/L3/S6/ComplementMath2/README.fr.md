@@ -17,23 +17,23 @@ Une introduction a l'apprentissage automatique supervise en R, combinant des tra
 
 ## Projet : Prediction de la satisfaction pour les parfums
 
-Un pipeline ML complet predisant la satisfaction des utilisateurs a partir d'un jeu de donnees de ~60 000 parfums.
+Un pipeline ML complet predisant la satisfaction des utilisateurs a partir d'un jeu de donnees de ~24 000 parfums.
 
-> **Parcourir tous les notebooks du projet :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/)
+> **Parcourir tous les notebooks du projet :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
 | Etape | Notebook | Description | Demo |
 |-------|----------|-------------|------|
-| 1 | `01_exploration.qmd` | Analyse exploratoire : distributions, valeurs manquantes, visualisations | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/01_exploration.html) |
-| 2 | `02_preparation.qmd` | Ingenierie de features, imputation, split train/test (70/30) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/02_preparation.html) |
-| 3 | `03_regression_logistique.qmd` | Regression logistique avec Elastic Net (CV 5 plis) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/03_regression_logistique.html) |
-| 4 | `04_foret_aleatoire.qmd` | Foret aleatoire (500 arbres) avec tuning | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/04_foret_aleatoire.html) |
-| 5 | `05_comparaison.qmd` | Comparaison des modeles, courbes ROC, evaluation finale | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/05_comparaison.html) |
+| 1 | `01_exploration.qmd` | Analyse exploratoire : distributions, valeurs manquantes, visualisations | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | `02_preparation.qmd` | Ingenierie de features, imputation, split train/test (70/30) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | `03_regression_logistique.qmd` | Regression logistique avec Elastic Net (CV 5 plis) | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | `04_foret_aleatoire.qmd` | Foret aleatoire (500 arbres) avec tuning | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
+| 5 | `05_comparaison.qmd` | Comparaison des modeles, courbes ROC, evaluation finale | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ### Structure du projet
 
 ```
 Projet/
-|-- data/parfumo_data_clean.csv    <- Jeu de donnees parfums (~60k lignes)
+|-- data/fra_cleaned.csv           <- Jeu de donnees parfums (~24k lignes)
 |-- R/utils.R                      <- Fonctions utilitaires partagees
 |-- notebooks/                     <- Pipeline d'analyse sequentiel
 |-- output/                        <- Fichiers .rds intermediaires
@@ -42,7 +42,7 @@ Projet/
 
 ## Travaux Pratiques (TPs)
 
-6 TPs couvrant les concepts fondamentaux du ML avec le jeu de donnees Titanic :
+7 TPs couvrant les concepts fondamentaux du ML avec le jeu de donnees Titanic :
 
 > **Parcourir tous les TPs :** [voir la page d'index](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/)
 
@@ -52,8 +52,9 @@ Projet/
 | **TP2** | Preprocessing des donnees | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP2.html) |
 | **TP3** | Metriques d'evaluation & validation croisee | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP3.html) |
 | **TP4** | Transformation de features & imputation | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP4.html) |
-| **TP5** | Classification KNN | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction-TP5.html) |
+| **TP5** | Classification KNN | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP5.html) |
 | **TP6** | Classification naive bayesienne | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP6.html) |
+| **TP7** | Arbres de decision | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP7.html) |
 
 Chaque dossier de TP contient l'enonce (`.Rmd`/`.pdf`) et les corrections (`.qmd`/`.pdf`).
 

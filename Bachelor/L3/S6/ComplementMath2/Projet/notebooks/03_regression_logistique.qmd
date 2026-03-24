@@ -9,63 +9,43 @@ source(here::here("R", "utils.R"))
 library(glmnet)
 ```
 
-# Chargement des données
+## Chargement des données
 
 ```{r}
 #| label: load
+#| output: false
 train_data <- readRDS(here::here("output", "train_data.rds"))
 test_data <- readRDS(here::here("output", "test_data.rds"))
 cat("Train :", nrow(train_data), "| Test :", nrow(test_data), "\n")
 ```
 
-# Régression Logistique
-
 ## Principe
 
 :::{.callout-note}
-## Définition
-La régression logistique est un modèle linéaire généralisé qui modélise la probabilité d'appartenance à une classe via la fonction logistique :
-
-$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + ... + \beta_p X_p)}}$$
+### Définition
+La régression logistique modélise la probabilité d'appartenance à une classe :
+$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p)}}$$
 :::
 
-C'est un modèle simple, interprétable et bien adapté à la classification binaire. Nous utilisons ici une régularisation **Elastic Net** (via `glmnet`) qui combine les pénalités L1 (Lasso) et L2 (Ridge) pour éviter le surapprentissage [@zou2005].
+Nous utilisons une régularisation **Elastic Net** (`glmnet`) combinant pénalités L1 et L2 [@zou2005]. Ce modèle est interprétable (coefficients), robuste (régularisation) et sert de baseline [@hastie2009].
 
-## Justification
+## Entraînement
 
-- **Interprétabilité** : les coefficients indiquent l'effet de chaque variable sur la satisfaction.
-- **Robustesse** : la régularisation gère bien les cas où le nombre de variables est élevé.
-- **Baseline solide** : c'est un classifieur de référence pour comparer avec des méthodes plus complexes [@hastie2009].
-
-## Transformation des variables
-
-- Les variables numériques sont centrées-réduites pour la régularisation.
-- La variable `Concentration` est encodée en indicatrices (dummy encoding via la formule `model.matrix`).
-
-## Hyperparamètres
-
-Nous optimisons deux hyperparamètres :
-
-- **alpha** : mélange L1/L2 (0 = Ridge, 1 = Lasso)
-- **lambda** : force de la régularisation
-
-Nous utilisons la **validation croisée 5-fold** avec l'**AUC** (aire sous la courbe ROC) comme métrique.
+Variables numériques centrées-réduites. Hyperparamètres **alpha** (mélange L1/L2) et **lambda** (force) optimisés par validation croisée 5-fold (métrique : AUC).
 
 ```{r}
 #| label: logistic-cv
+#| output: false
 model_file <- here::here("output", "model_logistic.rds")
+cm_file <- here::here("output", "cm_logistic.rds")
+roc_file <- here::here("output", "roc_logistic.rds")
 
-if (file.exists(model_file)) {
+if (file.exists(model_file) && file.exists(cm_file) && file.exists(roc_file)) {
   model_logistic <- readRDS(model_file)
+  cm_logistic <- readRDS(cm_file)
+  roc_logistic <- readRDS(roc_file)
+  cat("Chargé depuis le cache.\n")
 } else {
-  ctrl <- trainControl(
-    method = "cv",
-    number = 5,
-    classProbs = TRUE,
-    summaryFunction = twoClassSummary,
-    savePredictions = "final"
-  )
-
   grid_glmnet <- expand.grid(
     alpha = c(0, 0.25, 0.5, 0.75, 1),
     lambda = 10^seq(-4, -1, length.out = 10)
@@ -76,56 +56,55 @@ if (file.exists(model_file)) {
     Satisfaction ~ .,
     data = train_data,
     method = "glmnet",
-    trControl = ctrl,
+    trControl = CV_CONTROL,
     tuneGrid = grid_glmnet,
     metric = "ROC",
     preProcess = c("center", "scale")
   )
+
+  pred_logistic <- predict(model_logistic, test_data)
+  prob_logistic <- predict(model_logistic, test_data, type = "prob")
+  cm_logistic <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
+  roc_logistic <- roc(test_data$Satisfaction, prob_logistic$Oui)
+
+  saveRDS(model_logistic, model_file)
+  saveRDS(cm_logistic, cm_file)
+  saveRDS(roc_logistic, roc_file)
+  cat("Entraîné et sauvegardé.\n")
 }
 ```
 
-## Résultats de la validation croisée
-
-```{r}
-#| label: logistic-results
-cat("Meilleurs hyperparamètres :\n")
-cat("  alpha =", model_logistic$bestTune$alpha, "\n")
-cat("  lambda =", model_logistic$bestTune$lambda, "\n")
-cat("  AUC (CV) =", round(max(model_logistic$results$ROC), 4), "\n")
-```
+## Résultats
 
 ```{r}
 #| label: fig-logistic-tuning
-#| fig-cap: "Performance de la régression logistique selon les hyperparamètres"
+#| fig-cap: "AUC selon alpha et lambda"
+#| fig-height: 2.5
 plot(model_logistic, main = "Régression Logistique - Tuning")
 ```
 
-## Évaluation sur le jeu de test
-
 ```{r}
-#| label: logistic-eval
-pred_logistic <- predict(model_logistic, test_data)
-prob_logistic <- predict(model_logistic, test_data, type = "prob")
-
-cm_logistic <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
-print(cm_logistic)
+#| label: tbl-logistic-results
+#| tbl-cap: "Métriques (Régression Logistique)"
+kable(data.frame(
+  Métrique = c("alpha", "lambda", "AUC (CV)", "AUC (test)", "Accuracy", "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(model_logistic$bestTune$alpha,
+             round(model_logistic$bestTune$lambda, 6),
+             round(max(model_logistic$results$ROC), 4),
+             round(auc(roc_logistic), 4),
+             round(cm_logistic$overall["Accuracy"], 4),
+             round(cm_logistic$byClass["Sensitivity"], 4),
+             round(cm_logistic$byClass["Specificity"], 4),
+             round(cm_logistic$byClass["F1"], 4))
+), booktabs = TRUE)
 ```
 
 ```{r}
 #| label: fig-logistic-roc
 #| fig-cap: "Courbe ROC -- Régression Logistique"
-roc_logistic <- roc(test_data$Satisfaction, prob_logistic$Oui)
-
-plot(roc_logistic, col = "blue", main = "Courbe ROC - Régression Logistique",
+#| fig-height: 2.5
+plot(roc_logistic, col = COL_PRIMARY, main = "Courbe ROC - Régression Logistique",
      print.auc = TRUE, print.auc.x = 0.4, print.auc.y = 0.3)
 ```
 
-# Sauvegarde
-
-```{r}
-#| label: save
-saveRDS(model_logistic, here::here("output", "model_logistic.rds"))
-saveRDS(cm_logistic, here::here("output", "cm_logistic.rds"))
-saveRDS(roc_logistic, here::here("output", "roc_logistic.rds"))
-cat("Modèle et résultats sauvegardés dans output/\n")
-```
+La performance est modeste mais réelle, ce qui est attendu pour la prédiction d'une variable subjective comme la satisfaction à partir de caractéristiques olfactives.

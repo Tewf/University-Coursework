@@ -1,13 +1,8 @@
 ---
 title: "TP 6 : Apprentissage supervisé et classification naïve bayésienne"
 subtitle: "Compléments de Mathématiques 2 - L3 MIASHS"
-author: "Lola Etiévant"
+author: "HAMLIL Mohamed"
 date: today
-format:
-  pdf:
-    toc: true
-    number-sections: true
-    colorlinks: true
 editor: source
 ---
 

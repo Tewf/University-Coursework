@@ -1,23 +1,31 @@
-# Fichiers intermédiaires R
+# Données intermédiaires R
 output/*.rds
-*.rds
+!output/.gitkeep
 
-# Artéfacts Quarto générés (sauf rapports finaux)
+# Artéfacts Quarto
 *_files/
-
-# Artéfacts Quarto/R
 .quarto/
 *_cache/
+**/*.quarto_ipynb
+
+# Artéfacts R
 .Rhistory
 .RData
 .Rproj.user/
 
-# Fichiers OS
+# Rapports rendus (régénérables)
+rapport/
+
+# Données volumineuses (téléchargeables depuis Kaggle)
+data/*.csv
+data/*.zip
+!data/README.md
+
+# Conventions (internes, pas dans le repo)
+consignes/conventions/
+
+# OS
 .DS_Store
 Thumbs.db
 
-# Garder les dossiers vides
-!output/.gitkeep
-
 /.quarto/
-**/*.quarto_ipynb

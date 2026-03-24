@@ -17,23 +17,23 @@ An introduction to supervised machine learning in R, combining practical exercis
 
 ## Project: Perfume Satisfaction Prediction
 
-A complete ML pipeline predicting user satisfaction from a dataset of ~60,000 perfumes.
+A complete ML pipeline predicting user satisfaction from a dataset of ~24,000 perfumes.
 
-> **Browse all project notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/)
+> **Browse all project notebooks:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
 | Step | Notebook | Description | Live Demo |
 |------|----------|-------------|-----------|
-| 1 | `01_exploration.qmd` | Exploratory Data Analysis: distributions, missing values, visualizations | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/01_exploration.html) |
-| 2 | `02_preparation.qmd` | Feature engineering, imputation, train/test split (70/30) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/02_preparation.html) |
-| 3 | `03_regression_logistique.qmd` | Logistic regression with Elastic Net (5-fold CV) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/03_regression_logistique.html) |
-| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 trees) with tuning | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/04_foret_aleatoire.html) |
-| 5 | `05_comparaison.qmd` | Model comparison, ROC curves, final evaluation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/html/05_comparaison.html) |
+| 1 | `01_exploration.qmd` | Exploratory Data Analysis: distributions, missing values, visualizations | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | `02_preparation.qmd` | Feature engineering, imputation, train/test split (70/30) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | `03_regression_logistique.qmd` | Logistic regression with Elastic Net (5-fold CV) | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 trees) with tuning | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
+| 5 | `05_comparaison.qmd` | Model comparison, ROC curves, final evaluation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ### Project Structure
 
 ```
 Projet/
-|-- data/parfumo_data_clean.csv    <- Perfume dataset (~60k rows)
+|-- data/fra_cleaned.csv           <- Perfume dataset (~24k rows)
 |-- R/utils.R                      <- Shared utility functions
 |-- notebooks/                     <- Sequential analysis pipeline
 |-- output/                        <- Intermediate .rds files
@@ -42,7 +42,7 @@ Projet/
 
 ## Practical Sessions (TPs)
 
-6 TPs covering foundational ML concepts using the Titanic dataset:
+7 TPs covering foundational ML concepts using the Titanic dataset:
 
 > **Browse all TPs:** [view index page](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/)
 
@@ -52,8 +52,9 @@ Projet/
 | **TP2** | Data preprocessing | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP2.html) |
 | **TP3** | Evaluation metrics & cross-validation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP3.html) |
 | **TP4** | Feature transformation & imputation | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP4.html) |
-| **TP5** | KNN classification | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction-TP5.html) |
+| **TP5** | KNN classification | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP5.html) |
 | **TP6** | Naive Bayes classification | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP6.html) |
+| **TP7** | Decision trees | [view](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/TP/html/Correction%20TP7.html) |
 
 Each TP folder contains the problem statement (`.Rmd`/`.pdf`) and corrections (`.qmd`/`.pdf`).
 
