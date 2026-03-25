@@ -13,12 +13,12 @@ library(stringi)
 DATA_DIR   <- here("data")
 OUTPUT_DIR <- here("output")
 
-# ── Palette et thème partagés ─────────────────────────────────────────────────
-COL_PRIMARY   <- "#3575b5"
-COL_SECONDARY <- "#e67e22"
+# ── Palette UGA (Université Grenoble Alpes) ───────────────────────────────────
+COL_PRIMARY   <- "#1D2B44"   # bleu foncé UGA
+COL_SECONDARY <- "#E8601C"   # orange UGA
 COL_POSITIVE  <- "#2ECC71"
 COL_NEGATIVE  <- "#E74C3C"
-COL_ACCENT    <- "#8e44ad"
+COL_ACCENT    <- "#E8601C"   # orange UGA
 
 FILL_SATISFACTION <- scale_fill_manual(
   values = c("Non" = COL_NEGATIVE, "Oui" = COL_POSITIVE)

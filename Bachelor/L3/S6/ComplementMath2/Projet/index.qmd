@@ -2,13 +2,23 @@
 
 Ce projet s'inscrit dans le cadre du cours de **Compléments de Mathématiques 2** (Introduction au Machine Learning), L3 MIASHS, Université Grenoble Alpes.
 
+### Contexte
+
+L'industrie de la parfumerie est un domaine où la perception subjective joue un rôle central. Chaque parfum est caractérisé par une architecture olfactive complexe, reposant sur trois notions fondamentales qu'il convient de distinguer :
+
+- **Note olfactive**^[Ingrédient individuel perçu dans un parfum, par exemple la bergamote, le jasmin ou le musc.] : un ingrédient ou une matière première individuelle (ex. : bergamote, jasmin, musc). Les notes sont organisées en trois phases selon leur volatilité : les *notes de tête* (premières perçues, légères et éphémères), les *notes de cœur* (le corps du parfum, apparaissant après quelques minutes) et les *notes de fond* (les plus persistantes, perçues en dernier).
+- **Accord olfactif**^[Combinaison harmonieuse de plusieurs notes qui crée une impression olfactive distincte, par exemple « boisé » ou « floral ».] : une combinaison harmonieuse de plusieurs notes qui, ensemble, produisent une impression olfactive distincte (ex. : « woody », « floral », « citrus »). Un parfum possède généralement plusieurs accords dominants.
+- **Famille olfactive**^[Grande catégorie regroupant des accords et notes partageant un caractère olfactif commun (ex. : la famille « boisée » regroupe les accords woody, aromatic, oud, patchouli, etc.).] : une grande catégorie qui regroupe des accords et des notes partageant un caractère olfactif commun. Par exemple, la famille *boisée* englobe les accords « woody », « aromatic », « oud » et « patchouli ».
+
+La question que nous posons est la suivante : **peut-on prédire si un parfum sera bien noté par les utilisateurs à partir de ses caractéristiques olfactives, de son origine et de son genre cible ?**
+
 ### Objectif
 
 Réaliser une **classification supervisée binaire** à partir d'un jeu de données réel : prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.
 
 ### Données
 
-Le dataset utilisé provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs.
+Le dataset utilisé provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs. Fragrantica est une encyclopédie en ligne de référence dans le monde de la parfumerie, alimentée par les avis de millions d'utilisateurs.
 
 ### Plan du rapport
 

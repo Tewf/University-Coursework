@@ -347,7 +347,11 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Prédiction de la Satisfaction Client pour les Parfums</a> 
         <div class="sidebar-tools-main">
@@ -409,10 +413,9 @@ window.Quarto = {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#chargement-des-données" id="toc-chargement-des-données" class="nav-link active" data-scroll-target="#chargement-des-données"><span class="header-section-number">4.1</span> Chargement des données</a></li>
-  <li><a href="#principe" id="toc-principe" class="nav-link" data-scroll-target="#principe"><span class="header-section-number">4.2</span> Principe</a></li>
-  <li><a href="#entraînement" id="toc-entraînement" class="nav-link" data-scroll-target="#entraînement"><span class="header-section-number">4.3</span> Entraînement</a></li>
-  <li><a href="#résultats" id="toc-résultats" class="nav-link" data-scroll-target="#résultats"><span class="header-section-number">4.4</span> Résultats</a></li>
+  <li><a href="#principe" id="toc-principe" class="nav-link active" data-scroll-target="#principe"><span class="header-section-number">4.1</span> Principe</a></li>
+  <li><a href="#entraînement" id="toc-entraînement" class="nav-link" data-scroll-target="#entraînement"><span class="header-section-number">4.2</span> Entraînement</a></li>
+  <li><a href="#résultats" id="toc-résultats" class="nav-link" data-scroll-target="#résultats"><span class="header-section-number">4.3</span> Résultats</a></li>
   </ul>
 </nav>
     </div>
@@ -439,8 +442,6 @@ window.Quarto = {
 </header>
 
 
-<section id="chargement-des-données" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="chargement-des-données"><span class="header-section-number">4.1</span> Chargement des données</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -449,9 +450,8 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section>
-<section id="principe" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="principe"><span class="header-section-number">4.2</span> Principe</h2>
+<section id="principe" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="principe"><span class="header-section-number">4.1</span> Principe</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -467,8 +467,8 @@ window.Quarto = {
 </div>
 <p>Avantages : capture des interactions non-linéaires entre familles olfactives, robustesse, classement d’importance des variables. Pas de prétraitement nécessaire. Ce choix est validé par <span class="citation" data-cites="kumar2015">Kumar et al. (<a href="#ref-kumar2015" role="doc-biblioref">2015</a>)</span> qui obtiennent des AUC &gt; 0.7 avec un random forest pour la prédiction de qualités perceptuelles olfactives à partir de descripteurs similaires aux nôtres.</p>
 </section>
-<section id="entraînement" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="entraînement"><span class="header-section-number">4.3</span> Entraînement</h2>
+<section id="entraînement" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="entraînement"><span class="header-section-number">4.2</span> Entraînement</h2>
 <p>Hyperparamètre <strong>mtry</strong> optimisé par validation croisée 5-fold (métrique : AUC). 500 arbres.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -514,8 +514,8 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="résultats" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="résultats"><span class="header-section-number">4.4</span> Résultats</h2>
+<section id="résultats" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="résultats"><span class="header-section-number">4.3</span> Résultats</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -525,7 +525,7 @@ window.Quarto = {
 <div id="fig-rf-tuning" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rf-tuning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04_foret_aleatoire_files/figure-html/fig-rf-tuning-1.png" class="img-fluid figure-img" width="480">
+<img src="04_foret_aleatoire_files/figure-html/fig-rf-tuning-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-tuning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4.1: Performance selon mtry
@@ -543,7 +543,7 @@ Figure&nbsp;4.1: Performance selon mtry
 <div id="fig-rf-importance" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rf-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04_foret_aleatoire_files/figure-html/fig-rf-importance-1.png" class="img-fluid figure-img" width="480">
+<img src="04_foret_aleatoire_files/figure-html/fig-rf-importance-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-importance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4.2: Importance des variables (Top 15)
@@ -626,7 +626,7 @@ Table&nbsp;4.1: Métriques (Forêt Aléatoire)
 <div id="fig-rf-roc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rf-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="04_foret_aleatoire_files/figure-html/fig-rf-roc-1.png" class="img-fluid figure-img" width="480">
+<img src="04_foret_aleatoire_files/figure-html/fig-rf-roc-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rf-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4.3: Courbe ROC – Forêt Aléatoire
@@ -1138,112 +1138,110 @@ Kumar, Ritesh, Rishemjit Kaur, Benjamin Auffarth, et Amol P. Bhondekar. 2015. <s
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement des données</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Principe</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Principe</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Définition</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>La forêt aléatoire est un ensemble de $B$ arbres de décision entraînés sur des échantillons bootstrap. À chaque nœud, seul un sous-ensemble de $m$ variables est considéré. Prédiction par **vote majoritaire** <span class="co">[</span><span class="ot">@breiman2001</span><span class="co">]</span>.</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### Définition</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>La forêt aléatoire est un ensemble de $B$ arbres de décision entraînés sur des échantillons bootstrap. À chaque nœud, seul un sous-ensemble de $m$ variables est considéré. Prédiction par **vote majoritaire** <span class="co">[</span><span class="ot">@breiman2001</span><span class="co">]</span>.</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>Avantages : capture des interactions non-linéaires entre familles olfactives, robustesse, classement d'importance des variables. Pas de prétraitement nécessaire. Ce choix est validé par @kumar2015 qui obtiennent des AUC &gt; 0.7 avec un random forest pour la prédiction de qualités perceptuelles olfactives à partir de descripteurs similaires aux nôtres.</span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>Avantages : capture des interactions non-linéaires entre familles olfactives, robustesse, classement d'importance des variables. Pas de prétraitement nécessaire. Ce choix est validé par @kumar2015 qui obtiennent des AUC &gt; 0.7 avec un random forest pour la prédiction de qualités perceptuelles olfactives à partir de descripteurs similaires aux nôtres.</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entraînement</span></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entraînement</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>Hyperparamètre **mtry** optimisé par validation croisée 5-fold (métrique : AUC). 500 arbres.</span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>Hyperparamètre **mtry** optimisé par validation croisée 5-fold (métrique : AUC). 500 arbres.</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: rf-cv</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_rf.rds"</span>)</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>cm_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_rf.rds"</span>)</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>roc_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_rf.rds"</span>)</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(model_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_file)) {</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  model_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model_file)</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  cm_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_file)</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  roc_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_file)</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Chargé depuis le cache.</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  grid_rf <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">mtry =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>),</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">splitrule =</span> <span class="st">"gini"</span>,</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">min.node.size =</span> <span class="dv">1</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>  model_rf <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> .,</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> train_data,</span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL,</span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">tuneGrid =</span> grid_rf,</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">importance =</span> <span class="st">"impurity"</span></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  pred_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_rf, test_data)</span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  prob_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_rf, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>  cm_rf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_rf, test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  roc_rf <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_rf<span class="sc">$</span>Oui)</span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_rf, model_file)</span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_rf, cm_file)</span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_rf, roc_file)</span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Entraîné et sauvegardé.</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: rf-cv</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_rf.rds"</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>cm_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_rf.rds"</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>roc_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_rf.rds"</span>)</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(model_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_file)) {</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  model_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model_file)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  cm_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_file)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  roc_rf <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_file)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Chargé depuis le cache.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  grid_rf <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">mtry =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>),</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">splitrule =</span> <span class="st">"gini"</span>,</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">min.node.size =</span> <span class="dv">1</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  model_rf <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> .,</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> train_data,</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"ranger"</span>,</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL,</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">tuneGrid =</span> grid_rf,</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">num.trees =</span> <span class="dv">500</span>,</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">importance =</span> <span class="st">"impurity"</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  pred_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_rf, test_data)</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  prob_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_rf, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  cm_rf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_rf, test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  roc_rf <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_rf<span class="sc">$</span>Oui)</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_rf, model_file)</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_rf, cm_file)</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_rf, roc_file)</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Entraîné et sauvegardé.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats</span></span>
 <span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats</span></span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-tuning</span></span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Performance selon mtry"</span></span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rf, <span class="at">main =</span> <span class="st">"Tuning de mtry"</span>)</span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-importance</span></span>
-<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Importance des variables (Top 15)"</span></span>
-<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
-<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">varImp</span>(model_rf), <span class="at">top =</span> <span class="dv">15</span>, <span class="at">main =</span> <span class="st">"Top 15 variables"</span>)</span>
-<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rf-results</span></span>
-<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Métriques (Forêt Aléatoire)"</span></span>
-<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>  Métrique <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"mtry"</span>, <span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>, <span class="st">"F1"</span>),</span>
-<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(model_rf<span class="sc">$</span>bestTune<span class="sc">$</span>mtry,</span>
-<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">max</span>(model_rf<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
-<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf), <span class="dv">4</span>),</span>
-<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
-<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
-<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
-<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
-<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-roc</span></span>
-<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Courbe ROC -- Forêt Aléatoire"</span></span>
-<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rf, <span class="at">col =</span> COL_POSITIVE, <span class="at">main =</span> <span class="st">"Courbe ROC - Forêt Aléatoire"</span>,</span>
-<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>     <span class="at">print.auc =</span> <span class="cn">TRUE</span>, <span class="at">print.auc.x =</span> <span class="fl">0.4</span>, <span class="at">print.auc.y =</span> <span class="fl">0.3</span>)</span>
-<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>Le classement d'importance confirme le rôle prédictif des familles olfactives et du nombre d'évaluations. La forêt aléatoire exploite les interactions non-linéaires pour améliorer la discrimination.</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-tuning</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Performance selon mtry"</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_rf, <span class="at">main =</span> <span class="st">"Tuning de mtry"</span>)</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-importance</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Importance des variables (Top 15)"</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">varImp</span>(model_rf), <span class="at">top =</span> <span class="dv">15</span>, <span class="at">main =</span> <span class="st">"Top 15 variables"</span>)</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-rf-results</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Métriques (Forêt Aléatoire)"</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>  Métrique <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"mtry"</span>, <span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>, <span class="st">"F1"</span>),</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(model_rf<span class="sc">$</span>bestTune<span class="sc">$</span>mtry,</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">max</span>(model_rf<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf), <span class="dv">4</span>),</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rf-roc</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Courbe ROC -- Forêt Aléatoire"</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rf, <span class="at">col =</span> COL_POSITIVE, <span class="at">main =</span> <span class="st">"Courbe ROC - Forêt Aléatoire"</span>,</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>     <span class="at">print.auc =</span> <span class="cn">TRUE</span>, <span class="at">print.auc.x =</span> <span class="fl">0.4</span>, <span class="at">print.auc.y =</span> <span class="fl">0.3</span>)</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>Le classement d'importance confirme le rôle prédictif des familles olfactives et du nombre d'évaluations. La forêt aléatoire exploite les interactions non-linéaires pour améliorer la discrimination.</span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

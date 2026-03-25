@@ -14,21 +14,21 @@ h1 {
 h2 {
   margin-top: 2rem;
   padding-bottom: 0.35rem;
-  border-bottom: 2px solid rgba(39, 128, 227, 0.2);
+  border-bottom: 2px solid rgba(29, 43, 68, 0.2);
 }
 
 h3 {
-  color: #2563eb;
+  color: #1D2B44;
 }
 
 [data-bs-theme="dark"] h3 {
-  color: #60a5fa;
+  color: #E8601C;
 }
 
 /* ── Title block ─────────────────────────────── */
 
 .quarto-title-meta {
-  border-left: 3px solid #2563eb;
+  border-left: 3px solid #1D2B44;
   padding-left: 1rem;
   margin-top: 1rem;
 }
@@ -63,28 +63,28 @@ p code, li code, td code {
   padding: 0.15em 0.4em;
   border-radius: 4px;
   font-size: 0.88em;
-  background: rgba(39, 128, 227, 0.07);
-  color: #1e40af;
+  background: rgba(29, 43, 68, 0.07);
+  color: #141d30;
 }
 
 [data-bs-theme="dark"] p code,
 [data-bs-theme="dark"] li code,
 [data-bs-theme="dark"] td code {
-  background: rgba(96, 165, 250, 0.1);
-  color: #93bbfd;
+  background: rgba(232, 96, 28, 0.1);
+  color: #F0935A;
 }
 
 /* ── Output / cell output ────────────────────── */
 
 .cell-output pre {
   border-radius: 8px;
-  border-left: 3px solid #2563eb;
-  background: rgba(39, 128, 227, 0.03);
+  border-left: 3px solid #1D2B44;
+  background: rgba(29, 43, 68, 0.03);
 }
 
 [data-bs-theme="dark"] .cell-output pre {
-  background: rgba(96, 165, 250, 0.04);
-  border-left-color: #60a5fa;
+  background: rgba(232, 96, 28, 0.04);
+  border-left-color: #E8601C;
 }
 
 /* ── Tables ──────────────────────────────────── */
@@ -95,7 +95,7 @@ p code, li code, td code {
 }
 
 .table thead th {
-  background: #2563eb;
+  background: #1D2B44;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.9rem;
@@ -103,15 +103,15 @@ p code, li code, td code {
 }
 
 [data-bs-theme="dark"] .table thead th {
-  background: #1e40af;
+  background: #141d30;
 }
 
 .table tbody tr:hover {
-  background: rgba(39, 128, 227, 0.04);
+  background: rgba(29, 43, 68, 0.04);
 }
 
 [data-bs-theme="dark"] .table tbody tr:hover {
-  background: rgba(96, 165, 250, 0.06);
+  background: rgba(232, 96, 28, 0.06);
 }
 
 /* ── Callout boxes ───────────────────────────── */
@@ -133,12 +133,12 @@ nav#TOC a {
 }
 
 nav#TOC a:hover {
-  color: #2563eb;
+  color: #1D2B44;
 }
 
 nav#TOC .active {
   font-weight: 600;
-  border-left: 2px solid #2563eb;
+  border-left: 2px solid #1D2B44;
 }
 
 /* ── Figures ─────────────────────────────────── */
@@ -210,20 +210,20 @@ html {
   align-items: center;
   gap: 0.4rem;
   padding: 0.6rem 1.1rem;
-  background: #2563eb;
+  background: #1D2B44;
   color: #ffffff !important;
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none !important;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(29, 43, 68, 0.3);
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
   z-index: 1050;
 }
 
 .pdf-download-btn:hover {
-  background: #1d4ed8;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  background: #C74E14;
+  box-shadow: 0 6px 16px rgba(29, 43, 68, 0.4);
   transform: translateY(-2px);
   color: #ffffff !important;
 }
@@ -233,11 +233,11 @@ html {
 }
 
 [data-bs-theme="dark"] .pdf-download-btn {
-  background: #1e40af;
-  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
+  background: #141d30;
+  box-shadow: 0 4px 12px rgba(29, 43, 68, 0.4);
 }
 
 [data-bs-theme="dark"] .pdf-download-btn:hover {
-  background: #2563eb;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+  background: #1D2B44;
+  box-shadow: 0 6px 16px rgba(29, 43, 68, 0.5);
 }

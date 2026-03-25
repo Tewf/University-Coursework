@@ -9,8 +9,6 @@ source(here::here("R", "utils.R"))
 library(ranger)
 ```
 
-## Chargement des données
-
 ```{r}
 #| label: load
 #| output: false

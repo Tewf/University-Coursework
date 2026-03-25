@@ -130,6 +130,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../custom.css">
 </head>
@@ -318,7 +347,11 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Prédiction de la Satisfaction Client pour les Parfums</a> 
         <div class="sidebar-tools-main">
@@ -380,21 +413,19 @@ div.csl-indent {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#chargement-des-données" id="toc-chargement-des-données" class="nav-link active" data-scroll-target="#chargement-des-données"><span class="header-section-number">2.1</span> Chargement des données</a></li>
-  <li><a href="#feature-engineering-par-familles-olfactives" id="toc-feature-engineering-par-familles-olfactives" class="nav-link" data-scroll-target="#feature-engineering-par-familles-olfactives"><span class="header-section-number">2.2</span> Feature Engineering par familles olfactives</a>
+  <li><a href="#feature-engineering-par-familles-olfactives" id="toc-feature-engineering-par-familles-olfactives" class="nav-link active" data-scroll-target="#feature-engineering-par-familles-olfactives"><span class="header-section-number">2.1</span> Feature Engineering par familles olfactives</a>
   <ul class="collapse">
-  <li><a href="#accords-familles" id="toc-accords-familles" class="nav-link" data-scroll-target="#accords-familles"><span class="header-section-number">2.2.1</span> Accords → familles</a></li>
-  <li><a href="#notes-familles" id="toc-notes-familles" class="nav-link" data-scroll-target="#notes-familles"><span class="header-section-number">2.2.2</span> Notes → familles</a></li>
+  <li><a href="#accords-familles" id="toc-accords-familles" class="nav-link" data-scroll-target="#accords-familles"><span class="header-section-number">2.1.1</span> Accords → familles</a></li>
+  <li><a href="#notes-familles" id="toc-notes-familles" class="nav-link" data-scroll-target="#notes-familles"><span class="header-section-number">2.1.2</span> Notes → familles</a></li>
   </ul></li>
-  <li><a href="#variables-catégorielles" id="toc-variables-catégorielles" class="nav-link" data-scroll-target="#variables-catégorielles"><span class="header-section-number">2.3</span> Variables catégorielles</a>
+  <li><a href="#variables-catégorielles" id="toc-variables-catégorielles" class="nav-link" data-scroll-target="#variables-catégorielles"><span class="header-section-number">2.2</span> Variables catégorielles</a>
   <ul class="collapse">
-  <li><a href="#gender" id="toc-gender" class="nav-link" data-scroll-target="#gender"><span class="header-section-number">2.3.1</span> Gender</a></li>
-  <li><a href="#country-regroupement-5" id="toc-country-regroupement-5" class="nav-link" data-scroll-target="#country-regroupement-5"><span class="header-section-number">2.3.2</span> Country (regroupement &lt; 5%)</a></li>
+  <li><a href="#gender" id="toc-gender" class="nav-link" data-scroll-target="#gender"><span class="header-section-number">2.2.1</span> Gender</a></li>
+  <li><a href="#country-regroupement-5" id="toc-country-regroupement-5" class="nav-link" data-scroll-target="#country-regroupement-5"><span class="header-section-number">2.2.2</span> Country (regroupement &lt; 5%)</a></li>
   </ul></li>
-  <li><a href="#jeu-de-données-final" id="toc-jeu-de-données-final" class="nav-link" data-scroll-target="#jeu-de-données-final"><span class="header-section-number">2.4</span> Jeu de données final</a></li>
-  <li><a href="#imputation-et-split" id="toc-imputation-et-split" class="nav-link" data-scroll-target="#imputation-et-split"><span class="header-section-number">2.5</span> Imputation et split</a></li>
-  <li><a href="#choix-des-classifieurs" id="toc-choix-des-classifieurs" class="nav-link" data-scroll-target="#choix-des-classifieurs"><span class="header-section-number">2.6</span> Choix des classifieurs</a></li>
-  <li><a href="#sauvegarde" id="toc-sauvegarde" class="nav-link" data-scroll-target="#sauvegarde"><span class="header-section-number">2.7</span> Sauvegarde</a></li>
+  <li><a href="#jeu-de-données-final" id="toc-jeu-de-données-final" class="nav-link" data-scroll-target="#jeu-de-données-final"><span class="header-section-number">2.3</span> Jeu de données final</a></li>
+  <li><a href="#imputation-et-split" id="toc-imputation-et-split" class="nav-link" data-scroll-target="#imputation-et-split"><span class="header-section-number">2.4</span> Imputation et split</a></li>
+  <li><a href="#choix-des-classifieurs" id="toc-choix-des-classifieurs" class="nav-link" data-scroll-target="#choix-des-classifieurs"><span class="header-section-number">2.5</span> Choix des classifieurs</a></li>
   </ul>
 </nav>
     </div>
@@ -421,8 +452,6 @@ div.csl-indent {
 </header>
 
 
-<section id="chargement-des-données" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="chargement-des-données"><span class="header-section-number">2.1</span> Chargement des données</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -430,13 +459,144 @@ div.csl-indent {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Données :"</span>, <span class="fu">nrow</span>(data_rated), <span class="st">"lignes,"</span>, <span class="fu">ncol</span>(data_rated), <span class="st">"colonnes</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section>
-<section id="feature-engineering-par-familles-olfactives" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="feature-engineering-par-familles-olfactives"><span class="header-section-number">2.2</span> Feature Engineering par familles olfactives</h2>
-<p>Plutôt que d’extraire les notes individuelles les plus fréquentes (approche arbitraire), nous regroupons accords et notes par <strong>famille olfactive</strong> selon une roue des parfums. Cette approche est soutenue par <span class="citation" data-cites="kumar2015">Kumar et al. (<a href="#ref-kumar2015" role="doc-biblioref">2015</a>)</span> qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des <em>hubs</em> dominants dans toutes les bases de données étudiées). Nos 10 familles : Citrus, Green, Aquatic, Floral, Fruity, Spicy, Woody, Gourmand, Leather/Smoky, Powdery/Amber.</p>
-<section id="accords-familles" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="accords-familles"><span class="header-section-number">2.2.1</span> Accords → familles</h3>
-<p>Chaque accord (<code>mainaccord1</code> à <code>mainaccord5</code>) est mappé vers sa famille. Les accords non reconnus → “autre”.</p>
+<section id="feature-engineering-par-familles-olfactives" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="feature-engineering-par-familles-olfactives"><span class="header-section-number">2.1</span> Feature Engineering par familles olfactives</h2>
+<p>L’objectif de cette étape est de transformer les données brutes (accords et notes individuelles) en variables exploitables par un modèle de classification. Plutôt que d’extraire les notes individuelles les plus fréquentes (approche arbitraire qui perdrait les relations entre notes proches), nous regroupons accords et notes par <strong>famille olfactive</strong> selon une <strong>roue des parfums</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>Cette approche est soutenue par <span class="citation" data-cites="kumar2015">Kumar et al. (<a href="#ref-kumar2015" role="doc-biblioref">2015</a>)</span> qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des <em>hubs</em> dominants dans toutes les bases de données étudiées). Nous retenons <strong>10 familles</strong>, décrites ci-dessous :</p>
+<div id="tbl-families-desc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-families-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: Les 10 familles olfactives utilisées pour le regroupement
+</figcaption>
+<div aria-describedby="tbl-families-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Famille</th>
+<th>Description</th>
+<th style="text-align: center;">Phase dominante</th>
+<th>Exemples d’accords/notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Citrus</strong></td>
+<td>Notes vives, pétillantes et solaires. Fraîcheur immédiate.</td>
+<td style="text-align: center;">Tête</td>
+<td>bergamote, citron, yuzu, orange sanguine</td>
+</tr>
+<tr class="even">
+<td><strong>Green</strong></td>
+<td>Herbes fraîchement coupées, thé, bambou. Évoquent la nature et la pureté.</td>
+<td style="text-align: center;">Tête / Cœur</td>
+<td>foin, figue verte, thé vert, bambou</td>
+</tr>
+<tr class="odd">
+<td><strong>Aquatic</strong></td>
+<td>Impressions de mer, pluie, air marin. Fraîcheur minérale.</td>
+<td style="text-align: center;">Tête</td>
+<td>calone, ambrox, musc marin, pétrichor</td>
+</tr>
+<tr class="even">
+<td><strong>Floral</strong></td>
+<td>Des floraux légers (muguet, pivoine) aux floraux riches et sensuels (rose, tubéreuse, jasmin).</td>
+<td style="text-align: center;">Cœur</td>
+<td>rose, jasmin, ylang-ylang, iris</td>
+</tr>
+<tr class="odd">
+<td><strong>Fruity</strong></td>
+<td>Notes jeunes et vibrantes de fruits rouges, tropicaux ou à noyau.</td>
+<td style="text-align: center;">Tête / Cœur</td>
+<td>framboise, mangue, pêche, pomme verte</td>
+</tr>
+<tr class="even">
+<td><strong>Spicy</strong></td>
+<td>Notes chaudes et intrigantes d’épices. Caractère sensuel.</td>
+<td style="text-align: center;">Cœur / Fond</td>
+<td>cannelle, cardamome, poivre rose, safran</td>
+</tr>
+<tr class="odd">
+<td><strong>Woody</strong></td>
+<td>Des bois légers (santal, cèdre) aux bois sombres (oud, patchouli, vétiver fumé).</td>
+<td style="text-align: center;">Fond</td>
+<td>santal, cèdre, oud, vétiver, mousse de chêne</td>
+</tr>
+<tr class="even">
+<td><strong>Gourmand</strong></td>
+<td>Notes sucrées et comestibles. Très populaires dans la parfumerie contemporaine.</td>
+<td style="text-align: center;">Fond</td>
+<td>vanille, caramel, tonka, café, chocolat</td>
+</tr>
+<tr class="odd">
+<td><strong>Leather / Smoky</strong></td>
+<td>Accords de caractère : cuir, tabac, encens, fumée. Profondeur et mystère.</td>
+<td style="text-align: center;">Fond</td>
+<td>cuir, daim, tabac, encens, oliban, myrrhe</td>
+</tr>
+<tr class="even">
+<td><strong>Powdery / Amber</strong></td>
+<td>Doux, enveloppants, « seconde peau ». Bases chaudes et résineux ambrés.</td>
+<td style="text-align: center;">Fond</td>
+<td>musc blanc, iris poudré, ambre, labdanum, benjoin</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<section id="accords-familles" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="accords-familles"><span class="header-section-number">2.1.1</span> Accords → familles</h3>
+<p>Chaque accord (<code>mainaccord1</code> à <code>mainaccord5</code>) est associé à sa famille olfactive via une table de correspondance. Par exemple, pour la famille <strong>boisée</strong> (<em>woody</em>), le mapping regroupe les accords suivants :</p>
+<div id="tbl-mapping-woody" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mapping-woody-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.2: Extrait du mapping pour la famille boisée
+</figcaption>
+<div aria-describedby="tbl-mapping-woody-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Accord Fragrantica</th>
+<th>→ Famille</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>woody</td>
+<td>Woody</td>
+</tr>
+<tr class="even">
+<td>aromatic</td>
+<td>Woody</td>
+</tr>
+<tr class="odd">
+<td>oud</td>
+<td>Woody</td>
+</tr>
+<tr class="even">
+<td>patchouli</td>
+<td>Woody</td>
+</tr>
+<tr class="odd">
+<td>mossy</td>
+<td>Woody</td>
+</tr>
+<tr class="even">
+<td>earthy</td>
+<td>Woody</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Le même principe s’applique aux 9 autres familles. Les accords non reconnus (absents de notre table de correspondance) sont classés dans une catégorie « autre ».</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -457,7 +617,7 @@ div.csl-indent {
 <div id="tbl-accords-families" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-accords-families-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2.1: Distribution des familles olfactives (accords)
+Table&nbsp;2.3: Distribution des familles olfactives (accords)
 </figcaption>
 <div aria-describedby="tbl-accords-families-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -534,9 +694,11 @@ Table&nbsp;2.1: Distribution des familles olfactives (accords)
 </div>
 <p>Les familles <strong>woody</strong>, <strong>gourmand</strong> et <strong>floral</strong> couvrent la majorité des parfums, cohérent avec les tendances du marché.</p>
 </section>
-<section id="notes-familles" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="notes-familles"><span class="header-section-number">2.2.2</span> Notes → familles</h3>
-<p>Chaque note individuelle (tête, cœur, fond) est classée par correspondance de mots-clés → 30 indicatrices (10 familles x 3 phases).</p>
+<section id="notes-familles" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="notes-familles"><span class="header-section-number">2.1.2</span> Notes → familles</h3>
+<p>En plus des accords (qui décrivent l’impression générale), chaque parfum possède des <strong>notes individuelles</strong> réparties en trois phases : tête, cœur et fond. Chaque note est un ingrédient précis (ex. : « bergamot », « sandalwood », « vanilla »).</p>
+<p>Pour chaque phase, nous classons chaque note dans l’une des 10 familles olfactives à l’aide d’une liste de mots-clés. Par exemple, si la note « sandalwood » apparaît dans les notes de fond, la variable <code>base_woody</code> prend la valeur 1. Cela produit <strong>30 variables indicatrices</strong> (10 familles × 3 phases), qui capturent le profil olfactif du parfum à chaque étape de son évolution.</p>
+<p>Cette approche permet de transformer des données textuelles (listes de notes séparées par des virgules) en variables numériques exploitables par les modèles, tout en préservant la structure tête/cœur/fond qui est fondamentale en parfumerie.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -550,10 +712,11 @@ Table&nbsp;2.1: Distribution des familles olfactives (accords)
 </div>
 </section>
 </section>
-<section id="variables-catégorielles" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="variables-catégorielles"><span class="header-section-number">2.3</span> Variables catégorielles</h2>
-<section id="gender" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="gender"><span class="header-section-number">2.3.1</span> Gender</h3>
+<section id="variables-catégorielles" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="variables-catégorielles"><span class="header-section-number">2.2</span> Variables catégorielles</h2>
+<section id="gender" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="gender"><span class="header-section-number">2.2.1</span> Gender</h3>
+<p>La variable <code>Gender</code> (genre cible du parfum) est catégorielle avec trois modalités : <em>women</em>, <em>men</em>, <em>unisex</em>. Pour l’intégrer dans nos modèles, nous la transformons en <strong>trois variables indicatrices</strong> (encodage <em>one-hot</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>). Chaque parfum aura ainsi une valeur 1 dans la colonne correspondant à son genre cible et 0 dans les autres.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -566,9 +729,9 @@ Table&nbsp;2.1: Distribution des familles olfactives (accords)
 </details>
 </div>
 </section>
-<section id="country-regroupement-5" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="country-regroupement-5"><span class="header-section-number">2.3.2</span> Country (regroupement &lt; 5%)</h3>
-<p>Les pays rares sont regroupés en “Autre” pour éviter des indicatrices trop creuses.</p>
+<section id="country-regroupement-5" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="country-regroupement-5"><span class="header-section-number">2.2.2</span> Country (regroupement &lt; 5%)</h3>
+<p>Le pays d’origine de la marque est une variable potentiellement discriminante, comme observé dans l’analyse exploratoire. La <strong>France</strong> domine largement le dataset — ce qui reflète son statut historique de berceau de la parfumerie mondiale (Grasse, capitale du parfum depuis le XVII<sup>e</sup> siècle). Les pays représentant moins de 5 % de l’effectif sont regroupés en « Autre » pour éviter des variables indicatrices trop creuses (majoritairement des zéros), ce qui pourrait introduire du bruit dans les modèles.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -588,7 +751,7 @@ Table&nbsp;2.1: Distribution des familles olfactives (accords)
 <div id="tbl-country-merge" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-country-merge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2.2: Pays après regroupement (seuil 5%)
+Table&nbsp;2.4: Pays après regroupement (seuil 5%)
 </figcaption>
 <div aria-describedby="tbl-country-merge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -650,8 +813,8 @@ Table&nbsp;2.2: Pays après regroupement (seuil 5%)
 </div>
 </section>
 </section>
-<section id="jeu-de-données-final" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="jeu-de-données-final"><span class="header-section-number">2.4</span> Jeu de données final</h2>
+<section id="jeu-de-données-final" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="jeu-de-données-final"><span class="header-section-number">2.3</span> Jeu de données final</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -669,261 +832,85 @@ Table&nbsp;2.2: Pays après regroupement (seuil 5%)
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">"Satisfaction"</span>)))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>Au total, le jeu de données comprend <strong>54 variables explicatives</strong> pour <strong>24063 observations</strong>. Le tableau ci-dessous résume les catégories de variables retenues :</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>var_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> feature_cols,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Type =</span> <span class="fu">case_when</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    feature_cols <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>) <span class="sc">~</span> <span class="st">"Numérique"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^gender_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Genre (binaire)"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^country_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Pays (binaire)"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^fam_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille accord (binaire)"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^top_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note tête (binaire)"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^mid_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note cœur (binaire)"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^base_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note fond (binaire)"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Autre"</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">nrow</span>(var_df), <span class="st">"variables explicatives |"</span>, <span class="fu">nrow</span>(df_model), <span class="st">"observations</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>var_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  Catégorie <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Numérique"</span>, <span class="st">"Genre (binaire)"</span>, <span class="st">"Pays (binaire)"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Famille accord (binaire)"</span>, <span class="st">"Famille note tête (binaire)"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Famille note cœur (binaire)"</span>, <span class="st">"Famille note fond (binaire)"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nombre =</span> <span class="fu">c</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(feature_cols <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>)),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^gender_"</span>, feature_cols)),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^country_"</span>, feature_cols)),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^fam_"</span>, feature_cols)),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^top_"</span>, feature_cols)),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^mid_"</span>, feature_cols)),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^base_"</span>, feature_cols))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Exemples =</span> <span class="fu">c</span>(<span class="st">"Year, Rating_Count"</span>, <span class="st">"gender_women, gender_men, gender_unisex"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>               <span class="st">"country_France, country_Autre, ..."</span>, <span class="st">"fam_woody, fam_floral, ..."</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>               <span class="st">"top_citrus, top_floral, ..."</span>, <span class="st">"mid_spicy, mid_gourmand, ..."</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>               <span class="st">"base_woody, base_powdery_amber, ..."</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(var_summary, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Catégorie"</span>, <span class="st">"Nombre"</span>, <span class="st">"Exemples"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code>54 variables explicatives | 24063 observations</code></pre>
-</div>
-<details open="" class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(var_df, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Variable"</span>, <span class="st">"Catégorie"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div id="tbl-variables-final" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div id="tbl-variables-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-final-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2.3: Variables retenues pour la modélisation
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.5: Résumé des variables retenues pour la modélisation
 </figcaption>
-<div aria-describedby="tbl-variables-final-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-variables-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 9%">
+<col style="width: 53%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Variable</th>
 <th style="text-align: left;">Catégorie</th>
+<th style="text-align: right;">Nombre</th>
+<th style="text-align: left;">Exemples</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Year</td>
 <td style="text-align: left;">Numérique</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Year, Rating_Count</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Rating_Count</td>
-<td style="text-align: left;">Numérique</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">gender_women</td>
 <td style="text-align: left;">Genre (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">gender_men</td>
-<td style="text-align: left;">Genre (binaire)</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">gender_women, gender_men, gender_unisex</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gender_unisex</td>
-<td style="text-align: left;">Genre (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">country_France</td>
 <td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">country_USA</td>
-<td style="text-align: left;">Pays (binaire)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">country_France, country_Autre, …</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">country_Autre</td>
-<td style="text-align: left;">Pays (binaire)</td>
+<td style="text-align: left;">Famille accord (binaire)</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">fam_woody, fam_floral, …</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">country_Italy</td>
-<td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">country_UK</td>
-<td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">country_Brazil</td>
-<td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">country_Spain</td>
-<td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">country_UAE</td>
-<td style="text-align: left;">Pays (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_citrus</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_green</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_aquatic</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_floral</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_fruity</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_spicy</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_woody</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_gourmand</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_leather_smoky</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">fam_powdery_amber</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">fam_autre</td>
-<td style="text-align: left;">Famille accord (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">top_citrus</td>
 <td style="text-align: left;">Famille note tête (binaire)</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">top_citrus, top_floral, …</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">top_green</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">top_aquatic</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">top_floral</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">top_fruity</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">top_spicy</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">top_woody</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">top_gourmand</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">top_leather_smoky</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">top_powdery_amber</td>
-<td style="text-align: left;">Famille note tête (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mid_citrus</td>
 <td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mid_green</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">mid_spicy, mid_gourmand, …</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">mid_aquatic</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mid_floral</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mid_fruity</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mid_spicy</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mid_woody</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mid_gourmand</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">mid_leather_smoky</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">mid_powdery_amber</td>
-<td style="text-align: left;">Famille note cœur (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">base_citrus</td>
 <td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">base_green</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">base_aquatic</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">base_floral</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">base_fruity</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">base_spicy</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">base_woody</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">base_gourmand</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">base_leather_smoky</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">base_powdery_amber</td>
-<td style="text-align: left;">Famille note fond (binaire)</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">base_woody, base_powdery_amber, …</td>
 </tr>
 </tbody>
 </table>
@@ -933,31 +920,35 @@ Table&nbsp;2.3: Variables retenues pour la modélisation
 </div>
 </div>
 </section>
-<section id="imputation-et-split" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="imputation-et-split"><span class="header-section-number">2.5</span> Imputation et split</h2>
-<p>L’imputation par la <strong>médiane</strong> est robuste aux valeurs extrêmes (<code>Rating_Count</code>).</p>
+<section id="imputation-et-split" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="imputation-et-split"><span class="header-section-number">2.4</span> Imputation et split</h2>
+<p>Certaines variables numériques (notamment <code>Rating_Count</code>) contiennent des valeurs manquantes qu’il faut imputer<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> avant la modélisation. Nous choisissons l’imputation par la <strong>médiane</strong> plutôt que par la moyenne pour les raisons suivantes :</p>
+<ul>
+<li>La <strong>médiane est robuste aux valeurs extrêmes</strong> : <code>Rating_Count</code> présente une distribution très asymétrique (quelques parfums ont des milliers d’avis). La moyenne serait tirée vers le haut par ces valeurs extrêmes, ce qui donnerait une imputation peu représentative de la majorité des parfums.</li>
+<li>D’autres méthodes plus sophistiquées (imputation par KNN, par régression, ou par algorithme MICE) seraient possibles mais ajouteraient de la complexité sans gain garanti, étant donné que le taux de valeurs manquantes est faible.</li>
+</ul>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">"medianImpute"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ensemble =</span> <span class="fu">c</span>(<span class="st">"Train"</span>, <span class="st">"Test"</span>),</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observations =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(train_data), <span class="fu">nrow</span>(test_data)),</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct_Oui =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>),</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>))</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>), <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ensemble"</span>, <span class="st">"Observations"</span>, <span class="st">"Prop. Oui"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">"medianImpute"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ensemble =</span> <span class="fu">c</span>(<span class="st">"Train"</span>, <span class="st">"Test"</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observations =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(train_data), <span class="fu">nrow</span>(test_data)),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct_Oui =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>), <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ensemble"</span>, <span class="st">"Observations"</span>, <span class="st">"Prop. Oui"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="tbl-split" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2.4: Répartition train / test
+Table&nbsp;2.6: Répartition train / test
 </figcaption>
 <div aria-describedby="tbl-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -988,26 +979,47 @@ Table&nbsp;2.4: Répartition train / test
 </div>
 </div>
 </section>
-<section id="choix-des-classifieurs" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="choix-des-classifieurs"><span class="header-section-number">2.6</span> Choix des classifieurs</h2>
-<p>Données binaires/numériques, cible équilibrée, pas de valeurs manquantes → deux classifieurs complémentaires :</p>
+<section id="choix-des-classifieurs" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="choix-des-classifieurs"><span class="header-section-number">2.5</span> Choix des classifieurs</h2>
+<p>Notre jeu de données présente les caractéristiques suivantes après préparation : variables explicatives binaires et numériques, variable cible équilibrée, pas de valeurs manquantes. Dans ce contexte, et conformément aux consignes du projet (deux classifieurs supervisés), nous retenons deux approches <strong>complémentaires</strong> :</p>
 <ol type="1">
-<li><strong>Régression logistique (Elastic Net)</strong> : baseline interprétable, sélection automatique de variables par régularisation.</li>
-<li><strong>Forêt aléatoire</strong> : capture les interactions non-linéaires entre familles olfactives, classement d’importance des variables.</li>
+<li><strong>Régression logistique avec régularisation Elastic Net</strong> <span class="citation" data-cites="zou2005">(<a href="#ref-zou2005" role="doc-biblioref">Zou et Hastie 2005</a>)</span> :
+<ul>
+<li><strong>Pourquoi ce choix ?</strong> Ce modèle est adapté à nos données car il gère naturellement les variables binaires et numériques. La régularisation Elastic Net combine les pénalités L1 (Lasso, qui met à zéro les coefficients des variables non pertinentes → sélection automatique de variables) et L2 (Ridge, qui stabilise les coefficients en cas de corrélations entre variables). C’est un modèle <strong>interprétable</strong> : chaque coefficient indique la direction et l’amplitude de l’effet d’une variable sur la satisfaction.</li>
+<li><strong>Rôle</strong> : servir de <em>baseline</em><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> interprétable.</li>
+</ul></li>
+<li><strong>Forêt aléatoire</strong> <span class="citation" data-cites="breiman2001">(<a href="#ref-breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> :
+<ul>
+<li><strong>Pourquoi ce choix ?</strong> Contrairement à la régression logistique, la forêt aléatoire peut capturer des <strong>interactions non-linéaires</strong> entre variables. Par exemple, un accord « boisé » combiné à une note de tête « agrume » pourrait avoir un effet sur la satisfaction que la régression logistique ne peut pas modéliser. De plus, <span class="citation" data-cites="kumar2015">Kumar et al. (<a href="#ref-kumar2015" role="doc-biblioref">2015</a>)</span> obtiennent des AUC &gt; 0.7 avec un random forest sur des descripteurs olfactifs similaires aux nôtres.</li>
+<li><strong>Rôle</strong> : explorer les interactions et fournir un classement d’importance des variables.</li>
+</ul></li>
 </ol>
-<p>Métrique principale : <strong>AUC</strong> (capacité discriminante indépendante du seuil).</p>
-</section>
-<section id="sauvegarde" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="sauvegarde"><span class="header-section-number">2.7</span> Sauvegarde</h2>
+<p><strong>Métrique principale</strong> : l’<strong>AUC</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (capacité discriminante indépendante du seuil de décision), complétée par l’accuracy, la sensibilité, la spécificité et le score F1.</p>
 
 
 <!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-breiman2001" class="csl-entry" role="listitem">
+Breiman, Leo. 2001. <span>«&nbsp;Random Forests&nbsp;»</span>. <em>Machine Learning</em> 45 (1): 5‑32.
+</div>
 <div id="ref-kumar2015" class="csl-entry" role="listitem">
 Kumar, Ritesh, Rishemjit Kaur, Benjamin Auffarth, et Amol P. Bhondekar. 2015. <span>«&nbsp;Understanding the Odour Spaces: A Step towards Solving Olfactory Stimulus-Percept Problem&nbsp;»</span>. <em>PLoS ONE</em> 10 (10): e0141263. <a href="https://doi.org/10.1371/journal.pone.0141263">https://doi.org/10.1371/journal.pone.0141263</a>.
 </div>
+<div id="ref-zou2005" class="csl-entry" role="listitem">
+Zou, Hui, et Trevor Hastie. 2005. <span>«&nbsp;Regularization and Variable Selection via the Elastic Net&nbsp;»</span>. <em>Journal of the Royal Statistical Society: Series B</em> 67 (2): 301‑20.
 </div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Roue des parfums (<em>fragrance wheel</em>) : classification circulaire des familles olfactives, inventée par Michael Edwards en 1983. Elle organise les parfums en grandes familles (florale, boisée, orientale, fraîche…) et montre leurs proximités. Voir par exemple : <a href="https://www.fragrancesoftheworld.com/FragranceWheel">fragrancesoftheworld.com</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Encodage <em>one-hot</em> : transformation d’une variable catégorielle à <span class="math inline">\(k\)</span> modalités en <span class="math inline">\(k\)</span> colonnes binaires (0/1), une par modalité.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Imputer : remplacer une valeur manquante par une valeur estimée.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Baseline : modèle de référence, simple et interprétable, auquel on compare les modèles plus complexes.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>AUC (<em>Area Under the ROC Curve</em>) : aire sous la courbe ROC. Mesure la capacité du modèle à discriminer les deux classes indépendamment du seuil de décision. Un AUC de 0.5 = hasard, 1 = discrimination parfaite.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
@@ -1487,183 +1499,229 @@ Kumar, Ritesh, Rishemjit Kaur, Benjamin Auffarth, et Amol P. Bhondekar. 2015. <s
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Partie 2 : Préparation des Données"</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R"</span>, <span class="st">"utils.R"</span>))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement des données</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"data_rated.rds"</span>))</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Données :"</span>, <span class="fu">nrow</span>(data_rated), <span class="st">"lignes,"</span>, <span class="fu">ncol</span>(data_rated), <span class="st">"colonnes</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Engineering par familles olfactives</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire), nous regroupons accords et notes par **famille olfactive** selon une roue des parfums. Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nos 10 familles : Citrus, Green, Aquatic, Floral, Fruity, Spicy, Woody, Gourmand, Leather/Smoky, Powdery/Amber.</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accords → familles</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>Chaque accord (<span class="in">`mainaccord1`</span> à <span class="in">`mainaccord5`</span>) est mappé vers sa famille. Les accords non reconnus → "autre".</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-accords-families</span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Distribution des familles olfactives (accords)"</span></span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>accord_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_accords_to_families</span>(data_rated, accord_cols)</span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>fam_cols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>fam_sums <span class="ot">&lt;-</span> <span class="fu">colSums</span>(data_rated[fam_cols])</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>fam_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">Famille =</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">names</span>(fam_sums)),</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">Effectif =</span> fam_sums,</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct =</span> <span class="fu">round</span>(fam_sums <span class="sc">/</span> <span class="fu">nrow</span>(data_rated) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>fam_df <span class="ot">&lt;-</span> fam_df[<span class="fu">order</span>(<span class="sc">-</span>fam_df<span class="sc">$</span>Effectif), ]</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fam_df) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(fam_df, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Famille"</span>, <span class="st">"Parfums"</span>, <span class="st">"%"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>Les familles **woody**, **gourmand** et **floral** couvrent la majorité des parfums, cohérent avec les tendances du marché.</span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes → familles</span></span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>Chaque note individuelle (tête, cœur, fond) est classée par correspondance de mots-clés → 30 indicatrices (10 familles x 3 phases).</span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: map-notes</span></span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Top"</span>, <span class="at">prefix =</span> <span class="st">"top_"</span>)</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Middle"</span>, <span class="at">prefix =</span> <span class="st">"mid_"</span>)</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Base"</span>, <span class="at">prefix =</span> <span class="st">"base_"</span>)</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Indicatrices créées : Tête"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^top_"</span>, <span class="fu">names</span>(data_rated))),</span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Coeur"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^mid_"</span>, <span class="fu">names</span>(data_rated))),</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Fond"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^base_"</span>, <span class="fu">names</span>(data_rated))), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables catégorielles</span></span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gender</span></span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: encode-gender</span></span>
-<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_women =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"women"</span>),</span>
-<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_men =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"men"</span>),</span>
-<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_unisex =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"unisex"</span>)</span>
-<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Country (regroupement &lt; 5%)</span></span>
-<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>Les pays rares sont regroupés en "Autre" pour éviter des indicatrices trop creuses.</span>
-<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-country-merge</span></span>
-<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Pays après regroupement (seuil 5%)"</span></span>
-<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">merge_rare_categories</span>(data_rated, <span class="st">"Country"</span>, <span class="at">threshold_pct =</span> <span class="dv">5</span>)</span>
-<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>country_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Country, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(country_freq, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Pays"</span>, <span class="st">"Effectif"</span>, <span class="st">"%"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>countries_kept <span class="ot">&lt;-</span> country_freq<span class="sc">$</span>Country</span>
-<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (country <span class="cf">in</span> countries_kept) {</span>
-<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>  col_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"country_"</span>, <span class="fu">make.names</span>(country))</span>
-<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>  data_rated[[col_name]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(data_rated<span class="sc">$</span>Country <span class="sc">==</span> country <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data_rated<span class="sc">$</span>Country))</span>
-<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## Jeu de données final</span></span>
-<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dataset-final</span></span>
-<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>,</span>
-<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gender_women"</span>, <span class="st">"gender_men"</span>, <span class="st">"gender_unisex"</span>,</span>
-<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^country_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^top_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^mid_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^base_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">"Satisfaction"</span>)))</span>
-<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-variables-final</span></span>
-<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Variables retenues pour la modélisation"</span></span>
-<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a>var_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> feature_cols,</span>
-<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a>  <span class="at">Type =</span> <span class="fu">case_when</span>(</span>
-<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>    feature_cols <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>) <span class="sc">~</span> <span class="st">"Numérique"</span>,</span>
-<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^gender_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Genre (binaire)"</span>,</span>
-<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^country_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Pays (binaire)"</span>,</span>
-<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^fam_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille accord (binaire)"</span>,</span>
-<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^top_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note tête (binaire)"</span>,</span>
-<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^mid_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note cœur (binaire)"</span>,</span>
-<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"^base_"</span>, feature_cols) <span class="sc">~</span> <span class="st">"Famille note fond (binaire)"</span>,</span>
-<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Autre"</span></span>
-<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">nrow</span>(var_df), <span class="st">"variables explicatives |"</span>, <span class="fu">nrow</span>(df_model), <span class="st">"observations</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
-<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(var_df, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Variable"</span>, <span class="st">"Catégorie"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Imputation et split</span></span>
-<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a>L'imputation par la **médiane** est robuste aux valeurs extrêmes (<span class="in">`Rating_Count`</span>).</span>
-<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-split</span></span>
-<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Répartition train / test"</span></span>
-<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">"medianImpute"</span>)</span>
-<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
-<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
-<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
-<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ensemble =</span> <span class="fu">c</span>(<span class="st">"Train"</span>, <span class="st">"Test"</span>),</span>
-<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observations =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(train_data), <span class="fu">nrow</span>(test_data)),</span>
-<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct_Oui =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>),</span>
-<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>))</span>
-<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a>), <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ensemble"</span>, <span class="st">"Observations"</span>, <span class="st">"Prop. Oui"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix des classifieurs</span></span>
-<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a>Données binaires/numériques, cible équilibrée, pas de valeurs manquantes → deux classifieurs complémentaires :</span>
-<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Régression logistique (Elastic Net)** : baseline interprétable, sélection automatique de variables par régularisation.</span>
-<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Forêt aléatoire** : capture les interactions non-linéaires entre familles olfactives, classement d'importance des variables.</span>
-<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a>Métrique principale : **AUC** (capacité discriminante indépendante du seuil).</span>
-<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sauvegarde</span></span>
-<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb11-193"><a href="#cb11-193" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
-<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
-<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
-<span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Partie 2 : Préparation des Données"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R"</span>, <span class="st">"utils.R"</span>))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"data_rated.rds"</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Données :"</span>, <span class="fu">nrow</span>(data_rated), <span class="st">"lignes,"</span>, <span class="fu">ncol</span>(data_rated), <span class="st">"colonnes</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Feature Engineering par familles olfactives</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>L'objectif de cette étape est de transformer les données brutes (accords et notes individuelles) en variables exploitables par un modèle de classification. Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire qui perdrait les relations entre notes proches), nous regroupons accords et notes par **famille olfactive** selon une **roue des parfums**^<span class="co">[</span><span class="ot">Roue des parfums (*fragrance wheel*) : classification circulaire des familles olfactives, inventée par Michael Edwards en 1983. Elle organise les parfums en grandes familles (florale, boisée, orientale, fraîche...) et montre leurs proximités. Voir par exemple : [fragrancesoftheworld.com](https://www.fragrancesoftheworld.com/FragranceWheel)</span><span class="co">]</span>.</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nous retenons **10 familles**, décrites ci-dessous :</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Famille <span class="pp">|</span> Description <span class="pp">|</span> Phase dominante <span class="pp">|</span> Exemples d'accords/notes <span class="pp">|</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|-------------|:---------------:|--------------------------|</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Citrus** <span class="pp">|</span> Notes vives, pétillantes et solaires. Fraîcheur immédiate. <span class="pp">|</span> Tête <span class="pp">|</span> bergamote, citron, yuzu, orange sanguine <span class="pp">|</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Green** <span class="pp">|</span> Herbes fraîchement coupées, thé, bambou. Évoquent la nature et la pureté. <span class="pp">|</span> Tête / Cœur <span class="pp">|</span> foin, figue verte, thé vert, bambou <span class="pp">|</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Aquatic** <span class="pp">|</span> Impressions de mer, pluie, air marin. Fraîcheur minérale. <span class="pp">|</span> Tête <span class="pp">|</span> calone, ambrox, musc marin, pétrichor <span class="pp">|</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Floral** <span class="pp">|</span> Des floraux légers (muguet, pivoine) aux floraux riches et sensuels (rose, tubéreuse, jasmin). <span class="pp">|</span> Cœur <span class="pp">|</span> rose, jasmin, ylang-ylang, iris <span class="pp">|</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Fruity** <span class="pp">|</span> Notes jeunes et vibrantes de fruits rouges, tropicaux ou à noyau. <span class="pp">|</span> Tête / Cœur <span class="pp">|</span> framboise, mangue, pêche, pomme verte <span class="pp">|</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Spicy** <span class="pp">|</span> Notes chaudes et intrigantes d'épices. Caractère sensuel. <span class="pp">|</span> Cœur / Fond <span class="pp">|</span> cannelle, cardamome, poivre rose, safran <span class="pp">|</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Woody** <span class="pp">|</span> Des bois légers (santal, cèdre) aux bois sombres (oud, patchouli, vétiver fumé). <span class="pp">|</span> Fond <span class="pp">|</span> santal, cèdre, oud, vétiver, mousse de chêne <span class="pp">|</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Gourmand** <span class="pp">|</span> Notes sucrées et comestibles. Très populaires dans la parfumerie contemporaine. <span class="pp">|</span> Fond <span class="pp">|</span> vanille, caramel, tonka, café, chocolat <span class="pp">|</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Leather / Smoky** <span class="pp">|</span> Accords de caractère : cuir, tabac, encens, fumée. Profondeur et mystère. <span class="pp">|</span> Fond <span class="pp">|</span> cuir, daim, tabac, encens, oliban, myrrhe <span class="pp">|</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Powdery / Amber** <span class="pp">|</span> Doux, enveloppants, « seconde peau ». Bases chaudes et résineux ambrés. <span class="pp">|</span> Fond <span class="pp">|</span> musc blanc, iris poudré, ambre, labdanum, benjoin <span class="pp">|</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>: Les 10 familles olfactives utilisées pour le regroupement {#tbl-families-desc}</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accords → familles</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>Chaque accord (<span class="in">`mainaccord1`</span> à <span class="in">`mainaccord5`</span>) est associé à sa famille olfactive via une table de correspondance. Par exemple, pour la famille **boisée** (*woody*), le mapping regroupe les accords suivants :</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Accord Fragrantica <span class="pp">|</span> → Famille <span class="pp">|</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------------|-----------|</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> woody <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> aromatic <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> oud <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> patchouli <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> mossy <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> earthy <span class="pp">|</span> Woody <span class="pp">|</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>: Extrait du mapping pour la famille boisée {#tbl-mapping-woody}</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>Le même principe s'applique aux 9 autres familles. Les accords non reconnus (absents de notre table de correspondance) sont classés dans une catégorie « autre ».</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-accords-families</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Distribution des familles olfactives (accords)"</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>accord_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_accords_to_families</span>(data_rated, accord_cols)</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>fam_cols <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>fam_sums <span class="ot">&lt;-</span> <span class="fu">colSums</span>(data_rated[fam_cols])</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>fam_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>  <span class="at">Famille =</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">names</span>(fam_sums)),</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">Effectif =</span> fam_sums,</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct =</span> <span class="fu">round</span>(fam_sums <span class="sc">/</span> <span class="fu">nrow</span>(data_rated) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>fam_df <span class="ot">&lt;-</span> fam_df[<span class="fu">order</span>(<span class="sc">-</span>fam_df<span class="sc">$</span>Effectif), ]</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(fam_df) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(fam_df, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Famille"</span>, <span class="st">"Parfums"</span>, <span class="st">"%"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>Les familles **woody**, **gourmand** et **floral** couvrent la majorité des parfums, cohérent avec les tendances du marché.</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Notes → familles</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>En plus des accords (qui décrivent l'impression générale), chaque parfum possède des **notes individuelles** réparties en trois phases : tête, cœur et fond. Chaque note est un ingrédient précis (ex. : « bergamot », « sandalwood », « vanilla »).</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>Pour chaque phase, nous classons chaque note dans l'une des 10 familles olfactives à l'aide d'une liste de mots-clés. Par exemple, si la note « sandalwood » apparaît dans les notes de fond, la variable <span class="in">`base_woody`</span> prend la valeur 1. Cela produit **30 variables indicatrices** (10 familles × 3 phases), qui capturent le profil olfactif du parfum à chaque étape de son évolution.</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>Cette approche permet de transformer des données textuelles (listes de notes séparées par des virgules) en variables numériques exploitables par les modèles, tout en préservant la structure tête/cœur/fond qui est fondamentale en parfumerie.</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: map-notes</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Top"</span>, <span class="at">prefix =</span> <span class="st">"top_"</span>)</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Middle"</span>, <span class="at">prefix =</span> <span class="st">"mid_"</span>)</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_notes_to_families</span>(data_rated, <span class="st">"Base"</span>, <span class="at">prefix =</span> <span class="st">"base_"</span>)</span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Indicatrices créées : Tête"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^top_"</span>, <span class="fu">names</span>(data_rated))),</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Coeur"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^mid_"</span>, <span class="fu">names</span>(data_rated))),</span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Fond"</span>, <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">"^base_"</span>, <span class="fu">names</span>(data_rated))), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variables catégorielles</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gender</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>La variable <span class="in">`Gender`</span> (genre cible du parfum) est catégorielle avec trois modalités : *women*, *men*, *unisex*. Pour l'intégrer dans nos modèles, nous la transformons en **trois variables indicatrices** (encodage *one-hot*^[Encodage *one-hot* : transformation d'une variable catégorielle à $k$ modalités en $k$ colonnes binaires (0/1), une par modalité.]). Chaque parfum aura ainsi une valeur 1 dans la colonne correspondant à son genre cible et 0 dans les autres.</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: encode-gender</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_women =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"women"</span>),</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_men =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"men"</span>),</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender_unisex =</span> <span class="fu">as.integer</span>(Gender <span class="sc">==</span> <span class="st">"unisex"</span>)</span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### Country (regroupement &lt; 5%)</span></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>Le pays d'origine de la marque est une variable potentiellement discriminante, comme observé dans l'analyse exploratoire. La **France** domine largement le dataset — ce qui reflète son statut historique de berceau de la parfumerie mondiale (Grasse, capitale du parfum depuis le XVII^e^ siècle). Les pays représentant moins de 5 % de l'effectif sont regroupés en « Autre » pour éviter des variables indicatrices trop creuses (majoritairement des zéros), ce qui pourrait introduire du bruit dans les modèles.</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-country-merge</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Pays après regroupement (seuil 5%)"</span></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">merge_rare_categories</span>(data_rated, <span class="st">"Country"</span>, <span class="at">threshold_pct =</span> <span class="dv">5</span>)</span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>country_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Country, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(country_freq, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Pays"</span>, <span class="st">"Effectif"</span>, <span class="st">"%"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>countries_kept <span class="ot">&lt;-</span> country_freq<span class="sc">$</span>Country</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (country <span class="cf">in</span> countries_kept) {</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>  col_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"country_"</span>, <span class="fu">make.names</span>(country))</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>  data_rated[[col_name]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(data_rated<span class="sc">$</span>Country <span class="sc">==</span> country <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data_rated<span class="sc">$</span>Country))</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## Jeu de données final</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: dataset-final</span></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>feature_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>,</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gender_women"</span>, <span class="st">"gender_men"</span>, <span class="st">"gender_unisex"</span>,</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^country_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^top_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^mid_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">"^base_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>df_model <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(feature_cols, <span class="st">"Satisfaction"</span>)))</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>Au total, le jeu de données comprend **`r length(feature_cols)` variables explicatives** pour **`r nrow(df_model)` observations**. Le tableau ci-dessous résume les catégories de variables retenues :</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-variables-summary</span></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Résumé des variables retenues pour la modélisation"</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>var_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>  Catégorie <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Numérique"</span>, <span class="st">"Genre (binaire)"</span>, <span class="st">"Pays (binaire)"</span>,</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Famille accord (binaire)"</span>, <span class="st">"Famille note tête (binaire)"</span>,</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Famille note cœur (binaire)"</span>, <span class="st">"Famille note fond (binaire)"</span>),</span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nombre =</span> <span class="fu">c</span>(</span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(feature_cols <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Rating_Count"</span>)),</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^gender_"</span>, feature_cols)),</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^country_"</span>, feature_cols)),</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^fam_"</span>, feature_cols)),</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^top_"</span>, feature_cols)),</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^mid_"</span>, feature_cols)),</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">grepl</span>(<span class="st">"^base_"</span>, feature_cols))</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>  <span class="at">Exemples =</span> <span class="fu">c</span>(<span class="st">"Year, Rating_Count"</span>, <span class="st">"gender_women, gender_men, gender_unisex"</span>,</span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>               <span class="st">"country_France, country_Autre, ..."</span>, <span class="st">"fam_woody, fam_floral, ..."</span>,</span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>               <span class="st">"top_citrus, top_floral, ..."</span>, <span class="st">"mid_spicy, mid_gourmand, ..."</span>,</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>               <span class="st">"base_woody, base_powdery_amber, ..."</span>)</span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(var_summary, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Catégorie"</span>, <span class="st">"Nombre"</span>, <span class="st">"Exemples"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a><span class="fu">## Imputation et split</span></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>Certaines variables numériques (notamment <span class="in">`Rating_Count`</span>) contiennent des valeurs manquantes qu'il faut imputer^<span class="co">[</span><span class="ot">Imputer : remplacer une valeur manquante par une valeur estimée.</span><span class="co">]</span> avant la modélisation. Nous choisissons l'imputation par la **médiane** plutôt que par la moyenne pour les raisons suivantes :</span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **médiane est robuste aux valeurs extrêmes** : <span class="in">`Rating_Count`</span> présente une distribution très asymétrique (quelques parfums ont des milliers d'avis). La moyenne serait tirée vers le haut par ces valeurs extrêmes, ce qui donnerait une imputation peu représentative de la majorité des parfums.</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>D'autres méthodes plus sophistiquées (imputation par KNN, par régression, ou par algorithme MICE) seraient possibles mais ajouteraient de la complexité sans gain garanti, étant donné que le taux de valeurs manquantes est faible.</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-split</span></span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Répartition train / test"</span></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a>preprocess_median <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(df_model[, feature_cols], <span class="at">method =</span> <span class="st">"medianImpute"</span>)</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>df_model[, feature_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess_median, df_model[, feature_cols])</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(df_model<span class="sc">$</span>Satisfaction, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> df_model[train_index, ]</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> df_model[<span class="sc">-</span>train_index, ]</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ensemble =</span> <span class="fu">c</span>(<span class="st">"Train"</span>, <span class="st">"Test"</span>),</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observations =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(train_data), <span class="fu">nrow</span>(test_data)),</span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pct_Oui =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">mean</span>(train_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>),</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">mean</span>(test_data<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="dv">3</span>))</span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>), <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ensemble"</span>, <span class="st">"Observations"</span>, <span class="st">"Prop. Oui"</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix des classifieurs</span></span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>Notre jeu de données présente les caractéristiques suivantes après préparation : variables explicatives binaires et numériques, variable cible équilibrée, pas de valeurs manquantes. Dans ce contexte, et conformément aux consignes du projet (deux classifieurs supervisés), nous retenons deux approches **complémentaires** :</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Régression logistique avec régularisation Elastic Net** <span class="co">[</span><span class="ot">@zou2005</span><span class="co">]</span> :</span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Pourquoi ce choix ?** Ce modèle est adapté à nos données car il gère naturellement les variables binaires et numériques. La régularisation Elastic Net combine les pénalités L1 (Lasso, qui met à zéro les coefficients des variables non pertinentes → sélection automatique de variables) et L2 (Ridge, qui stabilise les coefficients en cas de corrélations entre variables). C'est un modèle **interprétable** : chaque coefficient indique la direction et l'amplitude de l'effet d'une variable sur la satisfaction.</span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Rôle** : servir de *baseline*^<span class="co">[</span><span class="ot">Baseline : modèle de référence, simple et interprétable, auquel on compare les modèles plus complexes.</span><span class="co">]</span> interprétable.</span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Forêt aléatoire** <span class="co">[</span><span class="ot">@breiman2001</span><span class="co">]</span> :</span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Pourquoi ce choix ?** Contrairement à la régression logistique, la forêt aléatoire peut capturer des **interactions non-linéaires** entre variables. Par exemple, un accord « boisé » combiné à une note de tête « agrume » pourrait avoir un effet sur la satisfaction que la régression logistique ne peut pas modéliser. De plus, @kumar2015 obtiennent des AUC &gt; 0.7 avec un random forest sur des descripteurs olfactifs similaires aux nôtres.</span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Rôle** : explorer les interactions et fournir un classement d'importance des variables.</span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a>**Métrique principale** : l'**AUC**^<span class="co">[</span><span class="ot">AUC (*Area Under the ROC Curve*) : aire sous la courbe ROC. Mesure la capacité du modèle à discriminer les deux classes indépendamment du seuil de décision. Un AUC de 0.5 = hasard, 1 = discrimination parfaite.</span><span class="co">]</span> (capacité discriminante indépendante du seuil de décision), complétée par l'accuracy, la sensibilité, la spécificité et le score F1.</span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(train_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -347,7 +347,11 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Prédiction de la Satisfaction Client pour les Parfums</a> 
         <div class="sidebar-tools-main">
@@ -409,10 +413,9 @@ window.Quarto = {
     <h2 id="toc-title">Table des matières</h2>
    
   <ul>
-  <li><a href="#chargement-des-données" id="toc-chargement-des-données" class="nav-link active" data-scroll-target="#chargement-des-données"><span class="header-section-number">3.1</span> Chargement des données</a></li>
-  <li><a href="#principe" id="toc-principe" class="nav-link" data-scroll-target="#principe"><span class="header-section-number">3.2</span> Principe</a></li>
-  <li><a href="#entraînement" id="toc-entraînement" class="nav-link" data-scroll-target="#entraînement"><span class="header-section-number">3.3</span> Entraînement</a></li>
-  <li><a href="#résultats" id="toc-résultats" class="nav-link" data-scroll-target="#résultats"><span class="header-section-number">3.4</span> Résultats</a></li>
+  <li><a href="#principe" id="toc-principe" class="nav-link active" data-scroll-target="#principe"><span class="header-section-number">3.1</span> Principe</a></li>
+  <li><a href="#entraînement" id="toc-entraînement" class="nav-link" data-scroll-target="#entraînement"><span class="header-section-number">3.2</span> Entraînement</a></li>
+  <li><a href="#résultats" id="toc-résultats" class="nav-link" data-scroll-target="#résultats"><span class="header-section-number">3.3</span> Résultats</a></li>
   </ul>
 </nav>
     </div>
@@ -439,8 +442,6 @@ window.Quarto = {
 </header>
 
 
-<section id="chargement-des-données" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="chargement-des-données"><span class="header-section-number">3.1</span> Chargement des données</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -449,9 +450,8 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section>
-<section id="principe" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="principe"><span class="header-section-number">3.2</span> Principe</h2>
+<section id="principe" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="principe"><span class="header-section-number">3.1</span> Principe</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -467,8 +467,8 @@ window.Quarto = {
 </div>
 <p>Nous utilisons une régularisation <strong>Elastic Net</strong> (<code>glmnet</code>) combinant pénalités L1 et L2 <span class="citation" data-cites="zou2005">(<a href="#ref-zou2005" role="doc-biblioref">Zou et Hastie 2005</a>)</span>. Ce modèle est interprétable (coefficients), robuste (régularisation) et sert de baseline <span class="citation" data-cites="hastie2009">(<a href="#ref-hastie2009" role="doc-biblioref">Hastie, Tibshirani, et Friedman 2009</a>)</span>.</p>
 </section>
-<section id="entraînement" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="entraînement"><span class="header-section-number">3.3</span> Entraînement</h2>
+<section id="entraînement" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="entraînement"><span class="header-section-number">3.2</span> Entraînement</h2>
 <p>Variables numériques centrées-réduites. Hyperparamètres <strong>alpha</strong> (mélange L1/L2) et <strong>lambda</strong> (force) optimisés par validation croisée 5-fold (métrique : AUC).</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -512,8 +512,8 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="résultats" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="résultats"><span class="header-section-number">3.4</span> Résultats</h2>
+<section id="résultats" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="résultats"><span class="header-section-number">3.3</span> Résultats</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -523,7 +523,7 @@ window.Quarto = {
 <div id="fig-logistic-tuning" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-logistic-tuning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="03_regression_logistique_files/figure-html/fig-logistic-tuning-1.png" class="img-fluid figure-img" width="480">
+<img src="03_regression_logistique_files/figure-html/fig-logistic-tuning-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logistic-tuning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3.1: AUC selon alpha et lambda
@@ -611,7 +611,7 @@ Table&nbsp;3.1: Métriques (Régression Logistique)
 <div id="fig-logistic-roc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-logistic-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="03_regression_logistique_files/figure-html/fig-logistic-roc-1.png" class="img-fluid figure-img" width="480">
+<img src="03_regression_logistique_files/figure-html/fig-logistic-roc-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logistic-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3.2: Courbe ROC – Régression Logistique
@@ -1123,105 +1123,103 @@ Zou, Hui, et Trevor Hastie. 2005. <span>«&nbsp;Regularization and Variable Sele
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement des données</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"train_data.rds"</span>))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"test_data.rds"</span>))</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Train :"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"| Test :"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Principe</span></span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Principe</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Définition</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>La régression logistique modélise la probabilité d'appartenance à une classe :</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p)}}$$</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### Définition</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>La régression logistique modélise la probabilité d'appartenance à une classe :</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p)}}$$</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>Nous utilisons une régularisation **Elastic Net** (<span class="in">`glmnet`</span>) combinant pénalités L1 et L2 <span class="co">[</span><span class="ot">@zou2005</span><span class="co">]</span>. Ce modèle est interprétable (coefficients), robuste (régularisation) et sert de baseline <span class="co">[</span><span class="ot">@hastie2009</span><span class="co">]</span>.</span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>Nous utilisons une régularisation **Elastic Net** (<span class="in">`glmnet`</span>) combinant pénalités L1 et L2 <span class="co">[</span><span class="ot">@zou2005</span><span class="co">]</span>. Ce modèle est interprétable (coefficients), robuste (régularisation) et sert de baseline <span class="co">[</span><span class="ot">@hastie2009</span><span class="co">]</span>.</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entraînement</span></span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Entraînement</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>Variables numériques centrées-réduites. Hyperparamètres **alpha** (mélange L1/L2) et **lambda** (force) optimisés par validation croisée 5-fold (métrique : AUC).</span>
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>Variables numériques centrées-réduites. Hyperparamètres **alpha** (mélange L1/L2) et **lambda** (force) optimisés par validation croisée 5-fold (métrique : AUC).</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: logistic-cv</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_logistic.rds"</span>)</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>cm_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_logistic.rds"</span>)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>roc_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_logistic.rds"</span>)</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(model_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_file)) {</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  model_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model_file)</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  cm_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_file)</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  roc_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_file)</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Chargé depuis le cache.</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  grid_glmnet <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda =</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>  model_logistic <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> .,</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> train_data,</span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"glmnet"</span>,</span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL,</span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">tuneGrid =</span> grid_glmnet,</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  pred_logistic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_logistic, test_data)</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  prob_logistic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_logistic, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  cm_logistic <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_logistic, test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  roc_logistic <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_logistic<span class="sc">$</span>Oui)</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_logistic, model_file)</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_logistic, cm_file)</span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_logistic, roc_file)</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Entraîné et sauvegardé.</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: logistic-cv</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>model_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_logistic.rds"</span>)</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>cm_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_logistic.rds"</span>)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>roc_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_logistic.rds"</span>)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(model_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_file)) {</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  model_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model_file)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  cm_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_file)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  roc_logistic <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_file)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Chargé depuis le cache.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  grid_glmnet <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda =</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10</span>)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>  model_logistic <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> .,</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> train_data,</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"glmnet"</span>,</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL,</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">tuneGrid =</span> grid_glmnet,</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  pred_logistic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_logistic, test_data)</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  prob_logistic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_logistic, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  cm_logistic <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_logistic, test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  roc_logistic <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_logistic<span class="sc">$</span>Oui)</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_logistic, model_file)</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_logistic, cm_file)</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_logistic, roc_file)</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Entraîné et sauvegardé.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats</span></span>
 <span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="fu">## Résultats</span></span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-logistic-tuning</span></span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "AUC selon alpha et lambda"</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_logistic, <span class="at">main =</span> <span class="st">"Régression Logistique - Tuning"</span>)</span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-logistic-results</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Métriques (Régression Logistique)"</span></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>  Métrique <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"lambda"</span>, <span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>, <span class="st">"F1"</span>),</span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(model_logistic<span class="sc">$</span>bestTune<span class="sc">$</span>alpha,</span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(model_logistic<span class="sc">$</span>bestTune<span class="sc">$</span>lambda, <span class="dv">6</span>),</span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">max</span>(model_logistic<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">4</span>),</span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-logistic-roc</span></span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Courbe ROC -- Régression Logistique"</span></span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_logistic, <span class="at">col =</span> COL_PRIMARY, <span class="at">main =</span> <span class="st">"Courbe ROC - Régression Logistique"</span>,</span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>     <span class="at">print.auc =</span> <span class="cn">TRUE</span>, <span class="at">print.auc.x =</span> <span class="fl">0.4</span>, <span class="at">print.auc.y =</span> <span class="fl">0.3</span>)</span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>La performance est modeste mais réelle, ce qui est attendu pour la prédiction d'une variable subjective comme la satisfaction à partir de caractéristiques olfactives.</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-logistic-tuning</span></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "AUC selon alpha et lambda"</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_logistic, <span class="at">main =</span> <span class="st">"Régression Logistique - Tuning"</span>)</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-logistic-results</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Métriques (Régression Logistique)"</span></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>  Métrique <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"lambda"</span>, <span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>, <span class="st">"F1"</span>),</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(model_logistic<span class="sc">$</span>bestTune<span class="sc">$</span>alpha,</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(model_logistic<span class="sc">$</span>bestTune<span class="sc">$</span>lambda, <span class="dv">6</span>),</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">max</span>(model_logistic<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">4</span>),</span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-logistic-roc</span></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Courbe ROC -- Régression Logistique"</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_logistic, <span class="at">col =</span> COL_PRIMARY, <span class="at">main =</span> <span class="st">"Courbe ROC - Régression Logistique"</span>,</span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>     <span class="at">print.auc =</span> <span class="cn">TRUE</span>, <span class="at">print.auc.x =</span> <span class="fl">0.4</span>, <span class="at">print.auc.y =</span> <span class="fl">0.3</span>)</span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>La performance est modeste mais réelle, ce qui est attendu pour la prédiction d'une variable subjective comme la satisfaction à partir de caractéristiques olfactives.</span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

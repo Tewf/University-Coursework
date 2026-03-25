@@ -301,7 +301,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./assets/uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./assets/uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Prédiction de la Satisfaction Client pour les Parfums</a> 
         <div class="sidebar-tools-main">
@@ -365,6 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
+  <li><a href="#contexte" id="toc-contexte" class="nav-link" data-scroll-target="#contexte">Contexte</a></li>
   <li><a href="#objectif" id="toc-objectif" class="nav-link" data-scroll-target="#objectif">Objectif</a></li>
   <li><a href="#données" id="toc-données" class="nav-link" data-scroll-target="#données">Données</a></li>
   <li><a href="#plan-du-rapport" id="toc-plan-du-rapport" class="nav-link" data-scroll-target="#plan-du-rapport">Plan du rapport</a></li>
@@ -399,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Date de publication</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">24 mars 2026</p>
+      <p class="date">25 mars 2026</p>
     </div>
   </div>
   
@@ -414,13 +419,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
 <p>Ce projet s’inscrit dans le cadre du cours de <strong>Compléments de Mathématiques 2</strong> (Introduction au Machine Learning), L3 MIASHS, Université Grenoble Alpes.</p>
+<section id="contexte" class="level3">
+<h3 class="anchored" data-anchor-id="contexte">Contexte</h3>
+<p>L’industrie de la parfumerie est un domaine où la perception subjective joue un rôle central. Chaque parfum est caractérisé par une architecture olfactive complexe, reposant sur trois notions fondamentales qu’il convient de distinguer :</p>
+<ul>
+<li><strong>Note olfactive</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> : un ingrédient ou une matière première individuelle (ex. : bergamote, jasmin, musc). Les notes sont organisées en trois phases selon leur volatilité : les <em>notes de tête</em> (premières perçues, légères et éphémères), les <em>notes de cœur</em> (le corps du parfum, apparaissant après quelques minutes) et les <em>notes de fond</em> (les plus persistantes, perçues en dernier).</li>
+<li><strong>Accord olfactif</strong><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> : une combinaison harmonieuse de plusieurs notes qui, ensemble, produisent une impression olfactive distincte (ex. : « woody », « floral », « citrus »). Un parfum possède généralement plusieurs accords dominants.</li>
+<li><strong>Famille olfactive</strong><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> : une grande catégorie qui regroupe des accords et des notes partageant un caractère olfactif commun. Par exemple, la famille <em>boisée</em> englobe les accords « woody », « aromatic », « oud » et « patchouli ».</li>
+</ul>
+<p>La question que nous posons est la suivante : <strong>peut-on prédire si un parfum sera bien noté par les utilisateurs à partir de ses caractéristiques olfactives, de son origine et de son genre cible ?</strong></p>
+</section>
 <section id="objectif" class="level3">
 <h3 class="anchored" data-anchor-id="objectif">Objectif</h3>
 <p>Réaliser une <strong>classification supervisée binaire</strong> à partir d’un jeu de données réel : prédire la <strong>satisfaction des utilisateurs</strong> vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.</p>
 </section>
 <section id="données" class="level3">
 <h3 class="anchored" data-anchor-id="données">Données</h3>
-<p>Le dataset utilisé provient de <a href="https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset">Fragrantica Fragrance Dataset – Kaggle</a> et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d’origine et évaluations des utilisateurs.</p>
+<p>Le dataset utilisé provient de <a href="https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset">Fragrantica Fragrance Dataset – Kaggle</a> et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d’origine et évaluations des utilisateurs. Fragrantica est une encyclopédie en ligne de référence dans le monde de la parfumerie, alimentée par les avis de millions d’utilisateurs.</p>
 </section>
 <section id="plan-du-rapport" class="level3">
 <h3 class="anchored" data-anchor-id="plan-du-rapport">Plan du rapport</h3>
@@ -436,6 +451,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- -->
 
 </section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Ingrédient individuel perçu dans un parfum, par exemple la bergamote, le jasmin ou le musc.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Combinaison harmonieuse de plusieurs notes qui crée une impression olfactive distincte, par exemple « boisé » ou « floral ».<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Grande catégorie regroupant des accords et notes partageant un caractère olfactif commun (ex. : la famille « boisée » regroupe les accords woody, aromatic, oud, patchouli, etc.).<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
@@ -916,21 +939,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Ce projet s'inscrit dans le cadre du cours de **Compléments de Mathématiques 2** (Introduction au Machine Learning), L3 MIASHS, Université Grenoble Alpes.</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### Objectif</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contexte</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Réaliser une **classification supervisée binaire** à partir d'un jeu de données réel : prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>L'industrie de la parfumerie est un domaine où la perception subjective joue un rôle central. Chaque parfum est caractérisé par une architecture olfactive complexe, reposant sur trois notions fondamentales qu'il convient de distinguer :</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">### Données</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Le dataset utilisé provient de <span class="co">[</span><span class="ot">Fragrantica Fragrance Dataset -- Kaggle</span><span class="co">](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset)</span> et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Note olfactive**^<span class="co">[</span><span class="ot">Ingrédient individuel perçu dans un parfum, par exemple la bergamote, le jasmin ou le musc.</span><span class="co">]</span> : un ingrédient ou une matière première individuelle (ex. : bergamote, jasmin, musc). Les notes sont organisées en trois phases selon leur volatilité : les *notes de tête* (premières perçues, légères et éphémères), les *notes de cœur* (le corps du parfum, apparaissant après quelques minutes) et les *notes de fond* (les plus persistantes, perçues en dernier).</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Accord olfactif**^<span class="co">[</span><span class="ot">Combinaison harmonieuse de plusieurs notes qui crée une impression olfactive distincte, par exemple « boisé » ou « floral ».</span><span class="co">]</span> : une combinaison harmonieuse de plusieurs notes qui, ensemble, produisent une impression olfactive distincte (ex. : « woody », « floral », « citrus »). Un parfum possède généralement plusieurs accords dominants.</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Famille olfactive**^<span class="co">[</span><span class="ot">Grande catégorie regroupant des accords et notes partageant un caractère olfactif commun (ex. : la famille « boisée » regroupe les accords woody, aromatic, oud, patchouli, etc.).</span><span class="co">]</span> : une grande catégorie qui regroupe des accords et des notes partageant un caractère olfactif commun. Par exemple, la famille *boisée* englobe les accords « woody », « aromatic », « oud » et « patchouli ».</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plan du rapport</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>La question que nous posons est la suivante : **peut-on prédire si un parfum sera bien noté par les utilisateurs à partir de ses caractéristiques olfactives, de son origine et de son genre cible ?**</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Analyse exploratoire** : présentation des données, analyse univariée et multivariée</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Préparation** : feature engineering par familles olfactives, traitement des valeurs manquantes</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Régression logistique** : modèle linéaire avec régularisation Elastic Net</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Forêt aléatoire** : modèle non-linéaire par ensemble d'arbres</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Comparaison** : évaluation comparative, choix final et conclusion</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### Objectif</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Réaliser une **classification supervisée binaire** à partir d'un jeu de données réel : prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Données</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Le dataset utilisé provient de <span class="co">[</span><span class="ot">Fragrantica Fragrance Dataset -- Kaggle</span><span class="co">](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset)</span> et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs. Fragrantica est une encyclopédie en ligne de référence dans le monde de la parfumerie, alimentée par les avis de millions d'utilisateurs.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plan du rapport</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Analyse exploratoire** : présentation des données, analyse univariée et multivariée</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Préparation** : feature engineering par familles olfactives, traitement des valeurs manquantes</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Régression logistique** : modèle linéaire avec régularisation Elastic Net</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Forêt aléatoire** : modèle non-linéaire par ensemble d'arbres</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Comparaison** : évaluation comparative, choix final et conclusion</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

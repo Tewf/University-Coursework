@@ -7,6 +7,8 @@ project:
 book:
   title: "Prédiction de la Satisfaction Client pour les Parfums"
   subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
+  sidebar:
+    logo: assets/uga-logo.png
   author:
     - "HAMLIL Mohamed"
     - "PARDO TERAN German"
@@ -45,13 +47,23 @@ format:
     fig-cap-location: bottom
     echo: false
     documentclass: scrreprt
-    classoption: [open=any, DIV=12]
+    classoption: [open=any, DIV=15]
+    template-partials:
+      - partials/before-body.tex
+    fontsize: 10pt
     include-in-header:
       - text: |
+          \usepackage{xcolor}
+          \definecolor{ugablue}{HTML}{1D2B44}
+          \definecolor{ugaorange}{HTML}{E8601C}
+          \AtBeginDocument{\hypersetup{linkcolor=ugaorange, urlcolor=ugablue, citecolor=ugablue}}
           \usepackage{fancyhdr}
           \pagestyle{fancy}
-          \fancyhead[RO]{HAMLIL Mohamed}
-          \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
+          \fancyhead[RO]{\textcolor{ugablue}{HAMLIL Mohamed}}
+          \fancyhead[LO]{\textcolor{ugablue}{Compléments de Mathématiques 2 L3 MIASHS}}
+          \fancyfoot[CO,CE]{\textcolor{ugaorange}{\rule{2cm}{0.4pt}}}
+          \renewcommand{\headrulewidth}{0.4pt}
+          \renewcommand{\headrule}{\hbox to\headwidth{\color{ugaorange}\leaders\hrule height \headrulewidth\hfill}}
           \usepackage{float}
           \usepackage{booktabs}
           \floatplacement{figure}{H}
@@ -60,13 +72,37 @@ format:
           \makeatletter
           \patchcmd{\scr@startchapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\clearpage}{}{}
           \makeatother
+          \addtokomafont{chapter}{\color{ugablue}}
+          \addtokomafont{section}{\color{ugablue}}
+          \addtokomafont{subsection}{\color{ugablue}}
+          \setlength{\parskip}{0.3em}
+          \setlength{\footnotesep}{0.5em}
+          \renewcommand{\footnotesize}{\scriptsize}
+          \newcommand\UGATitlePage{%
+            \begin{titlepage}
+              \begin{center}
+                \vspace*{1cm}
+                \includegraphics[width=4cm]{assets/uga-logo.png}\\[1.5cm]
+                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.8cm]
+                {\fontsize{24}{30}\selectfont\bfseries\color{ugablue} Prédiction de la Satisfaction Client\\pour les Parfums}\\[0.6cm]
+                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.8cm]
+                {\large\itshape Compléments de Mathématiques 2 -- Introduction au Machine Learning}\\[0.3cm]
+                {\normalsize L3 MIASHS -- Université Grenoble Alpes}\\[2cm]
+                {\large
+                  HAMLIL Mohamed \quad PARDO TERAN German\\[0.3cm]
+                  EL KORAICHI Mohamed Yassine \quad ANZID Keltoum}\\[2cm]
+                {\large \today}
+              \end{center}
+            \end{titlepage}
+          }
+          \AtBeginDocument{\UGATitlePage}
 
 execute:
   cache: true
   warning: false
   message: false
   fig-align: center
-  fig-width: 5
-  fig-height: 3
+  fig-width: 4.5
+  fig-height: 2.8
 
 bibliography: references.bib

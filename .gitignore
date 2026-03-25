@@ -41,3 +41,5 @@ _site/
 _freeze/
 .quarto/
 *_files/
+# Exception : garder les figures rendues dans les rapports pour GitHub Pages
+!**/rapport/**/*_files/

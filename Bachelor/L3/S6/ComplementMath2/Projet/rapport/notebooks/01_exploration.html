@@ -298,7 +298,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Prédiction de la Satisfaction Client pour les Parfums</a> 
         <div class="sidebar-tools-main">
@@ -379,7 +383,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#satisfaction-vs.-variables-catégorielles" id="toc-satisfaction-vs.-variables-catégorielles" class="nav-link" data-scroll-target="#satisfaction-vs.-variables-catégorielles"><span class="header-section-number">1.4.2</span> Satisfaction vs.&nbsp;variables catégorielles</a></li>
   <li><a href="#corrélations" id="toc-corrélations" class="nav-link" data-scroll-target="#corrélations"><span class="header-section-number">1.4.3</span> Corrélations</a></li>
   </ul></li>
-  <li><a href="#sauvegarde" id="toc-sauvegarde" class="nav-link" data-scroll-target="#sauvegarde"><span class="header-section-number">1.5</span> Sauvegarde</a></li>
   </ul>
 </nav>
     </div>
@@ -408,6 +411,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="chargement-et-variables" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="chargement-et-variables"><span class="header-section-number">1.1</span> Chargement et variables</h2>
+<p>Nous utilisons la version <strong>nettoyée</strong> (<em>cleaned</em>) du dataset Fragrantica. Ce fichier corrige les incohérences des données brutes : noms de marques et de pays standardisés, catégories de genre unifiées, notes numériques au format décimal, notes olfactives parsées et séparées. Le dataset contient environ 24 000 parfums et les variables suivantes :</p>
+<div id="tbl-variables" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: Description des variables du dataset
+</figcaption>
+<div aria-describedby="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 34%">
@@ -423,6 +433,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
+<td><code>Perfume</code></td>
+<td>Texte</td>
+<td>Nom du parfum (identifiant, non utilisé en modélisation)</td>
+</tr>
+<tr class="even">
+<td><code>Brand</code></td>
+<td>Catégorielle</td>
+<td>Marque du parfum (standardisée, non retenue car trop de modalités)</td>
+</tr>
+<tr class="odd">
 <td><code>Year</code></td>
 <td>Numérique</td>
 <td>Année de sortie du parfum</td>
@@ -430,35 +450,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>Gender</code></td>
 <td>Catégorielle</td>
-<td>Genre cible (men, women, unisex)</td>
+<td>Genre cible du parfum : <em>men</em>, <em>women</em> ou <em>unisex</em></td>
 </tr>
 <tr class="odd">
 <td><code>Country</code></td>
 <td>Catégorielle</td>
-<td>Pays d’origine de la marque</td>
+<td>Pays d’origine de la marque (noms standardisés)</td>
 </tr>
 <tr class="even">
+<td><code>Rating_Value</code></td>
+<td>Numérique</td>
+<td>Note moyenne attribuée par les utilisateurs (échelle continue)</td>
+</tr>
+<tr class="odd">
 <td><code>Rating_Count</code></td>
 <td>Numérique</td>
-<td>Nombre d’évaluations reçues</td>
+<td>Nombre total d’évaluations reçues</td>
+</tr>
+<tr class="even">
+<td><code>Perfumer1</code>, <code>Perfumer2</code></td>
+<td>Catégorielle</td>
+<td>Parfumeurs créateurs (séparés et standardisés)</td>
 </tr>
 <tr class="odd">
 <td><code>mainaccord1</code>–<code>mainaccord5</code></td>
 <td>Catégorielle</td>
-<td>Accords olfactifs principaux</td>
+<td>Les 5 accords olfactifs<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> principaux du parfum</td>
 </tr>
 <tr class="even">
 <td><code>Top</code>, <code>Middle</code>, <code>Base</code></td>
 <td>Texte</td>
-<td>Notes de tête, cœur, fond</td>
+<td>Notes de tête, de cœur et de fond<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> (parsées et standardisées)</td>
 </tr>
 <tr class="odd">
 <td><strong><code>Satisfaction</code></strong></td>
 <td><strong>Binaire</strong></td>
-<td><strong>Variable cible (Oui / Non)</strong></td>
+<td><strong>Variable cible construite (Oui / Non)</strong> — voir section suivante</td>
 </tr>
 </tbody>
 </table>
+</div>
+</figure>
+</div>
+<p>Parmi ces variables, <code>Perfume</code>, <code>Brand</code>, <code>URL</code> et <code>Perfumer1</code>/<code>Perfumer2</code> ne sont pas retenues pour la modélisation : elles servent d’identifiants ou présentent une cardinalité<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> trop élevée. La variable <code>Rating_Value</code> est utilisée pour <strong>construire</strong> la variable cible <code>Satisfaction</code>, mais n’est pas incluse comme variable explicative (ce serait une fuite d’information<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>).</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -507,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-missing-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-missing-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-missing-plot-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-missing-plot-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-missing-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.1: Valeurs manquantes par variable
@@ -516,11 +550,18 @@ Figure&nbsp;1.1: Valeurs manquantes par variable
 </div>
 </div>
 </div>
-<p><code>Perfumer2</code> et <code>Base</code> ont les taux les plus élevés. <code>Rating_Value</code> est quasi complète, ce qui permet la construction de la variable cible.</p>
+<p><code>Perfumer2</code> (le second parfumeur associé au parfum) et <code>Base</code> (les notes de fond) présentent les taux de valeurs manquantes les plus élevés. Cela s’explique naturellement : la majorité des parfums n’ont qu’un seul créateur, et les notes de fond ne sont pas toujours renseignées sur Fragrantica. Nous pouvons négliger <code>Perfumer2</code> sans perte d’information significative, car cette variable n’apporte pas de pouvoir prédictif exploitable dans notre contexte (trop de modalités, trop de données manquantes).</p>
+<p>En revanche, les variables essentielles pour notre modélisation — <code>Rating_Value</code> (quasi complète), <code>Gender</code>, <code>Country</code>, et les accords olfactifs (<code>mainaccord1</code> à <code>mainaccord5</code>) — présentent des taux de complétion élevés, ce qui est rassurant pour la suite de l’analyse.</p>
 </section>
 <section id="création-de-la-variable-cible" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="création-de-la-variable-cible"><span class="header-section-number">1.2.2</span> Création de la variable cible</h3>
-<p>La variable <strong>Satisfaction</strong> est binaire : <em>Oui</em> si <code>Rating_Value</code> &gt;= médiane, <em>Non</em> sinon.</p>
+<p>La variable <strong>Satisfaction</strong> est binaire : <em>Oui</em> si <code>Rating_Value</code> ≥ médiane, <em>Non</em> sinon.</p>
+<p><strong>Pourquoi la médiane comme seuil ?</strong> Nous avons choisi la médiane plutôt que la moyenne ou un seuil arbitraire (par exemple 5/10) pour plusieurs raisons :</p>
+<ul>
+<li>La <strong>médiane</strong> est robuste aux valeurs extrêmes<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, contrairement à la moyenne qui serait tirée vers le haut par les notes élevées (la distribution est asymétrique à gauche).</li>
+<li>Un seuil fixe comme 5/10 ne tient pas compte de la distribution réelle des notes : si la grande majorité des parfums sont notés au-dessus de 5, ce seuil produirait des classes très déséquilibrées (trop de « Oui »), ce qui dégraderait les performances des classifieurs.</li>
+<li>La médiane garantit par construction une répartition <strong>quasi équilibrée</strong> des deux classes, ce qui est souhaitable pour la classification supervisée.</li>
+</ul>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -542,7 +583,7 @@ Figure&nbsp;1.1: Valeurs manquantes par variable
 <div id="fig-target" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-target-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-target-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-target-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-target-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.2: Distribution de la variable Satisfaction
@@ -551,7 +592,7 @@ Figure&nbsp;1.2: Distribution de la variable Satisfaction
 </div>
 </div>
 </div>
-<p>La médiane (3.97) produit une répartition quasi équilibrée (50.7% Oui), évitant les biais de déséquilibre.</p>
+<p>La médiane (3.97) produit effectivement une répartition quasi équilibrée (50.7 % Oui), confirmant la pertinence de ce choix de seuil.</p>
 </section>
 </section>
 <section id="analyse-univariée" class="level2" data-number="1.3">
@@ -581,7 +622,7 @@ Figure&nbsp;1.2: Distribution de la variable Satisfaction
 <div id="fig-univar-numeric-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-numeric-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-numeric-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-numeric-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-numeric-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.3: Distribution des variables numériques
@@ -593,7 +634,7 @@ Figure&nbsp;1.3: Distribution des variables numériques
 <div id="fig-univar-numeric-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-numeric-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-numeric-2.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-numeric-2.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-numeric-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.4: Distribution des variables numériques
@@ -603,7 +644,7 @@ Figure&nbsp;1.4: Distribution des variables numériques
 </div>
 </div>
 </div>
-<p>Les notes sont unimodales et légèrement asymétriques à gauche. Le nombre d’évaluations est fortement asymétrique : la majorité des parfums ont peu de votes.</p>
+<p>La distribution de <code>Rating_Value</code> est unimodale<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> et légèrement asymétrique à gauche, indiquant que les utilisateurs ont tendance à attribuer des notes plutôt élevées. La distribution de <code>Rating_Count</code> est fortement asymétrique à droite : la grande majorité des parfums reçoivent peu d’évaluations, tandis que quelques parfums populaires en cumulent des milliers. La transformation logarithmique (<code>log(1 + x)</code>) permet de mieux visualiser cette distribution très étalée.</p>
 </section>
 <section id="year" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="year"><span class="header-section-number">1.3.2</span> Year</h3>
@@ -622,7 +663,7 @@ Figure&nbsp;1.4: Distribution des variables numériques
 <div id="fig-univar-year" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-year-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-year-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.5: Nombre de parfums par année de sortie
@@ -669,7 +710,7 @@ Figure&nbsp;1.5: Nombre de parfums par année de sortie
 <div id="fig-univar-categ-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-categ-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-categ-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-categ-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-categ-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.6: Distribution par genre et pays d’origine (&gt;= 5%)
@@ -681,7 +722,7 @@ Figure&nbsp;1.6: Distribution par genre et pays d’origine (&gt;= 5%)
 <div id="fig-univar-categ-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-categ-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-categ-2.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-categ-2.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-categ-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.7: Distribution par genre et pays d’origine (&gt;= 5%)
@@ -691,7 +732,8 @@ Figure&nbsp;1.7: Distribution par genre et pays d’origine (&gt;= 5%)
 </div>
 </div>
 </div>
-<p>Les parfums unisex et pour femmes dominent. La France est le premier pays d’origine, suivie des USA et de l’Italie. Les pays &lt; 5% seront regroupés en “Autre” lors de la préparation.</p>
+<p>Les parfums unisex et pour femmes dominent le marché. La <strong>France</strong> est le premier pays d’origine des marques de parfum — ce qui n’est pas surprenant puisque la France est le berceau historique de la parfumerie moderne, notamment grâce à la ville de <strong>Grasse</strong><a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, capitale mondiale du parfum depuis le XVII<sup>e</sup> siècle. Elle est suivie des États-Unis et de l’Italie.</p>
+<p>Les pays représentant moins de 5 % de l’effectif total seront regroupés dans une catégorie « Autre » lors de la préparation des données. Ce regroupement est nécessaire pour éviter de créer des variables indicatrices<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> trop creuses (beaucoup de zéros), ce qui dégraderait la qualité des modèles.</p>
 </section>
 <section id="accords-et-notes-olfactives" class="level3" data-number="1.3.4">
 <h3 data-number="1.3.4" class="anchored" data-anchor-id="accords-et-notes-olfactives"><span class="header-section-number">1.3.4</span> Accords et notes olfactives</h3>
@@ -725,7 +767,7 @@ Figure&nbsp;1.7: Distribution par genre et pays d’origine (&gt;= 5%)
 <div id="fig-univar-accords" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-accords-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-accords-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-accords-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-accords-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.8: Accords olfactifs (&gt;= 5% des parfums)
@@ -734,7 +776,7 @@ Figure&nbsp;1.8: Accords olfactifs (&gt;= 5% des parfums)
 </div>
 </div>
 </div>
-<p>Les accords <strong>woody</strong>, <strong>citrus</strong> et <strong>aromatic</strong> dominent. Ces 84 accords distincts seront regroupés par famille olfactive lors de la préparation.</p>
+<p>Les accords<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> <strong>boisés</strong> (<em>woody</em>), <strong>agrumes</strong> (<em>citrus</em>) et <strong>aromatiques</strong> (<em>aromatic</em>) dominent largement. Ces 84 accords distincts seront regroupés par <strong>famille olfactive</strong> lors de la préparation (cf.&nbsp;Partie 2), afin de réduire la dimensionnalité tout en conservant l’information olfactive essentielle.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
@@ -756,16 +798,22 @@ Figure&nbsp;1.8: Accords olfactifs (&gt;= 5% des parfums)
 <div id="fig-univar-notes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-univar-notes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-univar-notes-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-univar-notes-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-univar-notes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.9: Notes olfactives les plus fréquentes par phase (&gt;= 5%)
+Figure&nbsp;1.9: Notes olfactives les plus fréquentes par phase (&gt;= 5%) — Tête : premières notes perçues ; Cœur : corps du parfum ; Fond : notes persistantes
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Tête : agrumes (bergamote, citron). Cœur : floraux (jasmin, rose). Fond : boisés/musqués (musc, santal, cèdre). Ce profil justifie le regroupement par familles olfactives.</p>
+<p>On retrouve un profil olfactif cohérent à travers les trois phases :</p>
+<ul>
+<li><strong>Tête</strong> : dominée par les agrumes (bergamote, citron) — des notes fraîches et volatiles qui constituent la première impression du parfum.</li>
+<li><strong>Cœur</strong> : dominé par les notes florales (jasmin, rose) — le corps du parfum, qui se développe après les premières minutes.</li>
+<li><strong>Fond</strong> : dominé par les notes boisées et musquées (musc, santal, cèdre) — les notes les plus persistantes, qui ancrent le parfum.</li>
+</ul>
+<p>Cette structure classique (agrumes → floraux → boisés) se retrouve dans une grande partie de la parfumerie et justifie notre choix de regrouper les notes individuelles par familles olfactives lors de la préparation des données.</p>
 </section>
 </section>
 <section id="analyse-multivariée" class="level2" data-number="1.4">
@@ -800,7 +848,7 @@ Figure&nbsp;1.9: Notes olfactives les plus fréquentes par phase (&gt;= 5%)
 <div id="fig-multi-numeric-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-multi-numeric-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-multi-numeric-1.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-multi-numeric-1.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-numeric-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.10: Variables numériques selon la Satisfaction
@@ -812,7 +860,7 @@ Figure&nbsp;1.10: Variables numériques selon la Satisfaction
 <div id="fig-multi-numeric-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-multi-numeric-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-multi-numeric-2.png" class="img-fluid figure-img" width="480">
+<img src="01_exploration_files/figure-html/fig-multi-numeric-2.png" class="img-fluid figure-img" width="432">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-numeric-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1.11: Variables numériques selon la Satisfaction
@@ -826,101 +874,120 @@ Figure&nbsp;1.11: Variables numériques selon la Satisfaction
 </section>
 <section id="satisfaction-vs.-variables-catégorielles" class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="satisfaction-vs.-variables-catégorielles"><span class="header-section-number">1.4.2</span> Satisfaction vs.&nbsp;variables catégorielles</h3>
+<div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gender</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>, <span class="at">title =</span> <span class="st">"Par genre"</span>) <span class="sc">+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Country</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>, <span class="at">title =</span> <span class="st">"Par pays (n &gt;= 100)"</span>) <span class="sc">+</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-multi-categ-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-output-display">
+<div id="fig-multi-gender" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-multi-categ-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-multi-categ-1.png" class="img-fluid figure-img" width="480">
+<div aria-describedby="fig-multi-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01_exploration_files/figure-html/fig-multi-gender-1.png" class="img-fluid figure-img" width="432">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-categ-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.12: Taux de satisfaction par genre et par pays
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-multi-categ-2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-multi-categ-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-multi-categ-2.png" class="img-fluid figure-img" width="480">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-categ-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.13: Taux de satisfaction par genre et par pays
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-gender-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.12: Taux de satisfaction par genre
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Le genre cible du parfum est <strong>peu discriminant</strong> : les taux de satisfaction sont proches entre les catégories (hommes, femmes, unisex). Cela signifie que le genre seul ne suffit pas à prédire la satisfaction.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-multi-country" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multi-country-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01_exploration_files/figure-html/fig-multi-country-1.png" class="img-fluid figure-img" width="432">
 </div>
-<p>Le genre est peu discriminant. Certains pays (marques de niche) affichent des taux plus élevés, justifiant l’inclusion du pays comme variable prédictive.</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multi-country-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.13: Taux de satisfaction par pays d’origine (n &gt;= 100)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>En revanche, le <strong>pays d’origine</strong> montre des différences plus marquées. Certains pays associés à des marques de niche<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> affichent des taux de satisfaction plus élevés, ce qui justifie l’inclusion du pays comme variable prédictive dans nos modèles.</p>
 </section>
 <section id="corrélations" class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="corrélations"><span class="header-section-number">1.4.3</span> Corrélations</h3>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Rating_Count, Rating_Value) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(num_vars), <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Rating_Count, Rating_Value) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(num_vars), <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-correlation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="01_exploration_files/figure-html/fig-correlation-1.png" class="img-fluid figure-img" width="336">
+<img src="01_exploration_files/figure-html/fig-correlation-1.png" class="img-fluid figure-img" width="480">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.14: Matrice de corrélation
+Figure&nbsp;1.14: Matrice de corrélation entre les variables numériques
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Corrélations faibles : pas de multicolinéarité, chaque variable apporte une information distincte.</p>
-</section>
-</section>
-<section id="sauvegarde" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="sauvegarde"><span class="header-section-number">1.5</span> Sauvegarde</h2>
+<p>La matrice de corrélation<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> montre des <strong>corrélations faibles</strong> entre les trois variables numériques (<code>Year</code>, <code>Rating_Count</code>, <code>Rating_Value</code>). Cela signifie :</p>
+<ul>
+<li>Il n’y a pas de <strong>multicolinéarité</strong><a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> problématique : chaque variable apporte une information distincte au modèle.</li>
+<li>L’année de sortie n’est pas linéairement liée au nombre d’évaluations ni à la note — ces variables capturent des aspects différents des parfums.</li>
+</ul>
 
 
 <!-- -->
 
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Accord olfactif : impression olfactive dominante d’un parfum (ex. : <em>woody</em>, <em>floral</em>, <em>citrus</em>). Voir l’introduction pour la distinction avec les notes et les familles.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Les notes de <strong>tête</strong> sont les premières perçues (fraîches, volatiles) ; les notes de <strong>cœur</strong> forment le corps du parfum ; les notes de <strong>fond</strong> sont les plus persistantes.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Cardinalité : nombre de modalités distinctes d’une variable catégorielle. Une cardinalité élevée (ex. : des milliers de marques) rend l’encodage difficile et le modèle instable.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Fuite d’information (<em>data leakage</em>) : inclusion dans le modèle d’une variable qui contient directement ou indirectement l’information de la cible, ce qui gonfle artificiellement les performances.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Robuste aux valeurs extrêmes : la médiane n’est pas influencée par quelques notes très hautes ou très basses, contrairement à la moyenne.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Unimodale : la distribution ne présente qu’un seul pic (un seul mode).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Grasse (Alpes-Maritimes) : capitale mondiale de la parfumerie depuis le XVII<sup>e</sup> siècle, centre historique de production de matières premières et de création de parfums.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Variable indicatrice (ou <em>dummy variable</em>) : variable binaire (0/1) créée pour représenter chaque modalité d’une variable catégorielle dans un modèle.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Accord olfactif : combinaison de notes créant une impression distincte (ex. : « boisé », « agrumes »). Voir l’introduction pour la distinction avec les notes et les familles.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Marque de niche : maison de parfumerie artisanale ou spécialisée, par opposition aux grandes marques de distribution (« mass-market »).<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Matrice de corrélation : tableau symétrique montrant le coefficient de corrélation de Pearson entre chaque paire de variables numériques. Un coefficient proche de 0 indique l’absence de relation linéaire ; proche de 1 ou -1, une forte relation.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Multicolinéarité : situation où deux variables explicatives sont fortement corrélées entre elles, ce qui peut rendre instables les coefficients d’un modèle de régression.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
@@ -1400,328 +1467,360 @@ Figure&nbsp;1.14: Matrice de corrélation
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Partie 1 : Analyse Exploratoire des Données"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R"</span>, <span class="st">"utils.R"</span>))</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement et variables</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|------|-------------|</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Year`</span> <span class="pp">|</span> Numérique <span class="pp">|</span> Année de sortie du parfum <span class="pp">|</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Gender`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Genre cible (men, women, unisex) <span class="pp">|</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Country`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Pays d'origine de la marque <span class="pp">|</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Rating_Count`</span> <span class="pp">|</span> Numérique <span class="pp">|</span> Nombre d'évaluations reçues <span class="pp">|</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mainaccord1`</span>--<span class="in">`mainaccord5`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Accords olfactifs principaux <span class="pp">|</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Top`</span>, <span class="in">`Middle`</span>, <span class="in">`Base`</span> <span class="pp">|</span> Texte <span class="pp">|</span> Notes de tête, cœur, fond <span class="pp">|</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **`Satisfaction`** | **Binaire** | **Variable cible (Oui / Non)** <span class="pp">|</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-data</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"fra_cleaned.csv"</span>),</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep =</span> <span class="st">";"</span>,</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>                     <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">"NA"</span>, <span class="st">""</span>),</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fileEncoding =</span> <span class="st">"latin1"</span>)</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">Name =</span> Perfume,</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rating_Value =</span> Rating.Value,</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rating_Count =</span> Rating.Count</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>data_raw<span class="sc">$</span>Rating_Value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, data_raw<span class="sc">$</span>Rating_Value))</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dimensions :"</span>, <span class="fu">nrow</span>(data_raw), <span class="st">"lignes,"</span>, <span class="fu">ncol</span>(data_raw), <span class="st">"colonnes</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse préliminaire</span></span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Valeurs manquantes</span></span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missing-plot</span></span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Valeurs manquantes par variable"</span></span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>na_counts <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_raw, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>na_pct <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> na_counts <span class="sc">/</span> <span class="fu">nrow</span>(data_raw), <span class="dv">1</span>)</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>na_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> <span class="fu">names</span>(na_counts),</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pourcentage =</span> na_pct</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>na_df <span class="ot">&lt;-</span> na_df[<span class="fu">order</span>(<span class="sc">-</span>na_df<span class="sc">$</span>Pourcentage), ]</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(na_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Variable, Pourcentage), <span class="at">y =</span> Pourcentage)) <span class="sc">+</span></span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">y =</span> <span class="st">"% manquantes"</span>) <span class="sc">+</span></span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a><span class="in">`Perfumer2`</span> et <span class="in">`Base`</span> ont les taux les plus élevés. <span class="in">`Rating_Value`</span> est quasi complète, ce qui permet la construction de la variable cible.</span>
-<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="fu">### Création de la variable cible</span></span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>La variable **Satisfaction** est binaire : *Oui* si `Rating_Value` &gt;= médiane, *Non* sinon.</span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-target</span></span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution de la variable Satisfaction"</span></span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Value))</span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>mediane_rating <span class="ot">&lt;-</span> <span class="fu">median</span>(data_rated<span class="sc">$</span>Rating_Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Satisfaction =</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(Rating_Value <span class="sc">&gt;=</span> mediane_rating, <span class="st">"Oui"</span>, <span class="st">"Non"</span>),</span>
-<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Non"</span>, <span class="st">"Oui"</span>)))</span>
-<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_rated, <span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
-<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
-<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Satisfaction"</span>, <span class="at">y =</span> <span class="st">"Nombre de parfums"</span>) <span class="sc">+</span></span>
-<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
-<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>La médiane (<span class="in">`r mediane_rating`</span>) produit une répartition quasi équilibrée (<span class="in">`r round(mean(data_rated$Satisfaction == "Oui") * 100, 1)`</span>% Oui), évitant les biais de déséquilibre.</span>
-<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse univariée</span></span>
-<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rating_Value et Rating_Count</span></span>
-<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-numeric</span></span>
-<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution des variables numériques"</span></span>
-<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Value</span></span>
-<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_rated, <span class="fu">aes</span>(<span class="at">x =</span> Rating_Value)) <span class="sc">+</span></span>
-<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> COL_PRIMARY, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mediane_rating, <span class="at">color =</span> COL_NEGATIVE, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Note"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>, <span class="at">title =</span> <span class="st">"Rating_Value"</span>) <span class="sc">+</span></span>
-<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Count</span></span>
-<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Count), Rating_Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log1p</span>(Rating_Count))) <span class="sc">+</span></span>
-<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> COL_PRIMARY, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"log(1 + Rating_Count)"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>, <span class="at">title =</span> <span class="st">"Rating_Count"</span>) <span class="sc">+</span></span>
-<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>Les notes sont unimodales et légèrement asymétriques à gauche. Le nombre d'évaluations est fortement asymétrique : la majorité des parfums ont peu de votes.</span>
-<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### Year</span></span>
-<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-year</span></span>
-<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Nombre de parfums par année de sortie"</span></span>
-<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), Year <span class="sc">&gt;=</span> <span class="dv">1900</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
-<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Année"</span>, <span class="at">y =</span> <span class="st">"Nombre de parfums"</span>) <span class="sc">+</span></span>
-<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>Croissance exponentielle des sorties à partir des années 2000. Les parfums anciens (avant 1980) sont sous-représentés.</span>
-<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gender et Country</span></span>
-<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-categ</span></span>
-<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution par genre et pays d'origine (&gt;= 5%)"</span></span>
-<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a><span class="co"># Gender</span></span>
-<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>gender_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Gender, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(gender_freq, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Effectif"</span>, <span class="at">title =</span> <span class="st">"Gender"</span>) <span class="sc">+</span></span>
-<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a><span class="co"># Country (&gt;= 5%)</span></span>
-<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a>country_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Country, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>country_freq <span class="sc">%&gt;%</span></span>
-<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Effectif"</span>, <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Country ("</span>, <span class="fu">nrow</span>(country_freq), <span class="st">" pays)"</span>)) <span class="sc">+</span></span>
-<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>Les parfums unisex et pour femmes dominent. La France est le premier pays d'origine, suivie des USA et de l'Italie. Les pays &lt; 5% seront regroupés en "Autre" lors de la préparation.</span>
-<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accords et notes olfactives</span></span>
-<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-accords</span></span>
-<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Accords olfactifs (&gt;= 5% des parfums)"</span></span>
-<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a>accord_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
-<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a>n_parfums <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_rated)</span>
-<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a>accords_all <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(accord_cols)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_trim</span>()</span>
-<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a>accords_all <span class="ot">&lt;-</span> accords_all[<span class="sc">!</span><span class="fu">is.na</span>(accords_all) <span class="sc">&amp;</span> accords_all <span class="sc">!=</span> <span class="st">""</span>]</span>
-<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(accords_all), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accords_freq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Accord"</span>, <span class="st">"Freq"</span>)</span>
-<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="ot">&lt;-</span> accords_freq <span class="sc">%&gt;%</span></span>
-<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(Freq <span class="sc">/</span> n_parfums <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Freq))</span>
-<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="sc">%&gt;%</span></span>
-<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Accord, Freq), <span class="at">y =</span> Freq)) <span class="sc">+</span></span>
-<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Accord"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
-<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a>Les accords **woody**, **citrus** et **aromatic** dominent. Ces <span class="in">`r nrow(accords_freq)`</span> accords distincts seront regroupés par famille olfactive lors de la préparation.</span>
-<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-notes</span></span>
-<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Notes olfactives les plus fréquentes par phase (&gt;= 5%)"</span></span>
-<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a>notes_top <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Top"</span>, <span class="st">"Tête"</span>)</span>
-<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a>notes_mid <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Middle"</span>, <span class="st">"Coeur"</span>)</span>
-<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a>notes_base <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Base"</span>, <span class="st">"Fond"</span>)</span>
-<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(notes_top, notes_mid, notes_base) <span class="sc">%&gt;%</span></span>
-<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Note, Freq), <span class="at">y =</span> Freq, <span class="at">fill =</span> Type)) <span class="sc">+</span></span>
-<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Type, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Note"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
-<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
-<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a>Tête : agrumes (bergamote, citron). Cœur : floraux (jasmin, rose). Fond : boisés/musqués (musc, santal, cèdre). Ce profil justifie le regroupement par familles olfactives.</span>
-<span id="cb12-244"><a href="#cb12-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-245"><a href="#cb12-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse multivariée</span></span>
-<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Satisfaction vs. variables numériques</span></span>
-<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-multi-numeric</span></span>
-<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Variables numériques selon la Satisfaction"</span></span>
-<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Count</span></span>
-<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Count)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">y =</span> <span class="fu">log1p</span>(Rating_Count), <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
-<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
-<span id="cb12-262"><a href="#cb12-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"log(1 + Rating_Count)"</span>, <span class="at">title =</span> <span class="st">"Rating_Count"</span>) <span class="sc">+</span></span>
-<span id="cb12-263"><a href="#cb12-263" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
-<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a><span class="co"># Year</span></span>
-<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), Year <span class="sc">&gt;=</span> <span class="dv">1900</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">y =</span> Year, <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
-<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
-<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Année de sortie"</span>, <span class="at">title =</span> <span class="st">"Year"</span>) <span class="sc">+</span></span>
-<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
-<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>Les parfums satisfaisants ont plus d'évaluations (biais de popularité) et sont légèrement plus anciens (effet de survivance).</span>
-<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a><span class="fu">### Satisfaction vs. variables catégorielles</span></span>
-<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-multi-categ</span></span>
-<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Taux de satisfaction par genre et par pays"</span></span>
-<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb12-287"><a href="#cb12-287" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
-<span id="cb12-288"><a href="#cb12-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Gender</span></span>
-<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
-<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
-<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>, <span class="at">title =</span> <span class="st">"Par genre"</span>) <span class="sc">+</span></span>
-<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-301"><a href="#cb12-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Country</span></span>
-<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-304"><a href="#cb12-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
-<span id="cb12-305"><a href="#cb12-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
-<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
-<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>, <span class="at">title =</span> <span class="st">"Par pays (n &gt;= 100)"</span>) <span class="sc">+</span></span>
-<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
-<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>Le genre est peu discriminant. Certains pays (marques de niche) affichent des taux plus élevés, justifiant l'inclusion du pays comme variable prédictive.</span>
-<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a><span class="fu">### Corrélations</span></span>
-<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-correlation</span></span>
-<span id="cb12-325"><a href="#cb12-325" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Matrice de corrélation"</span></span>
-<span id="cb12-326"><a href="#cb12-326" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
-<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 3.5</span></span>
-<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
-<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Rating_Count, Rating_Value) <span class="sc">%&gt;%</span></span>
-<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span>
-<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(num_vars), <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
-<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
-<span id="cb12-334"><a href="#cb12-334" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb12-335"><a href="#cb12-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a>Corrélations faibles : pas de multicolinéarité, chaque variable apporte une information distincte.</span>
-<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sauvegarde</span></span>
-<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
-<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data_rated, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"data_rated.rds"</span>))</span>
-<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dimensions finales :"</span>, <span class="fu">nrow</span>(data_rated), <span class="st">"x"</span>, <span class="fu">ncol</span>(data_rated), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Partie 1 : Analyse Exploratoire des Données"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R"</span>, <span class="st">"utils.R"</span>))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chargement et variables</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>Nous utilisons la version **nettoyée** (*cleaned*) du dataset Fragrantica. Ce fichier corrige les incohérences des données brutes : noms de marques et de pays standardisés, catégories de genre unifiées, notes numériques au format décimal, notes olfactives parsées et séparées. Le dataset contient environ 24 000 parfums et les variables suivantes :</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|------|-------------|</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Perfume`</span> <span class="pp">|</span> Texte <span class="pp">|</span> Nom du parfum (identifiant, non utilisé en modélisation) <span class="pp">|</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Brand`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Marque du parfum (standardisée, non retenue car trop de modalités) <span class="pp">|</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Year`</span> <span class="pp">|</span> Numérique <span class="pp">|</span> Année de sortie du parfum <span class="pp">|</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Gender`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Genre cible du parfum : *men*, *women* ou *unisex* <span class="pp">|</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Country`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Pays d'origine de la marque (noms standardisés) <span class="pp">|</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Rating_Value`</span> <span class="pp">|</span> Numérique <span class="pp">|</span> Note moyenne attribuée par les utilisateurs (échelle continue) <span class="pp">|</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Rating_Count`</span> <span class="pp">|</span> Numérique <span class="pp">|</span> Nombre total d'évaluations reçues <span class="pp">|</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Perfumer1`</span>, <span class="in">`Perfumer2`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Parfumeurs créateurs (séparés et standardisés) <span class="pp">|</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mainaccord1`</span>--<span class="in">`mainaccord5`</span> <span class="pp">|</span> Catégorielle <span class="pp">|</span> Les 5 accords olfactifs^<span class="co">[</span><span class="ot">Accord olfactif : impression olfactive dominante d'un parfum (ex. : *woody*, *floral*, *citrus*). Voir l'introduction pour la distinction avec les notes et les familles.</span><span class="co">]</span> principaux du parfum <span class="pp">|</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`Top`</span>, <span class="in">`Middle`</span>, <span class="in">`Base`</span> <span class="pp">|</span> Texte <span class="pp">|</span> Notes de tête, de cœur et de fond^<span class="co">[</span><span class="ot">Les notes de **tête** sont les premières perçues (fraîches, volatiles) ; les notes de **cœur** forment le corps du parfum ; les notes de **fond** sont les plus persistantes.</span><span class="co">]</span> (parsées et standardisées) <span class="pp">|</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **`Satisfaction`** | **Binaire** | **Variable cible construite (Oui / Non)** — voir section suivante <span class="pp">|</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>: Description des variables du dataset {#tbl-variables}</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>Parmi ces variables, <span class="in">`Perfume`</span>, <span class="in">`Brand`</span>, <span class="in">`URL`</span> et <span class="in">`Perfumer1`</span>/<span class="in">`Perfumer2`</span> ne sont pas retenues pour la modélisation : elles servent d'identifiants ou présentent une cardinalité^<span class="co">[</span><span class="ot">Cardinalité : nombre de modalités distinctes d'une variable catégorielle. Une cardinalité élevée (ex. : des milliers de marques) rend l'encodage difficile et le modèle instable.</span><span class="co">]</span> trop élevée. La variable <span class="in">`Rating_Value`</span> est utilisée pour **construire** la variable cible <span class="in">`Satisfaction`</span>, mais n'est pas incluse comme variable explicative (ce serait une fuite d'information^<span class="co">[</span><span class="ot">Fuite d'information (*data leakage*) : inclusion dans le modèle d'une variable qui contient directement ou indirectement l'information de la cible, ce qui gonfle artificiellement les performances.</span><span class="co">]</span>).</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load-data</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"fra_cleaned.csv"</span>),</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sep =</span> <span class="st">";"</span>,</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>                     <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">"NA"</span>, <span class="st">""</span>),</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fileEncoding =</span> <span class="st">"latin1"</span>)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">Name =</span> Perfume,</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rating_Value =</span> Rating.Value,</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">Rating_Count =</span> Rating.Count</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>data_raw<span class="sc">$</span>Rating_Value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, data_raw<span class="sc">$</span>Rating_Value))</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dimensions :"</span>, <span class="fu">nrow</span>(data_raw), <span class="st">"lignes,"</span>, <span class="fu">ncol</span>(data_raw), <span class="st">"colonnes</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse préliminaire</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Valeurs manquantes</span></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-missing-plot</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Valeurs manquantes par variable"</span></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>na_counts <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_raw, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>na_pct <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> na_counts <span class="sc">/</span> <span class="fu">nrow</span>(data_raw), <span class="dv">1</span>)</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>na_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> <span class="fu">names</span>(na_counts),</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">Pourcentage =</span> na_pct</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>na_df <span class="ot">&lt;-</span> na_df[<span class="fu">order</span>(<span class="sc">-</span>na_df<span class="sc">$</span>Pourcentage), ]</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(na_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Variable, Pourcentage), <span class="at">y =</span> Pourcentage)) <span class="sc">+</span></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Variable"</span>, <span class="at">y =</span> <span class="st">"% manquantes"</span>) <span class="sc">+</span></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="in">`Perfumer2`</span> (le second parfumeur associé au parfum) et <span class="in">`Base`</span> (les notes de fond) présentent les taux de valeurs manquantes les plus élevés. Cela s'explique naturellement : la majorité des parfums n'ont qu'un seul créateur, et les notes de fond ne sont pas toujours renseignées sur Fragrantica. Nous pouvons négliger <span class="in">`Perfumer2`</span> sans perte d'information significative, car cette variable n'apporte pas de pouvoir prédictif exploitable dans notre contexte (trop de modalités, trop de données manquantes).</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>En revanche, les variables essentielles pour notre modélisation — <span class="in">`Rating_Value`</span> (quasi complète), <span class="in">`Gender`</span>, <span class="in">`Country`</span>, et les accords olfactifs (<span class="in">`mainaccord1`</span> à <span class="in">`mainaccord5`</span>) — présentent des taux de complétion élevés, ce qui est rassurant pour la suite de l'analyse.</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Création de la variable cible</span></span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>La variable **Satisfaction** est binaire : *Oui* si `Rating_Value` ≥ médiane, *Non* sinon.</span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>**Pourquoi la médiane comme seuil ?** Nous avons choisi la médiane plutôt que la moyenne ou un seuil arbitraire (par exemple 5/10) pour plusieurs raisons :</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **médiane** est robuste aux valeurs extrêmes^<span class="co">[</span><span class="ot">Robuste aux valeurs extrêmes : la médiane n'est pas influencée par quelques notes très hautes ou très basses, contrairement à la moyenne.</span><span class="co">]</span>, contrairement à la moyenne qui serait tirée vers le haut par les notes élevées (la distribution est asymétrique à gauche).</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Un seuil fixe comme 5/10 ne tient pas compte de la distribution réelle des notes : si la grande majorité des parfums sont notés au-dessus de 5, ce seuil produirait des classes très déséquilibrées (trop de « Oui »), ce qui dégraderait les performances des classifieurs.</span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La médiane garantit par construction une répartition **quasi équilibrée** des deux classes, ce qui est souhaitable pour la classification supervisée.</span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-target</span></span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution de la variable Satisfaction"</span></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Value))</span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>mediane_rating <span class="ot">&lt;-</span> <span class="fu">median</span>(data_rated<span class="sc">$</span>Rating_Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-107"><a href="#cb13-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Satisfaction =</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(Rating_Value <span class="sc">&gt;=</span> mediane_rating, <span class="st">"Oui"</span>, <span class="st">"Non"</span>),</span>
+<span id="cb13-108"><a href="#cb13-108" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Non"</span>, <span class="st">"Oui"</span>)))</span>
+<span id="cb13-109"><a href="#cb13-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-110"><a href="#cb13-110" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_rated, <span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
+<span id="cb13-111"><a href="#cb13-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb13-112"><a href="#cb13-112" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
+<span id="cb13-113"><a href="#cb13-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Satisfaction"</span>, <span class="at">y =</span> <span class="st">"Nombre de parfums"</span>) <span class="sc">+</span></span>
+<span id="cb13-114"><a href="#cb13-114" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb13-115"><a href="#cb13-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb13-116"><a href="#cb13-116" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-117"><a href="#cb13-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-118"><a href="#cb13-118" aria-hidden="true" tabindex="-1"></a>La médiane (<span class="in">`r mediane_rating`</span>) produit effectivement une répartition quasi équilibrée (<span class="in">`r round(mean(data_rated$Satisfaction == "Oui") * 100, 1)`</span> % Oui), confirmant la pertinence de ce choix de seuil.</span>
+<span id="cb13-119"><a href="#cb13-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-120"><a href="#cb13-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse univariée</span></span>
+<span id="cb13-121"><a href="#cb13-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-122"><a href="#cb13-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### Rating_Value et Rating_Count</span></span>
+<span id="cb13-123"><a href="#cb13-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-126"><a href="#cb13-126" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-127"><a href="#cb13-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-numeric</span></span>
+<span id="cb13-128"><a href="#cb13-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution des variables numériques"</span></span>
+<span id="cb13-129"><a href="#cb13-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb13-130"><a href="#cb13-130" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb13-131"><a href="#cb13-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Value</span></span>
+<span id="cb13-132"><a href="#cb13-132" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_rated, <span class="fu">aes</span>(<span class="at">x =</span> Rating_Value)) <span class="sc">+</span></span>
+<span id="cb13-133"><a href="#cb13-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> COL_PRIMARY, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-134"><a href="#cb13-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mediane_rating, <span class="at">color =</span> COL_NEGATIVE, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb13-135"><a href="#cb13-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Note"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>, <span class="at">title =</span> <span class="st">"Rating_Value"</span>) <span class="sc">+</span></span>
+<span id="cb13-136"><a href="#cb13-136" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-137"><a href="#cb13-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-138"><a href="#cb13-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Count</span></span>
+<span id="cb13-139"><a href="#cb13-139" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-140"><a href="#cb13-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Count), Rating_Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-141"><a href="#cb13-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log1p</span>(Rating_Count))) <span class="sc">+</span></span>
+<span id="cb13-142"><a href="#cb13-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> COL_PRIMARY, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-143"><a href="#cb13-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"log(1 + Rating_Count)"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>, <span class="at">title =</span> <span class="st">"Rating_Count"</span>) <span class="sc">+</span></span>
+<span id="cb13-144"><a href="#cb13-144" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-145"><a href="#cb13-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-146"><a href="#cb13-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-147"><a href="#cb13-147" aria-hidden="true" tabindex="-1"></a>La distribution de <span class="in">`Rating_Value`</span> est unimodale^<span class="co">[</span><span class="ot">Unimodale : la distribution ne présente qu'un seul pic (un seul mode).</span><span class="co">]</span> et légèrement asymétrique à gauche, indiquant que les utilisateurs ont tendance à attribuer des notes plutôt élevées. La distribution de <span class="in">`Rating_Count`</span> est fortement asymétrique à droite : la grande majorité des parfums reçoivent peu d'évaluations, tandis que quelques parfums populaires en cumulent des milliers. La transformation logarithmique (<span class="in">`log(1 + x)`</span>) permet de mieux visualiser cette distribution très étalée.</span>
+<span id="cb13-148"><a href="#cb13-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-149"><a href="#cb13-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### Year</span></span>
+<span id="cb13-150"><a href="#cb13-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-153"><a href="#cb13-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-year</span></span>
+<span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Nombre de parfums par année de sortie"</span></span>
+<span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), Year <span class="sc">&gt;=</span> <span class="dv">1900</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">linewidth =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Année"</span>, <span class="at">y =</span> <span class="st">"Nombre de parfums"</span>) <span class="sc">+</span></span>
+<span id="cb13-163"><a href="#cb13-163" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-164"><a href="#cb13-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-165"><a href="#cb13-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-166"><a href="#cb13-166" aria-hidden="true" tabindex="-1"></a>Croissance exponentielle des sorties à partir des années 2000. Les parfums anciens (avant 1980) sont sous-représentés.</span>
+<span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gender et Country</span></span>
+<span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-categ</span></span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Distribution par genre et pays d'origine (&gt;= 5%)"</span></span>
+<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Gender</span></span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>gender_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Gender, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(gender_freq, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Effectif"</span>, <span class="at">title =</span> <span class="st">"Gender"</span>) <span class="sc">+</span></span>
+<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a><span class="co"># Country (&gt;= 5%)</span></span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>country_freq <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Country, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>country_freq <span class="sc">%&gt;%</span></span>
+<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, n), <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Effectif"</span>, <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Country ("</span>, <span class="fu">nrow</span>(country_freq), <span class="st">" pays)"</span>)) <span class="sc">+</span></span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>Les parfums unisex et pour femmes dominent le marché. La **France** est le premier pays d'origine des marques de parfum — ce qui n'est pas surprenant puisque la France est le berceau historique de la parfumerie moderne, notamment grâce à la ville de **Grasse**^<span class="co">[</span><span class="ot">Grasse (Alpes-Maritimes) : capitale mondiale de la parfumerie depuis le XVII^e^ siècle, centre historique de production de matières premières et de création de parfums.</span><span class="co">]</span>, capitale mondiale du parfum depuis le XVII^e^ siècle. Elle est suivie des États-Unis et de l'Italie.</span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>Les pays représentant moins de 5 % de l'effectif total seront regroupés dans une catégorie « Autre » lors de la préparation des données. Ce regroupement est nécessaire pour éviter de créer des variables indicatrices^<span class="co">[</span><span class="ot">Variable indicatrice (ou *dummy variable*) : variable binaire (0/1) créée pour représenter chaque modalité d'une variable catégorielle dans un modèle.</span><span class="co">]</span> trop creuses (beaucoup de zéros), ce qui dégraderait la qualité des modèles.</span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a><span class="fu">### Accords et notes olfactives</span></span>
+<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-accords</span></span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Accords olfactifs (&gt;= 5% des parfums)"</span></span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>accord_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a>n_parfums <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_rated)</span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>accords_all <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(accord_cols)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_trim</span>()</span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>accords_all <span class="ot">&lt;-</span> accords_all[<span class="sc">!</span><span class="fu">is.na</span>(accords_all) <span class="sc">&amp;</span> accords_all <span class="sc">!=</span> <span class="st">""</span>]</span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(accords_all), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accords_freq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Accord"</span>, <span class="st">"Freq"</span>)</span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="ot">&lt;-</span> accords_freq <span class="sc">%&gt;%</span></span>
+<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pct =</span> <span class="fu">round</span>(Freq <span class="sc">/</span> n_parfums <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Freq))</span>
+<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>accords_freq <span class="sc">%&gt;%</span></span>
+<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Accord, Freq), <span class="at">y =</span> Freq)) <span class="sc">+</span></span>
+<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Accord"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
+<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a>Les accords^<span class="co">[</span><span class="ot">Accord olfactif : combinaison de notes créant une impression distincte (ex. : « boisé », « agrumes »). Voir l'introduction pour la distinction avec les notes et les familles.</span><span class="co">]</span> **boisés** (*woody*), **agrumes** (*citrus*) et **aromatiques** (*aromatic*) dominent largement. Ces `r nrow(accords_freq)` accords distincts seront regroupés par **famille olfactive** lors de la préparation (cf. Partie 2), afin de réduire la dimensionnalité tout en conservant l'information olfactive essentielle.</span>
+<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-univar-notes</span></span>
+<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Notes olfactives les plus fréquentes par phase (&gt;= 5%) — Tête : premières notes perçues ; Cœur : corps du parfum ; Fond : notes persistantes"</span></span>
+<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 8</span></span>
+<span id="cb13-249"><a href="#cb13-249" aria-hidden="true" tabindex="-1"></a>notes_top <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Top"</span>, <span class="st">"Tête"</span>)</span>
+<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a>notes_mid <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Middle"</span>, <span class="st">"Coeur"</span>)</span>
+<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a>notes_base <span class="ot">&lt;-</span> <span class="fu">extract_notes_freq</span>(data_rated, <span class="st">"Base"</span>, <span class="st">"Fond"</span>)</span>
+<span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(notes_top, notes_mid, notes_base) <span class="sc">%&gt;%</span></span>
+<span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Pct <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Note, Freq), <span class="at">y =</span> Freq, <span class="at">fill =</span> Type)) <span class="sc">+</span></span>
+<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Type, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Note"</span>, <span class="at">y =</span> <span class="st">"Fréquence"</span>) <span class="sc">+</span></span>
+<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>On retrouve un profil olfactif cohérent à travers les trois phases :</span>
+<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Tête** : dominée par les agrumes (bergamote, citron) — des notes fraîches et volatiles qui constituent la première impression du parfum.</span>
+<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cœur** : dominé par les notes florales (jasmin, rose) — le corps du parfum, qui se développe après les premières minutes.</span>
+<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fond** : dominé par les notes boisées et musquées (musc, santal, cèdre) — les notes les plus persistantes, qui ancrent le parfum.</span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>Cette structure classique (agrumes → floraux → boisés) se retrouve dans une grande partie de la parfumerie et justifie notre choix de regrouper les notes individuelles par familles olfactives lors de la préparation des données.</span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse multivariée</span></span>
+<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Satisfaction vs. variables numériques</span></span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-multi-numeric</span></span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Variables numériques selon la Satisfaction"</span></span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| layout-ncol: 2</span></span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a><span class="co"># Rating_Count</span></span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Rating_Count)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">y =</span> <span class="fu">log1p</span>(Rating_Count), <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
+<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
+<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"log(1 + Rating_Count)"</span>, <span class="at">title =</span> <span class="st">"Rating_Count"</span>) <span class="sc">+</span></span>
+<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Year</span></span>
+<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), Year <span class="sc">&gt;=</span> <span class="dv">1900</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Satisfaction, <span class="at">y =</span> Year, <span class="at">fill =</span> Satisfaction)) <span class="sc">+</span></span>
+<span id="cb13-297"><a href="#cb13-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a>  FILL_SATISFACTION <span class="sc">+</span></span>
+<span id="cb13-299"><a href="#cb13-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Année de sortie"</span>, <span class="at">title =</span> <span class="st">"Year"</span>) <span class="sc">+</span></span>
+<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb13-301"><a href="#cb13-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a>Les parfums satisfaisants ont plus d'évaluations (biais de popularité) et sont légèrement plus anciens (effet de survivance).</span>
+<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a><span class="fu">### Satisfaction vs. variables catégorielles</span></span>
+<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-310"><a href="#cb13-310" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-multi-gender</span></span>
+<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Taux de satisfaction par genre"</span></span>
+<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gender)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb13-317"><a href="#cb13-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-318"><a href="#cb13-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-319"><a href="#cb13-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Gender, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
+<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genre"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>) <span class="sc">+</span></span>
+<span id="cb13-324"><a href="#cb13-324" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-325"><a href="#cb13-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a>Le genre cible du parfum est **peu discriminant** : les taux de satisfaction sont proches entre les catégories (hommes, femmes, unisex). Cela signifie que le genre seul ne suffit pas à prédire la satisfaction.</span>
+<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-331"><a href="#cb13-331" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-multi-country</span></span>
+<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Taux de satisfaction par pays d'origine (n &gt;= 100)"</span></span>
+<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb13-335"><a href="#cb13-335" aria-hidden="true" tabindex="-1"></a>data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-336"><a href="#cb13-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-337"><a href="#cb13-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb13-338"><a href="#cb13-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">taux =</span> <span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(taux)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-341"><a href="#cb13-341" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-342"><a href="#cb13-342" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Country, taux), <span class="at">y =</span> taux)) <span class="sc">+</span></span>
+<span id="cb13-343"><a href="#cb13-343" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> COL_PRIMARY) <span class="sc">+</span></span>
+<span id="cb13-344"><a href="#cb13-344" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-345"><a href="#cb13-345" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb13-346"><a href="#cb13-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pays"</span>, <span class="at">y =</span> <span class="st">"Taux de satisfaction"</span>) <span class="sc">+</span></span>
+<span id="cb13-347"><a href="#cb13-347" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb13-348"><a href="#cb13-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-349"><a href="#cb13-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-350"><a href="#cb13-350" aria-hidden="true" tabindex="-1"></a>En revanche, le **pays d'origine** montre des différences plus marquées. Certains pays associés à des marques de niche^<span class="co">[</span><span class="ot">Marque de niche : maison de parfumerie artisanale ou spécialisée, par opposition aux grandes marques de distribution (« mass-market »).</span><span class="co">]</span> affichent des taux de satisfaction plus élevés, ce qui justifie l'inclusion du pays comme variable prédictive dans nos modèles.</span>
+<span id="cb13-351"><a href="#cb13-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-352"><a href="#cb13-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### Corrélations</span></span>
+<span id="cb13-353"><a href="#cb13-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-correlation</span></span>
+<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Matrice de corrélation entre les variables numériques"</span></span>
+<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year, Rating_Count, Rating_Value) <span class="sc">%&gt;%</span></span>
+<span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span>
+<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(num_vars), <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb13-367"><a href="#cb13-367" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb13-368"><a href="#cb13-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>La matrice de corrélation^<span class="co">[</span><span class="ot">Matrice de corrélation : tableau symétrique montrant le coefficient de corrélation de Pearson entre chaque paire de variables numériques. Un coefficient proche de 0 indique l'absence de relation linéaire ; proche de 1 ou -1, une forte relation.</span><span class="co">]</span> montre des **corrélations faibles** entre les trois variables numériques (<span class="in">`Year`</span>, <span class="in">`Rating_Count`</span>, <span class="in">`Rating_Value`</span>). Cela signifie :</span>
+<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Il n'y a pas de **multicolinéarité**^<span class="co">[</span><span class="ot">Multicolinéarité : situation où deux variables explicatives sont fortement corrélées entre elles, ce qui peut rendre instables les coefficients d'un modèle de régression.</span><span class="co">]</span> problématique : chaque variable apporte une information distincte au modèle.</span>
+<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>L'année de sortie n'est pas linéairement liée au nombre d'évaluations ni à la note — ces variables capturent des aspects différents des parfums.</span>
+<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save</span></span>
+<span id="cb13-379"><a href="#cb13-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb13-380"><a href="#cb13-380" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data_rated, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"data_rated.rds"</span>))</span>
+<span id="cb13-381"><a href="#cb13-381" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Dimensions finales :"</span>, <span class="fu">nrow</span>(data_rated), <span class="st">"x"</span>, <span class="fu">ncol</span>(data_rated), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
