@@ -8,8 +8,6 @@ title: "Partie 5 : Comparaison et Conclusion"
 source(here::here("R", "utils.R"))
 ```
 
-## Chargement des résultats
-
 ```{r}
 #| label: load
 #| output: false

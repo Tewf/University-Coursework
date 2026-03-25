@@ -8,8 +8,6 @@ title: "Partie 2 : Préparation des Données"
 source(here::here("R", "utils.R"))
 ```
 
-## Chargement des données
-
 ```{r}
 #| label: load
 #| output: false
@@ -19,11 +17,41 @@ cat("Données :", nrow(data_rated), "lignes,", ncol(data_rated), "colonnes\n")
 
 ## Feature Engineering par familles olfactives
 
-Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire), nous regroupons accords et notes par **famille olfactive** selon une roue des parfums. Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nos 10 familles : Citrus, Green, Aquatic, Floral, Fruity, Spicy, Woody, Gourmand, Leather/Smoky, Powdery/Amber.
+L'objectif de cette étape est de transformer les données brutes (accords et notes individuelles) en variables exploitables par un modèle de classification. Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire qui perdrait les relations entre notes proches), nous regroupons accords et notes par **famille olfactive** selon une **roue des parfums**^[Roue des parfums (*fragrance wheel*) : classification circulaire des familles olfactives, inventée par Michael Edwards en 1983. Elle organise les parfums en grandes familles (florale, boisée, orientale, fraîche...) et montre leurs proximités. Voir par exemple : [fragrancesoftheworld.com](https://www.fragrancesoftheworld.com/FragranceWheel)].
+
+Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nous retenons **10 familles**, décrites ci-dessous :
+
+| Famille | Description | Phase dominante | Exemples d'accords/notes |
+|---------|-------------|:---------------:|--------------------------|
+| **Citrus** | Notes vives, pétillantes et solaires. Fraîcheur immédiate. | Tête | bergamote, citron, yuzu, orange sanguine |
+| **Green** | Herbes fraîchement coupées, thé, bambou. Évoquent la nature et la pureté. | Tête / Cœur | foin, figue verte, thé vert, bambou |
+| **Aquatic** | Impressions de mer, pluie, air marin. Fraîcheur minérale. | Tête | calone, ambrox, musc marin, pétrichor |
+| **Floral** | Des floraux légers (muguet, pivoine) aux floraux riches et sensuels (rose, tubéreuse, jasmin). | Cœur | rose, jasmin, ylang-ylang, iris |
+| **Fruity** | Notes jeunes et vibrantes de fruits rouges, tropicaux ou à noyau. | Tête / Cœur | framboise, mangue, pêche, pomme verte |
+| **Spicy** | Notes chaudes et intrigantes d'épices. Caractère sensuel. | Cœur / Fond | cannelle, cardamome, poivre rose, safran |
+| **Woody** | Des bois légers (santal, cèdre) aux bois sombres (oud, patchouli, vétiver fumé). | Fond | santal, cèdre, oud, vétiver, mousse de chêne |
+| **Gourmand** | Notes sucrées et comestibles. Très populaires dans la parfumerie contemporaine. | Fond | vanille, caramel, tonka, café, chocolat |
+| **Leather / Smoky** | Accords de caractère : cuir, tabac, encens, fumée. Profondeur et mystère. | Fond | cuir, daim, tabac, encens, oliban, myrrhe |
+| **Powdery / Amber** | Doux, enveloppants, « seconde peau ». Bases chaudes et résineux ambrés. | Fond | musc blanc, iris poudré, ambre, labdanum, benjoin |
+
+: Les 10 familles olfactives utilisées pour le regroupement {#tbl-families-desc}
 
 ### Accords → familles
 
-Chaque accord (`mainaccord1` à `mainaccord5`) est mappé vers sa famille. Les accords non reconnus → "autre".
+Chaque accord (`mainaccord1` à `mainaccord5`) est associé à sa famille olfactive via une table de correspondance. Par exemple, pour la famille **boisée** (*woody*), le mapping regroupe les accords suivants :
+
+| Accord Fragrantica | → Famille |
+|---------------------|-----------|
+| woody | Woody |
+| aromatic | Woody |
+| oud | Woody |
+| patchouli | Woody |
+| mossy | Woody |
+| earthy | Woody |
+
+: Extrait du mapping pour la famille boisée {#tbl-mapping-woody}
+
+Le même principe s'applique aux 9 autres familles. Les accords non reconnus (absents de notre table de correspondance) sont classés dans une catégorie « autre ».
 
 ```{r}
 #| label: tbl-accords-families
@@ -47,7 +75,11 @@ Les familles **woody**, **gourmand** et **floral** couvrent la majorité des par
 
 ### Notes → familles
 
-Chaque note individuelle (tête, cœur, fond) est classée par correspondance de mots-clés → 30 indicatrices (10 familles x 3 phases).
+En plus des accords (qui décrivent l'impression générale), chaque parfum possède des **notes individuelles** réparties en trois phases : tête, cœur et fond. Chaque note est un ingrédient précis (ex. : « bergamot », « sandalwood », « vanilla »).
+
+Pour chaque phase, nous classons chaque note dans l'une des 10 familles olfactives à l'aide d'une liste de mots-clés. Par exemple, si la note « sandalwood » apparaît dans les notes de fond, la variable `base_woody` prend la valeur 1. Cela produit **30 variables indicatrices** (10 familles × 3 phases), qui capturent le profil olfactif du parfum à chaque étape de son évolution.
+
+Cette approche permet de transformer des données textuelles (listes de notes séparées par des virgules) en variables numériques exploitables par les modèles, tout en préservant la structure tête/cœur/fond qui est fondamentale en parfumerie.
 
 ```{r}
 #| label: map-notes
@@ -64,6 +96,8 @@ cat("Indicatrices créées : Tête", length(grep("^top_", names(data_rated))),
 
 ### Gender
 
+La variable `Gender` (genre cible du parfum) est catégorielle avec trois modalités : *women*, *men*, *unisex*. Pour l'intégrer dans nos modèles, nous la transformons en **trois variables indicatrices** (encodage *one-hot*^[Encodage *one-hot* : transformation d'une variable catégorielle à $k$ modalités en $k$ colonnes binaires (0/1), une par modalité.]). Chaque parfum aura ainsi une valeur 1 dans la colonne correspondant à son genre cible et 0 dans les autres.
+
 ```{r}
 #| label: encode-gender
 data_rated <- data_rated %>%
@@ -76,7 +110,7 @@ data_rated <- data_rated %>%
 
 ### Country (regroupement < 5%)
 
-Les pays rares sont regroupés en "Autre" pour éviter des indicatrices trop creuses.
+Le pays d'origine de la marque est une variable potentiellement discriminante, comme observé dans l'analyse exploratoire. La **France** domine largement le dataset — ce qui reflète son statut historique de berceau de la parfumerie mondiale (Grasse, capitale du parfum depuis le XVII^e^ siècle). Les pays représentant moins de 5 % de l'effectif sont regroupés en « Autre » pour éviter des variables indicatrices trop creuses (majoritairement des zéros), ce qui pourrait introduire du bruit dans les modèles.
 
 ```{r}
 #| label: tbl-country-merge
@@ -115,29 +149,38 @@ df_model <- data_rated %>%
   select(all_of(c(feature_cols, "Satisfaction")))
 ```
 
+Au total, le jeu de données comprend **`r length(feature_cols)` variables explicatives** pour **`r nrow(df_model)` observations**. Le tableau ci-dessous résume les catégories de variables retenues :
+
 ```{r}
-#| label: tbl-variables-final
-#| tbl-cap: "Variables retenues pour la modélisation"
-var_df <- data.frame(
-  Variable = feature_cols,
-  Type = case_when(
-    feature_cols %in% c("Year", "Rating_Count") ~ "Numérique",
-    grepl("^gender_", feature_cols) ~ "Genre (binaire)",
-    grepl("^country_", feature_cols) ~ "Pays (binaire)",
-    grepl("^fam_", feature_cols) ~ "Famille accord (binaire)",
-    grepl("^top_", feature_cols) ~ "Famille note tête (binaire)",
-    grepl("^mid_", feature_cols) ~ "Famille note cœur (binaire)",
-    grepl("^base_", feature_cols) ~ "Famille note fond (binaire)",
-    TRUE ~ "Autre"
-  )
+#| label: tbl-variables-summary
+#| tbl-cap: "Résumé des variables retenues pour la modélisation"
+var_summary <- data.frame(
+  Catégorie = c("Numérique", "Genre (binaire)", "Pays (binaire)",
+                "Famille accord (binaire)", "Famille note tête (binaire)",
+                "Famille note cœur (binaire)", "Famille note fond (binaire)"),
+  Nombre = c(
+    sum(feature_cols %in% c("Year", "Rating_Count")),
+    sum(grepl("^gender_", feature_cols)),
+    sum(grepl("^country_", feature_cols)),
+    sum(grepl("^fam_", feature_cols)),
+    sum(grepl("^top_", feature_cols)),
+    sum(grepl("^mid_", feature_cols)),
+    sum(grepl("^base_", feature_cols))
+  ),
+  Exemples = c("Year, Rating_Count", "gender_women, gender_men, gender_unisex",
+               "country_France, country_Autre, ...", "fam_woody, fam_floral, ...",
+               "top_citrus, top_floral, ...", "mid_spicy, mid_gourmand, ...",
+               "base_woody, base_powdery_amber, ...")
 )
-cat(nrow(var_df), "variables explicatives |", nrow(df_model), "observations\n\n")
-kable(var_df, col.names = c("Variable", "Catégorie"), booktabs = TRUE)
+kable(var_summary, col.names = c("Catégorie", "Nombre", "Exemples"), booktabs = TRUE)
 ```
 
 ## Imputation et split
 
-L'imputation par la **médiane** est robuste aux valeurs extrêmes (`Rating_Count`).
+Certaines variables numériques (notamment `Rating_Count`) contiennent des valeurs manquantes qu'il faut imputer^[Imputer : remplacer une valeur manquante par une valeur estimée.] avant la modélisation. Nous choisissons l'imputation par la **médiane** plutôt que par la moyenne pour les raisons suivantes :
+
+- La **médiane est robuste aux valeurs extrêmes** : `Rating_Count` présente une distribution très asymétrique (quelques parfums ont des milliers d'avis). La moyenne serait tirée vers le haut par ces valeurs extrêmes, ce qui donnerait une imputation peu représentative de la majorité des parfums.
+- D'autres méthodes plus sophistiquées (imputation par KNN, par régression, ou par algorithme MICE) seraient possibles mais ajouteraient de la complexité sans gain garanti, étant donné que le taux de valeurs manquantes est faible.
 
 ```{r}
 #| label: tbl-split
@@ -160,14 +203,17 @@ kable(data.frame(
 
 ## Choix des classifieurs
 
-Données binaires/numériques, cible équilibrée, pas de valeurs manquantes → deux classifieurs complémentaires :
+Notre jeu de données présente les caractéristiques suivantes après préparation : variables explicatives binaires et numériques, variable cible équilibrée, pas de valeurs manquantes. Dans ce contexte, et conformément aux consignes du projet (deux classifieurs supervisés), nous retenons deux approches **complémentaires** :
 
-1. **Régression logistique (Elastic Net)** : baseline interprétable, sélection automatique de variables par régularisation.
-2. **Forêt aléatoire** : capture les interactions non-linéaires entre familles olfactives, classement d'importance des variables.
+1. **Régression logistique avec régularisation Elastic Net** [@zou2005] :
+   - **Pourquoi ce choix ?** Ce modèle est adapté à nos données car il gère naturellement les variables binaires et numériques. La régularisation Elastic Net combine les pénalités L1 (Lasso, qui met à zéro les coefficients des variables non pertinentes → sélection automatique de variables) et L2 (Ridge, qui stabilise les coefficients en cas de corrélations entre variables). C'est un modèle **interprétable** : chaque coefficient indique la direction et l'amplitude de l'effet d'une variable sur la satisfaction.
+   - **Rôle** : servir de *baseline*^[Baseline : modèle de référence, simple et interprétable, auquel on compare les modèles plus complexes.] interprétable.
 
-Métrique principale : **AUC** (capacité discriminante indépendante du seuil).
+2. **Forêt aléatoire** [@breiman2001] :
+   - **Pourquoi ce choix ?** Contrairement à la régression logistique, la forêt aléatoire peut capturer des **interactions non-linéaires** entre variables. Par exemple, un accord « boisé » combiné à une note de tête « agrume » pourrait avoir un effet sur la satisfaction que la régression logistique ne peut pas modéliser. De plus, @kumar2015 obtiennent des AUC > 0.7 avec un random forest sur des descripteurs olfactifs similaires aux nôtres.
+   - **Rôle** : explorer les interactions et fournir un classement d'importance des variables.
 
-## Sauvegarde
+**Métrique principale** : l'**AUC**^[AUC (*Area Under the ROC Curve*) : aire sous la courbe ROC. Mesure la capacité du modèle à discriminer les deux classes indépendamment du seuil de décision. Un AUC de 0.5 = hasard, 1 = discrimination parfaite.] (capacité discriminante indépendante du seuil de décision), complétée par l'accuracy, la sensibilité, la spécificité et le score F1.
 
 ```{r}
 #| label: save
