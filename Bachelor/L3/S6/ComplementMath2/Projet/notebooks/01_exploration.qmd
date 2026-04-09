@@ -1,43 +1,43 @@
 ---
-title: "Partie 1 : Analyse Exploratoire des Données"
+title: "Partie 1 : Données et Analyse Exploratoire"
 ---
 
 ```{r}
 #| label: setup
 #| include: false
-source(here::here("R", "utils.R"))
+#| cache: false
+source(here::here("utils.R"))
 ```
 
-## Chargement et variables
+# Données
 
-Nous utilisons la version **nettoyée** (*cleaned*) du dataset Fragrantica. Ce fichier corrige les incohérences des données brutes : noms de marques et de pays standardisés, catégories de genre unifiées, notes numériques au format décimal, notes olfactives parsées et séparées. Le dataset contient environ 24 000 parfums et les variables suivantes :
+## Présentation du jeu de données
+
+Le jeu de données Fragrantica contient les informations suivantes pour chaque parfum :
 
 | Variable | Type | Description |
 |----------|------|-------------|
-| `Perfume` | Texte | Nom du parfum (identifiant, non utilisé en modélisation) |
-| `Brand` | Catégorielle | Marque du parfum (standardisée, non retenue car trop de modalités) |
+| `Rating_Value` | Numérique | Note moyenne attribuée par les utilisateurs (1--5) |
+| `Rating_Count` | Numérique | Nombre d'évaluations reçues |
 | `Year` | Numérique | Année de sortie du parfum |
-| `Gender` | Catégorielle | Genre cible du parfum : *men*, *women* ou *unisex* |
-| `Country` | Catégorielle | Pays d'origine de la marque (noms standardisés) |
-| `Rating_Value` | Numérique | Note moyenne attribuée par les utilisateurs (échelle continue) |
-| `Rating_Count` | Numérique | Nombre total d'évaluations reçues |
-| `Perfumer1`, `Perfumer2` | Catégorielle | Parfumeurs créateurs (séparés et standardisés) |
-| `mainaccord1`--`mainaccord5` | Catégorielle | Les 5 accords olfactifs^[Accord olfactif : impression olfactive dominante d'un parfum (ex. : *woody*, *floral*, *citrus*). Voir l'introduction pour la distinction avec les notes et les familles.] principaux du parfum |
-| `Top`, `Middle`, `Base` | Texte | Notes de tête, de cœur et de fond^[Les notes de **tête** sont les premières perçues (fraîches, volatiles) ; les notes de **cœur** forment le corps du parfum ; les notes de **fond** sont les plus persistantes.] (parsées et standardisées) |
-| **`Satisfaction`** | **Binaire** | **Variable cible construite (Oui / Non)** — voir section suivante |
+| `Gender` | Catégorielle | Genre cible (men, women, unisex) |
+| `Country` | Catégorielle | Pays d'origine de la marque |
+| `Top` / `Middle` / `Base` | Texte | Notes olfactives par phase de la pyramide |
+| `mainaccord1`--`5` | Texte | Les 5 accords principaux du parfum |
 
-: Description des variables du dataset {#tbl-variables}
+: Description des variables du dataset Fragrantica {#tbl-variables}
 
-Parmi ces variables, `Perfume`, `Brand`, `URL` et `Perfumer1`/`Perfumer2` ne sont pas retenues pour la modélisation : elles servent d'identifiants ou présentent une cardinalité^[Cardinalité : nombre de modalités distinctes d'une variable catégorielle. Une cardinalité élevée (ex. : des milliers de marques) rend l'encodage difficile et le modèle instable.] trop élevée. La variable `Rating_Value` est utilisée pour **construire** la variable cible `Satisfaction`, mais n'est pas incluse comme variable explicative (ce serait une fuite d'information^[Fuite d'information (*data leakage*) : inclusion dans le modèle d'une variable qui contient directement ou indirectement l'information de la cible, ce qui gonfle artificiellement les performances.]).
+## Chargement des données
 
 ```{r}
 #| label: load-data
-#| output: false
-data_raw <- read.csv(here::here("data", "fra_cleaned.csv"),
-                     sep = ";",
-                     stringsAsFactors = FALSE,
-                     na.strings = c("NA", ""),
-                     fileEncoding = "latin1")
+data_raw <- read.csv(
+  here::here("data", "fra_cleaned.csv"),
+  sep = ";",
+  stringsAsFactors = FALSE,
+  na.strings = c("NA", ""),
+  fileEncoding = "latin1"
+)
 
 data_raw <- data_raw %>%
   rename(
@@ -51,54 +51,44 @@ data_raw$Rating_Value <- as.numeric(gsub(",", ".", data_raw$Rating_Value))
 cat("Dimensions :", nrow(data_raw), "lignes,", ncol(data_raw), "colonnes\n")
 ```
 
-## Analyse préliminaire
+Les données brutes comprennent `r nrow(data_raw)` parfums et `r ncol(data_raw)` variables. Nous excluons `Name`, `Brand`, `url`, `Perfumer1` et `Perfumer2` car ce sont des identifiants à cardinalité trop élevée pour être directement intégrés dans un modèle de classification.
 
-### Valeurs manquantes
+## Valeurs manquantes
 
 ```{r}
-#| label: fig-missing-plot
-#| fig-cap: "Valeurs manquantes par variable"
-na_counts <- sapply(data_raw, function(x) sum(is.na(x)))
-na_pct <- round(100 * na_counts / nrow(data_raw), 1)
-
-na_df <- data.frame(
-  Variable = names(na_counts),
-  Pourcentage = na_pct
-)
-na_df <- na_df[order(-na_df$Pourcentage), ]
-
+#| label: fig-missing
+#| fig-cap: "Pourcentage de valeurs manquantes par variable"
+#| fig-height: 2.5
+na_pct <- round(100 * sapply(data_raw, function(x) sum(is.na(x))) / nrow(data_raw), 1)
+na_df <- data.frame(Variable = names(na_pct), Pourcentage = na_pct) %>%
+  arrange(desc(Pourcentage)) %>%
+  filter(Pourcentage > 0)
 ggplot(na_df, aes(x = reorder(Variable, Pourcentage), y = Pourcentage)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
   coord_flip() +
-  labs(x = "Variable", y = "% manquantes") +
+  labs(x = NULL, y = "% manquantes") +
   THEME_REPORT
 ```
 
-`Perfumer2` (le second parfumeur associé au parfum) et `Base` (les notes de fond) présentent les taux de valeurs manquantes les plus élevés. Cela s'explique naturellement : la majorité des parfums n'ont qu'un seul créateur, et les notes de fond ne sont pas toujours renseignées sur Fragrantica. Nous pouvons négliger `Perfumer2` sans perte d'information significative, car cette variable n'apporte pas de pouvoir prédictif exploitable dans notre contexte (trop de modalités, trop de données manquantes).
+`Perfumer2` est absent dans plus de 80 % des cas et sera exclu. `Year` manque dans environ 8 % des cas — ces valeurs seront imputées par la médiane. Les accords secondaires (`mainaccord3`--`5`) présentent 5--15 % de valeurs manquantes, ce qui est attendu car tous les parfums n'ont pas 5 accords. La variable `Rating_Value` est quasi-complète, permettant la construction fiable de la variable cible.
 
-En revanche, les variables essentielles pour notre modélisation — `Rating_Value` (quasi complète), `Gender`, `Country`, et les accords olfactifs (`mainaccord1` à `mainaccord5`) — présentent des taux de complétion élevés, ce qui est rassurant pour la suite de l'analyse.
+# Analyse Exploratoire
 
-### Création de la variable cible
+## Construction de la variable cible
 
-La variable **Satisfaction** est binaire : *Oui* si `Rating_Value` ≥ médiane, *Non* sinon.
-
-**Pourquoi la médiane comme seuil ?** Nous avons choisi la médiane plutôt que la moyenne ou un seuil arbitraire (par exemple 5/10) pour plusieurs raisons :
-
-- La **médiane** est robuste aux valeurs extrêmes^[Robuste aux valeurs extrêmes : la médiane n'est pas influencée par quelques notes très hautes ou très basses, contrairement à la moyenne.], contrairement à la moyenne qui serait tirée vers le haut par les notes élevées (la distribution est asymétrique à gauche).
-- Un seuil fixe comme 5/10 ne tient pas compte de la distribution réelle des notes : si la grande majorité des parfums sont notés au-dessus de 5, ce seuil produirait des classes très déséquilibrées (trop de « Oui »), ce qui dégraderait les performances des classifieurs.
-- La médiane garantit par construction une répartition **quasi équilibrée** des deux classes, ce qui est souhaitable pour la classification supervisée.
+La variable `Rating_Value` (continue, 1--5) est transformée en variable binaire **Satisfaction** en utilisant la **médiane** comme seuil. Ce choix pragmatique maximise l'équilibre des classes et évite les problèmes liés au déséquilibre. Un seuil fixe (ex. 4.0) produirait des classes déséquilibrées.
 
 ```{r}
-#| label: fig-target
+#| label: target-creation
 #| fig-cap: "Distribution de la variable Satisfaction"
-#| fig-height: 2.5
+#| fig-height: 2
 data_rated <- data_raw %>% filter(!is.na(Rating_Value))
 mediane_rating <- median(data_rated$Rating_Value, na.rm = TRUE)
-
 data_rated <- data_rated %>%
-  mutate(Satisfaction = factor(ifelse(Rating_Value >= mediane_rating, "Oui", "Non"),
-                               levels = c("Non", "Oui")))
-
+  mutate(Satisfaction = factor(
+    ifelse(Rating_Value >= mediane_rating, "Oui", "Non"),
+    levels = c("Non", "Oui")
+  ))
 ggplot(data_rated, aes(x = Satisfaction, fill = Satisfaction)) +
   geom_bar() +
   FILL_SATISFACTION +
@@ -107,248 +97,183 @@ ggplot(data_rated, aes(x = Satisfaction, fill = Satisfaction)) +
   theme(legend.position = "none")
 ```
 
-La médiane (`r mediane_rating`) produit effectivement une répartition quasi équilibrée (`r round(mean(data_rated$Satisfaction == "Oui") * 100, 1)` % Oui), confirmant la pertinence de ce choix de seuil.
+La médiane (`r round(mediane_rating, 2)`) produit une répartition quasi-équilibrée (**`r round(mean(data_rated$Satisfaction == "Oui") * 100, 1)` % Oui**), favorable pour l'apprentissage statistique. Notons que ce seuil mesure une satisfaction *relative* (par rapport aux autres parfums) et non absolue.
 
-## Analyse univariée
+## Distribution des variables numériques
 
-### Rating_Value et Rating_Count
+Le jeu de données contient deux variables numériques clés qu'il ne faut pas confondre :
+
+- **`Rating_Value`** : la **note moyenne** attribuée au parfum par les utilisateurs (échelle 1--5). C'est une mesure de *qualité perçue*. Sa distribution est quasi-symétrique (pas besoin de transformation).
+- **`Rating_Count`** : le **nombre total d'évaluations** reçues par le parfum. C'est une mesure de *popularité*. Sa distribution est très asymétrique à droite (quelques parfums vedettes cumulent des milliers d'avis, la majorité en a peu), d'où l'application d'une **transformation logarithmique** $\log(1 + x)$ pour réduire cette asymétrie.
+
+`Rating_Value` sert à construire la variable cible (Satisfaction) et est donc **exclue des prédicteurs**. `Rating_Count` est conservé comme prédicteur car il mesure la popularité, pas la satisfaction elle-même.
 
 ```{r}
-#| label: fig-univar-numeric
-#| fig-cap: "Distribution des variables numériques"
-#| fig-height: 3
-#| layout-ncol: 2
-# Rating_Value
-ggplot(data_rated, aes(x = Rating_Value)) +
-  geom_histogram(bins = 30, fill = COL_PRIMARY, color = "white", alpha = 0.8) +
-  geom_vline(xintercept = mediane_rating, color = COL_NEGATIVE, linetype = "dashed") +
-  labs(x = "Note", y = "Fréquence", title = "Rating_Value") +
-  THEME_REPORT
-
-# Rating_Count
-data_rated %>%
-  filter(!is.na(Rating_Count), Rating_Count > 0) %>%
-  ggplot(aes(x = log1p(Rating_Count))) +
-  geom_histogram(bins = 30, fill = COL_PRIMARY, color = "white", alpha = 0.8) +
-  labs(x = "log(1 + Rating_Count)", y = "Fréquence", title = "Rating_Count") +
-  THEME_REPORT
+#| label: fig-univar-num
+#| fig-cap: "Distribution de Rating_Value et log(1+Rating_Count)"
+#| fig-height: 2.5
+#| fig-width: 9
+par(mfrow = c(1, 2))
+hist(data_rated$Rating_Value, breaks = 30, col = COL_PRIMARY, border = "white",
+     main = "Rating_Value (note moyenne)", xlab = "Note", ylab = "Fréquence")
+abline(v = mediane_rating, col = COL_NEGATIVE, lwd = 2, lty = 2)
+legend("topleft", paste("Médiane =", round(mediane_rating, 2)),
+       col = COL_NEGATIVE, lty = 2, lwd = 2, cex = 0.8)
+rc <- data_rated$Rating_Count[!is.na(data_rated$Rating_Count) & data_rated$Rating_Count > 0]
+hist(log1p(rc), breaks = 30, col = COL_PRIMARY, border = "white",
+     main = "log(1 + Rating_Count) (popularité)",
+     xlab = "log(1 + Rating_Count)", ylab = "Fréquence")
+par(mfrow = c(1, 1))
 ```
 
-La distribution de `Rating_Value` est unimodale^[Unimodale : la distribution ne présente qu'un seul pic (un seul mode).] et légèrement asymétrique à gauche, indiquant que les utilisateurs ont tendance à attribuer des notes plutôt élevées. La distribution de `Rating_Count` est fortement asymétrique à droite : la grande majorité des parfums reçoivent peu d'évaluations, tandis que quelques parfums populaires en cumulent des milliers. La transformation logarithmique (`log(1 + x)`) permet de mieux visualiser cette distribution très étalée.
+Les notes (`Rating_Value`) sont concentrées autour de 3.5--4.0, avec une légère asymétrie gauche. La popularité brute est extrêmement asymétrique : la majorité des parfums ont moins de 50 évaluations, tandis que quelques parfums iconiques (*Sauvage* de Dior, *Bleu de Chanel*) en cumulent des milliers. Après transformation logarithmique, la distribution devient quasi-normale.
 
-### Year
+## Distribution par année
 
 ```{r}
-#| label: fig-univar-year
+#| label: fig-year
 #| fig-cap: "Nombre de parfums par année de sortie"
-#| fig-height: 2.5
+#| fig-height: 2
 data_rated %>%
   filter(!is.na(Year), Year >= 1900) %>%
-  count(Year) %>%
-  ggplot(aes(x = Year, y = n)) +
-  geom_line(color = COL_PRIMARY, linewidth = 0.6) +
+  ggplot(aes(x = Year)) +
+  geom_histogram(binwidth = 2, fill = COL_PRIMARY, color = "white") +
   labs(x = "Année", y = "Nombre de parfums") +
   THEME_REPORT
 ```
 
-Croissance exponentielle des sorties à partir des années 2000. Les parfums anciens (avant 1980) sont sous-représentés.
+On observe une croissance exponentielle des sorties à partir des années 2000, liée à la démocratisation de la parfumerie et à la multiplication des marques de niche. Les parfums anciens (avant 1990) sont sous-représentés, ce qui introduit un **effet de survivance** : seuls les parfums ayant survécu commercialement restent référencés sur Fragrantica, et ces parfums « survivants » sont généralement mieux notés.
 
-### Gender et Country
+## Variables catégoriques
 
 ```{r}
-#| label: fig-univar-categ
-#| fig-cap: "Distribution par genre et pays d'origine (>= 5%)"
+#| label: fig-categ
+#| fig-cap: "Distribution par genre et par pays d'origine"
 #| fig-height: 3
-#| layout-ncol: 2
-# Gender
-gender_freq <- data_rated %>%
-  filter(!is.na(Gender)) %>%
-  count(Gender, sort = TRUE) %>%
-  mutate(Pct = round(n / sum(n) * 100, 1))
-
-ggplot(gender_freq, aes(x = reorder(Gender, n), y = n)) +
+#| fig-width: 9
+p1 <- data_rated %>% filter(!is.na(Gender)) %>% count(Gender, sort = TRUE) %>%
+  ggplot(aes(x = reorder(Gender, n), y = n)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
-  coord_flip() +
-  labs(x = "Genre", y = "Effectif", title = "Gender") +
-  THEME_REPORT
-
-# Country (>= 5%)
-country_freq <- data_rated %>%
-  filter(!is.na(Country)) %>%
-  count(Country, sort = TRUE) %>%
-  mutate(Pct = round(n / sum(n) * 100, 1))
-
-country_freq %>%
-  filter(Pct >= 5) %>%
+  coord_flip() + labs(x = NULL, y = "Effectif", title = "Genre") + THEME_REPORT
+p2 <- data_rated %>% filter(!is.na(Country)) %>% count(Country, sort = TRUE) %>% head(8) %>%
   ggplot(aes(x = reorder(Country, n), y = n)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
-  coord_flip() +
-  labs(x = "Pays", y = "Effectif", title = paste0("Country (", nrow(country_freq), " pays)")) +
-  THEME_REPORT
+  coord_flip() + labs(x = NULL, y = "Effectif", title = "Pays (Top 8)") + THEME_REPORT
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-Les parfums unisex et pour femmes dominent le marché. La **France** est le premier pays d'origine des marques de parfum — ce qui n'est pas surprenant puisque la France est le berceau historique de la parfumerie moderne, notamment grâce à la ville de **Grasse**^[Grasse (Alpes-Maritimes) : capitale mondiale de la parfumerie depuis le XVII^e^ siècle, centre historique de production de matières premières et de création de parfums.], capitale mondiale du parfum depuis le XVII^e^ siècle. Elle est suivie des États-Unis et de l'Italie.
+Les parfums pour femmes et unisex dominent le dataset. La **France** arrive en tête (~30 %), ce qui s'explique par son héritage historique : Grasse (Alpes-Maritimes) est le berceau mondial de la parfumerie depuis le XVII^e^ siècle. Les **États-Unis** (~19 %) reflètent le dynamisme des marques designer et celebrity, tandis que l'**Italie** (~14 %) s'appuie sur sa tradition de la mode de luxe (Versace, Dolce & Gabbana, Acqua di Parma). Les pays représentant moins de 5 % seront regroupés en « Other ».
 
-Les pays représentant moins de 5 % de l'effectif total seront regroupés dans une catégorie « Autre » lors de la préparation des données. Ce regroupement est nécessaire pour éviter de créer des variables indicatrices^[Variable indicatrice (ou *dummy variable*) : variable binaire (0/1) créée pour représenter chaque modalité d'une variable catégorielle dans un modèle.] trop creuses (beaucoup de zéros), ce qui dégraderait la qualité des modèles.
-
-### Accords et notes olfactives
+## Accords et notes olfactives
 
 ```{r}
-#| label: fig-univar-accords
-#| fig-cap: "Accords olfactifs (>= 5% des parfums)"
+#| label: fig-accords
+#| fig-cap: "Accords olfactifs les plus fréquents"
 #| fig-height: 2.5
 accord_cols <- c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
-n_parfums <- nrow(data_rated)
-
-accords_all <- data_rated %>%
-  select(all_of(accord_cols)) %>%
-  unlist() %>%
-  str_trim()
+accords_all <- data_rated %>% select(all_of(accord_cols)) %>% unlist() %>% str_trim()
 accords_all <- accords_all[!is.na(accords_all) & accords_all != ""]
-
 accords_freq <- as.data.frame(table(accords_all), stringsAsFactors = FALSE)
 colnames(accords_freq) <- c("Accord", "Freq")
 accords_freq <- accords_freq %>%
-  mutate(Pct = round(Freq / n_parfums * 100, 1)) %>%
+  mutate(Pct = round(Freq / nrow(data_rated) * 100, 1)) %>%
   arrange(desc(Freq))
-
-accords_freq %>%
-  filter(Pct >= 5) %>%
+accords_freq %>% head(15) %>%
   ggplot(aes(x = reorder(Accord, Freq), y = Freq)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
   coord_flip() +
-  labs(x = "Accord", y = "Fréquence") +
+  labs(x = NULL, y = "Fréquence",
+       title = paste0("Top 15 accords (", nrow(accords_freq), " distincts)")) +
   THEME_REPORT
 ```
 
-Les accords^[Accord olfactif : combinaison de notes créant une impression distincte (ex. : « boisé », « agrumes »). Voir l'introduction pour la distinction avec les notes et les familles.] **boisés** (*woody*), **agrumes** (*citrus*) et **aromatiques** (*aromatic*) dominent largement. Ces `r nrow(accords_freq)` accords distincts seront regroupés par **famille olfactive** lors de la préparation (cf. Partie 2), afin de réduire la dimensionnalité tout en conservant l'information olfactive essentielle.
+Les accords **woody** (boisé), **citrus** (agrumes) et **aromatic** (aromatique) dominent, suivis de sweet et fruity. Cette répartition reflète les tendances actuelles du marché. Les `r nrow(accords_freq)` accords distincts seront regroupés en 10 familles olfactives au chapitre suivant.
 
 ```{r}
-#| label: fig-univar-notes
-#| fig-cap: "Notes olfactives les plus fréquentes par phase (>= 5%) — Tête : premières notes perçues ; Cœur : corps du parfum ; Fond : notes persistantes"
-#| fig-height: 5
-#| fig-width: 8
-notes_top <- extract_notes_freq(data_rated, "Top", "Tête")
-notes_mid <- extract_notes_freq(data_rated, "Middle", "Coeur")
-notes_base <- extract_notes_freq(data_rated, "Base", "Fond")
-
-bind_rows(notes_top, notes_mid, notes_base) %>%
-  filter(Pct >= 5) %>%
-  ggplot(aes(x = reorder(Note, Freq), y = Freq, fill = Type)) +
-  geom_bar(stat = "identity") +
+#| label: fig-notes
+#| fig-cap: "Notes olfactives les plus fréquentes par phase"
+#| fig-height: 2.5
+top_n <- as.data.frame(sort(table(parse_notes(data_rated$Top)), decreasing = TRUE)[1:10])
+mid_n <- as.data.frame(sort(table(parse_notes(data_rated$Middle)), decreasing = TRUE)[1:10])
+bas_n <- as.data.frame(sort(table(parse_notes(data_rated$Base)), decreasing = TRUE)[1:10])
+notes_df <- bind_rows(
+  data.frame(Phase = "Tete",  Note = top_n$Var1, Freq = top_n$Freq),
+  data.frame(Phase = "Coeur", Note = mid_n$Var1, Freq = mid_n$Freq),
+  data.frame(Phase = "Fond",  Note = bas_n$Var1, Freq = bas_n$Freq)
+)
+ggplot(notes_df, aes(x = reorder(Note, Freq), y = Freq)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) +
   coord_flip() +
-  facet_wrap(~Type, scales = "free") +
-  labs(x = "Note", y = "Fréquence") +
-  THEME_REPORT +
-  theme(legend.position = "none")
+  facet_wrap(~Phase, scales = "free") +
+  labs(x = NULL, y = "Fréquence") +
+  THEME_REPORT
 ```
 
-On retrouve un profil olfactif cohérent à travers les trois phases :
+La répartition des notes confirme la **pyramide olfactive** classique : les notes de **tête** sont dominées par les agrumes volatils (bergamote, citron, poivre rose), les notes de **cœur** par les floraux (jasmin, rose, iris), et les notes de **fond** par les ingrédients tenaces (musc, santal, cèdre, vanille).
 
-- **Tête** : dominée par les agrumes (bergamote, citron) — des notes fraîches et volatiles qui constituent la première impression du parfum.
-- **Cœur** : dominé par les notes florales (jasmin, rose) — le corps du parfum, qui se développe après les premières minutes.
-- **Fond** : dominé par les notes boisées et musquées (musc, santal, cèdre) — les notes les plus persistantes, qui ancrent le parfum.
-
-Cette structure classique (agrumes → floraux → boisés) se retrouve dans une grande partie de la parfumerie et justifie notre choix de regrouper les notes individuelles par familles olfactives lors de la préparation des données.
-
-## Analyse multivariée
-
-### Satisfaction vs. variables numériques
+## Analyse bivariée : satisfaction et prédicteurs
 
 ```{r}
-#| label: fig-multi-numeric
-#| fig-cap: "Variables numériques selon la Satisfaction"
-#| fig-height: 3
-#| layout-ncol: 2
-# Rating_Count
-data_rated %>%
-  filter(!is.na(Rating_Count)) %>%
+#| label: fig-multi-num
+#| fig-cap: "Variables numériques selon la satisfaction"
+#| fig-height: 2.5
+#| fig-width: 9
+p1 <- data_rated %>% filter(!is.na(Rating_Count)) %>%
   ggplot(aes(x = Satisfaction, y = log1p(Rating_Count), fill = Satisfaction)) +
-  geom_boxplot(alpha = 0.7) +
-  FILL_SATISFACTION +
-  labs(y = "log(1 + Rating_Count)", title = "Rating_Count") +
-  THEME_REPORT +
-  theme(legend.position = "none")
-
-# Year
-data_rated %>%
-  filter(!is.na(Year), Year >= 1900) %>%
+  geom_boxplot(alpha = 0.7) + FILL_SATISFACTION +
+  labs(y = "log(1 + Rating_Count)", title = "Biais de popularité") +
+  THEME_REPORT + theme(legend.position = "none")
+p2 <- data_rated %>% filter(!is.na(Year), Year >= 1900) %>%
   ggplot(aes(x = Satisfaction, y = Year, fill = Satisfaction)) +
-  geom_boxplot(alpha = 0.7) +
-  FILL_SATISFACTION +
-  labs(y = "Année de sortie", title = "Year") +
-  THEME_REPORT +
-  theme(legend.position = "none")
+  geom_boxplot(alpha = 0.7) + FILL_SATISFACTION +
+  labs(y = "Année", title = "Effet de survivance") +
+  THEME_REPORT + theme(legend.position = "none")
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-Les parfums satisfaisants ont plus d'évaluations (biais de popularité) et sont légèrement plus anciens (effet de survivance).
-
-### Satisfaction vs. variables catégorielles
+Les parfums satisfaisants ont significativement plus d'évaluations (**biais de popularité**) : sur Fragrantica, les utilisateurs évaluent préférentiellement les parfums qu'ils apprécient, créant un cercle vertueux popularité → bonnes notes. Les parfums satisfaisants sont aussi légèrement plus anciens (**effet de survivance**) : les mauvais parfums anciens ont été retirés du marché et ne sont plus référencés.
 
 ```{r}
-#| label: fig-multi-gender
-#| fig-cap: "Taux de satisfaction par genre"
-#| fig-height: 3
-data_rated %>%
-  filter(!is.na(Gender)) %>%
-  group_by(Gender) %>%
-  filter(n() >= 50) %>%
+#| label: fig-multi-categ
+#| fig-cap: "Taux de satisfaction par genre et par pays"
+#| fig-height: 2.5
+#| fig-width: 9
+p1 <- data_rated %>% filter(!is.na(Gender)) %>% group_by(Gender) %>% filter(n() >= 50) %>%
   summarise(taux = mean(Satisfaction == "Oui"), .groups = "drop") %>%
   ggplot(aes(x = reorder(Gender, taux), y = taux)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
-  coord_flip() +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "Genre", y = "Taux de satisfaction") +
-  THEME_REPORT
-```
-
-Le genre cible du parfum est **peu discriminant** : les taux de satisfaction sont proches entre les catégories (hommes, femmes, unisex). Cela signifie que le genre seul ne suffit pas à prédire la satisfaction.
-
-```{r}
-#| label: fig-multi-country
-#| fig-cap: "Taux de satisfaction par pays d'origine (n >= 100)"
-#| fig-height: 3
-data_rated %>%
-  filter(!is.na(Country)) %>%
-  group_by(Country) %>%
-  filter(n() >= 100) %>%
+  coord_flip() + scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction", title = "Par genre") + THEME_REPORT
+p2 <- data_rated %>% filter(!is.na(Country)) %>% group_by(Country) %>% filter(n() >= 100) %>%
   summarise(taux = mean(Satisfaction == "Oui"), .groups = "drop") %>%
-  arrange(desc(taux)) %>%
-  head(10) %>%
+  arrange(desc(taux)) %>% head(10) %>%
   ggplot(aes(x = reorder(Country, taux), y = taux)) +
   geom_bar(stat = "identity", fill = COL_PRIMARY) +
-  coord_flip() +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "Pays", y = "Taux de satisfaction") +
-  THEME_REPORT
+  coord_flip() + scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction", title = "Par pays (n >= 100)") + THEME_REPORT
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-En revanche, le **pays d'origine** montre des différences plus marquées. Certains pays associés à des marques de niche^[Marque de niche : maison de parfumerie artisanale ou spécialisée, par opposition aux grandes marques de distribution (« mass-market »).] affichent des taux de satisfaction plus élevés, ce qui justifie l'inclusion du pays comme variable prédictive dans nos modèles.
+Le genre est peu discriminant. Par pays, certaines origines (souvent des maisons de niche à production artisanale, comme les parfumeurs des Émirats spécialisés dans le oud) affichent des taux de satisfaction plus élevés, probablement car leurs parfums ciblent un public passionné et averti.
 
-### Corrélations
+## Matrice de corrélation
 
 ```{r}
-#| label: fig-correlation
-#| fig-cap: "Matrice de corrélation entre les variables numériques"
-#| fig-height: 4
-#| fig-width: 5
-num_vars <- data_rated %>%
-  select(Year, Rating_Count, Rating_Value) %>%
-  filter(complete.cases(.))
-
+#| label: fig-corr
+#| fig-cap: "Matrice de corrélation des variables numériques"
+#| fig-height: 2.5
+#| fig-width: 3.5
+#| out-width: "45%"
+num_vars <- data_rated %>% select(Rating_Value, Rating_Count, Year) %>% drop_na()
 corrplot(cor(num_vars), method = "color", type = "upper",
-         addCoef.col = "black", tl.col = "black",
-         mar = c(0, 0, 1, 0))
+         addCoef.col = "black", tl.cex = 0.8, number.cex = 0.7)
 ```
 
-La matrice de corrélation^[Matrice de corrélation : tableau symétrique montrant le coefficient de corrélation de Pearson entre chaque paire de variables numériques. Un coefficient proche de 0 indique l'absence de relation linéaire ; proche de 1 ou -1, une forte relation.] montre des **corrélations faibles** entre les trois variables numériques (`Year`, `Rating_Count`, `Rating_Value`). Cela signifie :
-
-- Il n'y a pas de **multicolinéarité**^[Multicolinéarité : situation où deux variables explicatives sont fortement corrélées entre elles, ce qui peut rendre instables les coefficients d'un modèle de régression.] problématique : chaque variable apporte une information distincte au modèle.
-- L'année de sortie n'est pas linéairement liée au nombre d'évaluations ni à la note — ces variables capturent des aspects différents des parfums.
+Les corrélations entre les variables numériques sont très faibles (toutes inférieures à 0.15), indiquant l'absence de multicolinéarité problématique : chaque variable (année, popularité, note) apporte une information distincte au modèle.
 
 ```{r}
-#| label: save
+#| label: save-data-rated
 #| include: false
 saveRDS(data_rated, here::here("output", "data_rated.rds"))
-cat("Dimensions finales :", nrow(data_rated), "x", ncol(data_rated), "\n")
+saveRDS(accords_freq, here::here("output", "accords_freq.rds"))
 ```

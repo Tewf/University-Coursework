@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Partie 7 : Comparaison, Pistes et Conclusion – Prédiction de la Satisfaction Client pour les Parfums</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/06_knn.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cc6021031aa4a3a6d796f7cf0faf538a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f85d791e6d31ccddbb7515a81db4e3dd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-cc6021031aa4a3a6d796f7cf0faf538a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/07_comparaison.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Partie 7 : Comparaison, Pistes et Conclusion</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Recherche" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../uga-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../uga-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Prédiction de la Satisfaction Client pour les Parfums</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/mohamedhamlil/University-Coursework/tree/main/Bachelor/L3/S6/ComplementMath2/Projet/" title="Code source" class="quarto-navigation-tool px-1" aria-label="Code source"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Basculer le mode sombre"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Recherche"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Partie 1 : Données et Analyse Exploratoire</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Partie 2 : Feature Engineering et Préparation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/03_regression_logistique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Partie 3 : Régression Logistique LASSO</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_arbre_decision.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Partie 4 : Arbre de Décision</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_foret_aleatoire.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Partie 5 : Forêt Aléatoire</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_knn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Partie 6 : k Plus Proches Voisins (kNN)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/07_comparaison.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Partie 7 : Comparaison, Pistes et Conclusion</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#comparaison-des-quatre-modèles" id="toc-comparaison-des-quatre-modèles" class="nav-link active" data-scroll-target="#comparaison-des-quatre-modèles"><span class="header-section-number">8</span> Comparaison des quatre modèles</a>
+  <ul class="collapse">
+  <li><a href="#récapitulatif-des-performances" id="toc-récapitulatif-des-performances" class="nav-link" data-scroll-target="#récapitulatif-des-performances"><span class="header-section-number">8.1</span> Récapitulatif des performances</a></li>
+  <li><a href="#courbes-roc-comparées" id="toc-courbes-roc-comparées" class="nav-link" data-scroll-target="#courbes-roc-comparées"><span class="header-section-number">8.2</span> Courbes ROC comparées</a></li>
+  <li><a href="#analyse-comparative" id="toc-analyse-comparative" class="nav-link" data-scroll-target="#analyse-comparative"><span class="header-section-number">8.3</span> Analyse comparative</a></li>
+  </ul></li>
+  <li><a href="#pistes-non-explorées" id="toc-pistes-non-explorées" class="nav-link" data-scroll-target="#pistes-non-explorées"><span class="header-section-number">9</span> Pistes non explorées</a>
+  <ul class="collapse">
+  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes"><span class="header-section-number">9.1</span> Naive Bayes</a></li>
+  <li><a href="#clustering-k-means" id="toc-clustering-k-means" class="nav-link" data-scroll-target="#clustering-k-means"><span class="header-section-number">9.2</span> Clustering K-means</a></li>
+  </ul></li>
+  <li><a href="#regard-critique-et-limites" id="toc-regard-critique-et-limites" class="nav-link" data-scroll-target="#regard-critique-et-limites"><span class="header-section-number">10</span> Regard critique et limites</a></li>
+  <li><a href="#synthèse-et-conclusion" id="toc-synthèse-et-conclusion" class="nav-link" data-scroll-target="#synthèse-et-conclusion"><span class="header-section-number">11</span> Synthèse et conclusion</a>
+  <ul class="collapse">
+  <li><a href="#retour-sur-la-problématique" id="toc-retour-sur-la-problématique" class="nav-link" data-scroll-target="#retour-sur-la-problématique"><span class="header-section-number">11.1</span> Retour sur la problématique</a></li>
+  <li><a href="#bilan-des-méthodes" id="toc-bilan-des-méthodes" class="nav-link" data-scroll-target="#bilan-des-méthodes"><span class="header-section-number">11.2</span> Bilan des méthodes</a></li>
+  <li><a href="#ouverture-et-perspectives" id="toc-ouverture-et-perspectives" class="nav-link" data-scroll-target="#ouverture-et-perspectives"><span class="header-section-number">11.3</span> Ouverture et perspectives</a></li>
+  </ul></li>
+  <li><a href="#utilisation-de-lia" id="toc-utilisation-de-lia" class="nav-link" data-scroll-target="#utilisation-de-lia"><span class="header-section-number">12</span> Utilisation de l’IA</a>
+  <ul class="collapse">
+  <li><a href="#contributions-individuelles" id="toc-contributions-individuelles" class="nav-link" data-scroll-target="#contributions-individuelles"><span class="header-section-number">12.1</span> Contributions individuelles</a></li>
+  </ul></li>
+  <li><a href="#références" id="toc-références" class="nav-link" data-scroll-target="#références">Références</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Partie 7 : Comparaison, Pistes et Conclusion</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Montrer tout le code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Cacher tout le code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">Voir les sources</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="comparaison-des-quatre-modèles" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Comparaison des quatre modèles</h1>
+<section id="récapitulatif-des-performances" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="récapitulatif-des-performances"><span class="header-section-number">8.1</span> Récapitulatif des performances</h2>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Modele =</span> <span class="fu">c</span>(<span class="st">"Rég. Logistique (LASSO)"</span>, <span class="st">"Arbre de Décision"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Forêt Aléatoire"</span>, <span class="st">"kNN (k=51)"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC_Test =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">4</span>), <span class="fu">round</span>(<span class="fu">auc</span>(roc_tree), <span class="dv">4</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf), <span class="dv">4</span>), <span class="fu">round</span>(<span class="fu">auc</span>(roc_knn), <span class="dv">4</span>)),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Accuracy =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_tree<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_rf<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_knn<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>)),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sensibilite =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>)),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Specificite =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>)),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">F1 =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-comparison" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;8.1: Comparaison des quatre modèles supervisés
+</figcaption>
+<div aria-describedby="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Modele</th>
+<th style="text-align: right;">AUC_Test</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Sensibilite</th>
+<th style="text-align: right;">Specificite</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Rég. Logistique (LASSO)</td>
+<td style="text-align: right;">0.6693</td>
+<td style="text-align: right;">0.6250</td>
+<td style="text-align: right;">0.6354</td>
+<td style="text-align: right;">0.6142</td>
+<td style="text-align: right;">0.6323</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Arbre de Décision</td>
+<td style="text-align: right;">0.6488</td>
+<td style="text-align: right;">0.6146</td>
+<td style="text-align: right;">0.5939</td>
+<td style="text-align: right;">0.6358</td>
+<td style="text-align: right;">0.6099</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Forêt Aléatoire</td>
+<td style="text-align: right;">0.6926</td>
+<td style="text-align: right;">0.6333</td>
+<td style="text-align: right;">0.6551</td>
+<td style="text-align: right;">0.6108</td>
+<td style="text-align: right;">0.6445</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kNN (k=51)</td>
+<td style="text-align: right;">0.6541</td>
+<td style="text-align: right;">0.6114</td>
+<td style="text-align: right;">0.5871</td>
+<td style="text-align: right;">0.6364</td>
+<td style="text-align: right;">0.6052</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>La hiérarchie des performances est claire : <strong>Forêt Aléatoire &gt; Régression Logistique &gt; kNN &gt; Arbre de Décision</strong>. L’écart entre la forêt aléatoire et le kNN (3.9 points d’AUC) est substantiel. Le gain de la forêt par rapport à l’arbre seul (4.4 points) illustre concrètement l’avantage du bagging.</p>
+</section>
+<section id="courbes-roc-comparées" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="courbes-roc-comparées"><span class="header-section-number">8.2</span> Courbes ROC comparées</h2>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>draw_roc <span class="ot">&lt;-</span> <span class="cf">function</span>(roc_obj, col, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  cc  <span class="ot">&lt;-</span> <span class="fu">coords</span>(roc_obj, <span class="st">"all"</span>, <span class="at">ret =</span> <span class="fu">c</span>(<span class="st">"specificity"</span>, <span class="st">"sensitivity"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  fpr <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> cc<span class="sc">$</span>specificity</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  ord <span class="ot">&lt;-</span> <span class="fu">order</span>(fpr)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(fpr[ord], cc<span class="sc">$</span>sensitivity[ord], <span class="at">col =</span> col, <span class="at">lwd =</span> lwd, <span class="at">lty =</span> lty)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"1 - Spécificité"</span>, <span class="at">ylab =</span> <span class="st">"Sensibilité"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Courbes ROC comparées"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_logistic, COL_PRIMARY)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_tree,     COL_TREE, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_rf,       COL_POSITIVE)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_knn,      COL_KNN)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Logistique ("</span>,   <span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Arbre ("</span>,        <span class="fu">round</span>(<span class="fu">auc</span>(roc_tree),     <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Forêt Aléat. ("</span>, <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf),       <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"kNN k=51 ("</span>,     <span class="fu">round</span>(<span class="fu">auc</span>(roc_knn),      <span class="dv">3</span>), <span class="st">")"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>       ),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(COL_PRIMARY, COL_TREE, COL_POSITIVE, COL_KNN),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-roc-comp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-roc-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_comparaison_files/figure-html/fig-roc-comp-1.png" class="img-fluid figure-img" width="432">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-roc-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Courbes ROC comparées — quatre modèles supervisés
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Les quatre courbes ROC (<a href="#fig-roc-comp" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>) s’écartent de la diagonale (hasard pur), confirmant une discrimination réelle. La forêt aléatoire domine sur toute la plage de seuils. La comparaison arbre/forêt est particulièrement instructive : la courbe de l’arbre seul (pointillée) est plus irrégulière et systématiquement en-dessous de la forêt, illustrant le gain du bagging. L’AUC la plus élevée (forêt aléatoire, 0.693) signifie que le modèle classe correctement une paire aléatoire (satisfaisant, non-satisfaisant) dans <strong>69 % des cas</strong> (Fawcett, 2006) — modérément supérieur au hasard (50 %), mais significatif sur 7218 observations test.</p>
+</section>
+<section id="analyse-comparative" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="analyse-comparative"><span class="header-section-number">8.3</span> Analyse comparative</h2>
+<p>Pourquoi la forêt aléatoire domine-t-elle ? Trois raisons : (1) elle capture les <strong>interactions non-linéaires</strong> entre variables sans les modéliser explicitement ; (2) le <strong>bagging</strong> et la restriction de <code>mtry</code> décorrèlent les arbres, offrant une régularisation naturelle absente du kNN ; (3) elle sélectionne implicitement les variables pertinentes à chaque nœud, contrairement au kNN qui utilise les 53 dimensions indistinctement. Le gain arbre → forêt (4.4 points d’AUC) illustre concrètement l’avantage du moyennage de 500 arbres décorrélés sur un arbre unique instable.</p>
+<p>Le kNN échoue en raison de la <strong>malédiction de la dimensionnalité</strong> : avec ~50 features binaires, les distances euclidiennes deviennent peu discriminantes et le kNN nécessite un k=51 très large, perdant son avantage de classificateur local.</p>
+</section>
+</section>
+<section id="pistes-non-explorées" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Pistes non explorées</h1>
+<p>Au-delà des quatre modèles supervisés retenus, nous avons exploré deux pistes complémentaires que nous avons choisi de ne pas intégrer comme modèles principaux. Cette section justifie ces choix.</p>
+<section id="naive-bayes" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="naive-bayes"><span class="header-section-number">9.1</span> Naive Bayes</h2>
+<p>Le classificateur Naive Bayes applique le théorème de Bayes avec l’hypothèse d’<strong>indépendance conditionnelle</strong> entre les features :</p>
+<p><span class="math display">\[P(Y = c \mid X_1, \ldots, X_p) \propto P(Y = c) \prod_{j=1}^{p} P(X_j \mid Y = c)\]</span></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nb_file     <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_nb.rds"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cm_nb_file  <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_nb.rds"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>roc_nb_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_nb.rds"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(nb_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_nb_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_nb_file)) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  model_nb <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(nb_file)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  cm_nb    <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_nb_file)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  roc_nb   <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_nb_file)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  grid_nb <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">laplace   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">usekernel =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjust    =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  model_nb <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> ., <span class="at">data =</span> train_data, <span class="at">method =</span> <span class="st">"naive_bayes"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL, <span class="at">tuneGrid =</span> grid_nb, <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  prob_nb <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_nb, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  cm_nb   <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(model_nb, test_data),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                             test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  roc_nb  <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_nb<span class="sc">$</span>Oui, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_nb, nb_file)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_nb,    cm_nb_file)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_nb,   roc_nb_file)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metrique =</span> <span class="fu">c</span>(<span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">max</span>(model_nb<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">auc</span>(roc_nb), <span class="dv">4</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-nb-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nb-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.1: Métriques du Naive Bayes — modèle non retenu
+</figcaption>
+<div aria-describedby="tbl-nb-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metrique</th>
+<th style="text-align: right;">Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AUC (CV)</td>
+<td style="text-align: right;">0.6481</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AUC (test)</td>
+<td style="text-align: right;">0.6464</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Accuracy</td>
+<td style="text-align: right;">0.5540</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sensibilité</td>
+<td style="text-align: right;">0.2002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spécificité</td>
+<td style="text-align: right;">0.9184</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><strong>Raisons de la non-rétention :</strong></p>
+<ol type="1">
+<li><strong>AUC la plus faible</strong> (0.646) : inférieure à tous les modèles retenus.</li>
+<li><strong>Classificateur dégénéré</strong> : la sensibilité extrêmement basse (0.2) indique que le modèle prédit presque tous les parfums comme « Non satisfaisants ». Cela le rend inutilisable en pratique — un classificateur qui répond toujours « Non » est trivial.</li>
+<li><strong>Violation de l’hypothèse d’indépendance</strong> : les familles olfactives sont corrélées entre elles, ce qui viole l’hypothèse fondamentale du Naive Bayes.</li>
+</ol>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fam_feat <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, feature_cols, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cor_fam  <span class="ot">&lt;-</span> <span class="fu">cor</span>(train_data[, fam_feat])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cor_fam) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">colnames</span>(cor_fam))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(cor_fam) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">rownames</span>(cor_fam))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_fam, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">number.cex =</span> <span class="fl">0.55</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Corrélations entre familles olfactives"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-nb-corr" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nb-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_comparaison_files/figure-html/fig-nb-corr-1.png" class="img-fluid figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nb-corr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Corrélations entre familles olfactives — violation de l’hypothèse d’indépendance du Naive Bayes
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Plusieurs paires de familles présentent des corrélations non négligeables : <strong>herbal/sweet</strong> (<span class="math inline">\(r \approx -0.44\)</span>, la plus forte anti-corrélation — les compositions aromatiques excluent les accords gourmands), <strong>floral/herbal</strong> (<span class="math inline">\(r \approx -0.27\)</span>) et <strong>fruity/spicy</strong> (<span class="math inline">\(r \approx -0.27\)</span>). Ces anti-corrélations traduisent la spécialisation des compositions : les familles ne sont pas indépendantes mais structurées par les conventions de la parfumerie. Ces dépendances violent l’hypothèse d’indépendance conditionnelle du Naive Bayes, dégradant l’estimation des probabilités jointes et expliquant la mauvaise performance du modèle.</p>
+</section>
+<section id="clustering-k-means" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="clustering-k-means"><span class="header-section-number">9.2</span> Clustering K-means</h2>
+<p>En complément de l’approche supervisée, nous avons réalisé un clustering <strong>non-supervisé</strong> K-means sur les 10 familles olfactives, afin de découvrir d’éventuels profils-types de parfums.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_accords_to_families</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  data_rated,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fam_cols_all <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X_fam <span class="ot">&lt;-</span> data_rated[, fam_cols_all]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>wss <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">8</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X_fam, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">25</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  wss[k] <span class="ot">&lt;-</span> km<span class="sc">$</span>tot.withinss</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>elbow_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">WCSS =</span> wss)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(elbow_df, <span class="fu">aes</span>(<span class="at">x =</span> k, <span class="at">y =</span> WCSS)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">3</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> COL_NEGATIVE) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">3.3</span>, <span class="at">y =</span> <span class="fu">max</span>(wss) <span class="sc">*</span> <span class="fl">0.92</span>, <span class="at">label =</span> <span class="st">"Coude (k=3)"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> COL_NEGATIVE, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Nombre de clusters (K)"</span>, <span class="at">y =</span> <span class="st">"Inertie intra-cluster (WCSS)"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Méthode du coude"</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-elbow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elbow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_comparaison_files/figure-html/fig-elbow-1.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elbow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: Méthode du coude — choix du nombre de clusters
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La méthode du coude suggère <strong>k=3</strong> clusters : la réduction d’inertie chute fortement après k=3.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>km3 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X_fam, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>idx_herbal   <span class="ot">&lt;-</span> <span class="fu">which.max</span>(km3<span class="sc">$</span>centers[, <span class="st">"fam_herbal"</span>])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>idx_floral   <span class="ot">&lt;-</span> <span class="fu">which.max</span>(km3<span class="sc">$</span>centers[, <span class="st">"fam_floral"</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>idx_oriental <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(idx_herbal, idx_floral))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">3</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_herbal]   <span class="ot">&lt;-</span> <span class="st">"Aromatique-Frais"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_floral]   <span class="ot">&lt;-</span> <span class="st">"Floral-Gourmand"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_oriental] <span class="ot">&lt;-</span> <span class="st">"Boisé-Oriental"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>cluster_k3    <span class="ot">&lt;-</span> km3<span class="sc">$</span>cluster</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>cluster_label <span class="ot">&lt;-</span> cluster_labels[km3<span class="sc">$</span>cluster]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>centers_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(km3<span class="sc">$</span>centers) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Cluster =</span> cluster_labels) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Cluster, <span class="at">names_to =</span> <span class="st">"Famille"</span>, <span class="at">values_to =</span> <span class="st">"Proportion"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>centers_df<span class="sc">$</span>Famille <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, centers_df<span class="sc">$</span>Famille)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(centers_df, <span class="fu">aes</span>(<span class="at">x =</span> Famille, <span class="at">y =</span> Proportion, <span class="at">fill =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#4CAF50"</span>, <span class="st">"#E91E63"</span>, <span class="st">"#FF9800"</span>)) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Proportion moyenne"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Profils olfactifs des 3 clusters"</span>) <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">35</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cluster-profiles" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cluster-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_comparaison_files/figure-html/fig-cluster-profiles-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cluster-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: Profils olfactifs des 3 clusters K-means
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Trois profils-types émergent clairement :</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sat_cluster <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster_label) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">taux_satisfaction =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rating_moyen =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Rating_Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sat_cluster[, <span class="fu">c</span>(<span class="st">"cluster_label"</span>, <span class="st">"n"</span>, <span class="st">"taux_satisfaction"</span>, <span class="st">"rating_moyen"</span>)],</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Profil"</span>, <span class="st">"Effectif"</span>, <span class="st">"Satisfaction (%)"</span>, <span class="st">"Rating moyen"</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-cluster-profiles" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cluster-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.2: Taux de satisfaction par profil olfactif
+</figcaption>
+<div aria-describedby="tbl-cluster-profiles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Profil</th>
+<th style="text-align: right;">Effectif</th>
+<th style="text-align: right;">Satisfaction (%)</th>
+<th style="text-align: right;">Rating moyen</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Aromatique-Frais</td>
+<td style="text-align: right;">7937</td>
+<td style="text-align: right;">51.2</td>
+<td style="text-align: right;">3.96</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Boisé-Oriental</td>
+<td style="text-align: right;">6006</td>
+<td style="text-align: right;">62.0</td>
+<td style="text-align: right;">4.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Floral-Gourmand</td>
+<td style="text-align: right;">10120</td>
+<td style="text-align: right;">43.7</td>
+<td style="text-align: right;">3.92</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sat_cluster, <span class="fu">aes</span>(<span class="at">x =</span> cluster_label, <span class="at">y =</span> taux_satisfaction, <span class="at">fill =</span> cluster_label)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(taux_satisfaction, <span class="st">"%"</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">mean</span>(data_rated<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Aromatique-Frais"</span> <span class="ot">=</span> <span class="st">"#4CAF50"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Floral-Gourmand"</span>  <span class="ot">=</span> <span class="st">"#E91E63"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Boisé-Oriental"</span>   <span class="ot">=</span> <span class="st">"#FF9800"</span>)) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Satisfaction (%)"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Satisfaction par profil olfactif"</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">70</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cluster-sat" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cluster-sat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07_comparaison_files/figure-html/fig-cluster-sat-1.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cluster-sat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: Taux de satisfaction par profil olfactif
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Aromatique-Frais</strong> (7937 parfums) : dominé par les familles herbal, fruity et woody. Ce profil correspond aux fougères masculines classiques (lavande, bergamote, cèdre). Satisfaction : 51.2 %.</li>
+<li><strong>Floral-Gourmand</strong> (10120 parfums) : dominé par sweet, floral et fruity. Compositions féminines accessibles (rose, vanille, fruits rouges). Satisfaction : 43.7 % — le taux le plus bas.</li>
+<li><strong>Boisé-Oriental</strong> (6006 parfums) : dominé par woody, oriental et sweet. Parfums de niche (oud, santal, ambre). Satisfaction : <strong>62 %</strong> — le taux le plus élevé.</li>
+</ul>
+<p>L’écart de satisfaction entre le profil Boisé-Oriental (62 %) et le Floral-Gourmand (43.7 %) est de <strong>18.3 points</strong>. Comment l’expliquer ? Les parfums boisés-orientaux (oud, santal, ambre) sont des parfums de <strong>niche</strong>, souvent plus chers et moins connus du grand public. Les personnes qui les achètent sont donc des <strong>passionnés</strong> qui savent ce qu’ils veulent — ils choisissent avec soin et notent généreusement les parfums qu’ils apprécient. À l’inverse, les parfums floraux-gourmands (rose, vanille, fruits rouges) sont les plus <strong>grand public</strong> : ils attirent un large éventail d’acheteurs, y compris des consommateurs occasionnels qui peuvent être déçus. Ce mélange d’avis enthousiastes et mitigés tire la moyenne vers le bas. C’est un <strong>biais de sélection</strong> classique : ce n’est pas que les parfums orientaux sont objectivement meilleurs, mais leur public est plus sélectif. Cet écart est statistiquement significatif (test du <span class="math inline">\(\chi^2\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>), mais la taille d’effet reste faible (V de Cramér <span class="math inline">\(\approx 0.15\)</span>), confirmant que le profil olfactif n’explique qu’une part modeste de la satisfaction. De plus, l’ajout du cluster comme variable dans la forêt aléatoire ne modifie pas l’AUC, ce qui signifie que les familles individuelles capturent déjà cette information.</p>
+</section>
+</section>
+<section id="regard-critique-et-limites" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Regard critique et limites</h1>
+<ol type="1">
+<li><strong>Biais de sélection</strong> : <code>Rating_Count</code> domine les prédicteurs dans les quatre modèles. Ce n’est pas le nombre d’avis qui <em>cause</em> la satisfaction, mais les parfums populaires attirent plus d’évaluateurs <em>et</em> ces évaluateurs notent préférentiellement les parfums qu’ils apprécient. Nos modèles capturent cette corrélation sans pouvoir établir de causalité.</li>
+<li><strong>Multicolinéarité des familles</strong> : les familles olfactives ne sont pas mutuellement exclusives (un parfum peut être à la fois « fruity » et « sweet »), ce qui peut biaiser l’estimation des coefficients LASSO. La forêt aléatoire et le kNN sont moins sensibles à ce problème.</li>
+<li><strong>Validité externe</strong> : les données Fragrantica représentent un public auto-sélectionné de passionnés en ligne, non représentatif de la population générale des consommateurs.</li>
+<li><strong>Perte d’information</strong> : la binarisation à la médiane perd le gradient de satisfaction (un parfum à 4.8 et un à 4.0 sont tous deux « Oui »).</li>
+<li><strong>Malédiction de la dimensionnalité</strong> : le kNN illustre concrètement comment les performances d’un classificateur basé sur les distances se dégradent en haute dimension (<span class="math inline">\(p = 53\)</span>), un phénomène théorique étudié en <strong>Séance 5</strong> que nous avons pu vérifier empiriquement.</li>
+</ol>
+</section>
+<section id="synthèse-et-conclusion" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Synthèse et conclusion</h1>
+<section id="retour-sur-la-problématique" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="retour-sur-la-problématique"><span class="header-section-number">11.1</span> Retour sur la problématique</h2>
+<p><strong>Les caractéristiques olfactives permettent-elles de prédire la satisfaction ?</strong> Partiellement. Les familles olfactives contribuent à la prédiction (AUC &gt; 0.50), mais l’AUC plafonne à ~0.69, dominée par les variables non-olfactives. Ce projet illustre les concepts clés du cours :</p>
+<ul>
+<li>La <strong>validation croisée</strong> (TP3) pour une estimation honnête de la performance.</li>
+<li>La <strong>régularisation</strong> (TP5) pour gérer un espace de 53 prédicteurs — le LASSO a éliminé les variables redondantes.</li>
+<li>La <strong>comparaison de modèles</strong> (TP6–7) : le gain de la forêt aléatoire est réel mais modéré.</li>
+<li>La <strong>classification par voisinage</strong> (TP5) : le kNN échoue en haute dimension, confirmant les mises en garde du cours.</li>
+<li>Le <strong>regard critique</strong> : nous avons testé et écarté le Naive Bayes (Séance 6), et exploré le clustering K-means (Séance 10) pour un éclairage complémentaire.</li>
+<li>Une performance modérée reflète la subjectivité de la variable cible, pas un échec méthodologique.</li>
+</ul>
+</section>
+<section id="bilan-des-méthodes" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="bilan-des-méthodes"><span class="header-section-number">11.2</span> Bilan des méthodes</h2>
+<div id="tbl-bilan" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bilan-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.1: Bilan des méthodes explorées
+</figcaption>
+<div aria-describedby="tbl-bilan-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Méthode</th>
+<th>AUC test</th>
+<th>Statut</th>
+<th>Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Forêt Aléatoire</td>
+<td>0.693</td>
+<td>Retenu</td>
+<td>Meilleure performance, interactions non-linéaires</td>
+</tr>
+<tr class="even">
+<td>Rég. Logistique</td>
+<td>0.669</td>
+<td>Retenu</td>
+<td>Interprétable, sélection de variables</td>
+</tr>
+<tr class="odd">
+<td>Arbre de Décision</td>
+<td>0.649</td>
+<td>Retenu</td>
+<td>Interprétable, justifie le passage à la forêt</td>
+</tr>
+<tr class="even">
+<td>kNN (k=51)</td>
+<td>0.654</td>
+<td>Retenu</td>
+<td>Illustration malédiction dimensionnalité</td>
+</tr>
+<tr class="odd">
+<td>Naive Bayes</td>
+<td>0.646</td>
+<td>Non retenu</td>
+<td>Hypothèse violée, classificateur dégénéré</td>
+</tr>
+<tr class="even">
+<td>K-means (k=3)</td>
+<td>—</td>
+<td>Exploratoire</td>
+<td>3 profils significatifs (<span class="math inline">\(\chi^2\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>), effet faible (V = 0.15), pas de gain prédictif</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="ouverture-et-perspectives" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="ouverture-et-perspectives"><span class="header-section-number">11.3</span> Ouverture et perspectives</h2>
+<p>Ce travail ouvre plusieurs pistes. L’<strong>ingénierie de features</strong> pourrait être enrichie par un encodage <strong>TF-IDF</strong> sur les notes individuelles (traitement analogue au NLP), pondérant chaque note par sa rareté plutôt que de regrouper en 10 familles binaires. L’ajout de la <strong>concentration du parfum</strong> (Eau de Toilette, Eau de Parfum, Extrait) comme variable prédictive serait particulièrement pertinent : la concentration influence directement la tenue, la projection et donc la satisfaction perçue, mais cette information est absente du dataset Fragrantica. Les <strong>méthodes d’ensemble hybrides</strong> (stacking) ou les réseaux de neurones pourraient exploiter des interactions complexes entre prédicteurs. Le clustering K-means suggère qu’un modèle entraîné <strong>séparément par cluster</strong> pourrait capturer des relations différentes selon le segment de marché. Enfin, une <strong>régression ordinale</strong> préserverait le gradient de satisfaction perdu par la binarisation.</p>
+</section>
+</section>
+<section id="utilisation-de-lia" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Utilisation de l’IA</h1>
+<p>Nous avons utilisé Claude et GitHub Copilot pour :</p>
+<ol type="1">
+<li><strong>Debugging du code R</strong> (~15 % du temps) : résolution d’erreurs de syntaxe et de compatibilité entre packages (ex. : l’IA avait suggéré <code>randomForest</code> au lieu de <code>ranger</code>, corrigé après des temps d’exécution 10× supérieurs).</li>
+<li><strong>Mise en forme du rapport</strong> (~10 %) : aide à la structuration LaTeX (gestion des marges via <code>geometry</code>, espacement avec <code>setstretch</code> et <code>parskip</code>, placement des figures avec <code>float</code> et <code>\floatplacement{figure}{H}</code>, table des matières automatique).</li>
+</ol>
+<p>Toutes les sorties ont été systématiquement vérifiées. L’analyse des données, le choix des hyperparamètres, l’interprétation des résultats et le regard critique sont entièrement le fruit de notre travail.</p>
+<section id="contributions-individuelles" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="contributions-individuelles"><span class="header-section-number">12.1</span> Contributions individuelles</h2>
+<div id="tbl-contrib" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-contrib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;12.1: Contributions individuelles des membres de l’équipe
+</figcaption>
+<div aria-describedby="tbl-contrib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Membre</th>
+<th>Contributions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ANZID Keltoum</td>
+<td>Analyse exploratoire, interprétation des résultats, rédaction des sections contextuelles, présentation orale</td>
+</tr>
+<tr class="even">
+<td>EL KORAICHI Mohamed Yassine</td>
+<td>Feature engineering (familles olfactives, notes), kNN et pistes non explorées, réécriture du rapport, validation et relecture critique</td>
+</tr>
+<tr class="odd">
+<td>HAMLIL Mohamed</td>
+<td>Code R et modélisation (régression logistique, arbre de décision, forêt aléatoire), feature engineering, pipeline anti data leakage</td>
+</tr>
+<tr class="even">
+<td>PARDO TERAN German</td>
+<td>Recherche des données (Fragrantica), visualisations, aide à l’interprétation, présentation orale</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="références" class="level1 unnumbered">
+<h1 class="unnumbered">Références</h1>
+<ol type="1">
+<li>Breiman, L. (2001). <em>Random Forests</em>. Machine Learning, 45(1), 5–32.</li>
+<li>Zou, H. &amp; Hastie, T. (2005). <em>Regularization and Variable Selection via the Elastic Net</em>. JRSS-B, 67(2), 301–320.</li>
+<li>Fawcett, T. (2006). <em>An Introduction to ROC Analysis</em>. Pattern Recognition Letters, 27(8), 861–874.</li>
+<li>Kohavi, R. (1995). <em>A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection</em>. IJCAI.</li>
+<li>Ellena, J.-C. (2007). <em>Que sais-je ? Le parfum</em>. Presses Universitaires de France.</li>
+<li>Fragrantica Fragrance Dataset. Kaggle. <a href="https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset" class="uri">https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset</a></li>
+<li>Cover, T. &amp; Hart, P. (1967). <em>Nearest Neighbor Pattern Classification</em>. IEEE Transactions on Information Theory, 13(1), 21–27.</li>
+</ol>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/06_knn.html" class="pagination-link" aria-label="Partie 6 : k Plus Proches Voisins (kNN)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Partie 6 : k Plus Proches Voisins (kNN)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Code source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Partie 7 : Comparaison, Pistes et Conclusion"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: false</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"utils.R"</span>))</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: load</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">list2env</span>(<span class="fu">load_train_test</span>(), <span class="at">envir =</span> <span class="fu">environment</span>())</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"data_rated.rds"</span>))</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Charge les modèles + matrices de confusion + courbes ROC des 4 classifieurs</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"logistic"</span>, <span class="st">"tree"</span>, <span class="st">"rf"</span>, <span class="st">"knn"</span>)) {</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  obj_name <span class="ot">&lt;-</span> <span class="cf">if</span> (m <span class="sc">==</span> <span class="st">"tree"</span>) <span class="st">"model_tree_pruned"</span> <span class="cf">else</span> <span class="fu">paste0</span>(<span class="st">"model_"</span>, m)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  file     <span class="ot">&lt;-</span> <span class="cf">if</span> (m <span class="sc">==</span> <span class="st">"tree"</span>) <span class="st">"model_tree.rds"</span>     <span class="cf">else</span> <span class="fu">paste0</span>(<span class="st">"model_"</span>, m, <span class="st">".rds"</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(obj_name,            <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, file)))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"cm_"</span>,  m),   <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="fu">paste0</span>(<span class="st">"cm_"</span>,  m, <span class="st">".rds"</span>))))</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"roc_"</span>, m),   <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="fu">paste0</span>(<span class="st">"roc_"</span>, m, <span class="st">".rds"</span>))))</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparaison des quatre modèles</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Récapitulatif des performances</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-comparison</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Comparaison des quatre modèles supervisés"</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">Modele =</span> <span class="fu">c</span>(<span class="st">"Rég. Logistique (LASSO)"</span>, <span class="st">"Arbre de Décision"</span>,</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Forêt Aléatoire"</span>, <span class="st">"kNN (k=51)"</span>),</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC_Test =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">4</span>), <span class="fu">round</span>(<span class="fu">auc</span>(roc_tree), <span class="dv">4</span>),</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf), <span class="dv">4</span>), <span class="fu">round</span>(<span class="fu">auc</span>(roc_knn), <span class="dv">4</span>)),</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">Accuracy =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_tree<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_rf<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(cm_knn<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>)),</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sensibilite =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>)),</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">Specificite =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>)),</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">F1 =</span> <span class="fu">c</span>(<span class="fu">round</span>(cm_logistic<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_tree<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_rf<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>         <span class="fu">round</span>(cm_knn<span class="sc">$</span>byClass[<span class="st">"F1"</span>], <span class="dv">4</span>))</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>La hiérarchie des performances est claire : **Forêt Aléatoire &gt; Régression Logistique &gt; kNN &gt; Arbre de Décision**. L'écart entre la forêt aléatoire et le kNN (<span class="in">`r round((auc(roc_rf) - auc(roc_knn)) * 100, 1)`</span> points d'AUC) est substantiel. Le gain de la forêt par rapport à l'arbre seul (<span class="in">`r round((auc(roc_rf) - auc(roc_tree)) * 100, 1)`</span> points) illustre concrètement l'avantage du bagging.</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Courbes ROC comparées</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-roc-comp</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Courbes ROC comparées — quatre modèles supervisés"</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>draw_roc <span class="ot">&lt;-</span> <span class="cf">function</span>(roc_obj, col, <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>) {</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>  cc  <span class="ot">&lt;-</span> <span class="fu">coords</span>(roc_obj, <span class="st">"all"</span>, <span class="at">ret =</span> <span class="fu">c</span>(<span class="st">"specificity"</span>, <span class="st">"sensitivity"</span>))</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>  fpr <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> cc<span class="sc">$</span>specificity</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>  ord <span class="ot">&lt;-</span> <span class="fu">order</span>(fpr)</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(fpr[ord], cc<span class="sc">$</span>sensitivity[ord], <span class="at">col =</span> col, <span class="at">lwd =</span> lwd, <span class="at">lty =</span> lty)</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"1 - Spécificité"</span>, <span class="at">ylab =</span> <span class="st">"Sensibilité"</span>,</span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Courbes ROC comparées"</span>)</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_logistic, COL_PRIMARY)</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_tree,     COL_TREE, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_rf,       COL_POSITIVE)</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_roc</span>(roc_knn,      COL_KNN)</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Logistique ("</span>,   <span class="fu">round</span>(<span class="fu">auc</span>(roc_logistic), <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Arbre ("</span>,        <span class="fu">round</span>(<span class="fu">auc</span>(roc_tree),     <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"Forêt Aléat. ("</span>, <span class="fu">round</span>(<span class="fu">auc</span>(roc_rf),       <span class="dv">3</span>), <span class="st">")"</span>),</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>         <span class="fu">paste0</span>(<span class="st">"kNN k=51 ("</span>,     <span class="fu">round</span>(<span class="fu">auc</span>(roc_knn),      <span class="dv">3</span>), <span class="st">")"</span>)</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>       ),</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(COL_PRIMARY, COL_TREE, COL_POSITIVE, COL_KNN),</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">cex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>Les quatre courbes ROC (@fig-roc-comp) s'écartent de la diagonale (hasard pur), confirmant une discrimination réelle. La forêt aléatoire domine sur toute la plage de seuils. La comparaison arbre/forêt est particulièrement instructive : la courbe de l'arbre seul (pointillée) est plus irrégulière et systématiquement en-dessous de la forêt, illustrant le gain du bagging. L'AUC la plus élevée (forêt aléatoire, <span class="in">`r round(auc(roc_rf), 3)`</span>) signifie que le modèle classe correctement une paire aléatoire (satisfaisant, non-satisfaisant) dans **`r round(auc(roc_rf)*100, 0)` % des cas** (Fawcett, 2006) — modérément supérieur au hasard (50 %), mais significatif sur <span class="in">`r nrow(test_data)`</span> observations test.</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Analyse comparative</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>Pourquoi la forêt aléatoire domine-t-elle ? Trois raisons : (1) elle capture les **interactions non-linéaires** entre variables sans les modéliser explicitement ; (2) le **bagging** et la restriction de <span class="in">`mtry`</span> décorrèlent les arbres, offrant une régularisation naturelle absente du kNN ; (3) elle sélectionne implicitement les variables pertinentes à chaque nœud, contrairement au kNN qui utilise les <span class="in">`r length(feature_cols)`</span> dimensions indistinctement. Le gain arbre → forêt (<span class="in">`r round((auc(roc_rf) - auc(roc_tree)) * 100, 1)`</span> points d'AUC) illustre concrètement l'avantage du moyennage de 500 arbres décorrélés sur un arbre unique instable.</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>Le kNN échoue en raison de la **malédiction de la dimensionnalité** : avec ~50 features binaires, les distances euclidiennes deviennent peu discriminantes et le kNN nécessite un k=51 très large, perdant son avantage de classificateur local.</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pistes non explorées</span></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>Au-delà des quatre modèles supervisés retenus, nous avons exploré deux pistes complémentaires que nous avons choisi de ne pas intégrer comme modèles principaux. Cette section justifie ces choix.</span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## Naive Bayes</span></span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>Le classificateur Naive Bayes applique le théorème de Bayes avec l'hypothèse d'**indépendance conditionnelle** entre les features :</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>$$P(Y = c \mid X_1, \ldots, X_p) \propto P(Y = c) \prod_{j=1}^{p} P(X_j \mid Y = c)$$</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: nb-train</span></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>nb_file     <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"model_nb.rds"</span>)</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>cm_nb_file  <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"cm_nb.rds"</span>)</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>roc_nb_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"roc_nb.rds"</span>)</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(nb_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(cm_nb_file) <span class="sc">&amp;&amp;</span> <span class="fu">file.exists</span>(roc_nb_file)) {</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>  model_nb <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(nb_file)</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>  cm_nb    <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(cm_nb_file)</span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>  roc_nb   <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(roc_nb_file)</span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>  grid_nb <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a>    <span class="at">laplace   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a>    <span class="at">usekernel =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjust    =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>)</span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>  model_nb <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>    Satisfaction <span class="sc">~</span> ., <span class="at">data =</span> train_data, <span class="at">method =</span> <span class="st">"naive_bayes"</span>,</span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>    <span class="at">trControl =</span> CV_CONTROL, <span class="at">tuneGrid =</span> grid_nb, <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>    <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>  prob_nb <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_nb, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>  cm_nb   <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(model_nb, test_data),</span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>                             test_data<span class="sc">$</span>Satisfaction, <span class="at">positive =</span> <span class="st">"Oui"</span>)</span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>  roc_nb  <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>Satisfaction, prob_nb<span class="sc">$</span>Oui, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(model_nb, nb_file)</span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(cm_nb,    cm_nb_file)</span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(roc_nb,   roc_nb_file)</span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-nb-metrics</span></span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Métriques du Naive Bayes — modèle non retenu"</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metrique =</span> <span class="fu">c</span>(<span class="st">"AUC (CV)"</span>, <span class="st">"AUC (test)"</span>, <span class="st">"Accuracy"</span>, <span class="st">"Sensibilité"</span>, <span class="st">"Spécificité"</span>),</span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>  <span class="at">Valeur =</span> <span class="fu">c</span>(</span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">max</span>(model_nb<span class="sc">$</span>results<span class="sc">$</span>ROC), <span class="dv">4</span>),</span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">auc</span>(roc_nb), <span class="dv">4</span>),</span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>], <span class="dv">4</span>),</span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(cm_nb<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>], <span class="dv">4</span>)</span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>**Raisons de la non-rétention :**</span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**AUC la plus faible** (<span class="in">`r round(auc(roc_nb), 3)`</span>) : inférieure à tous les modèles retenus.</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Classificateur dégénéré** : la sensibilité extrêmement basse (<span class="in">`r round(cm_nb$byClass["Sensitivity"], 3)`</span>) indique que le modèle prédit presque tous les parfums comme « Non satisfaisants ». Cela le rend inutilisable en pratique — un classificateur qui répond toujours « Non » est trivial.</span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Violation de l'hypothèse d'indépendance** : les familles olfactives sont corrélées entre elles, ce qui viole l'hypothèse fondamentale du Naive Bayes.</span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-nb-corr</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Corrélations entre familles olfactives — violation de l'hypothèse d'indépendance du Naive Bayes"</span></span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "55%"</span></span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a>fam_feat <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, feature_cols, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>cor_fam  <span class="ot">&lt;-</span> <span class="fu">cor</span>(train_data[, fam_feat])</span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cor_fam) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">colnames</span>(cor_fam))</span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(cor_fam) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, <span class="fu">rownames</span>(cor_fam))</span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_fam, <span class="at">method =</span> <span class="st">"color"</span>, <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb12-190"><a href="#cb12-190" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"black"</span>, <span class="at">tl.cex =</span> <span class="fl">0.7</span>, <span class="at">number.cex =</span> <span class="fl">0.55</span>,</span>
+<span id="cb12-191"><a href="#cb12-191" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">"Corrélations entre familles olfactives"</span>,</span>
+<span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a>         <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>Plusieurs paires de familles présentent des corrélations non négligeables : **herbal/sweet** ($r \approx `r round(cor(train_data$fam_herbal, train_data$fam_sweet), 2)`$, la plus forte anti-corrélation — les compositions aromatiques excluent les accords gourmands), **floral/herbal** ($r \approx `r round(cor(train_data$fam_floral, train_data$fam_herbal), 2)`$) et **fruity/spicy** ($r \approx <span class="in">`r round(cor(train_data$fam_fruity, train_data$fam_spicy), 2)`</span>$). Ces anti-corrélations traduisent la spécialisation des compositions : les familles ne sont pas indépendantes mais structurées par les conventions de la parfumerie. Ces dépendances violent l'hypothèse d'indépendance conditionnelle du Naive Bayes, dégradant l'estimation des probabilités jointes et expliquant la mauvaise performance du modèle.</span>
+<span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Clustering K-means</span></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a>En complément de l'approche supervisée, nous avons réalisé un clustering **non-supervisé** K-means sur les 10 familles olfactives, afin de découvrir d'éventuels profils-types de parfums.</span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: kmeans-analysis</span></span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a>data_rated <span class="ot">&lt;-</span> <span class="fu">map_accords_to_families</span>(</span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a>  data_rated,</span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"mainaccord1"</span>, <span class="st">"mainaccord2"</span>, <span class="st">"mainaccord3"</span>, <span class="st">"mainaccord4"</span>, <span class="st">"mainaccord5"</span>)</span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a>fam_cols_all <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^fam_"</span>, <span class="fu">names</span>(data_rated), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a>X_fam <span class="ot">&lt;-</span> data_rated[, fam_cols_all]</span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a>wss <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">8</span>)</span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a>  km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X_fam, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">25</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a>  wss[k] <span class="ot">&lt;-</span> km<span class="sc">$</span>tot.withinss</span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-elbow</span></span>
+<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Méthode du coude — choix du nombre de clusters"</span></span>
+<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "60%"</span></span>
+<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a>elbow_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">WCSS =</span> wss)</span>
+<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(elbow_df, <span class="fu">aes</span>(<span class="at">x =</span> k, <span class="at">y =</span> WCSS)) <span class="sc">+</span></span>
+<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> COL_PRIMARY, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">3</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> COL_NEGATIVE) <span class="sc">+</span></span>
+<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">3.3</span>, <span class="at">y =</span> <span class="fu">max</span>(wss) <span class="sc">*</span> <span class="fl">0.92</span>, <span class="at">label =</span> <span class="st">"Coude (k=3)"</span>,</span>
+<span id="cb12-235"><a href="#cb12-235" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> COL_NEGATIVE, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb12-236"><a href="#cb12-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb12-237"><a href="#cb12-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Nombre de clusters (K)"</span>, <span class="at">y =</span> <span class="st">"Inertie intra-cluster (WCSS)"</span>,</span>
+<span id="cb12-238"><a href="#cb12-238" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Méthode du coude"</span>) <span class="sc">+</span></span>
+<span id="cb12-239"><a href="#cb12-239" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT</span>
+<span id="cb12-240"><a href="#cb12-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-241"><a href="#cb12-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-242"><a href="#cb12-242" aria-hidden="true" tabindex="-1"></a>La méthode du coude suggère **k=3** clusters : la réduction d'inertie chute fortement après k=3.</span>
+<span id="cb12-243"><a href="#cb12-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-246"><a href="#cb12-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-247"><a href="#cb12-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: kmeans-k3</span></span>
+<span id="cb12-248"><a href="#cb12-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb12-249"><a href="#cb12-249" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb12-250"><a href="#cb12-250" aria-hidden="true" tabindex="-1"></a>km3 <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(X_fam, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>, <span class="at">iter.max =</span> <span class="dv">100</span>)</span>
+<span id="cb12-251"><a href="#cb12-251" aria-hidden="true" tabindex="-1"></a>idx_herbal   <span class="ot">&lt;-</span> <span class="fu">which.max</span>(km3<span class="sc">$</span>centers[, <span class="st">"fam_herbal"</span>])</span>
+<span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a>idx_floral   <span class="ot">&lt;-</span> <span class="fu">which.max</span>(km3<span class="sc">$</span>centers[, <span class="st">"fam_floral"</span>])</span>
+<span id="cb12-253"><a href="#cb12-253" aria-hidden="true" tabindex="-1"></a>idx_oriental <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(idx_herbal, idx_floral))</span>
+<span id="cb12-254"><a href="#cb12-254" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">3</span>)</span>
+<span id="cb12-255"><a href="#cb12-255" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_herbal]   <span class="ot">&lt;-</span> <span class="st">"Aromatique-Frais"</span></span>
+<span id="cb12-256"><a href="#cb12-256" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_floral]   <span class="ot">&lt;-</span> <span class="st">"Floral-Gourmand"</span></span>
+<span id="cb12-257"><a href="#cb12-257" aria-hidden="true" tabindex="-1"></a>cluster_labels[idx_oriental] <span class="ot">&lt;-</span> <span class="st">"Boisé-Oriental"</span></span>
+<span id="cb12-258"><a href="#cb12-258" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>cluster_k3    <span class="ot">&lt;-</span> km3<span class="sc">$</span>cluster</span>
+<span id="cb12-259"><a href="#cb12-259" aria-hidden="true" tabindex="-1"></a>data_rated<span class="sc">$</span>cluster_label <span class="ot">&lt;-</span> cluster_labels[km3<span class="sc">$</span>cluster]</span>
+<span id="cb12-260"><a href="#cb12-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-261"><a href="#cb12-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-264"><a href="#cb12-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-265"><a href="#cb12-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-cluster-profiles</span></span>
+<span id="cb12-266"><a href="#cb12-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Profils olfactifs des 3 clusters K-means"</span></span>
+<span id="cb12-267"><a href="#cb12-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
+<span id="cb12-268"><a href="#cb12-268" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb12-269"><a href="#cb12-269" aria-hidden="true" tabindex="-1"></a>centers_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(km3<span class="sc">$</span>centers) <span class="sc">%&gt;%</span></span>
+<span id="cb12-270"><a href="#cb12-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Cluster =</span> cluster_labels) <span class="sc">%&gt;%</span></span>
+<span id="cb12-271"><a href="#cb12-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Cluster, <span class="at">names_to =</span> <span class="st">"Famille"</span>, <span class="at">values_to =</span> <span class="st">"Proportion"</span>)</span>
+<span id="cb12-272"><a href="#cb12-272" aria-hidden="true" tabindex="-1"></a>centers_df<span class="sc">$</span>Famille <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^fam_"</span>, <span class="st">""</span>, centers_df<span class="sc">$</span>Famille)</span>
+<span id="cb12-273"><a href="#cb12-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-274"><a href="#cb12-274" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(centers_df, <span class="fu">aes</span>(<span class="at">x =</span> Famille, <span class="at">y =</span> Proportion, <span class="at">fill =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb12-275"><a href="#cb12-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb12-276"><a href="#cb12-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#4CAF50"</span>, <span class="st">"#E91E63"</span>, <span class="st">"#FF9800"</span>)) <span class="sc">+</span></span>
+<span id="cb12-277"><a href="#cb12-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> percent) <span class="sc">+</span></span>
+<span id="cb12-278"><a href="#cb12-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Proportion moyenne"</span>,</span>
+<span id="cb12-279"><a href="#cb12-279" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Profils olfactifs des 3 clusters"</span>) <span class="sc">+</span></span>
+<span id="cb12-280"><a href="#cb12-280" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span></span>
+<span id="cb12-281"><a href="#cb12-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">35</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb12-282"><a href="#cb12-282" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb12-283"><a href="#cb12-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-284"><a href="#cb12-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-285"><a href="#cb12-285" aria-hidden="true" tabindex="-1"></a>Trois profils-types émergent clairement :</span>
+<span id="cb12-286"><a href="#cb12-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-289"><a href="#cb12-289" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-290"><a href="#cb12-290" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-cluster-profiles</span></span>
+<span id="cb12-291"><a href="#cb12-291" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: "Taux de satisfaction par profil olfactif"</span></span>
+<span id="cb12-292"><a href="#cb12-292" aria-hidden="true" tabindex="-1"></a>sat_cluster <span class="ot">&lt;-</span> data_rated <span class="sc">%&gt;%</span></span>
+<span id="cb12-293"><a href="#cb12-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster_label) <span class="sc">%&gt;%</span></span>
+<span id="cb12-294"><a href="#cb12-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb12-295"><a href="#cb12-295" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-296"><a href="#cb12-296" aria-hidden="true" tabindex="-1"></a>    <span class="at">taux_satisfaction =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb12-297"><a href="#cb12-297" aria-hidden="true" tabindex="-1"></a>    <span class="at">rating_moyen =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Rating_Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb12-298"><a href="#cb12-298" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb12-299"><a href="#cb12-299" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-300"><a href="#cb12-300" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(sat_cluster[, <span class="fu">c</span>(<span class="st">"cluster_label"</span>, <span class="st">"n"</span>, <span class="st">"taux_satisfaction"</span>, <span class="st">"rating_moyen"</span>)],</span>
+<span id="cb12-301"><a href="#cb12-301" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Profil"</span>, <span class="st">"Effectif"</span>, <span class="st">"Satisfaction (%)"</span>, <span class="st">"Rating moyen"</span>))</span>
+<span id="cb12-302"><a href="#cb12-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-303"><a href="#cb12-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-306"><a href="#cb12-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-307"><a href="#cb12-307" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-cluster-sat</span></span>
+<span id="cb12-308"><a href="#cb12-308" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Taux de satisfaction par profil olfactif"</span></span>
+<span id="cb12-309"><a href="#cb12-309" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 2.5</span></span>
+<span id="cb12-310"><a href="#cb12-310" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb12-311"><a href="#cb12-311" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "60%"</span></span>
+<span id="cb12-312"><a href="#cb12-312" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sat_cluster, <span class="fu">aes</span>(<span class="at">x =</span> cluster_label, <span class="at">y =</span> taux_satisfaction, <span class="at">fill =</span> cluster_label)) <span class="sc">+</span></span>
+<span id="cb12-313"><a href="#cb12-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb12-314"><a href="#cb12-314" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(taux_satisfaction, <span class="st">"%"</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb12-315"><a href="#cb12-315" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">mean</span>(data_rated<span class="sc">$</span>Satisfaction <span class="sc">==</span> <span class="st">"Oui"</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb12-316"><a href="#cb12-316" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>) <span class="sc">+</span></span>
+<span id="cb12-317"><a href="#cb12-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Aromatique-Frais"</span> <span class="ot">=</span> <span class="st">"#4CAF50"</span>,</span>
+<span id="cb12-318"><a href="#cb12-318" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Floral-Gourmand"</span>  <span class="ot">=</span> <span class="st">"#E91E63"</span>,</span>
+<span id="cb12-319"><a href="#cb12-319" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Boisé-Oriental"</span>   <span class="ot">=</span> <span class="st">"#FF9800"</span>)) <span class="sc">+</span></span>
+<span id="cb12-320"><a href="#cb12-320" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Satisfaction (%)"</span>,</span>
+<span id="cb12-321"><a href="#cb12-321" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Satisfaction par profil olfactif"</span>) <span class="sc">+</span></span>
+<span id="cb12-322"><a href="#cb12-322" aria-hidden="true" tabindex="-1"></a>  THEME_REPORT <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">70</span>)</span>
+<span id="cb12-323"><a href="#cb12-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-324"><a href="#cb12-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-327"><a href="#cb12-327" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-328"><a href="#cb12-328" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: cluster-vars</span></span>
+<span id="cb12-329"><a href="#cb12-329" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb12-330"><a href="#cb12-330" aria-hidden="true" tabindex="-1"></a>sat_af <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>taux_satisfaction[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Aromatique-Frais"</span>]</span>
+<span id="cb12-331"><a href="#cb12-331" aria-hidden="true" tabindex="-1"></a>sat_fg <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>taux_satisfaction[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Floral-Gourmand"</span>]</span>
+<span id="cb12-332"><a href="#cb12-332" aria-hidden="true" tabindex="-1"></a>sat_bo <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>taux_satisfaction[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Boisé-Oriental"</span>]</span>
+<span id="cb12-333"><a href="#cb12-333" aria-hidden="true" tabindex="-1"></a>n_af   <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>n[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Aromatique-Frais"</span>]</span>
+<span id="cb12-334"><a href="#cb12-334" aria-hidden="true" tabindex="-1"></a>n_fg   <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>n[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Floral-Gourmand"</span>]</span>
+<span id="cb12-335"><a href="#cb12-335" aria-hidden="true" tabindex="-1"></a>n_bo   <span class="ot">&lt;-</span> sat_cluster<span class="sc">$</span>n[sat_cluster<span class="sc">$</span>cluster_label <span class="sc">==</span> <span class="st">"Boisé-Oriental"</span>]</span>
+<span id="cb12-336"><a href="#cb12-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-337"><a href="#cb12-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-338"><a href="#cb12-338" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Aromatique-Frais** (<span class="in">`r n_af`</span> parfums) : dominé par les familles herbal, fruity et woody. Ce profil correspond aux fougères masculines classiques (lavande, bergamote, cèdre). Satisfaction : <span class="in">`r sat_af`</span> %.</span>
+<span id="cb12-339"><a href="#cb12-339" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Floral-Gourmand** (<span class="in">`r n_fg`</span> parfums) : dominé par sweet, floral et fruity. Compositions féminines accessibles (rose, vanille, fruits rouges). Satisfaction : <span class="in">`r sat_fg`</span> % — le taux le plus bas.</span>
+<span id="cb12-340"><a href="#cb12-340" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Boisé-Oriental** (`r n_bo` parfums) : dominé par woody, oriental et sweet. Parfums de niche (oud, santal, ambre). Satisfaction : **`r sat_bo` %** — le taux le plus élevé.</span>
+<span id="cb12-341"><a href="#cb12-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-342"><a href="#cb12-342" aria-hidden="true" tabindex="-1"></a>L'écart de satisfaction entre le profil Boisé-Oriental (<span class="in">`r sat_bo`</span> %) et le Floral-Gourmand (<span class="in">`r sat_fg`</span> %) est de **`r round(sat_bo - sat_fg, 1)` points**. Comment l'expliquer ? Les parfums boisés-orientaux (oud, santal, ambre) sont des parfums de **niche**, souvent plus chers et moins connus du grand public. Les personnes qui les achètent sont donc des **passionnés** qui savent ce qu'ils veulent — ils choisissent avec soin et notent généreusement les parfums qu'ils apprécient. À l'inverse, les parfums floraux-gourmands (rose, vanille, fruits rouges) sont les plus **grand public** : ils attirent un large éventail d'acheteurs, y compris des consommateurs occasionnels qui peuvent être déçus. Ce mélange d'avis enthousiastes et mitigés tire la moyenne vers le bas. C'est un **biais de sélection** classique : ce n'est pas que les parfums orientaux sont objectivement meilleurs, mais leur public est plus sélectif. Cet écart est statistiquement significatif (test du $\chi^2$, $p &lt; 0.001$), mais la taille d'effet reste faible (V de Cramér $\approx 0.15$), confirmant que le profil olfactif n'explique qu'une part modeste de la satisfaction. De plus, l'ajout du cluster comme variable dans la forêt aléatoire ne modifie pas l'AUC, ce qui signifie que les familles individuelles capturent déjà cette information.</span>
+<span id="cb12-343"><a href="#cb12-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-344"><a href="#cb12-344" aria-hidden="true" tabindex="-1"></a><span class="fu"># Regard critique et limites</span></span>
+<span id="cb12-345"><a href="#cb12-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-346"><a href="#cb12-346" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Biais de sélection** : <span class="in">`Rating_Count`</span> domine les prédicteurs dans les quatre modèles. Ce n'est pas le nombre d'avis qui *cause* la satisfaction, mais les parfums populaires attirent plus d'évaluateurs *et* ces évaluateurs notent préférentiellement les parfums qu'ils apprécient. Nos modèles capturent cette corrélation sans pouvoir établir de causalité.</span>
+<span id="cb12-347"><a href="#cb12-347" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Multicolinéarité des familles** : les familles olfactives ne sont pas mutuellement exclusives (un parfum peut être à la fois « fruity » et « sweet »), ce qui peut biaiser l'estimation des coefficients LASSO. La forêt aléatoire et le kNN sont moins sensibles à ce problème.</span>
+<span id="cb12-348"><a href="#cb12-348" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Validité externe** : les données Fragrantica représentent un public auto-sélectionné de passionnés en ligne, non représentatif de la population générale des consommateurs.</span>
+<span id="cb12-349"><a href="#cb12-349" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Perte d'information** : la binarisation à la médiane perd le gradient de satisfaction (un parfum à 4.8 et un à 4.0 sont tous deux « Oui »).</span>
+<span id="cb12-350"><a href="#cb12-350" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Malédiction de la dimensionnalité** : le kNN illustre concrètement comment les performances d'un classificateur basé sur les distances se dégradent en haute dimension ($p = `r length(feature_cols)`$), un phénomène théorique étudié en **Séance 5** que nous avons pu vérifier empiriquement.</span>
+<span id="cb12-351"><a href="#cb12-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-352"><a href="#cb12-352" aria-hidden="true" tabindex="-1"></a><span class="fu"># Synthèse et conclusion</span></span>
+<span id="cb12-353"><a href="#cb12-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-354"><a href="#cb12-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Retour sur la problématique</span></span>
+<span id="cb12-355"><a href="#cb12-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-356"><a href="#cb12-356" aria-hidden="true" tabindex="-1"></a>**Les caractéristiques olfactives permettent-elles de prédire la satisfaction ?** Partiellement. Les familles olfactives contribuent à la prédiction (AUC &gt; 0.50), mais l'AUC plafonne à ~0.69, dominée par les variables non-olfactives. Ce projet illustre les concepts clés du cours :</span>
+<span id="cb12-357"><a href="#cb12-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-358"><a href="#cb12-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **validation croisée** (TP3) pour une estimation honnête de la performance.</span>
+<span id="cb12-359"><a href="#cb12-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **régularisation** (TP5) pour gérer un espace de <span class="in">`r length(feature_cols)`</span> prédicteurs — le LASSO a éliminé les variables redondantes.</span>
+<span id="cb12-360"><a href="#cb12-360" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **comparaison de modèles** (TP6--7) : le gain de la forêt aléatoire est réel mais modéré.</span>
+<span id="cb12-361"><a href="#cb12-361" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>La **classification par voisinage** (TP5) : le kNN échoue en haute dimension, confirmant les mises en garde du cours.</span>
+<span id="cb12-362"><a href="#cb12-362" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Le **regard critique** : nous avons testé et écarté le Naive Bayes (Séance 6), et exploré le clustering K-means (Séance 10) pour un éclairage complémentaire.</span>
+<span id="cb12-363"><a href="#cb12-363" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Une performance modérée reflète la subjectivité de la variable cible, pas un échec méthodologique.</span>
+<span id="cb12-364"><a href="#cb12-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-365"><a href="#cb12-365" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bilan des méthodes</span></span>
+<span id="cb12-366"><a href="#cb12-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-367"><a href="#cb12-367" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Méthode <span class="pp">|</span> AUC test <span class="pp">|</span> Statut <span class="pp">|</span> Justification <span class="pp">|</span></span>
+<span id="cb12-368"><a href="#cb12-368" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|----------|--------|---------------|</span></span>
+<span id="cb12-369"><a href="#cb12-369" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Forêt Aléatoire <span class="pp">|</span> <span class="in">`r round(auc(roc_rf), 3)`</span> <span class="pp">|</span> Retenu <span class="pp">|</span> Meilleure performance, interactions non-linéaires <span class="pp">|</span></span>
+<span id="cb12-370"><a href="#cb12-370" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Rég. Logistique <span class="pp">|</span> <span class="in">`r round(auc(roc_logistic), 3)`</span> <span class="pp">|</span> Retenu <span class="pp">|</span> Interprétable, sélection de variables <span class="pp">|</span></span>
+<span id="cb12-371"><a href="#cb12-371" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Arbre de Décision <span class="pp">|</span> <span class="in">`r round(auc(roc_tree), 3)`</span> <span class="pp">|</span> Retenu <span class="pp">|</span> Interprétable, justifie le passage à la forêt <span class="pp">|</span></span>
+<span id="cb12-372"><a href="#cb12-372" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> kNN (k=51) <span class="pp">|</span> <span class="in">`r round(auc(roc_knn), 3)`</span> <span class="pp">|</span> Retenu <span class="pp">|</span> Illustration malédiction dimensionnalité <span class="pp">|</span></span>
+<span id="cb12-373"><a href="#cb12-373" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Naive Bayes <span class="pp">|</span> <span class="in">`r round(auc(roc_nb), 3)`</span> <span class="pp">|</span> Non retenu <span class="pp">|</span> Hypothèse violée, classificateur dégénéré <span class="pp">|</span></span>
+<span id="cb12-374"><a href="#cb12-374" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> K-means (k=3) <span class="pp">| ---</span> <span class="pp">|</span> Exploratoire <span class="pp">|</span> 3 profils significatifs ($\chi^2$, $p &lt; 0.001$), effet faible (V = 0.15), pas de gain prédictif <span class="pp">|</span></span>
+<span id="cb12-375"><a href="#cb12-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-376"><a href="#cb12-376" aria-hidden="true" tabindex="-1"></a>: Bilan des méthodes explorées {#tbl-bilan}</span>
+<span id="cb12-377"><a href="#cb12-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-378"><a href="#cb12-378" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ouverture et perspectives</span></span>
+<span id="cb12-379"><a href="#cb12-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-380"><a href="#cb12-380" aria-hidden="true" tabindex="-1"></a>Ce travail ouvre plusieurs pistes. L'**ingénierie de features** pourrait être enrichie par un encodage **TF-IDF** sur les notes individuelles (traitement analogue au NLP), pondérant chaque note par sa rareté plutôt que de regrouper en 10 familles binaires. L'ajout de la **concentration du parfum** (Eau de Toilette, Eau de Parfum, Extrait) comme variable prédictive serait particulièrement pertinent : la concentration influence directement la tenue, la projection et donc la satisfaction perçue, mais cette information est absente du dataset Fragrantica. Les **méthodes d'ensemble hybrides** (stacking) ou les réseaux de neurones pourraient exploiter des interactions complexes entre prédicteurs. Le clustering K-means suggère qu'un modèle entraîné **séparément par cluster** pourrait capturer des relations différentes selon le segment de marché. Enfin, une **régression ordinale** préserverait le gradient de satisfaction perdu par la binarisation.</span>
+<span id="cb12-381"><a href="#cb12-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-382"><a href="#cb12-382" aria-hidden="true" tabindex="-1"></a><span class="fu"># Utilisation de l'IA</span></span>
+<span id="cb12-383"><a href="#cb12-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-384"><a href="#cb12-384" aria-hidden="true" tabindex="-1"></a>Nous avons utilisé Claude et GitHub Copilot pour :</span>
+<span id="cb12-385"><a href="#cb12-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-386"><a href="#cb12-386" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Debugging du code R** (~15 % du temps) : résolution d'erreurs de syntaxe et de compatibilité entre packages (ex. : l'IA avait suggéré <span class="in">`randomForest`</span> au lieu de <span class="in">`ranger`</span>, corrigé après des temps d'exécution 10× supérieurs).</span>
+<span id="cb12-387"><a href="#cb12-387" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Mise en forme du rapport** (~10 %) : aide à la structuration LaTeX (gestion des marges via <span class="in">`geometry`</span>, espacement avec <span class="in">`setstretch`</span> et <span class="in">`parskip`</span>, placement des figures avec <span class="in">`float`</span> et <span class="in">`\floatplacement{figure}{H}`</span>, table des matières automatique).</span>
+<span id="cb12-388"><a href="#cb12-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-389"><a href="#cb12-389" aria-hidden="true" tabindex="-1"></a>Toutes les sorties ont été systématiquement vérifiées. L'analyse des données, le choix des hyperparamètres, l'interprétation des résultats et le regard critique sont entièrement le fruit de notre travail.</span>
+<span id="cb12-390"><a href="#cb12-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-391"><a href="#cb12-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contributions individuelles</span></span>
+<span id="cb12-392"><a href="#cb12-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-393"><a href="#cb12-393" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Membre <span class="pp">|</span> Contributions <span class="pp">|</span></span>
+<span id="cb12-394"><a href="#cb12-394" aria-hidden="true" tabindex="-1"></a><span class="pp">|--------|---------------|</span></span>
+<span id="cb12-395"><a href="#cb12-395" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ANZID Keltoum <span class="pp">|</span> Analyse exploratoire, interprétation des résultats, rédaction des sections contextuelles, présentation orale <span class="pp">|</span></span>
+<span id="cb12-396"><a href="#cb12-396" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> EL KORAICHI Mohamed Yassine <span class="pp">|</span> Feature engineering (familles olfactives, notes), kNN et pistes non explorées, réécriture du rapport, validation et relecture critique <span class="pp">|</span></span>
+<span id="cb12-397"><a href="#cb12-397" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> HAMLIL Mohamed <span class="pp">|</span> Code R et modélisation (régression logistique, arbre de décision, forêt aléatoire), feature engineering, pipeline anti data leakage <span class="pp">|</span></span>
+<span id="cb12-398"><a href="#cb12-398" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> PARDO TERAN German <span class="pp">|</span> Recherche des données (Fragrantica), visualisations, aide à l'interprétation, présentation orale <span class="pp">|</span></span>
+<span id="cb12-399"><a href="#cb12-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-400"><a href="#cb12-400" aria-hidden="true" tabindex="-1"></a>: Contributions individuelles des membres de l'équipe {#tbl-contrib}</span>
+<span id="cb12-401"><a href="#cb12-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-402"><a href="#cb12-402" aria-hidden="true" tabindex="-1"></a><span class="fu"># Références {.unnumbered}</span></span>
+<span id="cb12-403"><a href="#cb12-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-404"><a href="#cb12-404" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Breiman, L. (2001). *Random Forests*. Machine Learning, 45(1), 5--32.</span>
+<span id="cb12-405"><a href="#cb12-405" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Zou, H. &amp; Hastie, T. (2005). *Regularization and Variable Selection via the Elastic Net*. JRSS-B, 67(2), 301--320.</span>
+<span id="cb12-406"><a href="#cb12-406" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Fawcett, T. (2006). *An Introduction to ROC Analysis*. Pattern Recognition Letters, 27(8), 861--874.</span>
+<span id="cb12-407"><a href="#cb12-407" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Kohavi, R. (1995). *A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection*. IJCAI.</span>
+<span id="cb12-408"><a href="#cb12-408" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Ellena, J.-C. (2007). *Que sais-je ? Le parfum*. Presses Universitaires de France.</span>
+<span id="cb12-409"><a href="#cb12-409" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Fragrantica Fragrance Dataset. Kaggle. <span class="ot">&lt;https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset&gt;</span></span>
+<span id="cb12-410"><a href="#cb12-410" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Cover, T. &amp; Hart, P. (1967). *Nearest Neighbor Pattern Classification*. IEEE Transactions on Information Theory, 13(1), 21--27.</span>
+</code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

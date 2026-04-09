@@ -19,6 +19,20 @@ data/*.csv
 data/*.zip
 !data/README.md
 
+# moodle/ contient le bundle officiel AUTONOME déposé sur Moodle.
+# Tracké : README.md, Rapport_Projet_Parfums.{Rmd,Rproj,pdf}, utils.R
+# Non tracké (duplication locale volontaire pour le bundle autonome, régénérable depuis ../) :
+moodle/fra_cleaned.csv
+moodle/output/
+# Artefacts intermédiaires du render Rmd → PDF :
+moodle/*.tex
+moodle/*.log
+moodle/*.aux
+moodle/*_files/
+
+# Sortie locale Quarto (en cours de render). On garde rapport/ pour GitHub Pages.
+_book/
+
 # Conventions (internes, pas dans le repo)
 consignes/conventions/
 

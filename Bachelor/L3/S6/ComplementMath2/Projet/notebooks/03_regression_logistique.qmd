@@ -1,108 +1,148 @@
 ---
-title: "Partie 3 : Régression Logistique"
+title: "Partie 3 : Régression Logistique LASSO"
 ---
 
 ```{r}
 #| label: setup
 #| include: false
-source(here::here("R", "utils.R"))
+#| cache: false
+source(here::here("utils.R"))
 library(glmnet)
 ```
 
 ```{r}
 #| label: load
-#| output: false
-train_data <- readRDS(here::here("output", "train_data.rds"))
-test_data <- readRDS(here::here("output", "test_data.rds"))
-cat("Train :", nrow(train_data), "| Test :", nrow(test_data), "\n")
+#| include: false
+list2env(load_train_test(), envir = environment())
 ```
 
-## Principe
+# Régression Logistique Régularisée (Elastic Net)
 
-:::{.callout-note}
-### Définition
-La régression logistique modélise la probabilité d'appartenance à une classe :
-$$P(Y = 1 | X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \dots + \beta_p X_p)}}$$
+## Principe du modèle
+
+::: {.callout-note title="LASSO et Elastic Net"}
+Le modèle LASSO minimise :
+
+$$\mathcal{L}(\beta) = -\frac{1}{n} \sum_{i=1}^{n} \log P(y_i \mid x_i, \beta) + \lambda \|\beta\|_1$$
+
+où $\lambda$ est le paramètre de régularisation. La pénalité $\ell_1$ force certains coefficients à exactement zéro, réalisant ainsi une **sélection de variables** automatique. Nous utilisons l'**Elastic Net** (Zou & Hastie, 2005) qui combine les pénalités $\ell_1$ (sélection) et $\ell_2$ (rétrécissement), contrôlées par le paramètre $\alpha \in [0, 1]$.
 :::
-
-Nous utilisons une régularisation **Elastic Net** (`glmnet`) combinant pénalités L1 et L2 [@zou2005]. Ce modèle est interprétable (coefficients), robuste (régularisation) et sert de baseline [@hastie2009].
 
 ## Entraînement
 
-Variables numériques centrées-réduites. Hyperparamètres **alpha** (mélange L1/L2) et **lambda** (force) optimisés par validation croisée 5-fold (métrique : AUC).
+La grille d'hyperparamètres explore l'ensemble du spectre Elastic Net : $\alpha \in \{0, 0.25, 0.5, 0.75, 1\}$ (de Ridge pur à LASSO pur) et 10 valeurs de $\lambda \in [10^{-4}, 10^{-1}]$ en échelle logarithmique. La validation croisée 5-fold est un compromis classique entre biais et variance de l'estimation (Kohavi, 1995) : avec ~17 000 observations, chaque fold contient ~3 400 observations, assurant une estimation stable de l'AUC.
 
 ```{r}
-#| label: logistic-cv
+#| label: logistic-train
 #| output: false
 model_file <- here::here("output", "model_logistic.rds")
-cm_file <- here::here("output", "cm_logistic.rds")
-roc_file <- here::here("output", "roc_logistic.rds")
+cm_file    <- here::here("output", "cm_logistic.rds")
+roc_file   <- here::here("output", "roc_logistic.rds")
 
 if (file.exists(model_file) && file.exists(cm_file) && file.exists(roc_file)) {
   model_logistic <- readRDS(model_file)
-  cm_logistic <- readRDS(cm_file)
-  roc_logistic <- readRDS(roc_file)
-  cat("Chargé depuis le cache.\n")
+  cm_logistic    <- readRDS(cm_file)
+  roc_logistic   <- readRDS(roc_file)
 } else {
   grid_glmnet <- expand.grid(
-    alpha = c(0, 0.25, 0.5, 0.75, 1),
+    alpha  = c(0, 0.25, 0.5, 0.75, 1),
     lambda = 10^seq(-4, -1, length.out = 10)
   )
-
   set.seed(42)
   model_logistic <- train(
-    Satisfaction ~ .,
-    data = train_data,
-    method = "glmnet",
-    trControl = CV_CONTROL,
-    tuneGrid = grid_glmnet,
-    metric = "ROC",
-    preProcess = c("center", "scale")
+    Satisfaction ~ ., data = train_data, method = "glmnet",
+    trControl = CV_CONTROL, tuneGrid = grid_glmnet,
+    metric = "ROC", preProcess = c("center", "scale")
   )
-
   pred_logistic <- predict(model_logistic, test_data)
   prob_logistic <- predict(model_logistic, test_data, type = "prob")
-  cm_logistic <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
-  roc_logistic <- roc(test_data$Satisfaction, prob_logistic$Oui)
-
+  cm_logistic   <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
+  roc_logistic  <- roc(test_data$Satisfaction, prob_logistic$Oui, quiet = TRUE)
   saveRDS(model_logistic, model_file)
-  saveRDS(cm_logistic, cm_file)
-  saveRDS(roc_logistic, roc_file)
-  cat("Entraîné et sauvegardé.\n")
+  saveRDS(cm_logistic,    cm_file)
+  saveRDS(roc_logistic,   roc_file)
 }
 ```
 
-## Résultats
+### Sélection des hyperparamètres
 
 ```{r}
-#| label: fig-logistic-tuning
-#| fig-cap: "AUC selon alpha et lambda"
+#| label: fig-lr-tuning
+#| fig-cap: "AUC en validation croisée selon alpha et lambda"
 #| fig-height: 2.5
-plot(model_logistic, main = "Régression Logistique - Tuning")
+plot(model_logistic)
 ```
 
+Le meilleur modèle correspond à $\alpha = `r model_logistic$bestTune$alpha`$ et $\lambda = `r round(model_logistic$bestTune$lambda, 6)`$. Le fait que $\alpha = 1$ soit optimal signifie que le modèle retenu est un **LASSO pur** : la sélection de variables (mise à zéro de coefficients non-informatifs) est plus bénéfique que le simple rétrécissement Ridge pour nos données à nombreuses variables binaires peu prédictives.
+
+### Performance sur le jeu test
+
 ```{r}
-#| label: tbl-logistic-results
-#| tbl-cap: "Métriques (Régression Logistique)"
+#| label: tbl-lr-metrics
+#| tbl-cap: "Métriques de la régression logistique"
 kable(data.frame(
-  Métrique = c("alpha", "lambda", "AUC (CV)", "AUC (test)", "Accuracy", "Sensibilité", "Spécificité", "F1"),
-  Valeur = c(model_logistic$bestTune$alpha,
-             round(model_logistic$bestTune$lambda, 6),
-             round(max(model_logistic$results$ROC), 4),
-             round(auc(roc_logistic), 4),
-             round(cm_logistic$overall["Accuracy"], 4),
-             round(cm_logistic$byClass["Sensitivity"], 4),
-             round(cm_logistic$byClass["Specificity"], 4),
-             round(cm_logistic$byClass["F1"], 4))
-), booktabs = TRUE)
+  Metrique = c("alpha", "lambda", "AUC (CV)", "AUC (test)", "Accuracy",
+               "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    model_logistic$bestTune$alpha,
+    round(model_logistic$bestTune$lambda, 6),
+    round(max(model_logistic$results$ROC), 4),
+    round(auc(roc_logistic), 4),
+    round(cm_logistic$overall["Accuracy"], 4),
+    round(cm_logistic$byClass["Sensitivity"], 4),
+    round(cm_logistic$byClass["Specificity"], 4),
+    round(cm_logistic$byClass["F1"], 4)
+  )
+))
 ```
+
+La proximité entre AUC CV et AUC test confirme l'absence de surapprentissage : le modèle généralise correctement.
+
+### Matrice de confusion
 
 ```{r}
-#| label: fig-logistic-roc
-#| fig-cap: "Courbe ROC -- Régression Logistique"
-#| fig-height: 2.5
-plot(roc_logistic, col = COL_PRIMARY, main = "Courbe ROC - Régression Logistique",
-     print.auc = TRUE, print.auc.x = 0.4, print.auc.y = 0.3)
+#| label: fig-cm-lr
+#| fig-cap: "Matrice de confusion — Régression logistique"
+#| fig-height: 2.8
+#| fig-width: 3.5
+#| out-width: "50%"
+cm_table <- as.data.frame(cm_logistic$table)
+ggplot(cm_table, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 6, fontface = "bold") +
+  scale_fill_gradient(low = "white", high = COL_PRIMARY) +
+  labs(x = "Réel", y = "Prédit", title = "Matrice de confusion — Rég. Logistique") +
+  THEME_REPORT + theme(legend.position = "none")
 ```
 
-La performance est modeste mais réelle, ce qui est attendu pour la prédiction d'une variable subjective comme la satisfaction à partir de caractéristiques olfactives.
+Le classifieur est légèrement biaisé vers la classe positive. La **sensibilité** est supérieure à la **spécificité**, indiquant que le modèle détecte mieux les parfums satisfaisants que les non-satisfaisants.
+
+### Interprétation des coefficients
+
+```{r}
+#| label: fig-lr-coefs
+#| fig-cap: "Coefficients non-nuls de la régression logistique (LASSO)"
+#| fig-height: 3.5
+best_model  <- model_logistic$finalModel
+best_lambda <- model_logistic$bestTune$lambda
+coefs <- as.matrix(coef(best_model, s = best_lambda))
+coef_df <- data.frame(Variable = rownames(coefs), Coefficient = coefs[, 1]) %>%
+  filter(Variable != "(Intercept)", Coefficient != 0) %>%
+  arrange(desc(Coefficient))
+n_nonzero <- nrow(coef_df)
+top_pos <- head(coef_df, 10)
+top_neg <- tail(coef_df, 5)
+coef_show <- bind_rows(top_pos, top_neg)
+ggplot(coef_show, aes(x = reorder(Variable, Coefficient), y = Coefficient,
+                      fill = ifelse(Coefficient > 0, "Positif", "Négatif"))) +
+  geom_bar(stat = "identity") + coord_flip() +
+  scale_fill_manual(values = c("Positif" = COL_POSITIVE, "Négatif" = COL_NEGATIVE)) +
+  labs(x = NULL, y = "Coefficient", fill = NULL,
+       title = paste0("Coefficients LASSO (", n_nonzero, " non-nuls sur ",
+                      length(feature_cols), ")")) +
+  THEME_REPORT
+```
+
+Le LASSO retient **`r n_nonzero` variables sur `r length(feature_cols)`**, mettant les autres à zéro. `Rating_Count` conserve un coefficient positif, confirmant le **biais de popularité** : à caractéristiques olfactives égales, un parfum avec plus d'évaluations a une probabilité plus élevée d'être satisfaisant. Les variables de pays et d'année présentent également des coefficients élevés, reflétant l'hétérogénéité géographique du marché et l'effet temporel. Parmi les familles olfactives, notamment `fam_fruity` et `fam_fresh` reçoivent des coefficients négatifs, indiquant qu'à popularité égale ces compositions sont associées à une moindre satisfaction — un résultat cohérent avec leurs taux observés dans l'analyse exploratoire.
+
+> **Bilan** — LASSO retenu, AUC test = `r round(auc(roc_logistic), 3)`, `r n_nonzero`/`r length(feature_cols)` variables actives. Baseline linéaire interprétable.

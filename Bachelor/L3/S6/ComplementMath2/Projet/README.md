@@ -2,81 +2,60 @@
 
 ![R](https://img.shields.io/badge/R-4.x-blue?logo=r)
 ![Quarto](https://img.shields.io/badge/Quarto-1.8-purple?logo=quarto)
-![Licence](https://img.shields.io/badge/licence-académique-green)
 
-> Projet de classification supervisée binaire -- Compléments de Mathématiques 2 (L3 MIASHS, 2025-2026)
+> Classification supervisée binaire — Compléments de Mathématiques 2 (L3 MIASHS, 2025-2026)
+> Auteurs : HAMLIL · PARDO TERAN · EL KORAICHI · ANZID
 
-## Description
+## 📖 Lire le projet
 
-Prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives. Le dataset provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) (~24 000 parfums).
+| Format | Lien | Pour quoi faire |
+|---|---|---|
+| 📄 **PDF (24 p)** | [télécharger](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/pdf/Pr%C3%A9diction-de-la-Satisfaction-Client-pour-les-Parfums.pdf) | Lecture linéaire imprimable |
+| 🌐 **Livre HTML** | [ouvrir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) | Sidebar de navigation, **code R dépliable** |
+| 💻 **Code source** | [`notebooks/`](notebooks/) | Chunks R commentés (`.qmd` = `.Rmd` moderne) |
 
-La satisfaction est une variable binaire (Oui/Non) basée sur la médiane de `Rating_Value`.
+## Pipeline (7 chapitres)
+
+| # | Chapitre | Modèle / contenu | Rendu |
+|---|---|---|---|
+| 1 | [`01_exploration.qmd`](notebooks/01_exploration.qmd) | EDA : manquantes, cible, univariée/bivariée, accords, notes | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
+| 2 | [`02_preparation.qmd`](notebooks/02_preparation.qmd) | Feature engineering : 10 familles olfactives, split 70/30 anti-leakage | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
+| 3 | [`03_regression_logistique.qmd`](notebooks/03_regression_logistique.qmd) | **Régression Logistique LASSO** (Elastic Net, CV 5-fold) | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
+| 4 | [`04_arbre_decision.qmd`](notebooks/04_arbre_decision.qmd) | **Arbre de Décision** élagué (Gini, `cp` optimal) | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_arbre_decision.html) |
+| 5 | [`05_foret_aleatoire.qmd`](notebooks/05_foret_aleatoire.qmd) | **Forêt Aléatoire** (`ranger`, 500 arbres, importance Gini) | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_foret_aleatoire.html) |
+| 6 | [`06_knn.qmd`](notebooks/06_knn.qmd) | **k Plus Proches Voisins** (malédiction de la dimensionnalité) | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/06_knn.html) |
+| 7 | [`07_comparaison.qmd`](notebooks/07_comparaison.qmd) | ROC, **Naive Bayes** & **K-means** (rejetés), critique, IA, refs | [HTML](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/07_comparaison.html) |
+
+Helpers partagés : [`utils.R`](utils.R) · Config Quarto : [`_quarto.yml`](_quarto.yml) · Bibliographie : [`references.bib`](references.bib).
 
 ## Structure
 
 ```
 .
-├── _quarto.yml              # Config Quarto (type: book → PDF unique)
-├── index.qmd                # Introduction du rapport
-├── notebooks/               # Analyses (exécuter dans l'ordre)
-│   ├── 01_exploration.qmd
-│   ├── 02_preparation.qmd
-│   ├── 03_regression_logistique.qmd
-│   ├── 04_foret_aleatoire.qmd
-│   └── 05_comparaison.qmd
-├── R/utils.R                # Fonctions partagées (familles olfactives, CV)
-├── data/
-│   ├── fra_cleaned.csv      # Dataset (gitignored, voir lien Kaggle)
-│   └── README.md            # Dictionnaire des variables
-├── output/                  # Cache .rds (gitignored)
-├── rapport/                 # HTML + PDF rendus (gitignored)
-├── post-render.sh           # Tri auto HTML/PDF après render
-├── references.bib
-├── custom.css
-└── consignes/               # Consignes du projet
+├── _quarto.yml        ← Config livre Quarto (HTML + PDF)
+├── index.qmd          ← Introduction + abstract
+├── notebooks/         ← 7 chapitres séquentiels
+├── utils.R            ← Helpers (palette, 10 familles, CV control)
+├── data/              ← fra_cleaned.csv (gitignored, lien Kaggle dans data/README.md)
+├── moodle/            ← Bundle officiel Rmd + PDF déposé sur Moodle
+├── output/            ← Cache .rds modèles (gitignored, régénéré)
+├── rapport/           ← HTML + PDF rendus (servis par GitHub Pages)
+└── consignes/         ← Sujet officiel + classification olfactive
 ```
-
-## Pipeline
-
-> **Consulter le rapport en ligne :** [page d'accueil](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
-
-| Étape | Fichier | Description | HTML |
-|-------|---------|-------------|------|
-| 1 | `01_exploration.qmd` | Analyse exploratoire, valeurs manquantes, variable cible | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/01_exploration.html) |
-| 2 | `02_preparation.qmd` | Feature engineering par familles olfactives, imputation, split 70/30 | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/02_preparation.html) |
-| 3 | `03_regression_logistique.qmd` | Elastic Net, validation croisée 5-fold, AUC | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/03_regression_logistique.html) |
-| 4 | `04_foret_aleatoire.qmd` | Random Forest (500 arbres), importance des variables | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/04_foret_aleatoire.html) |
-| 5 | `05_comparaison.qmd` | Comparaison, courbes ROC, regard critique, conclusion | [voir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/notebooks/05_comparaison.html) |
 
 ## Exécution
 
-Les notebooks s'exécutent **dans l'ordre** (chacun sauvegarde des `.rds` pour le suivant). Les modèles sont cachés : s'ils existent dans `output/`, ils ne sont pas re-entraînés.
-
 ```bash
-# Render tout le projet (un seul PDF + site HTML)
-quarto render
-
-# Ou notebook par notebook
-quarto render notebooks/01_exploration.qmd
-quarto render notebooks/02_preparation.qmd
-quarto render notebooks/03_regression_logistique.qmd
-quarto render notebooks/04_foret_aleatoire.qmd
-quarto render notebooks/05_comparaison.qmd
+# 1er render : ~5–10 min (entraîne les 5 modèles + NB + K-means)
+# Renders suivants : ~30 s (cache output/*.rds réutilisé)
+conda run -n r_env quarto render
 ```
 
 ## Prérequis
 
-- **R** >= 4.0
-- **Quarto** >= 1.4
-- Packages R : `tidyverse`, `caret`, `glmnet`, `ranger`, `pROC`, `corrplot`, `knitr`, `here`, `stringi`
+- **R** ≥ 4.0 · **Quarto** ≥ 1.4 · **TinyTeX** (lualatex)
+- Packages R : `tidyverse`, `caret`, `glmnet`, `ranger`, `rpart`, `rpart.plot`, `naivebayes`, `pROC`, `corrplot`, `knitr`, `here`, `stringr`, `scales`, `gridExtra`
 
-## Auteurs
+Dataset : [Fragrantica Fragrance Dataset (Kaggle)](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset), ~24 000 parfums. Cible binaire = `Rating_Value ≥ médiane`.
 
-- HAMLIL Mohamed
-- PARDO TERAN German
-- EL KORAICHI Mohamed Yassine
-- ANZID Keltoum
-
-## Licence
-
-Projet académique -- Université Grenoble Alpes, 2025-2026.
+Projet académique — Université Grenoble Alpes, 2025-2026.

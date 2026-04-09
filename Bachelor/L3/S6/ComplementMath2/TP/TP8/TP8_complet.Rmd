@@ -1,0 +1,560 @@
+---
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+author: "Lola Etiévant"
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[RO]{Lola Etiévant}
+- "\\fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS S2 2025-2026}"
+---
+# TP 8 : Apprentissage non supervisé 
+
+## 0. Jeu de données
+
+### 0.1 Charger le jeu de données
+
+Charger le jeu de données `iris` du package `datasets`
+
+```{r, results = "hide", message = FALSE}
+library(datasets)
+```
+
+```{r}
+data = iris[,-5]
+```
+
+*Remarque :* La cinquième colonne du jeu de données contient la variable `Species` que nous n'utiliserons pas
+
+### 0.2 Caractéristiques du jeu de données
+
+Donner le nombre de lignes et le nombre de colonnes du data frame
+
+*Réponse :*
+```{r}
+nrow(data)
+ncol(data)
+dim(data)
+```
+
+*Réponse :* Il y a 150 lignes (observations) et 4 colonnes (variables).
+
+Lister le nom de chaque variable
+
+*Réponse :*
+```{r}
+names(data)
+```
+
+Donner une description courte de chacune des variables. Si besoin on peut lire la documentation associée au jeu de données avec `?iris`
+
+*Réponse :* 
+
+* `Sepal.Length` : longueur des sépales en cm
+
+* `Sepal.Width` : largeur des sépales en cm
+
+* `Petal.Length` : longueur des pétales en cm
+
+* `Petal.Width` : largeur des pétales en cm
+
+Indiquer lesquelles devraient être qualitatives et lesquelles devraient être quantitatives
+
+*Réponse :* Les 4 variables sont toutes quantitatives continues (mesures en cm). La variable `Species` (retirée) était qualitative nominale.
+
+Quel est le data type de chacune de ces variables ? Changer leur data type si besoin
+
+*Réponse :* 
+```{r}
+str(data)
+```
+Les 4 variables sont de type `numeric` (double), ce qui est cohérent avec leur nature quantitative continue. Pas de changement nécessaire.
+
+## 1. K-moyennes (K-means)
+
+### 1.0 Pré-processing
+
+Que fait la ligne de code ci-dessous ? Pourquoi en a-t-on besoin avant de pouvoir utiliser la méthode des K-moyennes ? 
+
+```{r}
+data_stand = as.data.frame(scale(data))
+```
+
+*Réponse :* La fonction `scale()` centre et réduit (standardise) chaque variable : elle soustrait la moyenne et divise par l'écart-type. On obtient ainsi des variables de moyenne 0 et d'écart-type 1. C'est nécessaire avant d'appliquer K-means car l'algorithme utilise la distance euclidienne : si les variables ne sont pas sur la même échelle, celles avec les plus grandes valeurs domineraient le calcul de distance.
+
+### 1.1 Pour une valeur de K fixée
+
+#### 1.1.1 La fonction `kmeans`
+
+Si besoin, installer et charger le package `stats`. Lire la documentation de la commande `kmeans`. Que fait le chunk de code ci-dessous ?
+
+```{r}
+set.seed(1357)
+kmeans_res = kmeans(x = data_stand, centers = 3)
+kmeans_clusters = as.factor(kmeans_res$cluster) # de type factor pour pouvoir représenter
+# graphiquement les différents clusters
+kmeans_centroids = as.data.frame(kmeans_res$centers)
+kmeans_clusters
+kmeans_centroids
+```
+
+*Réponse :* Ce code applique l'algorithme K-means avec K=3 clusters sur les données standardisées. `set.seed(1357)` fixe la graine aléatoire pour la reproductibilité. `kmeans_res$cluster` contient l'affectation de chaque observation à un cluster (converti en factor pour le graphique). `kmeans_res$centers` contient les coordonnées des 3 centroïdes finaux.
+
+Comment sont choisis les 3 centroïdes initiaux ? Si besoin lire la documentation de l'argument `centers` de la fonction `kmeans`
+
+*Réponse :* Lorsque `centers` est un entier (ici 3), les centroïdes initiaux sont choisis aléatoirement parmi les observations du jeu de données (méthode par défaut de Hartigan-Wong).
+
+Quelle composante de `kmeans_res` contient la somme des carrés intra-cluster (i.e., within-cluster sum of squares, WCSS) ?
+
+*Réponse :* La composante `kmeans_res$tot.withinss` contient la WCSS totale (somme globale). `kmeans_res$withinss` contient la somme des carrés intra-cluster pour chaque cluster individuellement.
+
+On peut tracer les clusters par rapport aux différentes caractéristiques du jeu de données. Cependant, comme nous avons ici 4 variables ce n'est pas représentable en 4 dimensions. On peut en choisir deux, par exemple la longueur et la largeur des sépales :
+
+Si besoin, installer et charger le package `ggplot2`
+
+```{r, results = "hide", message = FALSE}
+library(ggplot2)
+```
+
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = kmeans_clusters)) + 
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids[, 1:2], aes(x = Sepal.Length, 
+                                                 y = Sepal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering des K-moyennes", x = "Longueur des sépales", 
+       y = "Largueur des sépales") +
+  theme_minimal()
+```
+
+Recopier puis modifier le chunk de code ci-dessus pour obtenir le même graphe, mas cette fois-ci pour la longueur et la largeur des pétales
+
+*Réponse :* 
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, 
+                       color = kmeans_clusters)) + 
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids[, 3:4], aes(x = Petal.Length, 
+                                                 y = Petal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering des K-moyennes", x = "Longueur des pétales", 
+       y = "Largeur des pétales") +
+  theme_minimal()
+```
+
+En vous inspirant des chunks de code ci-dessus, utiliser les 3 premières instances du jeu de données comme centroïdes initiaux, puis tracer les clusters par rapport aux différentes caractéristiques du jeu de données
+
+*Réponse :* 
+```{r, out.width = "50%", fig.align = "center"}
+set.seed(1357)
+kmeans_res2 = kmeans(x = data_stand, centers = data_stand[1:3, ])
+kmeans_clusters2 = as.factor(kmeans_res2$cluster)
+kmeans_centroids2 = as.data.frame(kmeans_res2$centers)
+
+ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = kmeans_clusters2)) + 
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids2[, 1:2], aes(x = Sepal.Length, 
+                                                   y = Sepal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering K-moyennes (centroïdes initiaux = 3 premières obs.)", 
+       x = "Longueur des sépales", y = "Largueur des sépales") +
+  theme_minimal()
+
+ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, 
+                       color = kmeans_clusters2)) + 
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids2[, 3:4], aes(x = Petal.Length, 
+                                                   y = Petal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering K-moyennes (centroïdes initiaux = 3 premières obs.)", 
+       x = "Longueur des pétales", y = "Largeur des pétales") +
+  theme_minimal()
+```
+
+Que remarque-t-on ?
+
+*Réponse :* Les résultats du clustering peuvent différer selon le choix des centroïdes initiaux. Les 3 premières observations appartiennent toutes à l'espèce setosa, donc les centroïdes initiaux sont très proches les uns des autres, ce qui peut conduire à un clustering différent (potentiellement sous-optimal) par rapport à une initialisation aléatoire.
+
+À quoi sert l'argument `nstart` ?
+
+*Réponse :* L'argument `nstart` permet de relancer l'algorithme K-means plusieurs fois avec des centroïdes initiaux différents (choisis aléatoirement), puis de conserver le meilleur résultat (celui avec la plus faible WCSS totale). Cela réduit le risque de converger vers un minimum local.
+
+```{r, out.width = "50%", fig.align = "center"}
+set.seed(1357)
+kmeans_res = kmeans(x = data_stand, centers = 3, nstart = 20)
+kmeans_clusters = as.factor(kmeans_res$cluster)
+kmeans_centroids = as.data.frame(kmeans_res$centers)
+
+ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, color = kmeans_clusters)) +
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids[, 1:2], aes(x = Sepal.Length, y = Sepal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering des K-moyennes", x = "Longueur des sépales", 
+       y = "Largueur des sépales") +
+  theme_minimal()
+
+ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, color = kmeans_clusters)) +
+  geom_point(size = 2) +
+  geom_point(data = kmeans_centroids[, 3:4], aes(x = Petal.Length, y = Petal.Width), 
+             color = 2:4, size = 4, shape = 3) +
+  labs(title = "Clustering des K-moyennes", x = "Longueur des pétales", 
+       y = "Largeur des pétales") +
+  theme_minimal()
+```
+
+*Remarque :* Le cluster vert n'apparaît pas clairement séparé des deux autres
+
+### 1.1.2 Coefficient de silhouette et indice de Davies Bouldin
+
+Que fait la ligne de code ci-dessous ? Lire la documentation de la fonction `dist` du package `stat` si besoin
+
+```{r}
+dist(data_stand[1:5,], upper = TRUE, diag = TRUE)
+```
+*Réponse :* Cette ligne calcule la matrice des distances euclidiennes entre les 5 premières observations du jeu de données standardisé. `upper = TRUE` affiche la partie triangulaire supérieure, et `diag = TRUE` affiche la diagonale (qui vaut 0).
+
+Pour calculer le coefficient de silhouette on peut utiliser la fonction `silhouette` du package `cluster`. Installer et charger le package `cluster`, puis lire la documentation de la fonction `silhouette`. Que retourne le code ci-dessous :
+
+```{r, eval = FALSE}
+install.packages("cluster")
+```
+
+```{r, results = "hide", message = FALSE}
+library(cluster)
+```
+
+```{r}
+kmeans_sil = silhouette(x = kmeans_res$cluster, dist = dist(data_stand)) 
+kmeans_sil
+# attention, x doit être de type int 
+```
+
+*Réponse :* La fonction `silhouette()` retourne une matrice avec, pour chaque observation : le cluster auquel elle appartient, le cluster voisin le plus proche, et son coefficient de silhouette individuel (entre -1 et 1). Une valeur proche de 1 indique que l'observation est bien assignée à son cluster.
+
+Calculer le coefficient de silhouette moyen associé au clustering obtenu
+
+*Réponse :* 
+```{r}
+mean(kmeans_sil[, 3])
+```
+
+Que fait le code ci-dessous ?
+
+```{r, out.width = "50%", fig.align = "center"}
+plot(kmeans_sil,col = 2:4, do.clus.stat = FALSE, main = "Clustering des K-moyennes", 
+     xlab = "Coefficient de silhouette", ylab = "observations")
+```
+
+*Réponse :* Ce code trace le graphique des silhouettes : pour chaque cluster, les observations sont triées par coefficient de silhouette décroissant. Cela permet de visualiser la qualité de l'affectation de chaque observation et d'identifier les observations mal classées (silhouette négative).
+
+Pour calculer l'indice de Davies Bouldin on peut utiliser la fonction `index.DB` du package `clusterSim`. Installer et charger le package `clusterSim`, puis lire la documentation de le fonction `index.DB`. Calculer l'indice de Davies-Bouldin du clustering
+
+```{r, eval = FALSE}
+install.packages("clusterSim")
+```
+
+```{r, results = "hide", message = FALSE}
+library(clusterSim)
+```
+
+*Réponse :* 
+```{r}
+db_res = index.DB(x = data_stand, cl = kmeans_res$cluster)
+db_res$DB
+```
+
+### 1.2 Choisir la valeur de K
+
+Compléter le code ci-dessous pour calculer la silhouette moyenne, ainsi que la somme des carrés intra-cluster, pour plusieurs valeurs de K le nombre de clusters
+
+```{r}
+kmeans_silhouette = NULL
+kmeans_wcss = NULL 
+for(k in 2:15){
+  kmeans_res = kmeans(x = data_stand, centers = k, nstart = 20)
+  
+  # coefficient de silhouette
+  kmeans_sil = silhouette(x = kmeans_res$cluster, dist = dist(data_stand)) 
+  kmeans_silhouette = c(kmeans_silhouette, mean(kmeans_sil[, 3]))
+
+  # somme des carrés intra-cluster (wcss)
+  kmeans_wcss = c(kmeans_wcss, kmeans_res$tot.withinss)
+}
+``` 
+
+Compiler le code ci-dessous. Quelle valeur de K peut-on choisir ? Commenter
+
+``` {r, out.width = "50%", fig.align = "center"}
+plot(2:15, kmeans_silhouette, type = 'b', xlab = "Nombre de clusters K", 
+     ylab = "Silhouette moyenne")
+plot(2:15, kmeans_wcss, type = 'b', xlab = "Nombre de clusters K", 
+     ylab = "Somme des carrés intra-cluster", main = "Elbow plot")
+``` 
+
+*Réponse :* D'après le graphique de la silhouette moyenne, K=2 donne la silhouette la plus élevée. D'après l'elbow plot, on observe un "coude" autour de K=2 ou K=3. Le choix K=2 maximise la silhouette, mais K=3 est aussi un bon choix car il correspond au nombre réel d'espèces dans le jeu de données iris.
+
+Effectuer le clustering avec K = 2 clusters, puis calculer le coefficient de silhouette moyen et l'indice de Davies-Bouldin
+
+*Réponse :* 
+```{r}
+set.seed(1357)
+kmeans_res_k2 = kmeans(x = data_stand, centers = 2, nstart = 20)
+kmeans_sil_k2 = silhouette(x = kmeans_res_k2$cluster, dist = dist(data_stand))
+
+# Silhouette moyenne
+cat("Silhouette moyenne (K=2) :", mean(kmeans_sil_k2[, 3]), "\n")
+
+# Indice de Davies-Bouldin
+db_k2 = index.DB(x = data_stand, cl = kmeans_res_k2$cluster)
+cat("Indice de Davies-Bouldin (K=2) :", db_k2$DB, "\n")
+```
+
+### 1.3 K-médoïdes (si on a le temps)
+
+On peut utiliser la commande `pam` (partitioning around medoids) du package `cluster` pour effectuer la méthode des K-médoïdes. Lire la documentation de la commande `pam`, puis compléter le code ci-dessous pour appliquer la méthode des K-médoïdes avec K = 3
+
+```{r, results = "hide", message = FALSE}
+library(cluster)
+```
+
+```{r}
+set.seed(1357)
+kmedoids_res = pam(x = data_stand, k = 3)
+kmedoids_clusters = as.factor(kmedoids_res$clustering) # de type factor pour pouvoir représenter
+# graphiquement les différents clusters
+kmedoids_medoids = as.data.frame(kmedoids_res$medoids)
+kmedoids_clusters
+kmedoids_medoids
+```
+Tracer les clusters par rapport à la longueur et la largeur des sépales, et faire apparaître les médoïdes :
+
+*Réponse :* 
+```{r, out.width = "50%", fig.align = "center"}
+ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = kmedoids_clusters)) + 
+  geom_point(size = 2) +
+  geom_point(data = kmedoids_medoids[, 1:2], aes(x = Sepal.Length, 
+                                                  y = Sepal.Width), 
+             color = 2:4, size = 4, shape = 3) + 
+  labs(title = "Clustering des K-médoïdes", x = "Longueur des sépales", 
+       y = "Largueur des sépales") +
+  theme_minimal()
+```
+
+Que remarque-t-on ?
+
+*Réponse :* Les résultats sont similaires à ceux de K-means, mais les médoïdes sont des observations réelles du jeu de données (contrairement aux centroïdes de K-means qui sont des moyennes). La méthode des K-médoïdes est plus robuste aux outliers car elle utilise des points existants comme centres.
+
+## 2. Clustering hiérarchique
+
+### 2.1 La fonction `hclust`
+
+Est-il nécessaire de mettre les caractéristiques sur des échelles comparables lorsque l'on souhaite faire du clustering hiérarchique ?
+
+*Réponse :* Oui, c'est nécessaire pour la même raison que pour K-means : le clustering hiérarchique repose sur le calcul de distances entre observations. Si les variables ne sont pas standardisées, celles avec les plus grandes valeurs auront plus de poids dans le calcul des distances.
+
+Lire la documentation de la commande `hclust`, et notamment la section Details et les arguments `d` et `method`. La fonction fait-elle du clustering ascendant hiérarchique (i.e., agglomératif) ou clustering descendant hiérarchique (i.e., divisif) ?
+
+*Réponse :* La fonction `hclust` fait du clustering ascendant hiérarchique (agglomératif). Elle part de chaque observation comme un cluster individuel, puis fusionne les clusters les plus proches à chaque étape, jusqu'à n'avoir plus qu'un seul cluster.
+
+Compléter le chunk de code ci-dessous pour effectuer le clustering hiérarchique avec le lien maximum de dissimilarité (complete linkage)
+
+```{r}
+set.seed(1357)
+hclust_res = hclust(d = dist(data_stand), method = "complete")
+```
+
+Quels agruments faudrait-il utiliser pour les cluster linkages/liens de dissimilarité suivants : minimum (single), moyen (average), et Ward ?
+
+*Réponse :* `method = "single"` pour le lien minimum, `method = "average"` pour le lien moyen, et `method = "ward.D2"` pour le lien de Ward (utilisant le critère de Ward avec les distances au carré).
+
+On peut tracer le dendogramme pour representer graphiquement les clusters et leur dissimilarité avec la fonction `plot`. Mais sans choix d'un critère d'arrêt, l'algorithme a continué jusqu'à ce que tous les clusters soient rassemblés
+
+```{r, out.width = "50%", fig.align = "center"}
+plot(hclust_res, main = "Dendrogramme du clustering hiérarchique", xlab = "", 
+     sub = "", ylab = "Distance")
+```
+
+### 2.2 Critère d'arrêt
+
+On peut couper l'arbre associé en fonction du critère d'arrêt choisi avec la fonction `cutree` du package `stats`. Lire la documentation de la fonction. Que font les lignes de code ci-dessous ?
+
+```{r}
+cutree(hclust_res, k = 3)
+cutree(hclust_res, h = 2)
+```
+
+*Réponse :* `cutree(hclust_res, k = 3)` coupe le dendrogramme pour obtenir exactement 3 clusters. `cutree(hclust_res, h = 2)` coupe le dendrogramme à la hauteur h = 2, ce qui donne le nombre de clusters correspondant à cette hauteur de coupure.
+
+On peut faire figuer les clusters finaux avec le critère d'arrêt choisi :
+
+```{r, out.width = "50%", fig.align = "center"}
+plot(hclust_res, main = "Dendrogramme du clustering hiérarchique", xlab = "", 
+     sub = "", ylab = "Distance", labels = FALSE)
+rect.hclust(tree = hclust_res, k = 3, border = 2:4)
+
+plot(hclust_res, main = "Dendrogramme du clustering hiérarchique", xlab = "", 
+     sub = "", ylab = "Distance", labels = FALSE)
+rect.hclust(tree = hclust_res, h = 2, border = c(2:6,2:6))
+```
+
+### 2.3 Impact du cluster linkage sur la forme des clusters
+
+*Remarque :* On peut toujours représenter les clusters par rapport aux caractéristiques. Si on les représente pour plusieurs nombres clusters, on peut voir lesquels ont été rassemblés en fur et à mesure
+
+```{r, eval = FALSE}
+install.packages("gridExtra")
+```
+
+```{r, results = "hide", message = FALSE}
+library(gridExtra)
+```
+
+```{r, fig.align = "center"}
+par(mfrow = c(2,2))
+
+p1 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 10)))) + 
+  geom_point(size = 1) +
+  labs(title = "Clustering hiérarchique ", x = "", y = "Largueur des sépales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+p2 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 9)))) + 
+  geom_point(size = 1) +
+  labs(title = "", x = "", y = "") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+p3 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 8)))) + 
+  geom_point(size = 1) +
+  labs(title = "", x = "", y = "") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+p4 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 7)))) + 
+  geom_point(size = 1) +
+  labs(title = "", x = "Longueur des sépales", y = "Largueur des sépales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+p5 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 6)))) + 
+  geom_point(size = 1) +
+  labs(title = "", x = "Longueur des sépales", y = "") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+p6 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res, k = 5)))) + 
+  geom_point(size = 1) +
+  labs(title = "", x = "Longueur des sépales", y = "") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 3, nrow = 2)
+```
+
+Pour un même nombre de clusters, on peut aussi voir que leur forme est impactée par le cluster linkage utilisé
+
+```{r}
+hclust_res1 = hclust(dist(data_stand), method = "complete")
+p1 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res1, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Complete cluster linkage", x = "Longueur des sépales", 
+       y = "Largueur des sépales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+hclust_res2 = hclust(dist(data_stand), method = "single")
+p2 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res2, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Single cluster linkage", x = "Longueur des sépales", 
+       y = "Largueur des sépales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+hclust_res3 = hclust(dist(data_stand), method = "average")
+p3 = ggplot(data_stand, aes(x = Sepal.Length, y = Sepal.Width, 
+                       color = as.factor(cutree(hclust_res3, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Average cluster linkage", x = "Longueur des sépales", 
+       y = "Largueur des sépales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+grid.arrange(p1, p2, p3, ncol = 2, nrow = 2)
+```
+
+```{r}
+hclust_res1 = hclust(dist(data_stand), method = "complete")
+p1 = ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, 
+                       color = as.factor(cutree(hclust_res1, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Complete cluster linkage", x = "Longueur des pétales", 
+       y = "Largueur des pétales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+hclust_res2 = hclust(dist(data_stand), method = "single")
+p2 = ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, 
+                       color = as.factor(cutree(hclust_res2, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Single cluster linkage", x = "Longueur des pétales", 
+       y = "Largueur des pétales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+hclust_res3 = hclust(dist(data_stand), method = "average")
+p3 = ggplot(data_stand, aes(x = Petal.Length, y = Petal.Width, 
+                       color = as.factor(cutree(hclust_res3, k = 3)))) + 
+  geom_point(size = 1) +
+  labs(title = "Average cluster linkage", x = "Longueur des pétales", 
+       y = "Largueur des pétales") + 
+  guides(fill = "none", color = "none", linetype = "none", shape = "none") +
+  theme_minimal()
+
+grid.arrange(p1, p2, p3, ncol = 2, nrow = 2)
+```
+
+### 2.4 Coefficient de silhouette et indice de Davies Bouldin
+
+Représenter graphiquement les coefficients de silhouette pour avoir une appréciation visuelle des performances du clustering hiérarchique lorsque l'on a 3 cluster finaux
+
+*Réponse :* 
+```{r, out.width = "50%", fig.align = "center"}
+hclust_clusters = cutree(hclust_res, k = 3)
+hclust_sil = silhouette(x = hclust_clusters, dist = dist(data_stand))
+plot(hclust_sil, col = 2:4, do.clus.stat = FALSE, 
+     main = "Clustering hiérarchique (complete, K=3)", 
+     xlab = "Coefficient de silhouette", ylab = "observations")
+cat("Silhouette moyenne :", mean(hclust_sil[, 3]), "\n")
+```
+
+Calculer l'indice de Davies-Bouldin du clustering hiérarchique lorsque l'on a 3 cluster finaux
+
+*Réponse :* 
+```{r}
+db_hclust = index.DB(x = data_stand, cl = hclust_clusters)
+cat("Indice de Davies-Bouldin (clustering hiérarchique, K=3) :", db_hclust$DB, "\n")
+```
+On pourrait aussi utiliser par exemple le coefficient de silhouette moyen pour choisir le meilleure nombre de clusters
+
+## 3. Interprétation des clusters
+
+Essayer d'interpréter les clusters obtenus. Si besoin, lire la documentation associée au jeu de données avec `?iris`
+
+*Réponse :* Les clusters obtenus correspondent assez bien aux 3 espèces d'iris du jeu de données (setosa, versicolor, virginica). Le cluster 1 (setosa) est très bien séparé des deux autres, avec des pétales beaucoup plus petits. Les clusters 2 (versicolor) et 3 (virginica) sont plus difficiles à distinguer car ces deux espèces ont des caractéristiques qui se chevauchent, surtout au niveau des sépales. C'est pour cela que la silhouette de certaines observations de ces clusters est faible ou négative. On peut vérifier en comparant les clusters aux vraies espèces :
+
+```{r}
+table(kmeans_clusters, iris$Species)
+```

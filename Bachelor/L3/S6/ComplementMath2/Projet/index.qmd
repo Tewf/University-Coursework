@@ -1,29 +1,44 @@
 # Introduction {.unnumbered}
 
-Ce projet s'inscrit dans le cadre du cours de **Compléments de Mathématiques 2** (Introduction au Machine Learning), L3 MIASHS, Université Grenoble Alpes.
+Ce projet s'inscrit dans le cadre du cours de **Compléments de Mathématiques 2 — Introduction au Machine Learning** (L3 MIASHS, Université Grenoble Alpes).
 
-### Contexte
+::: {.callout-note title="Résumé"}
+Ce projet vise à prédire la satisfaction des consommateurs vis-à-vis des parfums à partir de leurs caractéristiques olfactives. À partir du jeu de données Fragrantica (~24 000 parfums, 14 variables), nous construisons une variable cible binaire (satisfaction *Oui/Non*) en seuillant la note moyenne à la médiane (3.97). Après une analyse exploratoire approfondie et un *feature engineering* basé sur 10 familles olfactives, nous entraînons quatre classifieurs --- la régression logistique régularisée (Elastic Net/LASSO), l'arbre de décision élagué, la forêt aléatoire et le k plus proches voisins (kNN) --- évalués par AUC sur validation croisée 5-fold. La forêt aléatoire obtient les meilleures performances (AUC test ≈ 0.69), suivie de la régression logistique (0.67), de l'arbre de décision et du kNN (0.65). Nous explorons également le Naive Bayes et le clustering K-means comme pistes complémentaires. Les résultats restent modestes, illustrant la difficulté de prédire une variable subjective à partir de descripteurs olfactifs seuls.
+:::
 
-L'industrie de la parfumerie est un domaine où la perception subjective joue un rôle central. Chaque parfum est caractérisé par une architecture olfactive complexe, reposant sur trois notions fondamentales qu'il convient de distinguer :
+## Contexte : le monde de la parfumerie
 
-- **Note olfactive**^[Ingrédient individuel perçu dans un parfum, par exemple la bergamote, le jasmin ou le musc.] : un ingrédient ou une matière première individuelle (ex. : bergamote, jasmin, musc). Les notes sont organisées en trois phases selon leur volatilité : les *notes de tête* (premières perçues, légères et éphémères), les *notes de cœur* (le corps du parfum, apparaissant après quelques minutes) et les *notes de fond* (les plus persistantes, perçues en dernier).
-- **Accord olfactif**^[Combinaison harmonieuse de plusieurs notes qui crée une impression olfactive distincte, par exemple « boisé » ou « floral ».] : une combinaison harmonieuse de plusieurs notes qui, ensemble, produisent une impression olfactive distincte (ex. : « woody », « floral », « citrus »). Un parfum possède généralement plusieurs accords dominants.
-- **Famille olfactive**^[Grande catégorie regroupant des accords et notes partageant un caractère olfactif commun (ex. : la famille « boisée » regroupe les accords woody, aromatic, oud, patchouli, etc.).] : une grande catégorie qui regroupe des accords et des notes partageant un caractère olfactif commun. Par exemple, la famille *boisée* englobe les accords « woody », « aromatic », « oud » et « patchouli ».
+L'industrie de la parfumerie représente un marché mondial de plus de **50 milliards de dollars**. Avant d'entrer dans l'analyse statistique, il est essentiel de comprendre le **vocabulaire du domaine**, car la parfumerie possède sa propre terminologie :
 
-La question que nous posons est la suivante : **peut-on prédire si un parfum sera bien noté par les utilisateurs à partir de ses caractéristiques olfactives, de son origine et de son genre cible ?**
+- **Note olfactive** : un ingrédient individuel perçu dans un parfum (ex. : bergamote, jasmin, musc). Chaque parfum est composé de dizaines de notes.
+- **Pyramide olfactive** : structure en trois niveaux décrivant l'évolution temporelle d'un parfum :
+  - *Notes de tête* (Top) : premières perçues, volatiles, disparaissent en 15--30 min (agrumes, herbes fraîches).
+  - *Notes de cœur* (Middle) : le « caractère » du parfum, perceptibles pendant 2--4 h (floraux, épices).
+  - *Notes de fond* (Base) : les plus persistantes, durent 6--24 h (bois, musc, vanille).
+- **Accord** : combinaison de plusieurs notes créant une impression olfactive cohérente (ex. : un accord « fruité » mêle bergamote, pêche et cassis). Un parfum possède typiquement 3 à 5 accords principaux.
+- **Famille olfactive** : grande catégorie regroupant des accords similaires (ex. : florale, boisée, orientale). La classification en familles est standardisée par la Société Française des Parfumeurs.
 
-### Objectif
+La France occupe une place centrale dans cette industrie, avec **Grasse** (Alpes-Maritimes) comme capitale historique du parfum depuis le XVII^e^ siècle, et des maisons comme Chanel, Dior, Guerlain et Hermès.
 
-Réaliser une **classification supervisée binaire** à partir d'un jeu de données réel : prédire la **satisfaction des utilisateurs** vis-à-vis de parfums à partir de leurs caractéristiques olfactives, de leur origine et de leur genre cible.
+## Problématique
 
-### Données
+Avec l'essor des plateformes communautaires en ligne comme **Fragrantica** --- le plus grand site mondial dédié à la parfumerie, rassemblant des millions d'avis d'utilisateurs ---, il devient possible d'analyser les préférences olfactives à grande échelle. Notre objectif est de répondre à la question :
 
-Le dataset utilisé provient de [Fragrantica Fragrance Dataset -- Kaggle](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset) et contient environ 24 000 parfums avec leurs accords, notes olfactives, marque, pays d'origine et évaluations des utilisateurs. Fragrantica est une encyclopédie en ligne de référence dans le monde de la parfumerie, alimentée par les avis de millions d'utilisateurs.
+> **Peut-on prédire la satisfaction des consommateurs vis-à-vis d'un parfum à partir de ses caractéristiques olfactives ?**
 
-### Plan du rapport
+Plus précisément, nous souhaitons :
 
-1. **Analyse exploratoire** : présentation des données, analyse univariée et multivariée
-2. **Préparation** : feature engineering par familles olfactives, traitement des valeurs manquantes
-3. **Régression logistique** : modèle linéaire avec régularisation Elastic Net
-4. **Forêt aléatoire** : modèle non-linéaire par ensemble d'arbres
-5. **Comparaison** : évaluation comparative, choix final et conclusion
+1. Exploiter les variables de familles olfactives comme prédicteurs.
+2. Comparer quatre approches supervisées : régression logistique régularisée, arbre de décision, forêt aléatoire et k plus proches voisins.
+3. Évaluer honnêtement la performance de généralisation par validation croisée.
+4. Explorer des pistes complémentaires (Naive Bayes, clustering K-means) et justifier leur non-rétention.
+
+Le jeu de données est librement téléchargeable sur Kaggle ([Fragrantica Fragrance Dataset](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset)).
+
+## Plan du rapport
+
+1. **Données et analyse exploratoire** : présentation du dataset, valeurs manquantes, distributions univariées et bivariées.
+2. **Feature engineering et préparation** : regroupement des accords en 10 familles olfactives, encodage, partition stratifiée train/test.
+3. **Régression logistique LASSO et arbre de décision** : modèles linéaire régularisé et arbre élagué.
+4. **Forêt aléatoire et k plus proches voisins** : modèles non-linéaires (ensemble et instance-based).
+5. **Comparaison, pistes et conclusion** : courbes ROC comparées, Naive Bayes, clustering K-means, regard critique et perspectives.
