@@ -8,7 +8,7 @@ book:
   title: "Prédiction de la Satisfaction Client pour les Parfums"
   subtitle: "Compléments de Mathématiques 2 -- Introduction au Machine Learning"
   sidebar:
-    logo: assets/uga-logo.png
+    logo: uga-logo.png
   author:
     - "HAMLIL Mohamed"
     - "PARDO TERAN German"
@@ -21,8 +21,10 @@ book:
     - notebooks/01_exploration.qmd
     - notebooks/02_preparation.qmd
     - notebooks/03_regression_logistique.qmd
-    - notebooks/04_foret_aleatoire.qmd
-    - notebooks/05_comparaison.qmd
+    - notebooks/04_arbre_decision.qmd
+    - notebooks/05_foret_aleatoire.qmd
+    - notebooks/06_knn.qmd
+    - notebooks/07_comparaison.qmd
   repo-url: https://github.com/mohamedhamlil/University-Coursework
   repo-subdir: Bachelor/L3/S6/ComplementMath2/Projet
 
@@ -46,11 +48,17 @@ format:
     colorlinks: true
     fig-cap-location: bottom
     echo: false
-    documentclass: scrreprt
-    classoption: [open=any, DIV=15]
-    template-partials:
-      - partials/before-body.tex
+    # Article class + section-level chapters → no full chapter title pages,
+    # nécessaire pour tenir dans la limite des 25 pages des consignes.
+    documentclass: scrartcl
+    classoption: [DIV=16, parskip=half-]
+    top-level-division: section
     fontsize: 10pt
+    geometry:
+      - left=2cm
+      - right=2cm
+      - top=2.2cm
+      - bottom=2.2cm
     include-in-header:
       - text: |
           \usepackage{xcolor}
@@ -59,38 +67,38 @@ format:
           \AtBeginDocument{\hypersetup{linkcolor=ugaorange, urlcolor=ugablue, citecolor=ugablue}}
           \usepackage{fancyhdr}
           \pagestyle{fancy}
-          \fancyhead[RO]{\textcolor{ugablue}{HAMLIL Mohamed}}
-          \fancyhead[LO]{\textcolor{ugablue}{Compléments de Mathématiques 2 L3 MIASHS}}
-          \fancyfoot[CO,CE]{\textcolor{ugaorange}{\rule{2cm}{0.4pt}}}
+          \fancyhead[L]{\small\textcolor{ugablue}{Compléments de Mathématiques 2 — L3 MIASHS}}
+          \fancyhead[R]{\small\textcolor{ugablue}{Projet de groupe}}
+          \fancyfoot[C]{\textcolor{ugaorange}{\thepage}}
           \renewcommand{\headrulewidth}{0.4pt}
           \renewcommand{\headrule}{\hbox to\headwidth{\color{ugaorange}\leaders\hrule height \headrulewidth\hfill}}
           \usepackage{float}
           \usepackage{booktabs}
           \floatplacement{figure}{H}
-          \usepackage[most]{tcolorbox}
-          \usepackage{etoolbox}
-          \makeatletter
-          \patchcmd{\scr@startchapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\clearpage}{}{}
-          \makeatother
-          \addtokomafont{chapter}{\color{ugablue}}
-          \addtokomafont{section}{\color{ugablue}}
-          \addtokomafont{subsection}{\color{ugablue}}
-          \setlength{\parskip}{0.3em}
+          \floatplacement{table}{H}
+          \addtokomafont{section}{\color{ugablue}\large}
+          \addtokomafont{subsection}{\color{ugablue}\normalsize}
+          \addtokomafont{subsubsection}{\color{ugablue}\normalsize}
+          \RedeclareSectionCommand[beforeskip=6pt,afterskip=2pt]{section}
+          \RedeclareSectionCommand[beforeskip=4pt,afterskip=1pt]{subsection}
+          \RedeclareSectionCommand[beforeskip=3pt,afterskip=1pt]{subsubsection}
+          \linespread{1.03}\selectfont
+          \setlength{\parskip}{2pt plus 1pt minus 1pt}
           \setlength{\footnotesep}{0.5em}
           \renewcommand{\footnotesize}{\scriptsize}
           \newcommand\UGATitlePage{%
             \begin{titlepage}
               \begin{center}
-                \vspace*{1cm}
-                \includegraphics[width=4cm]{assets/uga-logo.png}\\[1.5cm]
-                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.8cm]
-                {\fontsize{24}{30}\selectfont\bfseries\color{ugablue} Prédiction de la Satisfaction Client\\pour les Parfums}\\[0.6cm]
-                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.8cm]
-                {\large\itshape Compléments de Mathématiques 2 -- Introduction au Machine Learning}\\[0.3cm]
-                {\normalsize L3 MIASHS -- Université Grenoble Alpes}\\[2cm]
+                \vspace*{0.5cm}
+                \includegraphics[width=3.5cm]{uga-logo.png}\\[1cm]
+                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.6cm]
+                {\fontsize{22}{28}\selectfont\bfseries\color{ugablue} Prédiction de la Satisfaction Client\\pour les Parfums}\\[0.4cm]
+                {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.6cm]
+                {\large\itshape Compléments de Mathématiques 2 -- Introduction au Machine Learning}\\[0.2cm]
+                {\normalsize L3 MIASHS -- Université Grenoble Alpes}\\[1.5cm]
                 {\large
-                  HAMLIL Mohamed \quad PARDO TERAN German\\[0.3cm]
-                  EL KORAICHI Mohamed Yassine \quad ANZID Keltoum}\\[2cm]
+                  HAMLIL Mohamed \quad PARDO TERAN German\\[0.2cm]
+                  EL KORAICHI Mohamed Yassine \quad ANZID Keltoum}\\[1.5cm]
                 {\large \today}
               \end{center}
             \end{titlepage}
@@ -98,11 +106,14 @@ format:
           \AtBeginDocument{\UGATitlePage}
 
 execute:
-  cache: true
+  # On désactive le cache knitr (notebooks/*_cache) car on a déjà
+  # un cache filesystem explicite sous output/*.rds — sans cela
+  # les .rds sont dupliqués, ~150 Mo de bloat dans notebooks/.
+  cache: false
   warning: false
   message: false
   fig-align: center
   fig-width: 4.5
-  fig-height: 2.8
+  fig-height: 2.6
 
 bibliography: references.bib

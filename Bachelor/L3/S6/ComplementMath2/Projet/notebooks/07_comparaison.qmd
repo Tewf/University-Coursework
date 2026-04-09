@@ -1,0 +1,382 @@
+---
+title: "Partie 7 : Comparaison, Pistes et Conclusion"
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| cache: false
+source(here::here("utils.R"))
+library(naivebayes)
+```
+
+```{r}
+#| label: load
+#| include: false
+list2env(load_train_test(), envir = environment())
+data_rated <- readRDS(here::here("output", "data_rated.rds"))
+
+# Charge les modèles + matrices de confusion + courbes ROC des 4 classifieurs
+for (m in c("logistic", "tree", "rf", "knn")) {
+  obj_name <- if (m == "tree") "model_tree_pruned" else paste0("model_", m)
+  file     <- if (m == "tree") "model_tree.rds"     else paste0("model_", m, ".rds")
+  assign(obj_name,            readRDS(here::here("output", file)))
+  assign(paste0("cm_",  m),   readRDS(here::here("output", paste0("cm_",  m, ".rds"))))
+  assign(paste0("roc_", m),   readRDS(here::here("output", paste0("roc_", m, ".rds"))))
+}
+```
+
+# Comparaison des quatre modèles
+
+## Récapitulatif des performances
+
+```{r}
+#| label: tbl-comparison
+#| tbl-cap: "Comparaison des quatre modèles supervisés"
+kable(data.frame(
+  Modele = c("Rég. Logistique (LASSO)", "Arbre de Décision",
+             "Forêt Aléatoire", "kNN (k=51)"),
+  AUC_Test = c(round(auc(roc_logistic), 4), round(auc(roc_tree), 4),
+               round(auc(roc_rf), 4), round(auc(roc_knn), 4)),
+  Accuracy = c(round(cm_logistic$overall["Accuracy"], 4),
+               round(cm_tree$overall["Accuracy"], 4),
+               round(cm_rf$overall["Accuracy"], 4),
+               round(cm_knn$overall["Accuracy"], 4)),
+  Sensibilite = c(round(cm_logistic$byClass["Sensitivity"], 4),
+                  round(cm_tree$byClass["Sensitivity"], 4),
+                  round(cm_rf$byClass["Sensitivity"], 4),
+                  round(cm_knn$byClass["Sensitivity"], 4)),
+  Specificite = c(round(cm_logistic$byClass["Specificity"], 4),
+                  round(cm_tree$byClass["Specificity"], 4),
+                  round(cm_rf$byClass["Specificity"], 4),
+                  round(cm_knn$byClass["Specificity"], 4)),
+  F1 = c(round(cm_logistic$byClass["F1"], 4),
+         round(cm_tree$byClass["F1"], 4),
+         round(cm_rf$byClass["F1"], 4),
+         round(cm_knn$byClass["F1"], 4))
+))
+```
+
+La hiérarchie des performances est claire : **Forêt Aléatoire > Régression Logistique > kNN > Arbre de Décision**. L'écart entre la forêt aléatoire et le kNN (`r round((auc(roc_rf) - auc(roc_knn)) * 100, 1)` points d'AUC) est substantiel. Le gain de la forêt par rapport à l'arbre seul (`r round((auc(roc_rf) - auc(roc_tree)) * 100, 1)` points) illustre concrètement l'avantage du bagging.
+
+## Courbes ROC comparées
+
+```{r}
+#| label: fig-roc-comp
+#| fig-cap: "Courbes ROC comparées — quatre modèles supervisés"
+#| fig-height: 3
+draw_roc <- function(roc_obj, col, lty = 1, lwd = 2) {
+  cc  <- coords(roc_obj, "all", ret = c("specificity", "sensitivity"))
+  fpr <- 1 - cc$specificity
+  ord <- order(fpr)
+  lines(fpr[ord], cc$sensitivity[ord], col = col, lwd = lwd, lty = lty)
+}
+plot(NULL, xlim = c(0, 1), ylim = c(0, 1),
+     xlab = "1 - Spécificité", ylab = "Sensibilité",
+     main = "Courbes ROC comparées")
+abline(a = 0, b = 1, lty = 2, col = "gray")
+draw_roc(roc_logistic, COL_PRIMARY)
+draw_roc(roc_tree,     COL_TREE, lty = 2)
+draw_roc(roc_rf,       COL_POSITIVE)
+draw_roc(roc_knn,      COL_KNN)
+legend("bottomright",
+       legend = c(
+         paste0("Logistique (",   round(auc(roc_logistic), 3), ")"),
+         paste0("Arbre (",        round(auc(roc_tree),     3), ")"),
+         paste0("Forêt Aléat. (", round(auc(roc_rf),       3), ")"),
+         paste0("kNN k=51 (",     round(auc(roc_knn),      3), ")")
+       ),
+       col = c(COL_PRIMARY, COL_TREE, COL_POSITIVE, COL_KNN),
+       lwd = 2, lty = c(1, 2, 1, 1), cex = 0.7)
+```
+
+Les quatre courbes ROC (@fig-roc-comp) s'écartent de la diagonale (hasard pur), confirmant une discrimination réelle. La forêt aléatoire domine sur toute la plage de seuils. La comparaison arbre/forêt est particulièrement instructive : la courbe de l'arbre seul (pointillée) est plus irrégulière et systématiquement en-dessous de la forêt, illustrant le gain du bagging. L'AUC la plus élevée (forêt aléatoire, `r round(auc(roc_rf), 3)`) signifie que le modèle classe correctement une paire aléatoire (satisfaisant, non-satisfaisant) dans **`r round(auc(roc_rf)*100, 0)` % des cas** (Fawcett, 2006) — modérément supérieur au hasard (50 %), mais significatif sur `r nrow(test_data)` observations test.
+
+## Analyse comparative
+
+Pourquoi la forêt aléatoire domine-t-elle ? Trois raisons : (1) elle capture les **interactions non-linéaires** entre variables sans les modéliser explicitement ; (2) le **bagging** et la restriction de `mtry` décorrèlent les arbres, offrant une régularisation naturelle absente du kNN ; (3) elle sélectionne implicitement les variables pertinentes à chaque nœud, contrairement au kNN qui utilise les `r length(feature_cols)` dimensions indistinctement. Le gain arbre → forêt (`r round((auc(roc_rf) - auc(roc_tree)) * 100, 1)` points d'AUC) illustre concrètement l'avantage du moyennage de 500 arbres décorrélés sur un arbre unique instable.
+
+Le kNN échoue en raison de la **malédiction de la dimensionnalité** : avec ~50 features binaires, les distances euclidiennes deviennent peu discriminantes et le kNN nécessite un k=51 très large, perdant son avantage de classificateur local.
+
+# Pistes non explorées
+
+Au-delà des quatre modèles supervisés retenus, nous avons exploré deux pistes complémentaires que nous avons choisi de ne pas intégrer comme modèles principaux. Cette section justifie ces choix.
+
+## Naive Bayes
+
+Le classificateur Naive Bayes applique le théorème de Bayes avec l'hypothèse d'**indépendance conditionnelle** entre les features :
+
+$$P(Y = c \mid X_1, \ldots, X_p) \propto P(Y = c) \prod_{j=1}^{p} P(X_j \mid Y = c)$$
+
+```{r}
+#| label: nb-train
+#| output: false
+nb_file     <- here::here("output", "model_nb.rds")
+cm_nb_file  <- here::here("output", "cm_nb.rds")
+roc_nb_file <- here::here("output", "roc_nb.rds")
+
+if (file.exists(nb_file) && file.exists(cm_nb_file) && file.exists(roc_nb_file)) {
+  model_nb <- readRDS(nb_file)
+  cm_nb    <- readRDS(cm_nb_file)
+  roc_nb   <- readRDS(roc_nb_file)
+} else {
+  grid_nb <- expand.grid(
+    laplace   = c(0, 0.5, 1, 2),
+    usekernel = c(TRUE, FALSE),
+    adjust    = c(0.5, 1, 1.5)
+  )
+  set.seed(42)
+  model_nb <- train(
+    Satisfaction ~ ., data = train_data, method = "naive_bayes",
+    trControl = CV_CONTROL, tuneGrid = grid_nb, metric = "ROC",
+    preProcess = c("center", "scale")
+  )
+  prob_nb <- predict(model_nb, test_data, type = "prob")
+  cm_nb   <- confusionMatrix(predict(model_nb, test_data),
+                             test_data$Satisfaction, positive = "Oui")
+  roc_nb  <- roc(test_data$Satisfaction, prob_nb$Oui, quiet = TRUE)
+  saveRDS(model_nb, nb_file)
+  saveRDS(cm_nb,    cm_nb_file)
+  saveRDS(roc_nb,   roc_nb_file)
+}
+```
+
+```{r}
+#| label: tbl-nb-metrics
+#| tbl-cap: "Métriques du Naive Bayes — modèle non retenu"
+kable(data.frame(
+  Metrique = c("AUC (CV)", "AUC (test)", "Accuracy", "Sensibilité", "Spécificité"),
+  Valeur = c(
+    round(max(model_nb$results$ROC), 4),
+    round(auc(roc_nb), 4),
+    round(cm_nb$overall["Accuracy"], 4),
+    round(cm_nb$byClass["Sensitivity"], 4),
+    round(cm_nb$byClass["Specificity"], 4)
+  )
+))
+```
+
+**Raisons de la non-rétention :**
+
+1. **AUC la plus faible** (`r round(auc(roc_nb), 3)`) : inférieure à tous les modèles retenus.
+2. **Classificateur dégénéré** : la sensibilité extrêmement basse (`r round(cm_nb$byClass["Sensitivity"], 3)`) indique que le modèle prédit presque tous les parfums comme « Non satisfaisants ». Cela le rend inutilisable en pratique — un classificateur qui répond toujours « Non » est trivial.
+3. **Violation de l'hypothèse d'indépendance** : les familles olfactives sont corrélées entre elles, ce qui viole l'hypothèse fondamentale du Naive Bayes.
+
+```{r}
+#| label: fig-nb-corr
+#| fig-cap: "Corrélations entre familles olfactives — violation de l'hypothèse d'indépendance du Naive Bayes"
+#| fig-height: 3.5
+#| fig-width: 5
+#| out-width: "55%"
+fam_feat <- grep("^fam_", feature_cols, value = TRUE)
+cor_fam  <- cor(train_data[, fam_feat])
+colnames(cor_fam) <- gsub("^fam_", "", colnames(cor_fam))
+rownames(cor_fam) <- gsub("^fam_", "", rownames(cor_fam))
+corrplot(cor_fam, method = "color", type = "upper",
+         addCoef.col = "black", tl.cex = 0.7, number.cex = 0.55,
+         title = "Corrélations entre familles olfactives",
+         mar = c(0, 0, 2, 0))
+```
+
+Plusieurs paires de familles présentent des corrélations non négligeables : **herbal/sweet** ($r \approx `r round(cor(train_data$fam_herbal, train_data$fam_sweet), 2)`$, la plus forte anti-corrélation — les compositions aromatiques excluent les accords gourmands), **floral/herbal** ($r \approx `r round(cor(train_data$fam_floral, train_data$fam_herbal), 2)`$) et **fruity/spicy** ($r \approx `r round(cor(train_data$fam_fruity, train_data$fam_spicy), 2)`$). Ces anti-corrélations traduisent la spécialisation des compositions : les familles ne sont pas indépendantes mais structurées par les conventions de la parfumerie. Ces dépendances violent l'hypothèse d'indépendance conditionnelle du Naive Bayes, dégradant l'estimation des probabilités jointes et expliquant la mauvaise performance du modèle.
+
+## Clustering K-means
+
+En complément de l'approche supervisée, nous avons réalisé un clustering **non-supervisé** K-means sur les 10 familles olfactives, afin de découvrir d'éventuels profils-types de parfums.
+
+```{r}
+#| label: kmeans-analysis
+#| output: false
+data_rated <- map_accords_to_families(
+  data_rated,
+  c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
+)
+fam_cols_all <- grep("^fam_", names(data_rated), value = TRUE)
+X_fam <- data_rated[, fam_cols_all]
+
+wss <- numeric(8)
+for (k in 1:8) {
+  set.seed(42)
+  km <- kmeans(X_fam, centers = k, nstart = 25, iter.max = 100)
+  wss[k] <- km$tot.withinss
+}
+```
+
+```{r}
+#| label: fig-elbow
+#| fig-cap: "Méthode du coude — choix du nombre de clusters"
+#| fig-height: 2.5
+#| fig-width: 5
+#| out-width: "60%"
+elbow_df <- data.frame(k = 1:8, WCSS = wss)
+ggplot(elbow_df, aes(x = k, y = WCSS)) +
+  geom_line(color = COL_PRIMARY, linewidth = 1) +
+  geom_point(color = COL_PRIMARY, size = 3) +
+  geom_vline(xintercept = 3, linetype = "dashed", color = COL_NEGATIVE) +
+  annotate("text", x = 3.3, y = max(wss) * 0.92, label = "Coude (k=3)",
+           color = COL_NEGATIVE, size = 3.5, hjust = 0) +
+  scale_x_continuous(breaks = 1:8) +
+  labs(x = "Nombre de clusters (K)", y = "Inertie intra-cluster (WCSS)",
+       title = "Méthode du coude") +
+  THEME_REPORT
+```
+
+La méthode du coude suggère **k=3** clusters : la réduction d'inertie chute fortement après k=3.
+
+```{r}
+#| label: kmeans-k3
+#| output: false
+set.seed(42)
+km3 <- kmeans(X_fam, centers = 3, nstart = 25, iter.max = 100)
+idx_herbal   <- which.max(km3$centers[, "fam_herbal"])
+idx_floral   <- which.max(km3$centers[, "fam_floral"])
+idx_oriental <- setdiff(1:3, c(idx_herbal, idx_floral))
+cluster_labels <- character(3)
+cluster_labels[idx_herbal]   <- "Aromatique-Frais"
+cluster_labels[idx_floral]   <- "Floral-Gourmand"
+cluster_labels[idx_oriental] <- "Boisé-Oriental"
+data_rated$cluster_k3    <- km3$cluster
+data_rated$cluster_label <- cluster_labels[km3$cluster]
+```
+
+```{r}
+#| label: fig-cluster-profiles
+#| fig-cap: "Profils olfactifs des 3 clusters K-means"
+#| fig-height: 3.5
+#| fig-width: 9
+centers_df <- as.data.frame(km3$centers) %>%
+  mutate(Cluster = cluster_labels) %>%
+  pivot_longer(-Cluster, names_to = "Famille", values_to = "Proportion")
+centers_df$Famille <- gsub("^fam_", "", centers_df$Famille)
+
+ggplot(centers_df, aes(x = Famille, y = Proportion, fill = Cluster)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), alpha = 0.85) +
+  scale_fill_manual(values = c("#4CAF50", "#E91E63", "#FF9800")) +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Proportion moyenne",
+       title = "Profils olfactifs des 3 clusters") +
+  THEME_REPORT +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1, size = 9),
+        legend.position = "top")
+```
+
+Trois profils-types émergent clairement :
+
+```{r}
+#| label: tbl-cluster-profiles
+#| tbl-cap: "Taux de satisfaction par profil olfactif"
+sat_cluster <- data_rated %>%
+  group_by(cluster_label) %>%
+  summarise(
+    n = n(),
+    taux_satisfaction = round(mean(Satisfaction == "Oui") * 100, 1),
+    rating_moyen = round(mean(Rating_Value, na.rm = TRUE), 2),
+    .groups = "drop"
+  )
+kable(sat_cluster[, c("cluster_label", "n", "taux_satisfaction", "rating_moyen")],
+      col.names = c("Profil", "Effectif", "Satisfaction (%)", "Rating moyen"))
+```
+
+```{r}
+#| label: fig-cluster-sat
+#| fig-cap: "Taux de satisfaction par profil olfactif"
+#| fig-height: 2.5
+#| fig-width: 5
+#| out-width: "60%"
+ggplot(sat_cluster, aes(x = cluster_label, y = taux_satisfaction, fill = cluster_label)) +
+  geom_bar(stat = "identity", alpha = 0.85) +
+  geom_text(aes(label = paste0(taux_satisfaction, "%")), vjust = -0.3, size = 4) +
+  geom_hline(yintercept = mean(data_rated$Satisfaction == "Oui") * 100,
+             linetype = "dashed", color = "gray40") +
+  scale_fill_manual(values = c("Aromatique-Frais" = "#4CAF50",
+                                "Floral-Gourmand"  = "#E91E63",
+                                "Boisé-Oriental"   = "#FF9800")) +
+  labs(x = NULL, y = "Satisfaction (%)",
+       title = "Satisfaction par profil olfactif") +
+  THEME_REPORT + theme(legend.position = "none") + ylim(0, 70)
+```
+
+```{r}
+#| label: cluster-vars
+#| include: false
+sat_af <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Aromatique-Frais"]
+sat_fg <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Floral-Gourmand"]
+sat_bo <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Boisé-Oriental"]
+n_af   <- sat_cluster$n[sat_cluster$cluster_label == "Aromatique-Frais"]
+n_fg   <- sat_cluster$n[sat_cluster$cluster_label == "Floral-Gourmand"]
+n_bo   <- sat_cluster$n[sat_cluster$cluster_label == "Boisé-Oriental"]
+```
+
+- **Aromatique-Frais** (`r n_af` parfums) : dominé par les familles herbal, fruity et woody. Ce profil correspond aux fougères masculines classiques (lavande, bergamote, cèdre). Satisfaction : `r sat_af` %.
+- **Floral-Gourmand** (`r n_fg` parfums) : dominé par sweet, floral et fruity. Compositions féminines accessibles (rose, vanille, fruits rouges). Satisfaction : `r sat_fg` % — le taux le plus bas.
+- **Boisé-Oriental** (`r n_bo` parfums) : dominé par woody, oriental et sweet. Parfums de niche (oud, santal, ambre). Satisfaction : **`r sat_bo` %** — le taux le plus élevé.
+
+L'écart de satisfaction entre le profil Boisé-Oriental (`r sat_bo` %) et le Floral-Gourmand (`r sat_fg` %) est de **`r round(sat_bo - sat_fg, 1)` points**. Comment l'expliquer ? Les parfums boisés-orientaux (oud, santal, ambre) sont des parfums de **niche**, souvent plus chers et moins connus du grand public. Les personnes qui les achètent sont donc des **passionnés** qui savent ce qu'ils veulent — ils choisissent avec soin et notent généreusement les parfums qu'ils apprécient. À l'inverse, les parfums floraux-gourmands (rose, vanille, fruits rouges) sont les plus **grand public** : ils attirent un large éventail d'acheteurs, y compris des consommateurs occasionnels qui peuvent être déçus. Ce mélange d'avis enthousiastes et mitigés tire la moyenne vers le bas. C'est un **biais de sélection** classique : ce n'est pas que les parfums orientaux sont objectivement meilleurs, mais leur public est plus sélectif. Cet écart est statistiquement significatif (test du $\chi^2$, $p < 0.001$), mais la taille d'effet reste faible (V de Cramér $\approx 0.15$), confirmant que le profil olfactif n'explique qu'une part modeste de la satisfaction. De plus, l'ajout du cluster comme variable dans la forêt aléatoire ne modifie pas l'AUC, ce qui signifie que les familles individuelles capturent déjà cette information.
+
+# Regard critique et limites
+
+1. **Biais de sélection** : `Rating_Count` domine les prédicteurs dans les quatre modèles. Ce n'est pas le nombre d'avis qui *cause* la satisfaction, mais les parfums populaires attirent plus d'évaluateurs *et* ces évaluateurs notent préférentiellement les parfums qu'ils apprécient. Nos modèles capturent cette corrélation sans pouvoir établir de causalité.
+2. **Multicolinéarité des familles** : les familles olfactives ne sont pas mutuellement exclusives (un parfum peut être à la fois « fruity » et « sweet »), ce qui peut biaiser l'estimation des coefficients LASSO. La forêt aléatoire et le kNN sont moins sensibles à ce problème.
+3. **Validité externe** : les données Fragrantica représentent un public auto-sélectionné de passionnés en ligne, non représentatif de la population générale des consommateurs.
+4. **Perte d'information** : la binarisation à la médiane perd le gradient de satisfaction (un parfum à 4.8 et un à 4.0 sont tous deux « Oui »).
+5. **Malédiction de la dimensionnalité** : le kNN illustre concrètement comment les performances d'un classificateur basé sur les distances se dégradent en haute dimension ($p = `r length(feature_cols)`$), un phénomène théorique étudié en **Séance 5** que nous avons pu vérifier empiriquement.
+
+# Synthèse et conclusion
+
+## Retour sur la problématique
+
+**Les caractéristiques olfactives permettent-elles de prédire la satisfaction ?** Partiellement. Les familles olfactives contribuent à la prédiction (AUC > 0.50), mais l'AUC plafonne à ~0.69, dominée par les variables non-olfactives. Ce projet illustre les concepts clés du cours :
+
+- La **validation croisée** (TP3) pour une estimation honnête de la performance.
+- La **régularisation** (TP5) pour gérer un espace de `r length(feature_cols)` prédicteurs — le LASSO a éliminé les variables redondantes.
+- La **comparaison de modèles** (TP6--7) : le gain de la forêt aléatoire est réel mais modéré.
+- La **classification par voisinage** (TP5) : le kNN échoue en haute dimension, confirmant les mises en garde du cours.
+- Le **regard critique** : nous avons testé et écarté le Naive Bayes (Séance 6), et exploré le clustering K-means (Séance 10) pour un éclairage complémentaire.
+- Une performance modérée reflète la subjectivité de la variable cible, pas un échec méthodologique.
+
+## Bilan des méthodes
+
+| Méthode | AUC test | Statut | Justification |
+|---------|----------|--------|---------------|
+| Forêt Aléatoire | `r round(auc(roc_rf), 3)` | Retenu | Meilleure performance, interactions non-linéaires |
+| Rég. Logistique | `r round(auc(roc_logistic), 3)` | Retenu | Interprétable, sélection de variables |
+| Arbre de Décision | `r round(auc(roc_tree), 3)` | Retenu | Interprétable, justifie le passage à la forêt |
+| kNN (k=51) | `r round(auc(roc_knn), 3)` | Retenu | Illustration malédiction dimensionnalité |
+| Naive Bayes | `r round(auc(roc_nb), 3)` | Non retenu | Hypothèse violée, classificateur dégénéré |
+| K-means (k=3) | --- | Exploratoire | 3 profils significatifs ($\chi^2$, $p < 0.001$), effet faible (V = 0.15), pas de gain prédictif |
+
+: Bilan des méthodes explorées {#tbl-bilan}
+
+## Ouverture et perspectives
+
+Ce travail ouvre plusieurs pistes. L'**ingénierie de features** pourrait être enrichie par un encodage **TF-IDF** sur les notes individuelles (traitement analogue au NLP), pondérant chaque note par sa rareté plutôt que de regrouper en 10 familles binaires. L'ajout de la **concentration du parfum** (Eau de Toilette, Eau de Parfum, Extrait) comme variable prédictive serait particulièrement pertinent : la concentration influence directement la tenue, la projection et donc la satisfaction perçue, mais cette information est absente du dataset Fragrantica. Les **méthodes d'ensemble hybrides** (stacking) ou les réseaux de neurones pourraient exploiter des interactions complexes entre prédicteurs. Le clustering K-means suggère qu'un modèle entraîné **séparément par cluster** pourrait capturer des relations différentes selon le segment de marché. Enfin, une **régression ordinale** préserverait le gradient de satisfaction perdu par la binarisation.
+
+# Utilisation de l'IA
+
+Nous avons utilisé Claude et GitHub Copilot pour :
+
+1. **Debugging du code R** (~15 % du temps) : résolution d'erreurs de syntaxe et de compatibilité entre packages (ex. : l'IA avait suggéré `randomForest` au lieu de `ranger`, corrigé après des temps d'exécution 10× supérieurs).
+2. **Mise en forme du rapport** (~10 %) : aide à la structuration LaTeX (gestion des marges via `geometry`, espacement avec `setstretch` et `parskip`, placement des figures avec `float` et `\floatplacement{figure}{H}`, table des matières automatique).
+
+Toutes les sorties ont été systématiquement vérifiées. L'analyse des données, le choix des hyperparamètres, l'interprétation des résultats et le regard critique sont entièrement le fruit de notre travail.
+
+## Contributions individuelles
+
+| Membre | Contributions |
+|--------|---------------|
+| ANZID Keltoum | Analyse exploratoire, interprétation des résultats, rédaction des sections contextuelles, présentation orale |
+| EL KORAICHI Mohamed Yassine | Feature engineering (familles olfactives, notes), kNN et pistes non explorées, réécriture du rapport, validation et relecture critique |
+| HAMLIL Mohamed | Code R et modélisation (régression logistique, arbre de décision, forêt aléatoire), feature engineering, pipeline anti data leakage |
+| PARDO TERAN German | Recherche des données (Fragrantica), visualisations, aide à l'interprétation, présentation orale |
+
+: Contributions individuelles des membres de l'équipe {#tbl-contrib}
+
+# Références {.unnumbered}
+
+1. Breiman, L. (2001). *Random Forests*. Machine Learning, 45(1), 5--32.
+2. Zou, H. & Hastie, T. (2005). *Regularization and Variable Selection via the Elastic Net*. JRSS-B, 67(2), 301--320.
+3. Fawcett, T. (2006). *An Introduction to ROC Analysis*. Pattern Recognition Letters, 27(8), 861--874.
+4. Kohavi, R. (1995). *A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection*. IJCAI.
+5. Ellena, J.-C. (2007). *Que sais-je ? Le parfum*. Presses Universitaires de France.
+6. Fragrantica Fragrance Dataset. Kaggle. <https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset>
+7. Cover, T. & Hart, P. (1967). *Nearest Neighbor Pattern Classification*. IEEE Transactions on Information Theory, 13(1), 21--27.

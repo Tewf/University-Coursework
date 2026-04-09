@@ -1,0 +1,95 @@
+---
+title: "Partie 4 : Arbre de Décision"
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| cache: false
+source(here::here("utils.R"))
+library(rpart)
+library(rpart.plot)
+```
+
+```{r}
+#| label: load
+#| include: false
+list2env(load_train_test(), envir = environment())
+```
+
+# Arbre de Décision
+
+## Principe
+
+::: {.callout-note title="Indice de Gini et élagage"}
+L'arbre de décision partitionne récursivement l'espace des features en régions homogènes vis-à-vis de la variable cible. À chaque nœud, l'algorithme sélectionne la variable et le seuil qui maximisent la **pureté** des sous-groupes, mesurée par l'indice de Gini :
+
+$$\mathrm{Gini}(t) = 1 - \sum_{c} p_c^2$$
+
+où $p_c$ est la proportion de la classe $c$ dans le nœud $t$. L'arbre est ensuite **élagué** (pruning) par validation croisée pour éviter le surapprentissage : on sélectionne le paramètre de complexité $c_p$ qui minimise l'erreur CV.
+:::
+
+## Entraînement et élagage
+
+```{r}
+#| label: tree-train
+#| output: false
+tree_file     <- here::here("output", "model_tree.rds")
+cm_tree_file  <- here::here("output", "cm_tree.rds")
+roc_tree_file <- here::here("output", "roc_tree.rds")
+
+if (file.exists(tree_file) && file.exists(cm_tree_file) && file.exists(roc_tree_file)) {
+  model_tree_pruned <- readRDS(tree_file)
+  cm_tree           <- readRDS(cm_tree_file)
+  roc_tree          <- readRDS(roc_tree_file)
+} else {
+  set.seed(42)
+  model_tree <- rpart(
+    Satisfaction ~ ., data = train_data, method = "class",
+    control = rpart.control(cp = 0.001, minsplit = 20, maxdepth = 10)
+  )
+  best_cp <- model_tree$cptable[which.min(model_tree$cptable[, "xerror"]), "CP"]
+  model_tree_pruned <- prune(model_tree, cp = best_cp)
+  pred_tree <- predict(model_tree_pruned, test_data, type = "class")
+  prob_tree <- predict(model_tree_pruned, test_data, type = "prob")
+  cm_tree   <- confusionMatrix(pred_tree, test_data$Satisfaction, positive = "Oui")
+  roc_tree  <- roc(test_data$Satisfaction, prob_tree[, "Oui"], quiet = TRUE)
+  saveRDS(model_tree_pruned, tree_file)
+  saveRDS(cm_tree,           cm_tree_file)
+  saveRDS(roc_tree,          roc_tree_file)
+}
+```
+
+```{r}
+#| label: fig-tree-viz
+#| fig-cap: "Arbre de décision élagué — règles de classification interprétables"
+#| fig-height: 4
+#| fig-width: 9
+rpart.plot(
+  model_tree_pruned, type = 4, extra = 104, fallen.leaves = TRUE,
+  roundint = FALSE, cex = 0.65,
+  box.palette = c(COL_NEGATIVE, COL_POSITIVE),
+  main = paste0("Arbre élagué (",
+                nrow(model_tree_pruned$frame[model_tree_pruned$frame$var != "<leaf>", ]),
+                " noeuds)")
+)
+```
+
+L'arbre élagué révèle des **règles de décision interprétables** : la variable de split au nœud racine est `r as.character(model_tree_pruned$frame$var[1])`, et les niveaux suivants montrent comment le modèle combine les prédicteurs pour séparer les classes. Chaque feuille indique la classe prédite et la proportion de chaque classe, offrant une transparence totale — un avantage majeur sur les modèles « boîte noire ». L'arbre seul obtient une AUC de `r round(auc(roc_tree), 3)`, inférieure à la forêt aléatoire (chapitre suivant), illustrant la **variance** des arbres individuels et justifiant le passage au bagging.
+
+```{r}
+#| label: tbl-tree-metrics
+#| tbl-cap: "Métriques de l'arbre de décision élagué"
+kable(data.frame(
+  Metrique = c("AUC (test)", "Accuracy", "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    round(auc(roc_tree), 4),
+    round(cm_tree$overall["Accuracy"], 4),
+    round(cm_tree$byClass["Sensitivity"], 4),
+    round(cm_tree$byClass["Specificity"], 4),
+    round(cm_tree$byClass["F1"], 4)
+  )
+))
+```
+
+> **Bilan** — Arbre élagué retenu, AUC test = `r round(auc(roc_tree), 3)`. Variance élevée → passage à la forêt au chapitre suivant.

@@ -1,0 +1,1112 @@
+---
+title: "Prédiction de la Satisfaction Client pour les Parfums"
+author: "ANZID Keltoum, EL KORAICHI Mohamed Yassine, HAMLIL Mohamed, PARDO TERAN German"
+date: "2025--2026"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    fig_caption: true
+    latex_engine: lualatex
+    keep_tex: false
+    extra_dependencies:
+    - booktabs
+    - float
+    - amsmath
+    - hyperref
+subtitle: Compléments de Mathématiques 2 — L3 MIASHS — Université Grenoble Alpes
+header-includes:
+- \usepackage{xcolor}
+- \definecolor{ugablue}{HTML}{1D2B44}
+- \definecolor{ugaorange}{HTML}{E8601C}
+- \AtBeginDocument{\hypersetup{linkcolor=ugaorange, urlcolor=ugablue, citecolor=ugablue}}
+- \geometry{left=2cm,right=2cm,top=2.2cm,bottom=2.2cm}
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[L]{\small\textcolor{ugablue}{Compléments de Mathématiques 2 — L3 MIASHS}}
+- \fancyhead[R]{\small\textcolor{ugablue}{Projet de groupe}}
+- \fancyfoot[C]{\textcolor{ugaorange}{\thepage}}
+- \renewcommand{\headrulewidth}{0.4pt}
+- \usepackage{float}
+- \floatplacement{figure}{H}
+- \floatplacement{table}{H}
+- \usepackage{titlesec}
+- \titleformat*{\section}{\large\bfseries\color{ugablue}}
+- \titleformat*{\subsection}{\normalsize\bfseries\color{ugablue}}
+- \titleformat*{\subsubsection}{\normalsize\bfseries\color{ugablue}}
+- \titlespacing*{\section}{0pt}{6pt}{2pt}
+- \titlespacing*{\subsection}{0pt}{4pt}{1pt}
+- \titlespacing*{\subsubsection}{0pt}{3pt}{1pt}
+- \linespread{1.02}
+- \setlength{\parskip}{2pt plus 1pt minus 1pt}
+fontsize: 10pt
+---
+
+```{r setup, include=FALSE}
+# Tout ce dont ce .Rmd a besoin vit dans le même dossier que lui :
+#   utils.R             (helpers + packages)
+#   fra_cleaned.csv     (dataset)
+#   output/*.rds        (cache des modèles entraînés)
+# Aucun chemin relatif vers un dossier parent : le bundle est autonome.
+knitr::opts_chunk$set(
+  echo = FALSE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.pos = "H",
+  out.width = "80%", cache = FALSE,
+  size = "small"
+)
+# Racine = le dossier du .Rmd lui-même
+if (!dir.exists("output")) dir.create("output")
+```
+
+```{r load-utils, include=FALSE}
+source("utils.R")
+library(glmnet)
+library(ranger)
+library(rpart)
+library(rpart.plot)
+library(naivebayes)
+```
+
+\begin{abstract}
+Ce projet vise à prédire la satisfaction des consommateurs vis-à-vis des parfums à partir de leurs caractéristiques olfactives. À partir du jeu de données Fragrantica ($\sim$24\,000 parfums, 14 variables), nous construisons une variable cible binaire (satisfaction Oui/Non) en seuillant la note moyenne à la médiane (3.97). Après une analyse exploratoire approfondie et un \textit{feature engineering} basé sur 10 familles olfactives, nous entraînons quatre classifieurs --- la régression logistique régularisée (Elastic Net/LASSO), l'arbre de décision élagué, la forêt aléatoire et le k plus proches voisins (kNN) --- évalués par AUC sur validation croisée 5-fold. La forêt aléatoire obtient les meilleures performances (AUC test $\approx$ 0.69), suivie de la régression logistique (0.67), de l'arbre de décision et du kNN (0.65). Nous explorons également le Naive Bayes et le clustering K-means comme pistes complémentaires. Les résultats restent modestes, illustrant la difficulté de prédire une variable subjective à partir de descripteurs olfactifs seuls.
+\end{abstract}
+
+\newpage
+
+# Introduction
+
+## Contexte : le monde de la parfumerie
+
+L'industrie de la parfumerie représente un marché mondial de plus de **50 milliards de dollars**. Avant d'entrer dans l'analyse statistique, il est essentiel de comprendre le **vocabulaire du domaine**, car la parfumerie possède sa propre terminologie :
+
+- **Note olfactive** : un ingrédient individuel perçu dans un parfum (ex. : bergamote, jasmin, musc). Chaque parfum est composé de dizaines de notes.
+- **Pyramide olfactive** : structure en trois niveaux décrivant l'évolution temporelle d'un parfum :
+  - *Notes de tête* (Top) : premières perçues, volatiles, disparaissent en 15--30 min (agrumes, herbes fraîches).
+  - *Notes de cœur* (Middle) : le « caractère » du parfum, perceptibles pendant 2--4 h (floraux, épices).
+  - *Notes de fond* (Base) : les plus persistantes, durent 6--24 h (bois, musc, vanille).
+- **Accord** : combinaison de plusieurs notes créant une impression olfactive cohérente. Un parfum possède typiquement 3 à 5 accords principaux.
+- **Famille olfactive** : grande catégorie regroupant des accords similaires (ex. : florale, boisée, orientale). La classification en familles est standardisée par la Société Française des Parfumeurs.
+
+La France occupe une place centrale dans cette industrie, avec **Grasse** (Alpes-Maritimes) comme capitale historique du parfum depuis le XVII\textsuperscript{e} siècle, et des maisons comme Chanel, Dior, Guerlain et Hermès.
+
+## Problématique
+
+Avec l'essor des plateformes communautaires en ligne comme **Fragrantica** --- le plus grand site mondial dédié à la parfumerie ---, il devient possible d'analyser les préférences olfactives à grande échelle. Notre objectif est de répondre à la question : **Peut-on prédire la satisfaction des consommateurs vis-à-vis d'un parfum à partir de ses caractéristiques olfactives ?**
+
+Plus précisément, nous souhaitons :
+
+1. Exploiter les variables de familles olfactives comme prédicteurs.
+2. Comparer quatre approches supervisées : régression logistique régularisée, arbre de décision, forêt aléatoire et k plus proches voisins.
+3. Évaluer honnêtement la performance de généralisation par validation croisée.
+4. Explorer des pistes complémentaires (Naive Bayes, clustering K-means) et justifier leur non-rétention.
+
+Le jeu de données est librement téléchargeable sur Kaggle (Fragrantica Fragrance Dataset).
+
+# Données
+
+## Présentation du jeu de données
+
+Le jeu de données Fragrantica contient les informations suivantes pour chaque parfum :
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `Rating_Value` | Numérique | Note moyenne attribuée par les utilisateurs (1--5) |
+| `Rating_Count` | Numérique | Nombre d'évaluations reçues |
+| `Year` | Numérique | Année de sortie du parfum |
+| `Gender` | Catégorielle | Genre cible (men, women, unisex) |
+| `Country` | Catégorielle | Pays d'origine de la marque |
+| `Top` / `Middle` / `Base` | Texte | Notes olfactives par phase de la pyramide |
+| `mainaccord1`--`5` | Texte | Les 5 accords principaux du parfum |
+
+## Chargement des données
+
+```{r load-data}
+data_raw <- read.csv(
+  "fra_cleaned.csv",
+  sep = ";",
+  stringsAsFactors = FALSE,
+  na.strings = c("NA", ""),
+  fileEncoding = "latin1"
+)
+data_raw <- data_raw %>%
+  rename(Name = Perfume, Rating_Value = Rating.Value, Rating_Count = Rating.Count)
+data_raw$Rating_Value <- as.numeric(gsub(",", ".", data_raw$Rating_Value))
+cat("Dimensions :", nrow(data_raw), "lignes,", ncol(data_raw), "colonnes\n")
+```
+
+Les données brutes comprennent `r nrow(data_raw)` parfums et `r ncol(data_raw)` variables. Nous excluons `Name`, `Brand`, `url`, `Perfumer1` et `Perfumer2` car ce sont des identifiants à cardinalité trop élevée pour être directement intégrés dans un modèle de classification.
+
+## Valeurs manquantes
+
+```{r fig-missing, fig.cap="Pourcentage de valeurs manquantes par variable", fig.height=2.5}
+na_pct <- round(100 * sapply(data_raw, function(x) sum(is.na(x))) / nrow(data_raw), 1)
+na_df <- data.frame(Variable = names(na_pct), Pourcentage = na_pct) %>%
+  arrange(desc(Pourcentage)) %>% filter(Pourcentage > 0)
+ggplot(na_df, aes(x = reorder(Variable, Pourcentage), y = Pourcentage)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  labs(x = NULL, y = "% manquantes") + THEME_REPORT
+```
+
+`Perfumer2` est absent dans plus de 80 % des cas et sera exclu. `Year` manque dans environ 8 % des cas — ces valeurs seront imputées par la médiane. Les accords secondaires (`mainaccord3`--`5`) présentent 5--15 % de valeurs manquantes. La variable `Rating_Value` est quasi-complète, permettant la construction fiable de la variable cible.
+
+# Analyse Exploratoire
+
+## Construction de la variable cible
+
+La variable `Rating_Value` (continue, 1--5) est transformée en variable binaire **Satisfaction** en utilisant la **médiane** comme seuil. Ce choix pragmatique maximise l'équilibre des classes et évite les problèmes liés au déséquilibre.
+
+```{r target-creation, fig.cap="Distribution de la variable Satisfaction", fig.height=2}
+data_rated <- data_raw %>% filter(!is.na(Rating_Value))
+mediane_rating <- median(data_rated$Rating_Value, na.rm = TRUE)
+data_rated <- data_rated %>%
+  mutate(Satisfaction = factor(
+    ifelse(Rating_Value >= mediane_rating, "Oui", "Non"),
+    levels = c("Non", "Oui")
+  ))
+ggplot(data_rated, aes(x = Satisfaction, fill = Satisfaction)) +
+  geom_bar() + FILL_SATISFACTION +
+  labs(x = "Satisfaction", y = "Nombre de parfums") +
+  THEME_REPORT + theme(legend.position = "none")
+```
+
+La médiane (`r round(mediane_rating, 2)`) produit une répartition quasi-équilibrée (**`r round(mean(data_rated$Satisfaction == "Oui") * 100, 1)` % Oui**), favorable pour l'apprentissage statistique.
+
+## Distribution des variables numériques
+
+Le jeu de données contient deux variables numériques clés qu'il ne faut pas confondre :
+
+- **`Rating_Value`** : la **note moyenne** attribuée au parfum (échelle 1--5). Mesure de *qualité perçue*. Distribution quasi-symétrique.
+- **`Rating_Count`** : le **nombre total d'évaluations**. Mesure de *popularité*. Distribution très asymétrique → transformation $\log(1 + x)$.
+
+`Rating_Value` sert à construire la variable cible et est donc **exclue des prédicteurs**. `Rating_Count` est conservé comme prédicteur.
+
+```{r fig-univar-num, fig.cap="Distribution de Rating\\_Value et log(1+Rating\\_Count)", fig.height=2.5, fig.width=9}
+par(mfrow = c(1, 2))
+hist(data_rated$Rating_Value, breaks = 30, col = COL_PRIMARY, border = "white",
+     main = "Rating_Value (note moyenne)", xlab = "Note", ylab = "Fréquence")
+abline(v = mediane_rating, col = COL_NEGATIVE, lwd = 2, lty = 2)
+legend("topleft", paste("Médiane =", round(mediane_rating, 2)),
+       col = COL_NEGATIVE, lty = 2, lwd = 2, cex = 0.8)
+rc <- data_rated$Rating_Count[!is.na(data_rated$Rating_Count) & data_rated$Rating_Count > 0]
+hist(log1p(rc), breaks = 30, col = COL_PRIMARY, border = "white",
+     main = "log(1 + Rating_Count) (popularité)",
+     xlab = "log(1 + Rating_Count)", ylab = "Fréquence")
+par(mfrow = c(1, 1))
+```
+
+Les notes sont concentrées autour de 3.5--4.0. La popularité brute est extrêmement asymétrique : la majorité des parfums ont moins de 50 évaluations, tandis que quelques parfums iconiques (*Sauvage* de Dior, *Bleu de Chanel*) en cumulent des milliers. Après transformation logarithmique, la distribution devient quasi-normale.
+
+## Distribution par année
+
+```{r fig-year, fig.cap="Nombre de parfums par année de sortie", fig.height=2}
+data_rated %>% filter(!is.na(Year), Year >= 1900) %>%
+  ggplot(aes(x = Year)) +
+  geom_histogram(binwidth = 2, fill = COL_PRIMARY, color = "white") +
+  labs(x = "Année", y = "Nombre de parfums") + THEME_REPORT
+```
+
+On observe une croissance exponentielle des sorties à partir des années 2000, liée à la démocratisation de la parfumerie. Les parfums anciens (avant 1990) sont sous-représentés, ce qui introduit un **effet de survivance** : seuls les parfums ayant survécu commercialement restent référencés sur Fragrantica.
+
+## Variables catégoriques
+
+```{r fig-categ, fig.cap="Distribution par genre et par pays d'origine", fig.height=3, fig.width=9}
+p1 <- data_rated %>% filter(!is.na(Gender)) %>% count(Gender, sort = TRUE) %>%
+  ggplot(aes(x = reorder(Gender, n), y = n)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) +
+  coord_flip() + labs(x = NULL, y = "Effectif", title = "Genre") + THEME_REPORT
+p2 <- data_rated %>% filter(!is.na(Country)) %>% count(Country, sort = TRUE) %>% head(8) %>%
+  ggplot(aes(x = reorder(Country, n), y = n)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) +
+  coord_flip() + labs(x = NULL, y = "Effectif", title = "Pays (Top 8)") + THEME_REPORT
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+Les parfums pour femmes et unisex dominent. La **France** arrive en tête (~30 %), héritage historique de Grasse et des grandes maisons (Chanel, Dior, Guerlain, Hermès). Les **États-Unis** (~19 %) reflètent les marques designer, et l'**Italie** (~14 %) sa tradition mode-luxe. Les pays < 5 % seront regroupés en « Other ».
+
+## Accords et notes olfactives
+
+```{r fig-accords, fig.cap="Accords olfactifs les plus fréquents", fig.height=2.5}
+accord_cols <- c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
+accords_all <- data_rated %>% select(all_of(accord_cols)) %>% unlist() %>% str_trim()
+accords_all <- accords_all[!is.na(accords_all) & accords_all != ""]
+accords_freq <- as.data.frame(table(accords_all), stringsAsFactors = FALSE)
+colnames(accords_freq) <- c("Accord", "Freq")
+accords_freq <- accords_freq %>%
+  mutate(Pct = round(Freq / nrow(data_rated) * 100, 1)) %>%
+  arrange(desc(Freq))
+accords_freq %>% head(15) %>%
+  ggplot(aes(x = reorder(Accord, Freq), y = Freq)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  labs(x = NULL, y = "Fréquence",
+       title = paste0("Top 15 accords (", nrow(accords_freq), " distincts)")) +
+  THEME_REPORT
+```
+
+Les accords **woody**, **citrus** et **aromatic** dominent. Les `r nrow(accords_freq)` accords distincts seront regroupés en 10 familles olfactives au chapitre suivant.
+
+```{r fig-notes, fig.cap="Notes olfactives les plus fréquentes par phase", fig.height=2.5}
+top_n <- as.data.frame(sort(table(parse_notes(data_rated$Top)),    decreasing = TRUE)[1:10])
+mid_n <- as.data.frame(sort(table(parse_notes(data_rated$Middle)), decreasing = TRUE)[1:10])
+bas_n <- as.data.frame(sort(table(parse_notes(data_rated$Base)),   decreasing = TRUE)[1:10])
+notes_df <- bind_rows(
+  data.frame(Phase = "Tete",  Note = top_n$Var1, Freq = top_n$Freq),
+  data.frame(Phase = "Coeur", Note = mid_n$Var1, Freq = mid_n$Freq),
+  data.frame(Phase = "Fond",  Note = bas_n$Var1, Freq = bas_n$Freq)
+)
+ggplot(notes_df, aes(x = reorder(Note, Freq), y = Freq)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  facet_wrap(~Phase, scales = "free") +
+  labs(x = NULL, y = "Fréquence") + THEME_REPORT
+```
+
+La répartition des notes confirme la **pyramide olfactive** classique : tête dominée par les agrumes volatils (bergamote, citron), cœur par les floraux (jasmin, rose, iris), fond par les ingrédients tenaces (musc, santal, cèdre, vanille).
+
+## Analyse bivariée : satisfaction et prédicteurs
+
+```{r fig-multi-num, fig.cap="Variables numériques selon la satisfaction", fig.height=2.5, fig.width=9}
+p1 <- data_rated %>% filter(!is.na(Rating_Count)) %>%
+  ggplot(aes(x = Satisfaction, y = log1p(Rating_Count), fill = Satisfaction)) +
+  geom_boxplot(alpha = 0.7) + FILL_SATISFACTION +
+  labs(y = "log(1 + Rating_Count)", title = "Biais de popularité") +
+  THEME_REPORT + theme(legend.position = "none")
+p2 <- data_rated %>% filter(!is.na(Year), Year >= 1900) %>%
+  ggplot(aes(x = Satisfaction, y = Year, fill = Satisfaction)) +
+  geom_boxplot(alpha = 0.7) + FILL_SATISFACTION +
+  labs(y = "Année", title = "Effet de survivance") +
+  THEME_REPORT + theme(legend.position = "none")
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+Les parfums satisfaisants ont significativement plus d'évaluations (**biais de popularité** : les utilisateurs notent préférentiellement les parfums qu'ils apprécient) et sont légèrement plus anciens (**effet de survivance**).
+
+```{r fig-multi-categ, fig.cap="Taux de satisfaction par genre et par pays", fig.height=2.5, fig.width=9}
+p1 <- data_rated %>% filter(!is.na(Gender)) %>% group_by(Gender) %>% filter(n() >= 50) %>%
+  summarise(taux = mean(Satisfaction == "Oui"), .groups = "drop") %>%
+  ggplot(aes(x = reorder(Gender, taux), y = taux)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction", title = "Par genre") + THEME_REPORT
+p2 <- data_rated %>% filter(!is.na(Country)) %>% group_by(Country) %>% filter(n() >= 100) %>%
+  summarise(taux = mean(Satisfaction == "Oui"), .groups = "drop") %>%
+  arrange(desc(taux)) %>% head(10) %>%
+  ggplot(aes(x = reorder(Country, taux), y = taux)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction", title = "Par pays (n >= 100)") + THEME_REPORT
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+Le genre est peu discriminant. Par pays, certaines origines (maisons de niche, parfumeurs des Émirats spécialisés dans le oud) affichent des taux plus élevés, leur public étant passionné et averti.
+
+## Matrice de corrélation
+
+```{r fig-corr, fig.cap="Matrice de corrélation des variables numériques", fig.height=2.5, fig.width=3.5, out.width="45%"}
+num_vars <- data_rated %>% select(Rating_Value, Rating_Count, Year) %>% drop_na()
+corrplot(cor(num_vars), method = "color", type = "upper",
+         addCoef.col = "black", tl.cex = 0.8, number.cex = 0.7)
+```
+
+Les corrélations entre les variables numériques sont très faibles (toutes inférieures à 0.15), indiquant l'absence de multicolinéarité problématique.
+
+# Feature Engineering
+
+## Mapping des accords vers les familles olfactives
+
+Plutôt que d'utiliser les `r nrow(accords_freq)` accords individuels, nous les regroupons en **10 familles olfactives** standardisées, inspirées de la classification de la Société Française des Parfumeurs (Ellena, 2007) :
+
+| Famille | Accords regroupés (exemples) |
+|---------|------------------------------|
+| **Fruity** | fruity, citrus, tropical |
+| **Floral** | floral, rose, white floral, yellow floral |
+| **Woody** | woody, earthy, mossy |
+| **Sweet** | sweet, vanilla, caramel, powdery, gourmand |
+| **Oriental** | oriental, amber, balsamic, warm, musky |
+| **Fresh** | fresh, aquatic, ozonic, marine, clean |
+| **Spicy** | spicy, warm spicy, cinnamon |
+| **Herbal** | herbal, aromatic, green, lavender |
+| **Leather** | leather, animalic |
+| **Smoky** | smoky, tobacco |
+
+Par exemple, un parfum dont les accords sont *« citrus, floral, vanilla, woody, amber »* sera classé dans 5 familles simultanément : **fruity** (via citrus), **floral**, **sweet** (via vanilla), **woody** et **oriental** (via amber).
+
+```{r accords-mapping}
+data_rated <- map_accords_to_families(data_rated, accord_cols)
+fam_cols <- grep("^fam_", names(data_rated), value = TRUE)
+fam_sums <- colSums(data_rated[fam_cols])
+fam_df <- data.frame(
+  Famille  = gsub("^fam_", "", names(fam_sums)),
+  Effectif = fam_sums,
+  Pct      = round(fam_sums / nrow(data_rated) * 100, 1)
+)
+fam_df <- fam_df[order(-fam_df$Effectif), ]
+kable(fam_df, col.names = c("Famille", "Parfums", "%"), row.names = FALSE,
+      caption = "Distribution des familles olfactives (accords)")
+```
+
+Les pourcentages totalisent plus de 100 % car un parfum peut appartenir à plusieurs familles. Les familles **fruity**, **woody** et **sweet** dominent.
+
+## Satisfaction par famille olfactive
+
+```{r fig-family-sat, fig.cap="Taux de satisfaction par famille olfactive", fig.height=2.5}
+sat_by_fam <- data.frame(
+  Famille = gsub("^fam_", "", fam_cols),
+  Taux = sapply(fam_cols, function(f) {
+    idx <- data_rated[[f]] == 1
+    if (sum(idx) > 0) mean(data_rated$Satisfaction[idx] == "Oui") else NA
+  })
+) %>% filter(!is.na(Taux))
+mean_sat <- mean(data_rated$Satisfaction == "Oui")
+ggplot(sat_by_fam, aes(x = reorder(Famille, Taux), y = Taux)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) + coord_flip() +
+  geom_hline(yintercept = mean_sat, linetype = "dashed", color = COL_NEGATIVE) +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction",
+       title = "Satisfaction par famille olfactive") +
+  THEME_REPORT
+```
+
+Les écarts entre familles sont modestes (~47 % à ~54 %). Les familles *smoky*, *spicy* et *leather* (niches) affichent les taux les plus élevés. *Fresh*, *floral* et *fruity* (très répandues) sont légèrement en dessous, leur grande variabilité interne tirant la moyenne vers le bas.
+
+## Encodage du genre
+
+```{r encode-gender}
+data_rated <- data_rated %>%
+  mutate(
+    gender_women  = as.integer(Gender == "women"),
+    gender_men    = as.integer(Gender == "men"),
+    gender_unisex = as.integer(Gender == "unisex")
+  )
+```
+
+## Partition entraînement / test
+
+Le split 70/30 est un compromis standard. **Toutes les transformations impliquant des statistiques apprises** (top-10 des notes, regroupement des pays, imputation médiane) sont calculées **après le split**, **uniquement sur le train**, pour éviter toute fuite d'information vers le test.
+
+```{r split}
+set.seed(42)
+base_features <- c("Year", "Rating_Count", "gender_women", "gender_men", "gender_unisex",
+                   grep("^fam_", names(data_rated), value = TRUE))
+df_presplit <- data_rated %>%
+  select(all_of(c(base_features, "Satisfaction", "Country", "Top", "Middle", "Base")))
+train_index <- createDataPartition(df_presplit$Satisfaction, p = 0.7, list = FALSE)
+train_raw <- df_presplit[train_index, ]
+test_raw  <- df_presplit[-train_index, ]
+
+# Regroupement des pays calculé sur train
+train_raw <- merge_rare_categories(train_raw, "Country", threshold_pct = 5)
+train_countries <- unique(train_raw$Country[!is.na(train_raw$Country)])
+test_raw$Country[!is.na(test_raw$Country) & !(test_raw$Country %in% train_countries)] <- "Other"
+country_freq <- train_raw %>% filter(!is.na(Country)) %>%
+  count(Country, sort = TRUE) %>% mutate(Pct = round(n / sum(n) * 100, 1))
+kable(country_freq, col.names = c("Pays", "Effectif", "%"),
+      caption = "Pays après regroupement (seuil 5 %, calculé sur train)")
+for (country in country_freq$Country) {
+  col_name <- paste0("country_", make.names(country))
+  train_raw[[col_name]] <- as.integer(train_raw$Country == country & !is.na(train_raw$Country))
+  test_raw[[col_name]]  <- as.integer(test_raw$Country  == country & !is.na(test_raw$Country))
+}
+
+# Notes top-10 par phase
+train_raw <- map_notes_to_columns(train_raw, "top",  "Top")
+train_raw <- map_notes_to_columns(train_raw, "mid",  "Middle")
+train_raw <- map_notes_to_columns(train_raw, "base", "Base")
+note_cols <- grep("^(top|mid|base)_", names(train_raw), value = TRUE)
+for (col in note_cols) if (!(col %in% names(test_raw))) test_raw[[col]] <- 0L
+test_raw <- map_notes_to_columns(test_raw, "top",  "Top")
+test_raw <- map_notes_to_columns(test_raw, "mid",  "Middle")
+test_raw <- map_notes_to_columns(test_raw, "base", "Base")
+
+feature_cols <- c(
+  "Year", "Rating_Count", "gender_women", "gender_men", "gender_unisex",
+  grep("^country_", names(train_raw), value = TRUE),
+  grep("^fam_",     names(train_raw), value = TRUE),
+  grep("^(top|mid|base)_", names(train_raw), value = TRUE)
+)
+common_cols  <- intersect(names(train_raw), names(test_raw))
+feature_cols <- intersect(feature_cols, common_cols)
+train_data <- train_raw %>% select(all_of(c(feature_cols, "Satisfaction")))
+test_data  <- test_raw  %>% select(all_of(c(feature_cols, "Satisfaction")))
+
+# Imputation médiane apprise sur train uniquement
+preprocess_median <- preProcess(train_data[, feature_cols], method = "medianImpute")
+train_data[, feature_cols] <- predict(preprocess_median, train_data[, feature_cols])
+test_data[,  feature_cols] <- predict(preprocess_median, test_data[,  feature_cols])
+```
+
+```{r split-summary}
+kable(data.frame(
+  Ensemble    = c("Entraînement", "Test"),
+  Observations = c(nrow(train_data), nrow(test_data)),
+  Variables   = c(length(feature_cols), length(feature_cols)),
+  Prop_Oui    = c(round(mean(train_data$Satisfaction == "Oui"), 3),
+                  round(mean(test_data$Satisfaction  == "Oui"), 3))
+), col.names = c("Ensemble", "Observations", "Variables", "Prop. Oui"),
+   caption = "Répartition entraînement / test (stratifié)")
+```
+
+Le pipeline produit `r length(feature_cols)` variables explicatives. La stratification garantit une évaluation non biaisée.
+
+# Régression Logistique Régularisée (Elastic Net)
+
+## Principe du modèle
+
+> **LASSO et Elastic Net.** Le modèle LASSO minimise :
+> $$\mathcal{L}(\beta) = -\frac{1}{n} \sum_{i=1}^{n} \log P(y_i \mid x_i, \beta) + \lambda \|\beta\|_1$$
+> où $\lambda$ est le paramètre de régularisation. La pénalité $\ell_1$ force certains coefficients à exactement zéro, réalisant une **sélection de variables** automatique. Nous utilisons l'**Elastic Net** (Zou \& Hastie, 2005) qui combine $\ell_1$ (sélection) et $\ell_2$ (rétrécissement), contrôlées par $\alpha \in [0, 1]$.
+
+## Entraînement
+
+La grille explore l'ensemble du spectre Elastic Net : $\alpha \in \{0, 0.25, 0.5, 0.75, 1\}$ et 10 valeurs de $\lambda \in [10^{-4}, 10^{-1}]$ en échelle logarithmique. Validation croisée 5-fold (Kohavi, 1995) — chaque fold contient ~3 400 observations.
+
+```{r logistic-train}
+model_file <- "output/model_logistic.rds"
+cm_file    <- "output/cm_logistic.rds"
+roc_file   <- "output/roc_logistic.rds"
+if (file.exists(model_file) && file.exists(cm_file) && file.exists(roc_file)) {
+  model_logistic <- readRDS(model_file)
+  cm_logistic    <- readRDS(cm_file)
+  roc_logistic   <- readRDS(roc_file)
+} else {
+  grid_glmnet <- expand.grid(alpha = c(0, 0.25, 0.5, 0.75, 1),
+                              lambda = 10^seq(-4, -1, length.out = 10))
+  set.seed(42)
+  model_logistic <- train(
+    Satisfaction ~ ., data = train_data, method = "glmnet",
+    trControl = CV_CONTROL, tuneGrid = grid_glmnet,
+    metric = "ROC", preProcess = c("center", "scale")
+  )
+  pred_logistic <- predict(model_logistic, test_data)
+  prob_logistic <- predict(model_logistic, test_data, type = "prob")
+  cm_logistic   <- confusionMatrix(pred_logistic, test_data$Satisfaction, positive = "Oui")
+  roc_logistic  <- roc(test_data$Satisfaction, prob_logistic$Oui, quiet = TRUE)
+  saveRDS(model_logistic, model_file)
+  saveRDS(cm_logistic,    cm_file)
+  saveRDS(roc_logistic,   roc_file)
+}
+```
+
+### Sélection des hyperparamètres
+
+```{r fig-lr-tuning, fig.cap="AUC en validation croisée selon alpha et lambda", fig.height=2.5}
+plot(model_logistic)
+```
+
+Le meilleur modèle correspond à $\alpha = `r model_logistic$bestTune$alpha`$ et $\lambda = `r round(model_logistic$bestTune$lambda, 6)`$. $\alpha = 1$ optimal signifie que le modèle retenu est un **LASSO pur** : la sélection de variables est plus bénéfique que le simple rétrécissement Ridge.
+
+### Performance sur le jeu test
+
+```{r tbl-lr-metrics}
+kable(data.frame(
+  Metrique = c("alpha", "lambda", "AUC (CV)", "AUC (test)", "Accuracy",
+               "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    model_logistic$bestTune$alpha,
+    round(model_logistic$bestTune$lambda, 6),
+    round(max(model_logistic$results$ROC), 4),
+    round(auc(roc_logistic), 4),
+    round(cm_logistic$overall["Accuracy"], 4),
+    round(cm_logistic$byClass["Sensitivity"], 4),
+    round(cm_logistic$byClass["Specificity"], 4),
+    round(cm_logistic$byClass["F1"], 4)
+  )
+), caption = "Métriques de la régression logistique")
+```
+
+La proximité entre AUC CV et AUC test confirme l'absence de surapprentissage.
+
+### Matrice de confusion
+
+```{r fig-cm-lr, fig.cap="Matrice de confusion --- Régression logistique", fig.height=2.8, fig.width=3.5, out.width="50%"}
+cm_table <- as.data.frame(cm_logistic$table)
+ggplot(cm_table, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 6, fontface = "bold") +
+  scale_fill_gradient(low = "white", high = COL_PRIMARY) +
+  labs(x = "Réel", y = "Prédit", title = "Matrice de confusion --- Rég. Logistique") +
+  THEME_REPORT + theme(legend.position = "none")
+```
+
+Le classifieur est légèrement biaisé vers la classe positive : sensibilité > spécificité.
+
+### Interprétation des coefficients
+
+```{r fig-lr-coefs, fig.cap="Coefficients non-nuls de la régression logistique (LASSO)", fig.height=3.5}
+best_model  <- model_logistic$finalModel
+best_lambda <- model_logistic$bestTune$lambda
+coefs <- as.matrix(coef(best_model, s = best_lambda))
+coef_df <- data.frame(Variable = rownames(coefs), Coefficient = coefs[, 1]) %>%
+  filter(Variable != "(Intercept)", Coefficient != 0) %>%
+  arrange(desc(Coefficient))
+n_nonzero <- nrow(coef_df)
+top_pos <- head(coef_df, 10)
+top_neg <- tail(coef_df, 5)
+coef_show <- bind_rows(top_pos, top_neg)
+ggplot(coef_show, aes(x = reorder(Variable, Coefficient), y = Coefficient,
+                      fill = ifelse(Coefficient > 0, "Positif", "Négatif"))) +
+  geom_bar(stat = "identity") + coord_flip() +
+  scale_fill_manual(values = c("Positif" = COL_POSITIVE, "Négatif" = COL_NEGATIVE)) +
+  labs(x = NULL, y = "Coefficient", fill = NULL,
+       title = paste0("Coefficients LASSO (", n_nonzero, " non-nuls sur ",
+                      length(feature_cols), ")")) +
+  THEME_REPORT
+```
+
+Le LASSO retient **`r n_nonzero` variables sur `r length(feature_cols)`**. `Rating_Count` conserve un coefficient positif fort, confirmant le **biais de popularité**. Les variables de pays et d'année sont également sélectionnées. Parmi les familles, `fam_fruity` et `fam_fresh` reçoivent des coefficients négatifs — cohérent avec leurs taux de satisfaction inférieurs à la moyenne.
+
+> **Bilan** --- LASSO retenu, AUC test = `r round(auc(roc_logistic), 3)`, `r n_nonzero`/`r length(feature_cols)` variables actives. Baseline linéaire interprétable.
+
+# Arbre de Décision
+
+## Principe
+
+> **Indice de Gini et élagage.** L'arbre partitionne récursivement l'espace des features en régions homogènes. À chaque nœud, l'algorithme sélectionne la variable et le seuil qui maximisent la pureté, mesurée par l'indice de Gini :
+> $$\mathrm{Gini}(t) = 1 - \sum_{c} p_c^2$$
+> L'arbre est ensuite **élagué** par validation croisée : on sélectionne le paramètre de complexité $c_p$ qui minimise l'erreur CV.
+
+## Entraînement et élagage
+
+```{r tree-train}
+tree_file     <- "output/model_tree.rds"
+cm_tree_file  <- "output/cm_tree.rds"
+roc_tree_file <- "output/roc_tree.rds"
+if (file.exists(tree_file) && file.exists(cm_tree_file) && file.exists(roc_tree_file)) {
+  model_tree_pruned <- readRDS(tree_file)
+  cm_tree           <- readRDS(cm_tree_file)
+  roc_tree          <- readRDS(roc_tree_file)
+} else {
+  set.seed(42)
+  model_tree <- rpart(Satisfaction ~ ., data = train_data, method = "class",
+                      control = rpart.control(cp = 0.001, minsplit = 20, maxdepth = 10))
+  best_cp <- model_tree$cptable[which.min(model_tree$cptable[, "xerror"]), "CP"]
+  model_tree_pruned <- prune(model_tree, cp = best_cp)
+  pred_tree <- predict(model_tree_pruned, test_data, type = "class")
+  prob_tree <- predict(model_tree_pruned, test_data, type = "prob")
+  cm_tree   <- confusionMatrix(pred_tree, test_data$Satisfaction, positive = "Oui")
+  roc_tree  <- roc(test_data$Satisfaction, prob_tree[, "Oui"], quiet = TRUE)
+  saveRDS(model_tree_pruned, tree_file)
+  saveRDS(cm_tree,           cm_tree_file)
+  saveRDS(roc_tree,          roc_tree_file)
+}
+```
+
+```{r fig-tree-viz, fig.cap="Arbre de décision élagué --- règles de classification interprétables", fig.height=4, fig.width=9}
+rpart.plot(model_tree_pruned, type = 4, extra = 104, fallen.leaves = TRUE,
+           roundint = FALSE, cex = 0.65,
+           box.palette = c(COL_NEGATIVE, COL_POSITIVE),
+           main = paste0("Arbre élagué (",
+                         nrow(model_tree_pruned$frame[model_tree_pruned$frame$var != "<leaf>", ]),
+                         " noeuds)"))
+```
+
+L'arbre élagué offre une **transparence totale** : la variable racine est `r as.character(model_tree_pruned$frame$var[1])`, et chaque feuille indique la classe prédite + sa pureté. AUC = `r round(auc(roc_tree), 3)` --- inférieur à la forêt aléatoire, illustrant la **variance** des arbres individuels.
+
+```{r tbl-tree-metrics}
+kable(data.frame(
+  Metrique = c("AUC (test)", "Accuracy", "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    round(auc(roc_tree), 4),
+    round(cm_tree$overall["Accuracy"], 4),
+    round(cm_tree$byClass["Sensitivity"], 4),
+    round(cm_tree$byClass["Specificity"], 4),
+    round(cm_tree$byClass["F1"], 4)
+  )
+), caption = "Métriques de l'arbre de décision élagué")
+```
+
+> **Bilan** --- Arbre élagué retenu, AUC test = `r round(auc(roc_tree), 3)`. Variance élevée → passage à la forêt au chapitre suivant.
+
+# Forêt Aléatoire
+
+## Principe
+
+> **Bagging et décorrélation des arbres.** La forêt aléatoire (Breiman, 2001) est un ensemble de 500 arbres entraînés sur des échantillons bootstrap. À chaque nœud, seul un sous-ensemble de `mtry` variables est considéré, ce qui **décorrèle** les arbres. Elle capture les **interactions non-linéaires** sans les modéliser explicitement, et réduit la **variance** par moyennage.
+
+## Entraînement
+
+La grille optimise conjointement deux hyperparamètres :
+
+- `mtry` $\in \{3, 5, 7, 10, 15, 20\}$ : centré autour de $\sqrt{p} \approx 7$ (recommandation de Breiman).
+- `min.node.size` $\in \{1, 5, 10\}$ : taille minimale des feuilles.
+
+```{r rf-train}
+rf_file     <- "output/model_rf.rds"
+cm_rf_file  <- "output/cm_rf.rds"
+roc_rf_file <- "output/roc_rf.rds"
+if (file.exists(rf_file) && file.exists(cm_rf_file) && file.exists(roc_rf_file)) {
+  model_rf <- readRDS(rf_file)
+  cm_rf    <- readRDS(cm_rf_file)
+  roc_rf   <- readRDS(roc_rf_file)
+} else {
+  grid_rf <- expand.grid(mtry = c(3, 5, 7, 10, 15, 20),
+                          splitrule = "gini",
+                          min.node.size = c(1, 5, 10))
+  set.seed(42)
+  model_rf <- train(Satisfaction ~ ., data = train_data, method = "ranger",
+                    trControl = CV_CONTROL, tuneGrid = grid_rf, metric = "ROC",
+                    num.trees = 500, importance = "impurity")
+  pred_rf <- predict(model_rf, test_data)
+  prob_rf <- predict(model_rf, test_data, type = "prob")
+  cm_rf   <- confusionMatrix(pred_rf, test_data$Satisfaction, positive = "Oui")
+  roc_rf  <- roc(test_data$Satisfaction, prob_rf$Oui, quiet = TRUE)
+  saveRDS(model_rf, rf_file)
+  saveRDS(cm_rf,    cm_rf_file)
+  saveRDS(roc_rf,   roc_rf_file)
+}
+```
+
+### Sélection de mtry
+
+```{r fig-rf-tuning, fig.cap="AUC en validation croisée selon mtry", fig.height=2.5}
+plot(model_rf)
+```
+
+L'optimum est atteint pour `mtry =` `r model_rf$bestTune$mtry` et `min.node.size =` `r model_rf$bestTune$min.node.size`. L'AUC décroît avec des valeurs élevées de mtry : trop de variables ajoutent du bruit, la décorrélation maximale (faible mtry) est plus bénéfique.
+
+### Performance sur le jeu test
+
+```{r tbl-rf-metrics}
+kable(data.frame(
+  Metrique = c("mtry", "min.node.size", "AUC (CV)", "AUC (test)", "Accuracy",
+               "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    model_rf$bestTune$mtry,
+    model_rf$bestTune$min.node.size,
+    round(max(model_rf$results$ROC), 4),
+    round(auc(roc_rf), 4),
+    round(cm_rf$overall["Accuracy"], 4),
+    round(cm_rf$byClass["Sensitivity"], 4),
+    round(cm_rf$byClass["Specificity"], 4),
+    round(cm_rf$byClass["F1"], 4)
+  )
+), caption = "Métriques de la forêt aléatoire")
+```
+
+La forêt aléatoire surpasse le LASSO sur l'AUC test. Le bagging agit comme un régulateur naturel.
+
+### Matrice de confusion
+
+```{r fig-cm-rf, fig.cap="Matrice de confusion --- Forêt aléatoire", fig.height=2.8, fig.width=3.5, out.width="50%"}
+cm_table_rf <- as.data.frame(cm_rf$table)
+ggplot(cm_table_rf, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 6, fontface = "bold") +
+  scale_fill_gradient(low = "white", high = COL_POSITIVE) +
+  labs(x = "Réel", y = "Prédit", title = "Matrice de confusion --- Forêt Aléatoire") +
+  THEME_REPORT + theme(legend.position = "none")
+```
+
+### Importance des variables
+
+```{r fig-rf-importance, fig.cap="Importance des variables (Top 15)", fig.height=3}
+vip <- model_rf$finalModel$variable.importance
+vip_df <- data.frame(Variable = names(vip), Importance = vip) %>%
+  arrange(desc(Importance)) %>% head(15)
+ggplot(vip_df, aes(x = reorder(Variable, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = COL_POSITIVE) + coord_flip() +
+  labs(x = NULL, y = "Importance (Gini)", title = "Top 15 variables") +
+  THEME_REPORT
+```
+
+`Rating_Count` et `Year` dominent massivement l'importance, suivis des familles olfactives. Cette hiérarchie soulève une question fondamentale : **le modèle prédit-il la satisfaction olfactive, ou capture-t-il un effet de popularité ?** Les deux sont mêlés dans les données communautaires.
+
+> **Bilan** --- Forêt aléatoire = **meilleur modèle**, AUC test = `r round(auc(roc_rf), 3)`, mtry = `r model_rf$bestTune$mtry`, 500 arbres.
+
+# k Plus Proches Voisins (kNN)
+
+## Principe
+
+> **Classifieur paresseux par voisinage.** Le kNN (Cover \& Hart, 1967) est non-paramétrique et **paresseux** : pas de modèle explicite, classification par vote majoritaire des $k$ voisins les plus proches (distance euclidienne après standardisation).
+
+**Avantages théoriques** : aucune hypothèse sur la distribution, capture les frontières non-linéaires complexes.
+
+**Risque a priori (Séance 5)** : avec `r length(feature_cols)` features dont la majorité binaires, les distances euclidiennes deviennent peu discriminantes en haute dimension --- c'est la **malédiction de la dimensionnalité**.
+
+## Entraînement et tuning
+
+Nous testons 8 valeurs de $k \in \{3, 5, 7, 11, 15, 21, 31, 51\}$. La standardisation est appliquée pour que `Rating_Count` (échelle ~0--10 000) ne domine pas les variables binaires.
+
+```{r knn-train}
+knn_file     <- "output/model_knn.rds"
+cm_knn_file  <- "output/cm_knn.rds"
+roc_knn_file <- "output/roc_knn.rds"
+if (file.exists(knn_file) && file.exists(cm_knn_file) && file.exists(roc_knn_file)) {
+  model_knn <- readRDS(knn_file)
+  cm_knn    <- readRDS(cm_knn_file)
+  roc_knn   <- readRDS(roc_knn_file)
+} else {
+  grid_knn <- expand.grid(k = c(3, 5, 7, 11, 15, 21, 31, 51))
+  set.seed(42)
+  model_knn <- train(Satisfaction ~ ., data = train_data, method = "knn",
+                     trControl = CV_CONTROL, tuneGrid = grid_knn, metric = "ROC",
+                     preProcess = c("center", "scale"))
+  pred_knn <- predict(model_knn, test_data)
+  prob_knn <- predict(model_knn, test_data, type = "prob")
+  cm_knn   <- confusionMatrix(pred_knn, test_data$Satisfaction, positive = "Oui")
+  roc_knn  <- roc(test_data$Satisfaction, prob_knn$Oui, quiet = TRUE)
+  saveRDS(model_knn, knn_file)
+  saveRDS(cm_knn,    cm_knn_file)
+  saveRDS(roc_knn,   roc_knn_file)
+}
+```
+
+### Sélection de k
+
+```{r fig-knn-tuning, fig.cap="AUC en validation croisée selon k --- comparaison avec LR et RF", fig.height=3}
+knn_res <- model_knn$results
+ggplot(knn_res, aes(x = k, y = ROC)) +
+  geom_line(color = COL_KNN, linewidth = 1) +
+  geom_point(color = COL_KNN, size = 3) +
+  geom_errorbar(aes(ymin = ROC - ROCSD, ymax = ROC + ROCSD),
+                width = 2, color = COL_KNN, alpha = 0.5) +
+  geom_hline(yintercept = max(model_logistic$results$ROC),
+             linetype = "dashed", color = COL_PRIMARY, linewidth = 0.7) +
+  geom_hline(yintercept = max(model_rf$results$ROC),
+             linetype = "dashed", color = COL_POSITIVE, linewidth = 0.7) +
+  annotate("text", x = 45, y = max(model_logistic$results$ROC) + 0.003,
+           label = "Logistique (CV)", color = COL_PRIMARY, size = 3) +
+  annotate("text", x = 45, y = max(model_rf$results$ROC) + 0.003,
+           label = "Forêt Aléat. (CV)", color = COL_POSITIVE, size = 3) +
+  scale_x_continuous(breaks = c(3, 5, 7, 11, 15, 21, 31, 51)) +
+  labs(x = "Nombre de voisins (k)", y = "AUC (CV 5-fold)",
+       title = "Performance kNN selon k") +
+  THEME_REPORT
+```
+
+L'AUC augmente **monotoniquement** avec $k$, de `r round(min(knn_res$ROC), 3)` (k=3) à `r round(max(knn_res$ROC), 3)` (k=51). Le modèle bénéficie systématiquement du lissage --- le **signal local est noyé dans le bruit dimensionnel**. Même au meilleur k, le kNN reste sous LR et RF.
+
+### Performance sur le jeu test
+
+```{r tbl-knn-metrics}
+kable(data.frame(
+  Metrique = c("Meilleur k", "AUC (CV)", "AUC (test)", "Accuracy",
+               "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    model_knn$bestTune$k,
+    round(max(model_knn$results$ROC), 4),
+    round(auc(roc_knn), 4),
+    round(cm_knn$overall["Accuracy"], 4),
+    round(cm_knn$byClass["Sensitivity"], 4),
+    round(cm_knn$byClass["Specificity"], 4),
+    round(cm_knn$byClass["F1"], 4)
+  )
+), caption = "Métriques finales du kNN")
+```
+
+### Matrice de confusion
+
+```{r fig-cm-knn, fig.cap="Matrice de confusion --- kNN", fig.height=2.8, fig.width=3.5, out.width="50%"}
+cm_table_knn <- as.data.frame(cm_knn$table)
+ggplot(cm_table_knn, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 6, fontface = "bold") +
+  scale_fill_gradient(low = "white", high = COL_KNN) +
+  labs(x = "Réel", y = "Prédit", title = "Matrice de confusion --- kNN") +
+  THEME_REPORT + theme(legend.position = "none")
+```
+
+### Diagnostic : la malédiction de la dimensionnalité
+
+Le fait que k=51 soit optimal (le plus grand testé) est révélateur : avec `r length(feature_cols)` dimensions dont ~50 binaires, les distances euclidiennes se concentrent autour de leur moyenne et les observations deviennent **équidistantes**. Le kNN perd sa capacité discriminante. C'est un cas d'école de la **malédiction de la dimensionnalité** étudiée en **Séance 5**.
+
+> **Bilan** --- kNN retenu pour illustration pédagogique, AUC test = `r round(auc(roc_knn), 3)` (k = `r model_knn$bestTune$k`). Démontre empiriquement la malédiction de la dimensionnalité.
+
+# Comparaison des quatre modèles
+
+## Récapitulatif des performances
+
+```{r tbl-comparison}
+kable(data.frame(
+  Modele = c("Rég. Logistique (LASSO)", "Arbre de Décision",
+             "Forêt Aléatoire", "kNN (k=51)"),
+  AUC_Test = c(round(auc(roc_logistic), 4), round(auc(roc_tree), 4),
+               round(auc(roc_rf), 4), round(auc(roc_knn), 4)),
+  Accuracy = c(round(cm_logistic$overall["Accuracy"], 4),
+               round(cm_tree$overall["Accuracy"], 4),
+               round(cm_rf$overall["Accuracy"], 4),
+               round(cm_knn$overall["Accuracy"], 4)),
+  Sensibilite = c(round(cm_logistic$byClass["Sensitivity"], 4),
+                  round(cm_tree$byClass["Sensitivity"], 4),
+                  round(cm_rf$byClass["Sensitivity"], 4),
+                  round(cm_knn$byClass["Sensitivity"], 4)),
+  Specificite = c(round(cm_logistic$byClass["Specificity"], 4),
+                  round(cm_tree$byClass["Specificity"], 4),
+                  round(cm_rf$byClass["Specificity"], 4),
+                  round(cm_knn$byClass["Specificity"], 4)),
+  F1 = c(round(cm_logistic$byClass["F1"], 4),
+         round(cm_tree$byClass["F1"], 4),
+         round(cm_rf$byClass["F1"], 4),
+         round(cm_knn$byClass["F1"], 4))
+), caption = "Comparaison des quatre modèles supervisés")
+```
+
+La hiérarchie est claire : **Forêt Aléatoire > Régression Logistique > kNN > Arbre de Décision**. L'écart RF/kNN (`r round((auc(roc_rf) - auc(roc_knn)) * 100, 1)` points d'AUC) est substantiel. Le gain forêt vs arbre seul (`r round((auc(roc_rf) - auc(roc_tree)) * 100, 1)` points) illustre l'avantage du bagging.
+
+## Courbes ROC comparées
+
+```{r fig-roc-comp, fig.cap="Courbes ROC comparées --- quatre modèles supervisés", fig.height=3}
+draw_roc <- function(roc_obj, col, lty = 1, lwd = 2) {
+  cc  <- coords(roc_obj, "all", ret = c("specificity", "sensitivity"))
+  fpr <- 1 - cc$specificity
+  ord <- order(fpr)
+  lines(fpr[ord], cc$sensitivity[ord], col = col, lwd = lwd, lty = lty)
+}
+plot(NULL, xlim = c(0, 1), ylim = c(0, 1),
+     xlab = "1 - Spécificité", ylab = "Sensibilité",
+     main = "Courbes ROC comparées")
+abline(a = 0, b = 1, lty = 2, col = "gray")
+draw_roc(roc_logistic, COL_PRIMARY)
+draw_roc(roc_tree,     COL_TREE, lty = 2)
+draw_roc(roc_rf,       COL_POSITIVE)
+draw_roc(roc_knn,      COL_KNN)
+legend("bottomright",
+       legend = c(paste0("Logistique (",   round(auc(roc_logistic), 3), ")"),
+                  paste0("Arbre (",        round(auc(roc_tree),     3), ")"),
+                  paste0("Forêt Aléat. (", round(auc(roc_rf),       3), ")"),
+                  paste0("kNN k=51 (",     round(auc(roc_knn),      3), ")")),
+       col = c(COL_PRIMARY, COL_TREE, COL_POSITIVE, COL_KNN),
+       lwd = 2, lty = c(1, 2, 1, 1), cex = 0.7)
+```
+
+Les quatre courbes s'écartent de la diagonale, confirmant une discrimination réelle. La forêt aléatoire domine sur toute la plage de seuils. L'AUC la plus élevée (`r round(auc(roc_rf), 3)`) signifie que le modèle classe correctement une paire aléatoire (satisfaisant, non-satisfaisant) dans **`r round(auc(roc_rf)*100, 0)` % des cas** (Fawcett, 2006).
+
+## Analyse comparative
+
+Pourquoi la forêt aléatoire domine-t-elle ? Trois raisons : (1) **interactions non-linéaires** capturées sans modélisation explicite ; (2) **bagging** + restriction de `mtry` qui décorrèlent les arbres, régularisation absente du kNN ; (3) **sélection implicite** des variables pertinentes à chaque nœud. Le kNN échoue à cause de la **malédiction de la dimensionnalité**.
+
+# Pistes non explorées
+
+Au-delà des quatre modèles supervisés retenus, nous avons exploré deux pistes complémentaires non intégrées comme modèles principaux.
+
+## Naive Bayes
+
+Le classificateur Naive Bayes applique le théorème de Bayes avec l'hypothèse d'**indépendance conditionnelle** entre les features :
+$$P(Y = c \mid X_1, \ldots, X_p) \propto P(Y = c) \prod_{j=1}^{p} P(X_j \mid Y = c)$$
+
+```{r nb-train}
+nb_file     <- "output/model_nb.rds"
+cm_nb_file  <- "output/cm_nb.rds"
+roc_nb_file <- "output/roc_nb.rds"
+if (file.exists(nb_file) && file.exists(cm_nb_file) && file.exists(roc_nb_file)) {
+  model_nb <- readRDS(nb_file)
+  cm_nb    <- readRDS(cm_nb_file)
+  roc_nb   <- readRDS(roc_nb_file)
+} else {
+  grid_nb <- expand.grid(laplace = c(0, 0.5, 1, 2),
+                          usekernel = c(TRUE, FALSE),
+                          adjust = c(0.5, 1, 1.5))
+  set.seed(42)
+  model_nb <- train(Satisfaction ~ ., data = train_data, method = "naive_bayes",
+                    trControl = CV_CONTROL, tuneGrid = grid_nb, metric = "ROC",
+                    preProcess = c("center", "scale"))
+  prob_nb <- predict(model_nb, test_data, type = "prob")
+  cm_nb   <- confusionMatrix(predict(model_nb, test_data),
+                              test_data$Satisfaction, positive = "Oui")
+  roc_nb  <- roc(test_data$Satisfaction, prob_nb$Oui, quiet = TRUE)
+  saveRDS(model_nb, nb_file)
+  saveRDS(cm_nb,    cm_nb_file)
+  saveRDS(roc_nb,   roc_nb_file)
+}
+```
+
+```{r tbl-nb-metrics}
+kable(data.frame(
+  Metrique = c("AUC (CV)", "AUC (test)", "Accuracy", "Sensibilité", "Spécificité"),
+  Valeur = c(
+    round(max(model_nb$results$ROC), 4),
+    round(auc(roc_nb), 4),
+    round(cm_nb$overall["Accuracy"], 4),
+    round(cm_nb$byClass["Sensitivity"], 4),
+    round(cm_nb$byClass["Specificity"], 4)
+  )
+), caption = "Métriques du Naive Bayes --- modèle non retenu")
+```
+
+**Raisons de la non-rétention** :
+
+1. **AUC la plus faible** (`r round(auc(roc_nb), 3)`) : inférieure à tous les modèles retenus.
+2. **Classificateur dégénéré** : sensibilité extrêmement basse (`r round(cm_nb$byClass["Sensitivity"], 3)`) → le modèle prédit presque tous les parfums comme « Non ». Inutilisable en pratique.
+3. **Violation de l'hypothèse d'indépendance** : les familles olfactives sont corrélées entre elles (voir figure ci-dessous).
+
+```{r fig-nb-corr, fig.cap="Corrélations entre familles olfactives --- violation de l'hypothèse d'indépendance du Naive Bayes", fig.height=3.5, fig.width=5, out.width="55%"}
+fam_feat <- grep("^fam_", feature_cols, value = TRUE)
+cor_fam  <- cor(train_data[, fam_feat])
+colnames(cor_fam) <- gsub("^fam_", "", colnames(cor_fam))
+rownames(cor_fam) <- gsub("^fam_", "", rownames(cor_fam))
+corrplot(cor_fam, method = "color", type = "upper",
+         addCoef.col = "black", tl.cex = 0.7, number.cex = 0.55,
+         title = "Corrélations entre familles olfactives",
+         mar = c(0, 0, 2, 0))
+```
+
+Plusieurs paires de familles présentent des corrélations non négligeables, traduisant la spécialisation des compositions. Ces dépendances violent l'hypothèse d'indépendance conditionnelle, dégradant l'estimation des probabilités jointes.
+
+## Clustering K-means
+
+En complément, clustering **non-supervisé** K-means sur les 10 familles olfactives, pour découvrir des profils-types.
+
+```{r kmeans-analysis}
+data_rated <- map_accords_to_families(
+  data_rated,
+  c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
+)
+fam_cols_all <- grep("^fam_", names(data_rated), value = TRUE)
+X_fam <- data_rated[, fam_cols_all]
+wss <- numeric(8)
+for (k in 1:8) {
+  set.seed(42)
+  km <- kmeans(X_fam, centers = k, nstart = 25, iter.max = 100)
+  wss[k] <- km$tot.withinss
+}
+```
+
+```{r fig-elbow, fig.cap="Méthode du coude --- choix du nombre de clusters", fig.height=2.5, fig.width=5, out.width="60%"}
+elbow_df <- data.frame(k = 1:8, WCSS = wss)
+ggplot(elbow_df, aes(x = k, y = WCSS)) +
+  geom_line(color = COL_PRIMARY, linewidth = 1) +
+  geom_point(color = COL_PRIMARY, size = 3) +
+  geom_vline(xintercept = 3, linetype = "dashed", color = COL_NEGATIVE) +
+  annotate("text", x = 3.3, y = max(wss) * 0.92, label = "Coude (k=3)",
+           color = COL_NEGATIVE, size = 3.5, hjust = 0) +
+  scale_x_continuous(breaks = 1:8) +
+  labs(x = "Nombre de clusters (K)", y = "Inertie intra-cluster (WCSS)",
+       title = "Méthode du coude") + THEME_REPORT
+```
+
+La méthode du coude suggère **k=3** clusters.
+
+```{r kmeans-k3}
+set.seed(42)
+km3 <- kmeans(X_fam, centers = 3, nstart = 25, iter.max = 100)
+idx_herbal   <- which.max(km3$centers[, "fam_herbal"])
+idx_floral   <- which.max(km3$centers[, "fam_floral"])
+idx_oriental <- setdiff(1:3, c(idx_herbal, idx_floral))
+cluster_labels <- character(3)
+cluster_labels[idx_herbal]   <- "Aromatique-Frais"
+cluster_labels[idx_floral]   <- "Floral-Gourmand"
+cluster_labels[idx_oriental] <- "Boisé-Oriental"
+data_rated$cluster_k3    <- km3$cluster
+data_rated$cluster_label <- cluster_labels[km3$cluster]
+```
+
+```{r fig-cluster-profiles, fig.cap="Profils olfactifs des 3 clusters K-means", fig.height=3.5, fig.width=9}
+centers_df <- as.data.frame(km3$centers) %>%
+  mutate(Cluster = cluster_labels) %>%
+  pivot_longer(-Cluster, names_to = "Famille", values_to = "Proportion")
+centers_df$Famille <- gsub("^fam_", "", centers_df$Famille)
+ggplot(centers_df, aes(x = Famille, y = Proportion, fill = Cluster)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), alpha = 0.85) +
+  scale_fill_manual(values = c("#4CAF50", "#E91E63", "#FF9800")) +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Proportion moyenne",
+       title = "Profils olfactifs des 3 clusters") +
+  THEME_REPORT +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1, size = 9),
+        legend.position = "top")
+```
+
+Trois profils-types émergent :
+
+```{r tbl-cluster-profiles}
+sat_cluster <- data_rated %>%
+  group_by(cluster_label) %>%
+  summarise(n = n(),
+            taux_satisfaction = round(mean(Satisfaction == "Oui") * 100, 1),
+            rating_moyen = round(mean(Rating_Value, na.rm = TRUE), 2),
+            .groups = "drop")
+kable(sat_cluster[, c("cluster_label", "n", "taux_satisfaction", "rating_moyen")],
+      col.names = c("Profil", "Effectif", "Satisfaction (%)", "Rating moyen"),
+      caption = "Taux de satisfaction par profil olfactif")
+```
+
+```{r fig-cluster-sat, fig.cap="Taux de satisfaction par profil olfactif", fig.height=2.5, fig.width=5, out.width="60%"}
+ggplot(sat_cluster, aes(x = cluster_label, y = taux_satisfaction, fill = cluster_label)) +
+  geom_bar(stat = "identity", alpha = 0.85) +
+  geom_text(aes(label = paste0(taux_satisfaction, "%")), vjust = -0.3, size = 4) +
+  geom_hline(yintercept = mean(data_rated$Satisfaction == "Oui") * 100,
+             linetype = "dashed", color = "gray40") +
+  scale_fill_manual(values = c("Aromatique-Frais" = "#4CAF50",
+                                "Floral-Gourmand"  = "#E91E63",
+                                "Boisé-Oriental"   = "#FF9800")) +
+  labs(x = NULL, y = "Satisfaction (%)",
+       title = "Satisfaction par profil olfactif") +
+  THEME_REPORT + theme(legend.position = "none") + ylim(0, 70)
+```
+
+```{r cluster-vars, include=FALSE}
+sat_af <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Aromatique-Frais"]
+sat_fg <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Floral-Gourmand"]
+sat_bo <- sat_cluster$taux_satisfaction[sat_cluster$cluster_label == "Boisé-Oriental"]
+n_af   <- sat_cluster$n[sat_cluster$cluster_label == "Aromatique-Frais"]
+n_fg   <- sat_cluster$n[sat_cluster$cluster_label == "Floral-Gourmand"]
+n_bo   <- sat_cluster$n[sat_cluster$cluster_label == "Boisé-Oriental"]
+```
+
+- **Aromatique-Frais** (`r n_af` parfums) : herbal, fruity, woody. Fougères masculines classiques. Satisfaction : `r sat_af` %.
+- **Floral-Gourmand** (`r n_fg` parfums) : sweet, floral, fruity. Compositions féminines accessibles. Satisfaction : `r sat_fg` % --- le plus bas.
+- **Boisé-Oriental** (`r n_bo` parfums) : woody, oriental, sweet. Parfums de niche (oud, santal, ambre). Satisfaction : **`r sat_bo` %** --- le plus élevé.
+
+L'écart Boisé-Oriental vs Floral-Gourmand est de **`r round(sat_bo - sat_fg, 1)` points**. Explication : les parfums boisés-orientaux sont des **niches** achetées par des passionnés sélectifs ; les floraux-gourmands sont **grand public** et reçoivent des avis plus mitigés. C'est un **biais de sélection** classique. L'écart est statistiquement significatif ($\chi^2$, $p < 0.001$) mais l'effet est faible (V de Cramér $\approx 0.15$). L'ajout du cluster comme variable dans la forêt aléatoire ne modifie pas l'AUC --- les familles individuelles capturent déjà cette information.
+
+# Regard critique et limites
+
+1. **Biais de sélection** : `Rating_Count` domine les prédicteurs. Les parfums populaires attirent plus d'évaluateurs *et* ces évaluateurs notent préférentiellement les parfums qu'ils apprécient. Corrélation, pas causalité.
+2. **Multicolinéarité des familles** : les familles olfactives ne sont pas mutuellement exclusives, ce qui peut biaiser les coefficients LASSO. RF et kNN sont moins sensibles.
+3. **Validité externe** : Fragrantica = public auto-sélectionné de passionnés en ligne, non représentatif.
+4. **Perte d'information** : la binarisation à la médiane perd le gradient (un parfum à 4.8 et un à 4.0 sont tous deux « Oui »).
+5. **Malédiction de la dimensionnalité** : le kNN illustre concrètement la dégradation des classificateurs basés sur les distances en haute dimension ($p = `r length(feature_cols)`$), phénomène théorique étudié en **Séance 5** vérifié empiriquement.
+
+# Synthèse et conclusion
+
+## Retour sur la problématique
+
+**Les caractéristiques olfactives permettent-elles de prédire la satisfaction ?** Partiellement. Les familles olfactives contribuent (AUC > 0.50), mais l'AUC plafonne à ~0.69, dominée par les variables non-olfactives. Ce projet illustre les concepts clés du cours :
+
+- La **validation croisée** (TP3) pour une estimation honnête de la performance.
+- La **régularisation** (TP5) pour gérer un espace de `r length(feature_cols)` prédicteurs --- le LASSO a éliminé les variables redondantes.
+- La **comparaison de modèles** (TP6--7) : le gain de la forêt aléatoire est réel mais modéré.
+- La **classification par voisinage** (TP5) : le kNN échoue en haute dimension.
+- Le **regard critique** : Naive Bayes (Séance 6) écarté, K-means (Séance 10) exploré pour un éclairage complémentaire.
+
+## Bilan des méthodes
+
+| Méthode | AUC test | Statut | Justification |
+|---------|----------|--------|---------------|
+| Forêt Aléatoire | `r round(auc(roc_rf), 3)` | Retenu | Meilleure performance, interactions non-linéaires |
+| Rég. Logistique | `r round(auc(roc_logistic), 3)` | Retenu | Interprétable, sélection de variables |
+| Arbre de Décision | `r round(auc(roc_tree), 3)` | Retenu | Interprétable, justifie le passage à la forêt |
+| kNN (k=51) | `r round(auc(roc_knn), 3)` | Retenu | Illustration malédiction dimensionnalité |
+| Naive Bayes | `r round(auc(roc_nb), 3)` | Non retenu | Hypothèse violée, classificateur dégénéré |
+| K-means (k=3) | --- | Exploratoire | 3 profils significatifs ($\chi^2$, $p < 0.001$), effet faible (V = 0.15) |
+
+## Ouverture et perspectives
+
+Ce travail ouvre plusieurs pistes : encodage **TF-IDF** sur les notes individuelles (analogue NLP), ajout de la **concentration du parfum** (EdT/EdP/Extrait, absente du dataset) comme prédicteur de tenue, **méthodes d'ensemble hybrides** (stacking) ou réseaux de neurones, modèle entraîné **séparément par cluster K-means**, et **régression ordinale** pour préserver le gradient de satisfaction perdu par la binarisation.
+
+# Utilisation de l'IA
+
+Nous avons utilisé Claude et GitHub Copilot pour :
+
+1. **Debugging du code R** (~15 % du temps) : résolution d'erreurs de syntaxe et de compatibilité entre packages (ex. : l'IA avait suggéré `randomForest` au lieu de `ranger`, corrigé après des temps d'exécution 10× supérieurs).
+2. **Mise en forme du rapport** (~10 %) : aide à la structuration LaTeX (gestion des marges via `geometry`, espacement avec `linespread` et `parskip`, placement des figures avec `float` et `\floatplacement{figure}{H}`, table des matières automatique).
+
+Toutes les sorties ont été systématiquement vérifiées. L'analyse des données, le choix des hyperparamètres, l'interprétation des résultats et le regard critique sont entièrement le fruit de notre travail.
+
+## Contributions individuelles
+
+| Membre | Contributions |
+|--------|---------------|
+| ANZID Keltoum | Analyse exploratoire, interprétation des résultats, rédaction des sections contextuelles, présentation orale |
+| EL KORAICHI Mohamed Yassine | Feature engineering (familles olfactives, notes), kNN et pistes non explorées, réécriture du rapport, validation et relecture critique |
+| HAMLIL Mohamed | Code R et modélisation (régression logistique, arbre de décision, forêt aléatoire), feature engineering, pipeline anti data leakage |
+| PARDO TERAN German | Recherche des données (Fragrantica), visualisations, aide à l'interprétation, présentation orale |
+
+# Références
+
+1. Breiman, L. (2001). *Random Forests*. Machine Learning, 45(1), 5--32.
+2. Zou, H. \& Hastie, T. (2005). *Regularization and Variable Selection via the Elastic Net*. JRSS-B, 67(2), 301--320.
+3. Fawcett, T. (2006). *An Introduction to ROC Analysis*. Pattern Recognition Letters, 27(8), 861--874.
+4. Kohavi, R. (1995). *A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection*. IJCAI.
+5. Ellena, J.-C. (2007). *Que sais-je ? Le parfum*. Presses Universitaires de France.
+6. Fragrantica Fragrance Dataset. Kaggle. <https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset>
+7. Cover, T. \& Hart, P. (1967). *Nearest Neighbor Pattern Classification*. IEEE Transactions on Information Theory, 13(1), 21--27.

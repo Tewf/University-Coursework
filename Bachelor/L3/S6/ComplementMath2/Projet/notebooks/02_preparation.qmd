@@ -1,223 +1,177 @@
 ---
-title: "Partie 2 : Préparation des Données"
+title: "Partie 2 : Feature Engineering et Préparation"
 ---
 
 ```{r}
 #| label: setup
 #| include: false
-source(here::here("R", "utils.R"))
+#| cache: false
+source(here::here("utils.R"))
 ```
 
 ```{r}
 #| label: load
-#| output: false
-data_rated <- readRDS(here::here("output", "data_rated.rds"))
-cat("Données :", nrow(data_rated), "lignes,", ncol(data_rated), "colonnes\n")
+#| include: false
+data_rated   <- readRDS(here::here("output", "data_rated.rds"))
+accords_freq <- readRDS(here::here("output", "accords_freq.rds"))
+accord_cols  <- c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
 ```
 
-## Feature Engineering par familles olfactives
+# Feature Engineering
 
-L'objectif de cette étape est de transformer les données brutes (accords et notes individuelles) en variables exploitables par un modèle de classification. Plutôt que d'extraire les notes individuelles les plus fréquentes (approche arbitraire qui perdrait les relations entre notes proches), nous regroupons accords et notes par **famille olfactive** selon une **roue des parfums**^[Roue des parfums (*fragrance wheel*) : classification circulaire des familles olfactives, inventée par Michael Edwards en 1983. Elle organise les parfums en grandes familles (florale, boisée, orientale, fraîche...) et montre leurs proximités. Voir par exemple : [fragrancesoftheworld.com](https://www.fragrancesoftheworld.com/FragranceWheel)].
+## Mapping des accords vers les familles olfactives
 
-Cette approche est soutenue par @kumar2015 qui montrent que les descripteurs olfactifs se regroupent naturellement en communautés perceptuelles (« fruit », « floral », « wood », « sweet », « green » sont des *hubs* dominants dans toutes les bases de données étudiées). Nous retenons **10 familles**, décrites ci-dessous :
+Plutôt que d'utiliser les `r nrow(accords_freq)` accords individuels (trop nombreux et bruités), nous les regroupons en **10 familles olfactives** standardisées, inspirées de la classification de la Société Française des Parfumeurs (Ellena, 2007). Voici un extrait du dictionnaire de correspondance :
 
-| Famille | Description | Phase dominante | Exemples d'accords/notes |
-|---------|-------------|:---------------:|--------------------------|
-| **Citrus** | Notes vives, pétillantes et solaires. Fraîcheur immédiate. | Tête | bergamote, citron, yuzu, orange sanguine |
-| **Green** | Herbes fraîchement coupées, thé, bambou. Évoquent la nature et la pureté. | Tête / Cœur | foin, figue verte, thé vert, bambou |
-| **Aquatic** | Impressions de mer, pluie, air marin. Fraîcheur minérale. | Tête | calone, ambrox, musc marin, pétrichor |
-| **Floral** | Des floraux légers (muguet, pivoine) aux floraux riches et sensuels (rose, tubéreuse, jasmin). | Cœur | rose, jasmin, ylang-ylang, iris |
-| **Fruity** | Notes jeunes et vibrantes de fruits rouges, tropicaux ou à noyau. | Tête / Cœur | framboise, mangue, pêche, pomme verte |
-| **Spicy** | Notes chaudes et intrigantes d'épices. Caractère sensuel. | Cœur / Fond | cannelle, cardamome, poivre rose, safran |
-| **Woody** | Des bois légers (santal, cèdre) aux bois sombres (oud, patchouli, vétiver fumé). | Fond | santal, cèdre, oud, vétiver, mousse de chêne |
-| **Gourmand** | Notes sucrées et comestibles. Très populaires dans la parfumerie contemporaine. | Fond | vanille, caramel, tonka, café, chocolat |
-| **Leather / Smoky** | Accords de caractère : cuir, tabac, encens, fumée. Profondeur et mystère. | Fond | cuir, daim, tabac, encens, oliban, myrrhe |
-| **Powdery / Amber** | Doux, enveloppants, « seconde peau ». Bases chaudes et résineux ambrés. | Fond | musc blanc, iris poudré, ambre, labdanum, benjoin |
+| Famille | Accords regroupés (exemples) |
+|---------|------------------------------|
+| **Fruity** | fruity, citrus, tropical |
+| **Floral** | floral, rose, white floral, yellow floral |
+| **Woody** | woody, earthy, mossy |
+| **Sweet** | sweet, vanilla, caramel, powdery, gourmand |
+| **Oriental** | oriental, amber, balsamic, warm, musky |
+| **Fresh** | fresh, aquatic, ozonic, marine, clean |
+| **Spicy** | spicy, warm spicy, cinnamon |
+| **Herbal** | herbal, aromatic, green, lavender |
+| **Leather** | leather, animalic |
+| **Smoky** | smoky, tobacco |
 
-: Les 10 familles olfactives utilisées pour le regroupement {#tbl-families-desc}
+: Mapping des accords vers les 10 familles olfactives {#tbl-mapping}
 
-### Accords → familles
-
-Chaque accord (`mainaccord1` à `mainaccord5`) est associé à sa famille olfactive via une table de correspondance. Par exemple, pour la famille **boisée** (*woody*), le mapping regroupe les accords suivants :
-
-| Accord Fragrantica | → Famille |
-|---------------------|-----------|
-| woody | Woody |
-| aromatic | Woody |
-| oud | Woody |
-| patchouli | Woody |
-| mossy | Woody |
-| earthy | Woody |
-
-: Extrait du mapping pour la famille boisée {#tbl-mapping-woody}
-
-Le même principe s'applique aux 9 autres familles. Les accords non reconnus (absents de notre table de correspondance) sont classés dans une catégorie « autre ».
+Par exemple, un parfum dont les accords sont *« citrus, floral, vanilla, woody, amber »* sera classé dans les familles **fruity** (via citrus), **floral**, **sweet** (via vanilla), **woody** et **oriental** (via amber) — soit 5 familles simultanément. Cette approche réduit la dimensionnalité tout en conservant le sens olfactif.
 
 ```{r}
-#| label: tbl-accords-families
+#| label: accords-mapping
 #| tbl-cap: "Distribution des familles olfactives (accords)"
-accord_cols <- c("mainaccord1", "mainaccord2", "mainaccord3", "mainaccord4", "mainaccord5")
 data_rated <- map_accords_to_families(data_rated, accord_cols)
-
 fam_cols <- grep("^fam_", names(data_rated), value = TRUE)
 fam_sums <- colSums(data_rated[fam_cols])
 fam_df <- data.frame(
-  Famille = gsub("^fam_", "", names(fam_sums)),
+  Famille  = gsub("^fam_", "", names(fam_sums)),
   Effectif = fam_sums,
-  Pct = round(fam_sums / nrow(data_rated) * 100, 1)
+  Pct      = round(fam_sums / nrow(data_rated) * 100, 1)
 )
 fam_df <- fam_df[order(-fam_df$Effectif), ]
-rownames(fam_df) <- NULL
-kable(fam_df, col.names = c("Famille", "Parfums", "%"), booktabs = TRUE)
+kable(fam_df, col.names = c("Famille", "Parfums", "%"), row.names = FALSE)
 ```
 
-Les familles **woody**, **gourmand** et **floral** couvrent la majorité des parfums, cohérent avec les tendances du marché.
+Les pourcentages totalisent plus de 100 % car un parfum peut appartenir à plusieurs familles (il possède jusqu'à 5 accords). Les familles **fruity**, **woody** et **sweet** dominent, reflétant la tendance actuelle du marché vers les parfums fruités-boisés et gourmands.
 
-### Notes → familles
-
-En plus des accords (qui décrivent l'impression générale), chaque parfum possède des **notes individuelles** réparties en trois phases : tête, cœur et fond. Chaque note est un ingrédient précis (ex. : « bergamot », « sandalwood », « vanilla »).
-
-Pour chaque phase, nous classons chaque note dans l'une des 10 familles olfactives à l'aide d'une liste de mots-clés. Par exemple, si la note « sandalwood » apparaît dans les notes de fond, la variable `base_woody` prend la valeur 1. Cela produit **30 variables indicatrices** (10 familles × 3 phases), qui capturent le profil olfactif du parfum à chaque étape de son évolution.
-
-Cette approche permet de transformer des données textuelles (listes de notes séparées par des virgules) en variables numériques exploitables par les modèles, tout en préservant la structure tête/cœur/fond qui est fondamentale en parfumerie.
+## Satisfaction par famille olfactive
 
 ```{r}
-#| label: map-notes
-#| output: false
-data_rated <- map_notes_to_families(data_rated, "Top", prefix = "top_")
-data_rated <- map_notes_to_families(data_rated, "Middle", prefix = "mid_")
-data_rated <- map_notes_to_families(data_rated, "Base", prefix = "base_")
-cat("Indicatrices créées : Tête", length(grep("^top_", names(data_rated))),
-    "| Coeur", length(grep("^mid_", names(data_rated))),
-    "| Fond", length(grep("^base_", names(data_rated))), "\n")
+#| label: fig-family-sat
+#| fig-cap: "Taux de satisfaction par famille olfactive"
+#| fig-height: 2.5
+sat_by_fam <- data.frame(
+  Famille = gsub("^fam_", "", fam_cols),
+  Taux = sapply(fam_cols, function(f) {
+    idx <- data_rated[[f]] == 1
+    if (sum(idx) > 0) mean(data_rated$Satisfaction[idx] == "Oui") else NA
+  })
+) %>% filter(!is.na(Taux))
+mean_sat <- mean(data_rated$Satisfaction == "Oui")
+ggplot(sat_by_fam, aes(x = reorder(Famille, Taux), y = Taux)) +
+  geom_bar(stat = "identity", fill = COL_PRIMARY) +
+  coord_flip() +
+  geom_hline(yintercept = mean_sat, linetype = "dashed", color = COL_NEGATIVE) +
+  scale_y_continuous(labels = percent) +
+  labs(x = NULL, y = "Taux de satisfaction",
+       title = "Satisfaction par famille olfactive") +
+  THEME_REPORT
 ```
 
-## Variables catégorielles
+Les écarts de satisfaction entre familles sont modestes (~47 % à ~54 %), la ligne rouge pointillée indiquant la moyenne globale. Les familles *smoky*, *spicy* et *leather* affichent les taux les plus élevés — ces familles plus niches attirent un public passionné et averti. À l'inverse, *fresh*, *floral* et *fruity* sont légèrement en dessous : ces familles très répandues englobent un grand nombre de parfums de qualité variable, ce qui tire leur taux moyen vers le bas. Ces différences, bien que faibles, seront exploitées par les modèles.
 
-### Gender
-
-La variable `Gender` (genre cible du parfum) est catégorielle avec trois modalités : *women*, *men*, *unisex*. Pour l'intégrer dans nos modèles, nous la transformons en **trois variables indicatrices** (encodage *one-hot*^[Encodage *one-hot* : transformation d'une variable catégorielle à $k$ modalités en $k$ colonnes binaires (0/1), une par modalité.]). Chaque parfum aura ainsi une valeur 1 dans la colonne correspondant à son genre cible et 0 dans les autres.
+## Encodage du genre
 
 ```{r}
 #| label: encode-gender
 data_rated <- data_rated %>%
   mutate(
-    gender_women = as.integer(Gender == "women"),
-    gender_men = as.integer(Gender == "men"),
+    gender_women  = as.integer(Gender == "women"),
+    gender_men    = as.integer(Gender == "men"),
     gender_unisex = as.integer(Gender == "unisex")
   )
 ```
 
-### Country (regroupement < 5%)
+## Partition entraînement / test
 
-Le pays d'origine de la marque est une variable potentiellement discriminante, comme observé dans l'analyse exploratoire. La **France** domine largement le dataset — ce qui reflète son statut historique de berceau de la parfumerie mondiale (Grasse, capitale du parfum depuis le XVII^e^ siècle). Les pays représentant moins de 5 % de l'effectif sont regroupés en « Autre » pour éviter des variables indicatrices trop creuses (majoritairement des zéros), ce qui pourrait introduire du bruit dans les modèles.
+Le split 70/30 est un compromis standard : 70 % des données suffisent pour entraîner les modèles avec CV interne, et 30 % assurent une évaluation fiable. **Toutes les transformations impliquant des statistiques apprises** (top-10 des notes, seuil de regroupement des pays, imputation médiane) sont réalisées **après le split**, ajustées **uniquement sur le jeu d'entraînement**, afin d'éviter toute fuite d'information du test vers le train.
 
 ```{r}
-#| label: tbl-country-merge
-#| tbl-cap: "Pays après regroupement (seuil 5%)"
-data_rated <- merge_rare_categories(data_rated, "Country", threshold_pct = 5)
+#| label: split
+#| tbl-cap: "Pays après regroupement (seuil 5 %, calculé sur train)"
+set.seed(42)
+base_features <- c("Year", "Rating_Count", "gender_women", "gender_men", "gender_unisex",
+                   grep("^fam_", names(data_rated), value = TRUE))
+df_presplit <- data_rated %>%
+  select(all_of(c(base_features, "Satisfaction", "Country", "Top", "Middle", "Base")))
+train_index <- createDataPartition(df_presplit$Satisfaction, p = 0.7, list = FALSE)
+train_raw <- df_presplit[train_index, ]
+test_raw  <- df_presplit[-train_index, ]
 
-country_freq <- data_rated %>%
+# Regroupement des pays calculé sur train
+train_raw <- merge_rare_categories(train_raw, "Country", threshold_pct = 5)
+train_countries <- unique(train_raw$Country[!is.na(train_raw$Country)])
+test_raw$Country[!is.na(test_raw$Country) & !(test_raw$Country %in% train_countries)] <- "Other"
+country_freq <- train_raw %>%
   filter(!is.na(Country)) %>%
   count(Country, sort = TRUE) %>%
   mutate(Pct = round(n / sum(n) * 100, 1))
-kable(country_freq, col.names = c("Pays", "Effectif", "%"), booktabs = TRUE)
-
-countries_kept <- country_freq$Country
-for (country in countries_kept) {
+kable(country_freq, col.names = c("Pays", "Effectif", "%"))
+for (country in country_freq$Country) {
   col_name <- paste0("country_", make.names(country))
-  data_rated[[col_name]] <- as.integer(data_rated$Country == country & !is.na(data_rated$Country))
+  train_raw[[col_name]] <- as.integer(train_raw$Country == country & !is.na(train_raw$Country))
+  test_raw[[col_name]]  <- as.integer(test_raw$Country  == country & !is.na(test_raw$Country))
 }
-```
 
-## Jeu de données final
+# Notes top-10 par phase, calculées sur train, alignées sur test
+train_raw <- map_notes_to_columns(train_raw, "top",  "Top")
+train_raw <- map_notes_to_columns(train_raw, "mid",  "Middle")
+train_raw <- map_notes_to_columns(train_raw, "base", "Base")
+note_cols <- grep("^(top|mid|base)_", names(train_raw), value = TRUE)
+for (col in note_cols) if (!(col %in% names(test_raw))) test_raw[[col]] <- 0L
+test_raw <- map_notes_to_columns(test_raw, "top",  "Top")
+test_raw <- map_notes_to_columns(test_raw, "mid",  "Middle")
+test_raw <- map_notes_to_columns(test_raw, "base", "Base")
 
-```{r}
-#| label: dataset-final
-#| output: false
 feature_cols <- c(
-  "Year", "Rating_Count",
-  "gender_women", "gender_men", "gender_unisex",
-  grep("^country_", names(data_rated), value = TRUE),
-  grep("^fam_", names(data_rated), value = TRUE),
-  grep("^top_", names(data_rated), value = TRUE),
-  grep("^mid_", names(data_rated), value = TRUE),
-  grep("^base_", names(data_rated), value = TRUE)
+  "Year", "Rating_Count", "gender_women", "gender_men", "gender_unisex",
+  grep("^country_", names(train_raw), value = TRUE),
+  grep("^fam_",     names(train_raw), value = TRUE),
+  grep("^(top|mid|base)_", names(train_raw), value = TRUE)
 )
+common_cols  <- intersect(names(train_raw), names(test_raw))
+feature_cols <- intersect(feature_cols, common_cols)
 
-df_model <- data_rated %>%
-  select(all_of(c(feature_cols, "Satisfaction")))
+train_data <- train_raw %>% select(all_of(c(feature_cols, "Satisfaction")))
+test_data  <- test_raw  %>% select(all_of(c(feature_cols, "Satisfaction")))
+
+# Imputation médiane apprise sur train uniquement
+preprocess_median <- preProcess(train_data[, feature_cols], method = "medianImpute")
+train_data[, feature_cols] <- predict(preprocess_median, train_data[, feature_cols])
+test_data[,  feature_cols] <- predict(preprocess_median, test_data[,  feature_cols])
 ```
 
-Au total, le jeu de données comprend **`r length(feature_cols)` variables explicatives** pour **`r nrow(df_model)` observations**. Le tableau ci-dessous résume les catégories de variables retenues :
-
 ```{r}
-#| label: tbl-variables-summary
-#| tbl-cap: "Résumé des variables retenues pour la modélisation"
-var_summary <- data.frame(
-  Catégorie = c("Numérique", "Genre (binaire)", "Pays (binaire)",
-                "Famille accord (binaire)", "Famille note tête (binaire)",
-                "Famille note cœur (binaire)", "Famille note fond (binaire)"),
-  Nombre = c(
-    sum(feature_cols %in% c("Year", "Rating_Count")),
-    sum(grepl("^gender_", feature_cols)),
-    sum(grepl("^country_", feature_cols)),
-    sum(grepl("^fam_", feature_cols)),
-    sum(grepl("^top_", feature_cols)),
-    sum(grepl("^mid_", feature_cols)),
-    sum(grepl("^base_", feature_cols))
-  ),
-  Exemples = c("Year, Rating_Count", "gender_women, gender_men, gender_unisex",
-               "country_France, country_Autre, ...", "fam_woody, fam_floral, ...",
-               "top_citrus, top_floral, ...", "mid_spicy, mid_gourmand, ...",
-               "base_woody, base_powdery_amber, ...")
-)
-kable(var_summary, col.names = c("Catégorie", "Nombre", "Exemples"), booktabs = TRUE)
-```
-
-## Imputation et split
-
-Certaines variables numériques (notamment `Rating_Count`) contiennent des valeurs manquantes qu'il faut imputer^[Imputer : remplacer une valeur manquante par une valeur estimée.] avant la modélisation. Nous choisissons l'imputation par la **médiane** plutôt que par la moyenne pour les raisons suivantes :
-
-- La **médiane est robuste aux valeurs extrêmes** : `Rating_Count` présente une distribution très asymétrique (quelques parfums ont des milliers d'avis). La moyenne serait tirée vers le haut par ces valeurs extrêmes, ce qui donnerait une imputation peu représentative de la majorité des parfums.
-- D'autres méthodes plus sophistiquées (imputation par KNN, par régression, ou par algorithme MICE) seraient possibles mais ajouteraient de la complexité sans gain garanti, étant donné que le taux de valeurs manquantes est faible.
-
-```{r}
-#| label: tbl-split
-#| tbl-cap: "Répartition train / test"
-preprocess_median <- preProcess(df_model[, feature_cols], method = "medianImpute")
-df_model[, feature_cols] <- predict(preprocess_median, df_model[, feature_cols])
-
-set.seed(42)
-train_index <- createDataPartition(df_model$Satisfaction, p = 0.7, list = FALSE)
-train_data <- df_model[train_index, ]
-test_data <- df_model[-train_index, ]
-
+#| label: split-summary
+#| tbl-cap: "Répartition entraînement / test (stratifié)"
 kable(data.frame(
-  Ensemble = c("Train", "Test"),
+  Ensemble    = c("Entraînement", "Test"),
   Observations = c(nrow(train_data), nrow(test_data)),
-  Pct_Oui = c(round(mean(train_data$Satisfaction == "Oui"), 3),
-               round(mean(test_data$Satisfaction == "Oui"), 3))
-), col.names = c("Ensemble", "Observations", "Prop. Oui"), booktabs = TRUE)
+  Variables   = c(length(feature_cols), length(feature_cols)),
+  Prop_Oui    = c(round(mean(train_data$Satisfaction == "Oui"), 3),
+                  round(mean(test_data$Satisfaction  == "Oui"), 3))
+), col.names = c("Ensemble", "Observations", "Variables", "Prop. Oui"))
 ```
 
-## Choix des classifieurs
-
-Notre jeu de données présente les caractéristiques suivantes après préparation : variables explicatives binaires et numériques, variable cible équilibrée, pas de valeurs manquantes. Dans ce contexte, et conformément aux consignes du projet (deux classifieurs supervisés), nous retenons deux approches **complémentaires** :
-
-1. **Régression logistique avec régularisation Elastic Net** [@zou2005] :
-   - **Pourquoi ce choix ?** Ce modèle est adapté à nos données car il gère naturellement les variables binaires et numériques. La régularisation Elastic Net combine les pénalités L1 (Lasso, qui met à zéro les coefficients des variables non pertinentes → sélection automatique de variables) et L2 (Ridge, qui stabilise les coefficients en cas de corrélations entre variables). C'est un modèle **interprétable** : chaque coefficient indique la direction et l'amplitude de l'effet d'une variable sur la satisfaction.
-   - **Rôle** : servir de *baseline*^[Baseline : modèle de référence, simple et interprétable, auquel on compare les modèles plus complexes.] interprétable.
-
-2. **Forêt aléatoire** [@breiman2001] :
-   - **Pourquoi ce choix ?** Contrairement à la régression logistique, la forêt aléatoire peut capturer des **interactions non-linéaires** entre variables. Par exemple, un accord « boisé » combiné à une note de tête « agrume » pourrait avoir un effet sur la satisfaction que la régression logistique ne peut pas modéliser. De plus, @kumar2015 obtiennent des AUC > 0.7 avec un random forest sur des descripteurs olfactifs similaires aux nôtres.
-   - **Rôle** : explorer les interactions et fournir un classement d'importance des variables.
-
-**Métrique principale** : l'**AUC**^[AUC (*Area Under the ROC Curve*) : aire sous la courbe ROC. Mesure la capacité du modèle à discriminer les deux classes indépendamment du seuil de décision. Un AUC de 0.5 = hasard, 1 = discrimination parfaite.] (capacité discriminante indépendante du seuil de décision), complétée par l'accuracy, la sensibilité, la spécificité et le score F1.
+Le pipeline produit `r length(feature_cols)` variables explicatives. La stratification assure que la proportion de parfums satisfaisants est identique dans les deux ensembles, garantissant une évaluation non biaisée.
 
 ```{r}
-#| label: save
+#| label: save-train-test
 #| include: false
-saveRDS(train_data, here::here("output", "train_data.rds"))
-saveRDS(test_data, here::here("output", "test_data.rds"))
+saveRDS(train_data,   here::here("output", "train_data.rds"))
+saveRDS(test_data,    here::here("output", "test_data.rds"))
+saveRDS(feature_cols, here::here("output", "feature_cols.rds"))
 ```

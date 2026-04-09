@@ -1,0 +1,137 @@
+---
+title: "Partie 5 : Forêt Aléatoire"
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| cache: false
+source(here::here("utils.R"))
+library(ranger)
+```
+
+```{r}
+#| label: load
+#| include: false
+list2env(load_train_test(), envir = environment())
+model_logistic <- readRDS(here::here("output", "model_logistic.rds"))
+```
+
+# Forêt Aléatoire
+
+## Principe
+
+::: {.callout-note title="Bagging et décorrélation des arbres"}
+La forêt aléatoire (Breiman, 2001) est un ensemble de 500 arbres de décision entraînés sur des échantillons bootstrap. À chaque nœud, seul un sous-ensemble de `mtry` variables est considéré, ce qui **décorrèle** les arbres. Contrairement au LASSO, la forêt aléatoire capture les **interactions non-linéaires** entre variables (ex. : un parfum *fruité ET récent ET populaire* peut avoir une satisfaction très différente de la somme des effets individuels). Par rapport à l'arbre unique du chapitre précédent, la forêt réduit la **variance** par moyennage de 500 arbres décorrélés, tout en conservant la capacité à capturer des interactions complexes.
+:::
+
+## Entraînement
+
+La grille optimise conjointement deux hyperparamètres par validation croisée 5-fold :
+
+- `mtry` $\in \{3, 5, 7, 10, 15, 20\}$ : centré autour de $\sqrt{p} \approx 7$ (recommandation de Breiman).
+- `min.node.size` $\in \{1, 5, 10\}$ : taille minimale des feuilles. La valeur 1 (défaut de `ranger`) maximise la flexibilité, tandis que des valeurs plus élevées (5, 10) régularisent en empêchant les feuilles trop spécifiques.
+
+```{r}
+#| label: rf-train
+#| output: false
+rf_file     <- here::here("output", "model_rf.rds")
+cm_rf_file  <- here::here("output", "cm_rf.rds")
+roc_rf_file <- here::here("output", "roc_rf.rds")
+
+if (file.exists(rf_file) && file.exists(cm_rf_file) && file.exists(roc_rf_file)) {
+  model_rf <- readRDS(rf_file)
+  cm_rf    <- readRDS(cm_rf_file)
+  roc_rf   <- readRDS(roc_rf_file)
+} else {
+  grid_rf <- expand.grid(
+    mtry = c(3, 5, 7, 10, 15, 20),
+    splitrule = "gini",
+    min.node.size = c(1, 5, 10)
+  )
+  set.seed(42)
+  model_rf <- train(
+    Satisfaction ~ ., data = train_data, method = "ranger",
+    trControl = CV_CONTROL, tuneGrid = grid_rf, metric = "ROC",
+    num.trees = 500, importance = "impurity"
+  )
+  pred_rf <- predict(model_rf, test_data)
+  prob_rf <- predict(model_rf, test_data, type = "prob")
+  cm_rf   <- confusionMatrix(pred_rf, test_data$Satisfaction, positive = "Oui")
+  roc_rf  <- roc(test_data$Satisfaction, prob_rf$Oui, quiet = TRUE)
+  saveRDS(model_rf, rf_file)
+  saveRDS(cm_rf,    cm_rf_file)
+  saveRDS(roc_rf,   roc_rf_file)
+}
+```
+
+### Sélection de mtry
+
+```{r}
+#| label: fig-rf-tuning
+#| fig-cap: "AUC en validation croisée selon mtry"
+#| fig-height: 2.5
+plot(model_rf)
+```
+
+L'optimum est atteint pour `mtry = ` `r model_rf$bestTune$mtry` et `min.node.size = ` `r model_rf$bestTune$min.node.size`. L'AUC décroît avec des valeurs élevées de mtry : considérer trop de variables à chaque nœud ajoute du bruit, car la majorité de nos `r length(feature_cols)` prédicteurs sont peu informatifs. La décorrélation maximale des arbres (faible mtry) est plus bénéfique.
+
+### Performance sur le jeu test
+
+```{r}
+#| label: tbl-rf-metrics
+#| tbl-cap: "Métriques de la forêt aléatoire"
+kable(data.frame(
+  Metrique = c("mtry", "min.node.size", "AUC (CV)", "AUC (test)", "Accuracy",
+               "Sensibilité", "Spécificité", "F1"),
+  Valeur = c(
+    model_rf$bestTune$mtry,
+    model_rf$bestTune$min.node.size,
+    round(max(model_rf$results$ROC), 4),
+    round(auc(roc_rf), 4),
+    round(cm_rf$overall["Accuracy"], 4),
+    round(cm_rf$byClass["Sensitivity"], 4),
+    round(cm_rf$byClass["Specificity"], 4),
+    round(cm_rf$byClass["F1"], 4)
+  )
+))
+```
+
+La forêt aléatoire surpasse le LASSO sur l'AUC test. La proximité entre AUC CV et AUC test confirme la bonne généralisation du modèle — le bagging agit comme un régulateur naturel du surapprentissage.
+
+### Matrice de confusion
+
+```{r}
+#| label: fig-cm-rf
+#| fig-cap: "Matrice de confusion — Forêt aléatoire"
+#| fig-height: 2.8
+#| fig-width: 3.5
+#| out-width: "50%"
+cm_table_rf <- as.data.frame(cm_rf$table)
+ggplot(cm_table_rf, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 6, fontface = "bold") +
+  scale_fill_gradient(low = "white", high = COL_POSITIVE) +
+  labs(x = "Réel", y = "Prédit", title = "Matrice de confusion — Forêt Aléatoire") +
+  THEME_REPORT + theme(legend.position = "none")
+```
+
+### Importance des variables
+
+```{r}
+#| label: fig-rf-importance
+#| fig-cap: "Importance des variables (Top 15)"
+#| fig-height: 3
+vip <- model_rf$finalModel$variable.importance
+vip_df <- data.frame(Variable = names(vip), Importance = vip) %>%
+  arrange(desc(Importance)) %>% head(15)
+ggplot(vip_df, aes(x = reorder(Variable, Importance), y = Importance)) +
+  geom_bar(stat = "identity", fill = COL_POSITIVE) +
+  coord_flip() +
+  labs(x = NULL, y = "Importance (Gini)", title = "Top 15 variables") +
+  THEME_REPORT
+```
+
+`Rating_Count` et `Year` dominent massivement l'importance, suivis des familles olfactives. Cette hiérarchie est cohérente avec les résultats du LASSO et de l'arbre de décision, qui attribuent également un rôle central à la popularité et à l'ancienneté. Ce résultat soulève une question fondamentale : **le modèle prédit-il la satisfaction olfactive, ou capture-t-il un effet de popularité ?** Les deux sont mêlés dans les données communautaires, et nos modèles ne peuvent pas les distinguer.
+
+> **Bilan** — Forêt aléatoire = **meilleur modèle**, AUC test = `r round(auc(roc_rf), 3)`, mtry = `r model_rf$bestTune$mtry`, 500 arbres. Bagging > arbre seul grâce aux interactions non-linéaires.
