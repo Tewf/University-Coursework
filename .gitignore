@@ -43,3 +43,7 @@ _freeze/
 *_files/
 # Exception : garder les figures rendues dans les rapports pour GitHub Pages
 !**/rapport/**/*_files/
+
+# Cours non publiés sur GitHub
+Bachelor/L3/S6/Reseaux/
+Bachelor/L3/S6/Systemes/
