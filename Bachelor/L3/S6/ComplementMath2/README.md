@@ -39,7 +39,7 @@ A complete ML pipeline predicting user satisfaction from a dataset of ~24,000 pe
 Projet/
 ├── _quarto.yml             # Quarto book configuration (HTML + PDF)
 ├── index.qmd               # Introduction / abstract
-├── notebooks/              # 5-step sequential analysis pipeline
+├── notebooks/              # 7-step sequential analysis pipeline
 ├── utils.R                 # Shared helpers (10 olfactory families, CV control)
 ├── data/fra_cleaned.csv    # Perfume dataset (~24k rows, gitignored)
 ├── output/*.rds            # Filesystem cache for trained models (gitignored)
@@ -80,7 +80,7 @@ Each TP folder contains the problem statement (`.Rmd`/`.pdf`) and corrections (`
 quarto preview Projet/notebooks/01_exploration.qmd
 
 # TP corrections
-quarto preview TP/TP1/Correction\ TP1.qmd
+quarto preview TP/TP1/Correction\ TP\ 1.qmd
 ```
 
 ## Tools & Libraries
