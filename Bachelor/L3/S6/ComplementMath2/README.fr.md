@@ -39,7 +39,7 @@ Un pipeline ML complet predisant la satisfaction des utilisateurs a partir d'un 
 Projet/
 ├── _quarto.yml             # Configuration du livre Quarto (HTML + PDF)
 ├── index.qmd               # Introduction / abstract
-├── notebooks/              # Pipeline d'analyse sequentielle (5 etapes)
+├── notebooks/              # Pipeline d'analyse sequentielle (7 etapes)
 ├── utils.R                 # Helpers partages (10 familles olfactives, CV control)
 ├── data/fra_cleaned.csv    # Jeu de donnees parfums (~24k lignes, gitignored)
 ├── output/*.rds            # Cache filesystem des modeles entraines (gitignored)
@@ -80,7 +80,7 @@ Chaque dossier de TP contient l'enonce (`.Rmd`/`.pdf`) et les corrections (`.qmd
 quarto preview Projet/notebooks/01_exploration.qmd
 
 # Corrections des TPs
-quarto preview TP/TP1/Correction\ TP1.qmd
+quarto preview TP/TP1/Correction\ TP\ 1.qmd
 ```
 
 ## Outils & Bibliotheques
