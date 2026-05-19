@@ -1,7 +1,7 @@
 ---
 title: "TP 5 : Apprentissage supervisé et KNN"
 subtitle: "Optimisation du classifieur Titanic"
-author: "Lola Etiévant"
+author: "HAMLIL Mohamed"
 date: today
 format:
   pdf:

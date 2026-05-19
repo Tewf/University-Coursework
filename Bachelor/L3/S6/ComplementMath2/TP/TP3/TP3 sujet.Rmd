@@ -1,10 +1,10 @@
 ---
 output: pdf_document
-author: "Correction TP3"
+author: "Lola Etiévant"
 header-includes:
 - \usepackage{fancyhdr}
 - \pagestyle{fancy}
-- \fancyhead[RO]{Correction}
+- \fancyhead[RO]{Lola Etiévant}
 - \fancyhead[LO]{Compléments de Mathématiques 2 L3 MIASHS}
 ---
 
