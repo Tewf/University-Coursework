@@ -4,8 +4,8 @@
 
 > [Lire en français](README.fr.md) · [Read the machine-learning report online ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
-Coursework from my **Licence MIASHS** (Mathematics, Computer Science and
-Economics applied to Social Sciences) at **Université Grenoble Alpes**, now
+Coursework from my [**Licence MIASHS**](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html) — Mathematics, Computer Science
+and Economics applied to Social Sciences — at **Université Grenoble Alpes**, now
 continued in the [**Master of Artificial Intelligence**](https://m-ai.imag.fr/),
 jointly delivered by **UFR IM²AG** and **Ensimag** (Grenoble INP).
 
@@ -45,41 +45,8 @@ Every course, and what is actually in it. Each directory has its own README.
 | [**Relational databases**](Bachelor/SecondSemestreLanguage/SQL/) | 4 SQL practicals with their SQLite databases. |
 | [**Full-stack web**](Bachelor/L3/S6/WebDev/) | TP0–TP9, from static HTML to a Node.js/Express application on SQLite. |
 
-## Repository map
-
-| Domain | Courses | Key topics |
-|---|---|---|
-| **Machine learning** | [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Classification, model comparison, ROC, feature engineering |
-| **Statistics** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, bootstrap, MLE, hypothesis testing, ANOVA |
-| **Econometrics** | [Econometrie1](Bachelor/L3/S5/Econometrie1/) | Hedonic pricing, OLS diagnostics, panel data |
-| **Applied maths** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) | Fourier analysis, differential equations, Runge-Kutta |
-| **Programming paradigms** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Object-oriented, functional, logic, relational |
-| **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
-
 **Master/** — [Master of Artificial Intelligence](https://m-ai.imag.fr/), M1 in
 progress (semesters S7–S8); content will land here as it is produced.
-
----
-
-## Stack
-
-| | |
-|---|---|
-| **Languages** | R · Python · Java · JavaScript · Racket · Prolog · SQL |
-| **Data science** | tidyverse · scikit-learn · statsmodels · Quarto · Jupyter |
-| **Tools** | Git · LaTeX · Maven · GitHub Actions |
-
----
-
-## Running the code
-
-```sh
-quarto preview path/to/notebook.qmd            # R / Quarto
-javac -d bin $(find src -name '*.java') && java -cp bin package.Main
-cd path/to/project && npm install && npm run dev
-```
-
-Each course directory has its own README with prerequisites and specifics.
 
 ---
 
