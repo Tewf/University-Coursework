@@ -32,8 +32,8 @@ L'ensemble des travaux pratiques et projets de ma **Licence MIASHS** a l'Univers
 | MathStat3 | Regression, ANOVA, tests non-parametriques | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
 | WebDev | Developpement web full-stack | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
 | Econometrie2 | Econometrie avancee | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
-| Reseaux | Reseaux informatiques | — | [L3/S6/Reseaux/](L3/S6/Reseaux/) |
-| Systemes | Systemes d'exploitation | — | [L3/S6/Systemes/](L3/S6/Systemes/) |
+| Reseaux | Reseaux informatiques | — | *non publié — les travaux sont des images de VM Debian* |
+| Systemes | Systemes d'exploitation | — | *non publié — les travaux sont des images de VM Debian* |
 
 ## Projets phares
 

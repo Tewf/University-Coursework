@@ -32,8 +32,8 @@ All coursework and projects from my **Licence MIASHS** at Universite Grenoble Al
 | MathStat3 | Regression, ANOVA, non-parametric tests | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
 | WebDev | Full-stack web development | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
 | Econometrie2 | Advanced econometrics | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
-| Reseaux | Computer networks | — | [L3/S6/Reseaux/](L3/S6/Reseaux/) |
-| Systemes | Operating systems | — | [L3/S6/Systemes/](L3/S6/Systemes/) |
+| Reseaux | Computer networks | — | *not published — the coursework is Debian VM images* |
+| Systemes | Operating systems | — | *not published — the coursework is Debian VM images* |
 
 ## Project Highlights
 
