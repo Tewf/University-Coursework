@@ -2,6 +2,9 @@
 
 > [Lire en francais](README.fr.md)
 
+**Authors:** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
+*A two-person university project (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
+
 A complete implementation of the classic Battleship game in Java, with multiple AI strategies, a graphical interface, and statistical tools for evaluating performance.
 
 ## What You'll Learn
