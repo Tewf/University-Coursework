@@ -27,14 +27,14 @@ séparation à l'épreuve des fuites de données, des modèles persistés et un
 rapport rédigé. 1 398 lignes réparties sur 8 fichiers `.qmd`.
 *Projet de groupe — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
 
-### 📈 [Prix de l'immobilier grenoblois](https://github.com/Tewf/grenoble-housing-prices) *(dépôt dédié)*
+### 📈 [Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)
 
 Modélisation hédonique des prix sur les données ouvertes **DVF** : nettoyage,
 régression MCO avec diagnostics d'hétéroscédasticité et de multicolinéarité,
 puis une extension par forêt aléatoire qui ramène le RMSE de 265 k€ à 59 k€.
 *Projet de groupe — HAMLIL · ANZID · EL KORAICHI.*
 
-### 🎯 [IA de bataille navale](https://github.com/Tewf/Complement_IA) *(dépôt dédié)*
+### 🎯 [IA de bataille navale](Bachelor/Java/Complement_IA-main/)
 
 2 500 lignes de Java 17 modulaire : bots à **ciblage probabiliste par chaînes de
 Markov et Monte-Carlo**, protocole de tournoi reproductible produisant CSV et

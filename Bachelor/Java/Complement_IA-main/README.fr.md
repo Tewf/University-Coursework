@@ -2,7 +2,6 @@
 
 > [Read in English](README.md)
 
-> **Ce projet a son propre depot :** [github.com/Tewf/Complement_IA](https://github.com/Tewf/Complement_IA) — c'est celui vers lequel pointer. Cette copie reste ici parce que l'integration continue du depot de cours la compile.
 
 **Auteurs :** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
 *Projet universitaire à deux (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
