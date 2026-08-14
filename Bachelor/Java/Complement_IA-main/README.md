@@ -6,24 +6,27 @@
 **Authors:** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
 *A two-person university project (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
 
-A complete implementation of the classic Battleship game in Java, with multiple AI strategies, a graphical interface, and statistical tools for evaluating performance.
+Battleship in Java, with four targeting strategies and the tournament machinery
+to tell which of them actually works.
 
-## What You'll Learn
+## Results
 
-- Object-oriented design with modular Java packages
-- Heuristic and probabilistic AI algorithms
-- Monte Carlo simulation techniques
-- Statistical evaluation and benchmarking of AI agents
-- GUI programming with Java Swing
+Round-robin tournament, 300 games per bot, and self-play over 100 games to count
+how many shots each needs to sink the fleet. Produced by the commands below; raw
+output in [`Results/`](Results/).
 
-## AI Strategies
+| Strategy | Approach | Win rate | Mean shots to clear the board |
+|---|---|---:|---:|
+| **Markov** | Transition matrices over likely ship positions | **74.3%** ±2.5 | **54.8** ±1.2 |
+| **Monte Carlo** | Simulation of remaining ship placements | 67.0% ±2.7 | 55.5 ±1.2 |
+| **Smart** | Hybrid of several heuristics | 56.7% ±2.9 | 61.1 ±1.1 |
+| **Uniform** | Random shots | 2.0% ±0.8 | 94.3 ±0.5 |
 
-| Strategy | Approach | Description |
-|----------|----------|-------------|
-| **Uniform** | Random | Shoots randomly across the grid |
-| **Markov** | Probabilistic | Uses transition matrices to target likely ship positions |
-| **Monte Carlo** | Simulation | Runs simulations to evaluate shot outcomes |
-| **Smart** | Hybrid | Combines multiple heuristics for optimal play |
+The board holds 100 cells, so uniform random needs 94 shots — essentially the
+whole grid. Markov clears it in 55, a **42% reduction**, and wins 74% of its
+games. Monte Carlo costs far more computation for a slightly worse result, which
+is the interesting part: the cheap probabilistic model beats the expensive
+simulation here.
 
 ## Running the Project
 
@@ -63,11 +66,9 @@ Complement_IA-main/
 
 ## Outputs
 
-All experiment results are saved in `Results/`:
-- `tournament_pairwise.csv` — Pairwise win matrix
-- `tournament_summary.csv` — Per-bot summary (games, wins, win rate, rank)
-- `performance_summary.csv` — Self-play stats (average shots, standard error)
-- `performance_gaussian_overlay.png` — Distribution visualization
+`Results/` holds the numbers above: `tournament_summary.csv` and
+`tournament_pairwise.csv` for the win rates, `performance_summary.csv` for the
+shot counts, and `performance_gaussian_overlay.png` for their distributions.
 
 ## Documentation
 
