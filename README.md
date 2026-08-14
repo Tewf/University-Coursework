@@ -26,14 +26,14 @@ compared on ROC and confusion matrices, with a leakage-proof split, persisted
 models and a written report. 1,398 lines across 8 `.qmd` files.
 *Group project — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
 
-### 📈 [Grenoble housing prices](https://github.com/Tewf/grenoble-housing-prices) *(own repo)*
+### 📈 [Grenoble housing prices](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)
 
 Hedonic price modelling on the French **DVF land-registry open data**: cleaning,
 an OLS baseline with heteroskedasticity and multicollinearity diagnostics, then
 a random-forest extension that cuts RMSE from €265k to €59k.
 *Group project — HAMLIL · ANZID · EL KORAICHI.*
 
-### 🎯 [Battleship AI](https://github.com/Tewf/Complement_IA) *(own repo)*
+### 🎯 [Battleship AI](Bachelor/Java/Complement_IA-main/)
 
 2,500 lines of modular Java 17: **Markov and Monte-Carlo probabilistic
 targeting** bots, a reproducible tournament harness emitting CSV and plots, a
