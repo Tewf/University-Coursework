@@ -1,89 +1,102 @@
-# Travaux Universitaires
+# Travaux universitaires
 
 [![CI](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml/badge.svg)](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml)
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Consulter les notebooks rendus](https://tewf.github.io/University-Coursework/)
 
-Une collection complete de travaux pratiques, projets et exercices realises durant mes etudes a l'**Universite Grenoble Alpes**. Ce repository sert a la fois de **portfolio d'apprentissage** et de **ressource pedagogique** pour les etudiants en mathematiques appliquees, informatique et economie.
+Travaux de ma **Licence MIASHS** (Mathématiques et Informatique Appliquées aux
+Sciences Humaines et Sociales) à l'**Université Grenoble Alpes**, poursuivis
+aujourd'hui en **M1 Intelligence Artificielle** (UFR-IM²AG).
 
-## A propos
+Chaque projet est publié avec ses sources et son rendu : rien à cloner ni à
+exécuter pour le lire.
 
-**Diplome :** Licence MIASHS (Mathematiques et Informatique Appliquees aux Sciences Humaines et Sociales)
-**Specialisation :** Mathematiques, Informatique et Sciences Economiques (annees 2-3)
-**Universite :** Universite Grenoble Alpes
-**Programme :** [Page officielle](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
+---
 
-## Carte du repository
+## Commencer ici
 
-### [Bachelor/](Bachelor/)
+Si vous n'ouvrez qu'une seule chose, ouvrez la première.
 
-| Domaine | Cours | Themes cles |
-|---------|-------|-------------|
-| **Mathematiques** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/), [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Analyse de Fourier, equations differentielles, apprentissage automatique |
-| **Statistiques** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, tests d'hypothese, ANOVA, regression |
-| **Economie** | [Econometrie1](Bachelor/L3/S5/Econometrie1/), [Econometrie2](Bachelor/L3/S6/Econometrie2/) | Regression lineaire, modelisation des prix immobiliers |
-| **Developpement Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
-| **Programmation** | [Java](Bachelor/Java/), [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | POO, fonctionnel, logique, relationnel |
-| **Systemes & Reseaux** | [Reseaux](Bachelor/L3/S6/Reseaux/), [Systemes](Bachelor/L3/S6/Systemes/) | Configuration reseau, systemes d'exploitation |
+### 🧪 [Prédiction de la satisfaction client — parfums](Bachelor/L3/S6/ComplementMath2/Projet/) · [lire le rapport ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
-### [Master/](Master/)
-A venir.
+Une chaîne complète d'apprentissage supervisé en R/Quarto : exploration →
+préparation → **régression logistique, arbre de décision, forêt aléatoire, kNN
+et naive Bayes**, comparés sur courbes ROC et matrices de confusion, avec une
+séparation à l'épreuve des fuites de données, des modèles persistés et un
+rapport rédigé. 1 398 lignes réparties sur 8 fichiers `.qmd`.
+*Projet de groupe — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
 
-## Competences & Technologies
+### 📈 [Prix de l'immobilier grenoblois](https://github.com/Tewf/grenoble-housing-prices) *(dépôt dédié)*
 
-| Categorie | Technologies |
-|-----------|-------------|
-| **Langages** | Java, R, Python, JavaScript, Racket, Prolog, SQL |
-| **Web** | HTML5, CSS3, Node.js, Express.js |
-| **Data Science** | R tidyverse, Quarto, Jupyter, modelisation statistique |
-| **Bases de donnees** | PostgreSQL, MySQL, SQLite |
-| **Outils** | Git, VS Code, Maven, Quarto, LaTeX |
+Modélisation hédonique des prix sur les données ouvertes **DVF** : nettoyage,
+régression MCO avec diagnostics d'hétéroscédasticité et de multicolinéarité,
+puis une extension par forêt aléatoire qui ramène le RMSE de 265 k€ à 59 k€.
+*Projet de groupe — HAMLIL · ANZID · EL KORAICHI.*
 
-## Parcours d'apprentissage recommandes
+### 🎯 [IA de bataille navale](https://github.com/Tewf/Complement_IA) *(dépôt dédié)*
 
-### Parcours 1 : Statistiques & Data Science
-1. [MathStat2](Bachelor/L3/S5/MathStat2/) — Simulation, bootstrap, estimation
-2. [MathStat3](Bachelor/L3/S6/MathStat3/) — Regression, ANOVA, tests non-parametriques
-3. [Econometrie1](Bachelor/L3/S5/Econometrie1/) — Modelisation econometrique appliquee
-4. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Apprentissage automatique
+2 500 lignes de Java 17 modulaire : bots à **ciblage probabiliste par chaînes de
+Markov et Monte-Carlo**, protocole de tournoi reproductible produisant CSV et
+graphiques, interface Swing, Javadoc et intégration continue.
+*Projet en binôme — HAMLIL · SGHIOUAR IDRISSI.*
 
-### Parcours 2 : Developpement Web
-1. [WebDev TP0-TP1](Bachelor/L3/S6/WebDev/) — Les bases du HTML
-2. [WebDev TP3-TP4](Bachelor/L3/S6/WebDev/) — Mise en forme CSS
-3. [WebDev TP5-TP7](Bachelor/L3/S6/WebDev/) — JavaScript et DOM
-4. [WebDev TP8-TP9](Bachelor/L3/S6/WebDev/) — Serveur avec Node.js et Express
+### Travaux entièrement personnels
 
-### Parcours 3 : Paradigmes de programmation
-1. [Java POO](Bachelor/Java/OOP/) — Programmation orientee objet
-2. [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/) — Programmation fonctionnelle
-3. [Prolog](Bachelor/SecondSemestreLanguage/Prolog/) — Programmation logique
-4. [SQL](Bachelor/SecondSemestreLanguage/SQL/) — Bases de donnees relationnelles
+Les TP de statistiques et de mathématiques appliquées sont des travaux
+individuels : [MathStat2](Bachelor/L3/S5/MathStat2/) (simulation, bootstrap,
+maximum de vraisemblance, information de Fisher, quantités pivotales),
+[MathStat3](Bachelor/L3/S6/MathStat3/) (régression, ANOVA, tests non
+paramétriques) et [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) (analyse de
+Fourier, traitement du signal, résolution numérique d'équations différentielles).
 
-### Parcours 4 : Mathematiques appliquees
-1. [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) — Analyse de Fourier, traitement du signal
-2. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Techniques d'apprentissage automatique
+---
 
-## Comment naviguer
+## Carte du dépôt
 
-**Si vous etes etudiant :** Suivez les parcours d'apprentissage ci-dessus. Chaque dossier de cours a son propre README avec les prerequis, les concepts abordes et les instructions pour executer le code.
+| Domaine | Cours | Notions clés |
+|---|---|---|
+| **Apprentissage automatique** | [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Classification, comparaison de modèles, ROC, feature engineering |
+| **Statistiques** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, bootstrap, MV, tests d'hypothèses, ANOVA |
+| **Économétrie** | [Econometrie1](Bachelor/L3/S5/Econometrie1/) | Prix hédoniques, diagnostics MCO, données de panel |
+| **Mathématiques appliquées** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) | Analyse de Fourier, équations différentielles, Runge-Kutta |
+| **Paradigmes de programmation** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Objet, fonctionnel, logique, relationnel |
+| **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
 
-**Si vous etes recruteur :** Consultez les [projets phares dans Bachelor/](Bachelor/) pour des exemples concrets de travail applique, notamment le Battleship AI, l'analyse econometrique immobiliere et l'application web full-stack.
+**Master/** — M1 Intelligence Artificielle, en cours ; le contenu y sera ajouté
+au fil de sa production.
 
-## Pour commencer
+---
 
-La plupart des projets utilisent R (notebooks Quarto) ou JavaScript (Node.js). Consultez le README de chaque cours pour les instructions specifiques.
+## Stack
+
+| | |
+|---|---|
+| **Langages** | R · Python · Java · JavaScript · Racket · Prolog · SQL |
+| **Science des données** | tidyverse · scikit-learn · statsmodels · Quarto · Jupyter |
+| **Outils** | Git · LaTeX · Maven · GitHub Actions |
+
+---
+
+## Exécuter le code
 
 ```sh
-# Projets R/Quarto
-quarto preview chemin/vers/notebook.qmd
-
-# Projets Node.js
-cd chemin/vers/projet && npm install && npm run dev
-
-# Projets Java
+quarto preview chemin/vers/notebook.qmd        # R / Quarto
 javac -d bin $(find src -name '*.java') && java -cp bin package.Main
+cd chemin/vers/projet && npm install && npm run dev
 ```
 
-## Licence
+Chaque répertoire de cours a son propre README avec les prérequis et les
+spécificités.
 
-Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de details.
+---
+
+## Licence et crédits
+
+Le code et les textes sont sous licence MIT — voir [LICENSE](LICENSE).
+
+**[NOTICE](NOTICE) compte ici.** La licence MIT ne couvre que mon propre
+travail. Les sujets de TP, polycopiés, articles publiés et documentations de
+jeux de données appartiennent à leurs auteurs, ne sont pas redistribués dans ce
+dépôt, et sont crédités dans NOTICE ainsi que dans chaque README de cours.
+NOTICE précise également les cas où mes corrections sont largement dérivées des
+corrigés de l'enseignante plutôt qu'écrites indépendamment.

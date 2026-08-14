@@ -1,10 +1,14 @@
-# Master's Degree
+# Master's Degree — M1 Artificial Intelligence
 
-> [Lire en francais](#version-francaise)
+> [Lire en français](#version-francaise)
 
-**Status:** Upcoming (2025)
+**Programme:** M1 Artificial Intelligence, UFR-IM²AG, Université Grenoble Alpes
+**Status:** In progress
 
-Content will be added once the program begins.
+Coursework will be added here as it is produced. In the meantime, the applied
+machine-learning and statistics work from the Licence is under
+[Bachelor/](../Bachelor/) — see the [repository README](../README.md) for the
+projects worth starting with.
 
 ---
 
@@ -12,6 +16,10 @@ Content will be added once the program begins.
 
 ## Master
 
-**Statut :** A venir (2025)
+**Formation :** M1 Intelligence Artificielle, UFR-IM²AG, Université Grenoble Alpes
+**Statut :** en cours
 
-Le contenu sera ajoute une fois le programme commence.
+Le contenu sera ajouté ici au fil de sa production. D'ici là, les travaux
+d'apprentissage automatique et de statistiques de la Licence se trouvent dans
+[Bachelor/](../Bachelor/) — voir le [README du dépôt](../README.fr.md) pour les
+projets par lesquels commencer.
