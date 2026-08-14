@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml/badge.svg)](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml)
 
-> [Read in English](README.md) · [Consulter les notebooks rendus](https://tewf.github.io/University-Coursework/)
+> [Read in English](README.md) · [Lire le rapport de machine learning en ligne ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
 Travaux de ma **Licence MIASHS** (Mathématiques et Informatique Appliquées aux
 Sciences Humaines et Sociales) à l'**Université Grenoble Alpes**, poursuivis
