@@ -1,5 +1,7 @@
 # Projet d'Économétrie
 
+> **Ce projet a son propre depot :** [github.com/Tewf/grenoble-housing-prices](https://github.com/Tewf/grenoble-housing-prices) — avec les resultats chiffres et la bibliographie. C'est celui vers lequel pointer.
+
 Ce projet contient une analyse économétrique complète comprenant le prétraitement des données, l'entraînement de modèles et une revue de littérature.
 
 ## Structure du projet
