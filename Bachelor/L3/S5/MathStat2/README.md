@@ -50,7 +50,7 @@ quarto preview TPs/code/TP_Statistiques.qmd
 MathStat2/
 |-- TPs/
 |   |-- code/          <- Quarto notebooks (.qmd)
-|   |-- PDFVersion/    <- PDF instructions
+|   |-- pdf/           <- my rendered TPs (PDF)
 |-- data/              <- Datasets with documentation
 |-- scripts/           <- Helper R functions (e.g., sigma2.test.R)
 ```

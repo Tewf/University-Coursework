@@ -48,7 +48,6 @@ jupyter notebook TP1/tp1_normalite_chi2.ipynb
 
 ```
 MathStat3/
-|-- TP Stat 3.pdf          <- Support de cours complet
 |-- TP1/                   <- Tests de normalite & chi-deux
 |-- TP2/                   <- Regression lineaire
 |-- TP3/                   <- ANOVA (un facteur)

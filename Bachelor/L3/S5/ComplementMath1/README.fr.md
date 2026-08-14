@@ -41,8 +41,7 @@ quarto preview code/TP1_AnalyseDeFourier.qmd
 ```
 ComplementMath1/
 |-- code/              <- Notebooks Quarto (.qmd)
-|-- PDFVersion/        <- Copies PDF des instructions
-|-- TP cpt maths.pdf   <- Feuille d'exercices originale
+|-- pdf/               <- mes TP rendus (PDF)
 ```
 
 ## Outils
