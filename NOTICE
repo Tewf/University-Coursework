@@ -21,10 +21,14 @@ the material it responds to.
 --- Course material, by author --------------------------------------------
 
 Lola Etiévant (Université Grenoble Alpes)
-  Practical subjects TP1–TP5, Compléments de Mathématiques 2.
+  Practical subjects and worked solutions, Compléments de Mathématiques 2.
   Referenced by: Bachelor/L3/S6/ComplementMath2/TP/
-  My work in that directory is the set of solutions ("Correction TP*"), which
-  are mine; the questions they answer are hers.
+  For TP3–TP7 her files are the subjects and the "Correction TP*" files are my
+  own solutions to them. For TP1, TP2 and TP8 her files are themselves worked
+  solutions, and my versions are substantially derived from them rather than
+  independently written — roughly half the code in TP1 and around two thirds in
+  TP2 and TP8 is hers. Those three should be read as reformatted course
+  material, not as original work.
 
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
