@@ -4,9 +4,9 @@
 
 > [Read in English](README.md) · [Lire le rapport de machine learning en ligne ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
-Travaux de ma **Licence MIASHS** (Mathématiques et Informatique Appliquées aux
-Sciences Humaines et Sociales) à l'**Université Grenoble Alpes**, poursuivis
-aujourd'hui dans le [**Master of Artificial Intelligence**](https://m-ai.imag.fr/),
+Travaux de ma [**Licence MIASHS**](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html) — Mathématiques et Informatique
+Appliquées aux Sciences Humaines et Sociales — à l'**Université Grenoble Alpes**,
+poursuivis aujourd'hui dans le [**Master of Artificial Intelligence**](https://m-ai.imag.fr/),
 co-porté par l'**UFR IM²AG** et **Ensimag** (Grenoble INP).
 
 Chaque projet est publié avec ses sources et son rendu : rien à cloner ni à
@@ -45,42 +45,8 @@ Chaque cours, et ce qu'il contient réellement. Chaque répertoire a son propre 
 | [**Bases de données relationnelles**](Bachelor/SecondSemestreLanguage/SQL/) | 4 TP SQL avec leurs bases SQLite. |
 | [**Web full-stack**](Bachelor/L3/S6/WebDev/) | TP0 à TP9, du HTML statique à une application Node.js/Express sur SQLite. |
 
-## Carte du dépôt
-
-| Domaine | Cours | Notions clés |
-|---|---|---|
-| **Apprentissage automatique** | [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Classification, comparaison de modèles, ROC, feature engineering |
-| **Statistiques** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, bootstrap, MV, tests d'hypothèses, ANOVA |
-| **Économétrie** | [Econometrie1](Bachelor/L3/S5/Econometrie1/) | Prix hédoniques, diagnostics MCO, données de panel |
-| **Mathématiques appliquées** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) | Analyse de Fourier, équations différentielles, Runge-Kutta |
-| **Paradigmes de programmation** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Objet, fonctionnel, logique, relationnel |
-| **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
-
 **Master/** — [Master of Artificial Intelligence](https://m-ai.imag.fr/), M1 en
 cours (semestres S7–S8) ; le contenu y sera ajouté au fil de sa production.
-
----
-
-## Stack
-
-| | |
-|---|---|
-| **Langages** | R · Python · Java · JavaScript · Racket · Prolog · SQL |
-| **Science des données** | tidyverse · scikit-learn · statsmodels · Quarto · Jupyter |
-| **Outils** | Git · LaTeX · Maven · GitHub Actions |
-
----
-
-## Exécuter le code
-
-```sh
-quarto preview chemin/vers/notebook.qmd        # R / Quarto
-javac -d bin $(find src -name '*.java') && java -cp bin package.Main
-cd chemin/vers/projet && npm install && npm run dev
-```
-
-Chaque répertoire de cours a son propre README avec les prérequis et les
-spécificités.
 
 ---
 
