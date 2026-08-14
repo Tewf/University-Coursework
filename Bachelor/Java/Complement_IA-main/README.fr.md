@@ -6,24 +6,27 @@
 **Auteurs :** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
 *Projet universitaire à deux (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
 
-Une implementation complete du jeu classique de la bataille navale en Java, avec plusieurs strategies IA, une interface graphique et des outils statistiques pour evaluer les performances.
+La bataille navale en Java, avec quatre strategies de ciblage et le protocole de
+tournoi permettant de dire laquelle fonctionne reellement.
 
-## Ce que vous apprendrez
+## Resultats
 
-- Conception orientee objet avec des packages Java modulaires
-- Algorithmes d'IA heuristiques et probabilistes
-- Techniques de simulation Monte Carlo
-- Evaluation statistique et benchmarking d'agents IA
-- Programmation d'interface graphique avec Java Swing
+Tournoi toutes rondes, 300 parties par bot, et auto-parties sur 100 parties pour
+compter le nombre de tirs necessaires a couler la flotte. Produits par les
+commandes ci-dessous ; sorties brutes dans [`Results/`](Results/).
 
-## Strategies IA
+| Strategie | Approche | Taux de victoire | Tirs moyens pour vider la grille |
+|---|---|---:|---:|
+| **Markov** | Matrices de transition sur les positions probables | **74,3 %** ±2,5 | **54,8** ±1,2 |
+| **Monte Carlo** | Simulation des placements restants | 67,0 % ±2,7 | 55,5 ±1,2 |
+| **Smart** | Hybride de plusieurs heuristiques | 56,7 % ±2,9 | 61,1 ±1,1 |
+| **Uniforme** | Tirs aleatoires | 2,0 % ±0,8 | 94,3 ±0,5 |
 
-| Strategie | Approche | Description |
-|-----------|----------|-------------|
-| **Uniforme** | Aleatoire | Tire aleatoirement sur la grille |
-| **Markov** | Probabiliste | Utilise des matrices de transition pour cibler les positions probables |
-| **Monte Carlo** | Simulation | Execute des simulations pour evaluer les resultats des tirs |
-| **Smart** | Hybride | Combine plusieurs heuristiques pour un jeu optimal |
+La grille compte 100 cases : le tir aleatoire en demande 94, soit quasiment
+toute la grille. Markov la vide en 55, une **reduction de 42 %**, et gagne 74 %
+de ses parties. Monte Carlo coute bien plus de calcul pour un resultat
+legerement inferieur — c'est la partie interessante : ici le modele
+probabiliste bon marche bat la simulation couteuse.
 
 ## Execution du projet
 
@@ -63,11 +66,10 @@ Complement_IA-main/
 
 ## Sorties
 
-Tous les resultats d'experiences sont dans `Results/` :
-- `tournament_pairwise.csv` — Matrice de victoires pairwise
-- `tournament_summary.csv` — Resume par bot (parties, victoires, taux, rang)
-- `performance_summary.csv` — Stats d'auto-parties (moyenne de coups, erreur standard)
-- `performance_gaussian_overlay.png` — Visualisation des distributions
+`Results/` contient les chiffres ci-dessus : `tournament_summary.csv` et
+`tournament_pairwise.csv` pour les taux de victoire, `performance_summary.csv`
+pour le nombre de tirs, et `performance_gaussian_overlay.png` pour leurs
+distributions.
 
 ## Documentation
 
