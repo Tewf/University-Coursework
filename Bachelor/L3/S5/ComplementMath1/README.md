@@ -49,3 +49,9 @@ ComplementMath1/
 
 - **R** with base mathematical functions
 - **Quarto** for reproducible scientific documents
+
+## Source material
+
+The 20-page practical document for this course was written by its teaching staff (UGA).
+
+Not redistributed here — see [NOTICE](../../../../NOTICE) for full credits.

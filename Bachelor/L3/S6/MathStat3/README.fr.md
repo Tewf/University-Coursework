@@ -61,3 +61,9 @@ MathStat3/
 - **R** avec les fonctions statistiques de base
 - **Quarto** pour des rapports reproductibles
 - **Jupyter** comme environnement de notebook alternatif
+
+## Supports de cours
+
+Le polycopié de TP de ce cours (35 p.) a été rédigé par l'équipe enseignante (UGA).
+
+Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.

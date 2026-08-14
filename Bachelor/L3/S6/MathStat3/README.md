@@ -61,3 +61,9 @@ MathStat3/
 - **R** with base stats functions
 - **Quarto** for reproducible reports
 - **Jupyter** as an alternative notebook environment
+
+## Source material
+
+The 35-page practical handout for this course was written by its teaching staff (UGA).
+
+Not redistributed here — see [NOTICE](../../../../NOTICE) for full credits.

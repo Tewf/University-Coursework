@@ -49,3 +49,9 @@ ComplementMath1/
 
 - **R** avec les fonctions mathematiques de base
 - **Quarto** pour des documents scientifiques reproductibles
+
+## Supports de cours
+
+Le document de TP de ce cours (20 p.) a été rédigé par l'équipe enseignante (UGA).
+
+Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.

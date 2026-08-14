@@ -33,3 +33,9 @@ java -cp bin package.ClassName
 
 - Syntaxe Java de base (variables, conditions, boucles)
 - Aucune experience POO prealable requise
+
+## Supports de cours
+
+Les sujets de TD1 à TD5 et TM1 à TM3 ont été rédigés par l'équipe enseignante de Programmation Orientée Objet (UGA). Les implémentations Java de ce répertoire sont les miennes.
+
+Non redistribués ici — voir [NOTICE](../../../NOTICE) pour les crédits complets.

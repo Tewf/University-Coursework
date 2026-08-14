@@ -47,3 +47,18 @@ _freeze/
 # Cours non publiés sur GitHub
 Bachelor/L3/S6/Reseaux/
 Bachelor/L3/S6/Systemes/
+
+# Supports de cours de tiers — voir NOTICE.
+# Sujets de TP/TD, polycopiés et articles publiés restent en local mais ne sont
+# pas redistribués ici : ils ne sont pas mon travail et la licence MIT de ce
+# dépôt ne s'y applique pas. Les sources sont citées dans chaque README.
+**/*sujet*.pdf
+**/*Sujet*.pdf
+Bachelor/Java/OOP/TD/**/TD?.pdf
+Bachelor/Java/OOP/TM/**/TM?.pdf
+Bachelor/SecondSemestreLanguage/SQL/tp0*.pdf
+Bachelor/L3/S5/ComplementMath1/TP cpt maths.pdf
+Bachelor/L3/S6/MathStat3/TP Stat 3.pdf
+Bachelor/L3/S6/ComplementMath2/Projet/consignes/
+Bachelor/L3/S5/Econometrie1/ProjetEconometrie/DataPreprocessing/DataDocumentation/
+Bachelor/L3/S5/Econometrie1/ProjetEconometrie/RevueDeLitterature/HedonicHousingPriceIndexes.pdf
