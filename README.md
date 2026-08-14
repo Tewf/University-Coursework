@@ -2,88 +2,99 @@
 
 [![CI](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml/badge.svg)](https://github.com/Tewf/University-Coursework/actions/workflows/ci.yml)
 
-> [Lire en francais](README.fr.md)
+> [Lire en français](README.fr.md) · [Browse the rendered notebooks](https://tewf.github.io/University-Coursework/)
 
-A comprehensive collection of coursework, projects, and assignments from my university studies at **Universite Grenoble Alpes**. This repository serves as both a **learning portfolio** and a **pedagogical resource** for students in applied mathematics, computer science, and economics.
+Coursework from my **Licence MIASHS** (Mathematics, Computer Science and
+Economics applied to Social Sciences) at **Université Grenoble Alpes**, now
+continued in **M1 Artificial Intelligence** (UFR-IM²AG).
 
-## About
+Everything here is source plus its rendered output, so you can read the work
+without cloning or running anything.
 
-**Degree:** Licence MIASHS (Mathematiques et Informatique Appliquees aux Sciences Humaines et Sociales)
-**Specialization:** Mathematiques, Informatique et Sciences Economiques (Years 2-3)
-**University:** Universite Grenoble Alpes
-**Program:** [Official page](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
+---
 
-## Repository Map
+## Start here
 
-### [Bachelor/](Bachelor/)
+If you only open one thing, open the first.
 
-| Domain | Courses | Key Topics |
-|--------|---------|------------|
-| **Mathematics** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/), [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Fourier analysis, differential equations, machine learning |
-| **Statistics** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, hypothesis testing, ANOVA, regression |
-| **Economics** | [Econometrie1](Bachelor/L3/S5/Econometrie1/), [Econometrie2](Bachelor/L3/S6/Econometrie2/) | Linear regression, real-estate price modeling |
-| **Web Development** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
-| **Programming** | [Java](Bachelor/Java/), [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | OOP, functional, logic, relational paradigms |
-| **Systems & Networks** | [Reseaux](Bachelor/L3/S6/Reseaux/), [Systemes](Bachelor/L3/S6/Systemes/) | Network configuration, operating systems |
+### 🧪 [Perfume satisfaction prediction](Bachelor/L3/S6/ComplementMath2/Projet/) · [read the report ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
 
-### [Master/](Master/)
-Coming soon.
+A full supervised-learning pipeline in R/Quarto: exploration → preparation →
+**logistic regression, decision tree, random forest, kNN and naive Bayes**,
+compared on ROC and confusion matrices, with a leakage-proof split, persisted
+models and a written report. 1,398 lines across 8 `.qmd` files.
+*Group project — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
 
-## Skills & Technologies
+### 📈 [Grenoble housing prices](https://github.com/Tewf/grenoble-housing-prices) *(own repo)*
 
-| Category | Technologies |
-|----------|-------------|
-| **Languages** | Java, R, Python, JavaScript, Racket, Prolog, SQL |
-| **Web** | HTML5, CSS3, Node.js, Express.js |
-| **Data Science** | R tidyverse, Quarto, Jupyter, statistical modeling |
-| **Databases** | PostgreSQL, MySQL, SQLite |
-| **Tools** | Git, VS Code, Maven, Quarto, LaTeX |
+Hedonic price modelling on the French **DVF land-registry open data**: cleaning,
+an OLS baseline with heteroskedasticity and multicollinearity diagnostics, then
+a random-forest extension that cuts RMSE from €265k to €59k.
+*Group project — HAMLIL · ANZID · EL KORAICHI.*
 
-## Recommended Learning Paths
+### 🎯 [Battleship AI](https://github.com/Tewf/Complement_IA) *(own repo)*
 
-### Path 1: Statistics & Data Science
-1. [MathStat2](Bachelor/L3/S5/MathStat2/) — Simulation, bootstrap, estimation
-2. [MathStat3](Bachelor/L3/S6/MathStat3/) — Regression, ANOVA, non-parametric tests
-3. [Econometrie1](Bachelor/L3/S5/Econometrie1/) — Applied econometric modeling
-4. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Machine learning
+2,500 lines of modular Java 17: **Markov and Monte-Carlo probabilistic
+targeting** bots, a reproducible tournament harness emitting CSV and plots, a
+Swing GUI, Javadoc, and continuous integration.
+*Pair project — HAMLIL · SGHIOUAR IDRISSI.*
 
-### Path 2: Web Development
-1. [WebDev TP0-TP1](Bachelor/L3/S6/WebDev/) — HTML fundamentals
-2. [WebDev TP3-TP4](Bachelor/L3/S6/WebDev/) — CSS styling and layout
-3. [WebDev TP5-TP7](Bachelor/L3/S6/WebDev/) — JavaScript and DOM
-4. [WebDev TP8-TP9](Bachelor/L3/S6/WebDev/) — Server-side with Node.js and Express
+### Written entirely by me
 
-### Path 3: Programming Paradigms
-1. [Java OOP](Bachelor/Java/OOP/) — Object-oriented programming
-2. [DrRacket](Bachelor/SecondSemestreLanguage/DrRacket/) — Functional programming
-3. [Prolog](Bachelor/SecondSemestreLanguage/Prolog/) — Logic programming
-4. [SQL](Bachelor/SecondSemestreLanguage/SQL/) — Relational databases
+The statistics and applied-maths practicals are solo work:
+[MathStat2](Bachelor/L3/S5/MathStat2/) (simulation, bootstrap, maximum
+likelihood, Fisher information, pivotal quantities),
+[MathStat3](Bachelor/L3/S6/MathStat3/) (regression, ANOVA, non-parametric
+tests), and [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) (Fourier
+analysis, signal processing, numerical ODE solvers).
 
-### Path 4: Applied Mathematics
-1. [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) — Fourier analysis, signal processing
-2. [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) — Machine learning techniques
+---
 
-## How to Navigate
+## Repository map
 
-**If you're a student:** Follow the learning paths above. Each course folder has its own README with prerequisites, concepts covered, and instructions for running the code.
+| Domain | Courses | Key topics |
+|---|---|---|
+| **Machine learning** | [ComplementMath2](Bachelor/L3/S6/ComplementMath2/) | Classification, model comparison, ROC, feature engineering |
+| **Statistics** | [MathStat2](Bachelor/L3/S5/MathStat2/), [MathStat3](Bachelor/L3/S6/MathStat3/) | Estimation, bootstrap, MLE, hypothesis testing, ANOVA |
+| **Econometrics** | [Econometrie1](Bachelor/L3/S5/Econometrie1/) | Hedonic pricing, OLS diagnostics, panel data |
+| **Applied maths** | [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) | Fourier analysis, differential equations, Runge-Kutta |
+| **Programming paradigms** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Object-oriented, functional, logic, relational |
+| **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
 
-**If you're a recruiter:** Check out the [project highlights in Bachelor/](Bachelor/) for concrete examples of applied work, including the Battleship AI, the econometrics real-estate analysis, and the full-stack web application.
+**Master/** — M1 Artificial Intelligence, in progress; content will land here as
+it is produced.
 
-## Getting Started
+---
 
-Most projects use R (Quarto notebooks) or JavaScript (Node.js). See each course's README for specific setup instructions.
+## Stack
+
+| | |
+|---|---|
+| **Languages** | R · Python · Java · JavaScript · Racket · Prolog · SQL |
+| **Data science** | tidyverse · scikit-learn · statsmodels · Quarto · Jupyter |
+| **Tools** | Git · LaTeX · Maven · GitHub Actions |
+
+---
+
+## Running the code
 
 ```sh
-# R/Quarto projects
-quarto preview path/to/notebook.qmd
-
-# Node.js projects
-cd path/to/project && npm install && npm run dev
-
-# Java projects
+quarto preview path/to/notebook.qmd            # R / Quarto
 javac -d bin $(find src -name '*.java') && java -cp bin package.Main
+cd path/to/project && npm install && npm run dev
 ```
 
-## License
+Each course directory has its own README with prerequisites and specifics.
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+---
+
+## Licence and credits
+
+Code and writing are MIT — see [LICENSE](LICENSE).
+
+**[NOTICE](NOTICE) matters here.** MIT covers my own work only. Practical
+subjects, lecture handouts, published papers and dataset documentation belong
+to their authors, are not redistributed in this repository, and are credited
+there and in each course README. NOTICE also records where my solutions are
+substantially derived from a lecturer's own worked solutions rather than
+independently written.
