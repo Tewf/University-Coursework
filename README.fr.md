@@ -14,43 +14,36 @@ exécuter pour le lire.
 
 ---
 
-## Commencer ici
+## Projets
 
-Si vous n'ouvrez qu'une seule chose, ouvrez la première.
+Chaque cours, et ce qu'il contient réellement. Chaque répertoire a son propre README.
 
-### 🧪 [Prédiction de la satisfaction client — parfums](Bachelor/L3/S6/ComplementMath2/Projet/) · [lire le rapport ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
+### Apprentissage automatique et statistiques
 
-Une chaîne complète d'apprentissage supervisé en R/Quarto : exploration →
-préparation → **régression logistique, arbre de décision, forêt aléatoire, kNN
-et naive Bayes**, comparés sur courbes ROC et matrices de confusion, avec une
-séparation à l'épreuve des fuites de données, des modèles persistés et un
-rapport rédigé. 1 398 lignes réparties sur 8 fichiers `.qmd`.
-*Projet de groupe — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
+| | |
+|---|---|
+| [**Satisfaction client — parfums**](Bachelor/L3/S6/ComplementMath2/Projet/) | Cinq classifieurs — régression logistique, arbre de décision, forêt aléatoire, kNN, naive Bayes — comparés sur ROC et matrices de confusion, avec séparation anti-fuite et modèles persistés. 8 `.qmd`, un site publié et un rapport rédigé. *Projet de groupe.* [Lire ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) |
+| [**TP de classification**](Bachelor/L3/S6/ComplementMath2/TP/) | Huit TP corrigés sur les données Titanic : prétraitement, construction de variables, et les classifieurs ci-dessus appliqués tour à tour. 16 `.qmd`. |
+| [**Estimation et tests**](Bachelor/L3/S5/MathStat2/) | Simulation et bootstrap, biais/variance/EQM des estimateurs, maximum de vraisemblance et information de Fisher, quantités pivotales et probabilité de couverture, tests du khi-deux. 6 `.qmd`. *Solo.* |
+| [**Régression et ANOVA**](Bachelor/L3/S6/MathStat3/) | Tests de normalité et du khi-deux, régression linéaire, ANOVA à un facteur, tests non paramétriques, sur données réelles. 5 `.qmd`. *Solo.* |
+| [**Analyse de Fourier et EDO**](Bachelor/L3/S5/ComplementMath1/) | Séries et transformée de Fourier, traitement du signal, et résolution numérique d'équations différentielles — Euler et Runge-Kutta. *Solo.* |
 
-### 📈 [Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)
+### Économie
 
-Modélisation hédonique des prix sur les données ouvertes **DVF** : nettoyage,
-régression MCO avec diagnostics d'hétéroscédasticité et de multicolinéarité,
-puis une extension par forêt aléatoire qui ramène le RMSE de 265 k€ à 59 k€.
-*Projet de groupe — HAMLIL · ANZID · EL KORAICHI.*
+| | |
+|---|---|
+| [**Prix de l'immobilier grenoblois**](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/) | Modélisation hédonique sur les données ouvertes DVF : nettoyage, MCO avec diagnostics d'hétéroscédasticité et de multicolinéarité, puis une forêt aléatoire qui ramène le RMSE de 265 k€ à 59 k€. Avec une revue de littérature en LaTeX. *Projet de groupe.* |
 
-### 🎯 [IA de bataille navale](Bachelor/Java/Complement_IA-main/)
+### Programmation
 
-2 500 lignes de Java 17 modulaire : bots à **ciblage probabiliste par chaînes de
-Markov et Monte-Carlo**, protocole de tournoi reproductible produisant CSV et
-graphiques, interface Swing, Javadoc et intégration continue.
-*Projet en binôme — HAMLIL · SGHIOUAR IDRISSI.*
-
-### Travaux entièrement personnels
-
-Les TP de statistiques et de mathématiques appliquées sont des travaux
-individuels : [MathStat2](Bachelor/L3/S5/MathStat2/) (simulation, bootstrap,
-maximum de vraisemblance, information de Fisher, quantités pivotales),
-[MathStat3](Bachelor/L3/S6/MathStat3/) (régression, ANOVA, tests non
-paramétriques) et [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) (analyse de
-Fourier, traitement du signal, résolution numérique d'équations différentielles).
-
----
+| | |
+|---|---|
+| [**IA de bataille navale**](Bachelor/Java/Complement_IA-main/) | Moteur Java 17 avec bots de ciblage probabiliste (Markov, Monte-Carlo), protocole de tournoi produisant CSV et graphiques, interface Swing, Javadoc et intégration continue. 20 `.java`. *Projet en binôme.* |
+| [**Programmation orientée objet**](Bachelor/Java/OOP/) | Le cours de Java lui-même — 59 fichiers source entre les TD et les travaux notés. |
+| [**Programmation fonctionnelle**](Bachelor/SecondSemestreLanguage/DrRacket/) | 7 programmes Racket. |
+| [**Programmation logique**](Bachelor/SecondSemestreLanguage/Prolog/) | 7 programmes Prolog. |
+| [**Bases de données relationnelles**](Bachelor/SecondSemestreLanguage/SQL/) | 4 TP SQL avec leurs bases SQLite. |
+| [**Web full-stack**](Bachelor/L3/S6/WebDev/) | TP0 à TP9, du HTML statique à une application Node.js/Express sur SQLite. |
 
 ## Carte du dépôt
 

@@ -14,42 +14,36 @@ without cloning or running anything.
 
 ---
 
-## Start here
+## Projects
 
-If you only open one thing, open the first.
+Every course, and what is actually in it. Each directory has its own README.
 
-### 🧪 [Perfume satisfaction prediction](Bachelor/L3/S6/ComplementMath2/Projet/) · [read the report ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/)
+### Machine learning and statistics
 
-A full supervised-learning pipeline in R/Quarto: exploration → preparation →
-**logistic regression, decision tree, random forest, kNN and naive Bayes**,
-compared on ROC and confusion matrices, with a leakage-proof split, persisted
-models and a written report. 1,398 lines across 8 `.qmd` files.
-*Group project — HAMLIL · PARDO TERAN · EL KORAICHI · ANZID.*
+| | |
+|---|---|
+| [**Customer satisfaction for perfumes**](Bachelor/L3/S6/ComplementMath2/Projet/) | Five classifiers — logistic regression, decision tree, random forest, kNN, naive Bayes — compared on ROC and confusion matrices, with a leakage-proof split and persisted models. 8 `.qmd`, a published site and a written report. *Group project.* [Read it ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) |
+| [**Classification practicals**](Bachelor/L3/S6/ComplementMath2/TP/) | Eight worked practicals on the Titanic data: preprocessing, feature construction, and the classifiers above applied in turn. 16 `.qmd`. |
+| [**Estimation and testing**](Bachelor/L3/S5/MathStat2/) | Simulation and bootstrap, bias/variance/MSE of estimators, maximum likelihood and Fisher information, pivotal quantities and coverage, chi-squared conformity and independence tests. 6 `.qmd`. *Solo.* |
+| [**Regression and ANOVA**](Bachelor/L3/S6/MathStat3/) | Normality and chi-squared testing, linear regression, one-factor ANOVA, non-parametric tests, on real datasets. 5 `.qmd`. *Solo.* |
+| [**Fourier analysis and ODEs**](Bachelor/L3/S5/ComplementMath1/) | Fourier series and transform, signal processing, and numerical solvers for differential equations — Euler and Runge-Kutta. *Solo.* |
 
-### 📈 [Grenoble housing prices](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)
+### Economics
 
-Hedonic price modelling on the French **DVF land-registry open data**: cleaning,
-an OLS baseline with heteroskedasticity and multicollinearity diagnostics, then
-a random-forest extension that cuts RMSE from €265k to €59k.
-*Group project — HAMLIL · ANZID · EL KORAICHI.*
+| | |
+|---|---|
+| [**Grenoble housing prices**](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/) | Hedonic price modelling on the French DVF land-registry open data: cleaning, an OLS baseline with heteroskedasticity and multicollinearity diagnostics, then a random forest that cuts RMSE from €265k to €59k. Includes a LaTeX literature review. *Group project.* |
 
-### 🎯 [Battleship AI](Bachelor/Java/Complement_IA-main/)
+### Programming
 
-2,500 lines of modular Java 17: **Markov and Monte-Carlo probabilistic
-targeting** bots, a reproducible tournament harness emitting CSV and plots, a
-Swing GUI, Javadoc, and continuous integration.
-*Pair project — HAMLIL · SGHIOUAR IDRISSI.*
-
-### Written entirely by me
-
-The statistics and applied-maths practicals are solo work:
-[MathStat2](Bachelor/L3/S5/MathStat2/) (simulation, bootstrap, maximum
-likelihood, Fisher information, pivotal quantities),
-[MathStat3](Bachelor/L3/S6/MathStat3/) (regression, ANOVA, non-parametric
-tests), and [ComplementMath1](Bachelor/L3/S5/ComplementMath1/) (Fourier
-analysis, signal processing, numerical ODE solvers).
-
----
+| | |
+|---|---|
+| [**Battleship AI**](Bachelor/Java/Complement_IA-main/) | Java 17 engine with Markov and Monte-Carlo probabilistic targeting bots, a tournament harness emitting CSV and plots, a Swing GUI, Javadoc, and CI. 20 `.java`. *Pair project.* |
+| [**Object-oriented programming**](Bachelor/Java/OOP/) | The Java course itself — 59 source files across the tutorials and graded assignments. |
+| [**Functional programming**](Bachelor/SecondSemestreLanguage/DrRacket/) | 7 Racket programs. |
+| [**Logic programming**](Bachelor/SecondSemestreLanguage/Prolog/) | 7 Prolog programs. |
+| [**Relational databases**](Bachelor/SecondSemestreLanguage/SQL/) | 4 SQL practicals with their SQLite databases. |
+| [**Full-stack web**](Bachelor/L3/S6/WebDev/) | TP0–TP9, from static HTML to a Node.js/Express application on SQLite. |
 
 ## Repository map
 
