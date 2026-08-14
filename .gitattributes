@@ -1,0 +1,29 @@
+# Language statistics
+#
+# GitHub's language bar counts bytes on disk, which badly misrepresents this
+# repo: 104 MB of Quarto output (99% of all HTML here) drowns out the code,
+# while the .qmd sources that produced it are not counted at all.
+#
+# The HTML is kept because GitHub Pages serves this repo from main at root and
+# the course READMEs link to it directly -- it is published, not stale build
+# output. So it is reclassified rather than deleted.
+
+# Quarto renders with embed-resources, inlining bootstrap, webfonts and every
+# figure as base64 -- which is how a 500-line .qmd becomes a 5 MB .html.
+Bachelor/L3/S5/ComplementMath1/html/**       linguist-generated=true
+Bachelor/L3/S5/MathStat2/TPs/html/**         linguist-generated=true
+Bachelor/L3/S6/MathStat3/html/**             linguist-generated=true
+Bachelor/L3/S6/ComplementMath2/TP/html/**    linguist-generated=true
+
+# Published Quarto sites and generated javadoc.
+**/rapport/**                                linguist-generated=true
+Bachelor/Java/**/docs/api/**                 linguist-generated=true
+
+# Bootstrap, tippy, popper, anchor and axe, vendored by Quarto.
+**/*_files/libs/**                           linguist-vendored=true
+
+# The real work. 39 .qmd/.Rmd files hold 13,623 lines and 707 R chunks, none of
+# which linguist counts by default -- Quarto and R Markdown are classified as
+# prose, so they are excluded from the language bar unless made detectable.
+*.qmd                    linguist-language=R linguist-detectable=true
+*.Rmd                    linguist-language=R linguist-detectable=true
