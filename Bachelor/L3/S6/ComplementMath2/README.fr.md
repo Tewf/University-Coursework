@@ -88,3 +88,9 @@ quarto preview TP/TP1/Correction\ TP\ 1.qmd
 - **R** : tidyverse, caret, glmnet, ranger, rpart, rpart.plot, naivebayes, pROC, corrplot
 - **Quarto** : rapports reproductibles melant code et narration (livre HTML + PDF)
 - **TeX Live / TinyTeX** : rendu PDF via lualatex
+
+## Supports de cours
+
+Les sujets de TP1 à TP5 ont été rédigés par **Lola Etiévant** (Université Grenoble Alpes). Les corrections de ce répertoire sont les miennes ; les énoncés auxquels elles répondent sont les siens.
+
+Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.

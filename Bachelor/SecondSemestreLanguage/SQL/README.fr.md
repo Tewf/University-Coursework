@@ -61,3 +61,9 @@ SQL/
 ## Ressources
 
 - [Supports de cours](https://pellierd.github.io/homepage/teaching/databases/)
+
+## Supports de cours
+
+Les sujets de TP01 à TP04 ont été rédigés par l'équipe enseignante du cours de bases de données (UGA).
+
+Non redistribués ici — voir [NOTICE](../../../NOTICE) pour les crédits complets.

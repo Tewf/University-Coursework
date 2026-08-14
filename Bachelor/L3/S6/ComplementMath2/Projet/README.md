@@ -59,3 +59,9 @@ conda run -n r_env quarto render
 Dataset : [Fragrantica Fragrance Dataset (Kaggle)](https://www.kaggle.com/datasets/olgagmiufana1/fragrantica-com-fragrance-dataset), ~24 000 parfums. Cible binaire = `Rating_Value ≥ médiane`.
 
 Projet académique — Université Grenoble Alpes, 2025-2026.
+
+## Source material
+
+The project brief was written by the teaching staff of Compléments de Mathématiques 2 (UGA). Background reading: Kumar, R., Kaur, R., Auffarth, B., & Bhondekar, A. P. (2015), "Understanding the Odour Spaces", *PLoS ONE*, CC BY — https://doi.org/10.1371/journal.pone.0141263
+
+Not redistributed here — see [NOTICE](../../../../../NOTICE) for full credits.

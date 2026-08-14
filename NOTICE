@@ -1,0 +1,72 @@
+NOTICE — scope of the MIT licence, and credit for material that is not mine
+==========================================================================
+
+The MIT LICENSE in this repository covers **my own work only**: the code I
+wrote, the notebooks and Quarto sources I authored, my written reports, and
+my rendered output of those.
+
+It does **not** cover, and this repository does **not** redistribute:
+
+  * practical and tutorial subjects (« sujets de TP/TD ») written by my
+    lecturers,
+  * lecture handouts and polycopiés,
+  * published academic papers,
+  * third-party dataset documentation.
+
+Those documents were removed from this repository rather than republished
+under a licence I have no right to grant. They are cited below and in the
+README of each course that uses them, so the work here remains traceable to
+the material it responds to.
+
+--- Course material, by author --------------------------------------------
+
+Lola Etiévant (Université Grenoble Alpes)
+  Practical subjects TP1–TP5, Compléments de Mathématiques 2.
+  Referenced by: Bachelor/L3/S6/ComplementMath2/TP/
+  My work in that directory is the set of solutions ("Correction TP*"), which
+  are mine; the questions they answer are hers.
+
+Teaching staff, Mathématiques et Statistiques 3 (UGA)
+  Lecture handout for the practical sessions (35 pp).
+  Referenced by: Bachelor/L3/S6/MathStat3/
+
+Teaching staff, Compléments de Mathématiques 1 (UGA)
+  Practical document (20 pp).
+  Referenced by: Bachelor/L3/S5/ComplementMath1/
+
+Teaching staff, Programmation Orientée Objet — Java (UGA)
+  Tutorial and assignment subjects TD1–TD5 and TM1–TM3.
+  Referenced by: Bachelor/Java/OOP/
+
+Teaching staff, Bases de Données — SQL (UGA)
+  Practical subjects TP01–TP04.
+  Referenced by: Bachelor/SecondSemestreLanguage/SQL/
+
+Teaching staff, Compléments de Mathématiques 2 (UGA)
+  Project brief, perfume customer-satisfaction project.
+  Referenced by: Bachelor/L3/S6/ComplementMath2/Projet/
+
+--- Published work --------------------------------------------------------
+
+Kumar, R., Kaur, R., Auffarth, B., & Bhondekar, A. P. (2015).
+  "Understanding the Odour Spaces: A Step towards Solving Olfactory
+  Stimulus-Percept Problem." PLoS ONE.
+  Licence: CC BY. Cited as background for the perfume project rather than
+  mirrored here.  https://doi.org/10.1371/journal.pone.0141263
+
+Laferrère, A. (2005).
+  "Hedonic housing price indexes: the French experience."
+  BIS Papers No 21, Bank for International Settlements.
+  Cited in the econometrics literature review rather than mirrored here.
+  https://www.bis.org/publ/bppdf/bispap21.htm
+
+--- Data ------------------------------------------------------------------
+
+Demandes de Valeurs Foncières (DVF), Direction générale des Finances
+publiques (DGFiP), République française. Open data under Licence Ouverte /
+Open Licence. The official notice, FAQ, terms of use and GDPR information
+are published by DGFiP and are linked rather than copied here.
+  https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/
+
+If you believe something in this repository is yours and is not credited
+correctly, please open an issue and I will fix it.

@@ -61,3 +61,9 @@ SQL/
 ## Resources
 
 - [Course materials](https://pellierd.github.io/homepage/teaching/databases/)
+
+## Source material
+
+Practical subjects TP01–TP04 were written by the teaching staff of the databases course (UGA).
+
+Not redistributed here — see [NOTICE](../../../NOTICE) for full credits.

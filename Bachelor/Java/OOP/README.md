@@ -33,3 +33,9 @@ java -cp bin package.ClassName
 
 - Basic Java syntax (variables, conditions, loops)
 - No prior OOP experience needed
+
+## Source material
+
+Tutorial and assignment subjects TD1–TD5 and TM1–TM3 were written by the teaching staff of Programmation Orientée Objet (UGA). The Java implementations in this directory are mine.
+
+Not redistributed here — see [NOTICE](../../../NOTICE) for full credits.
