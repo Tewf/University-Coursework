@@ -6,7 +6,8 @@
 
 Coursework from my **Licence MIASHS** (Mathematics, Computer Science and
 Economics applied to Social Sciences) at **Université Grenoble Alpes**, now
-continued in **M1 Artificial Intelligence** (UFR-IM²AG).
+continued in the [**Master of Artificial Intelligence**](https://m-ai.imag.fr/),
+jointly delivered by **UFR IM²AG** and **Ensimag** (Grenoble INP).
 
 Everything here is source plus its rendered output, so you can read the work
 without cloning or running anything.
@@ -61,8 +62,8 @@ analysis, signal processing, numerical ODE solvers).
 | **Programming paradigms** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Object-oriented, functional, logic, relational |
 | **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
 
-**Master/** — M1 Artificial Intelligence, in progress; content will land here as
-it is produced.
+**Master/** — [Master of Artificial Intelligence](https://m-ai.imag.fr/), M1 in
+progress (semesters S7–S8); content will land here as it is produced.
 
 ---
 
