@@ -48,7 +48,6 @@ jupyter notebook TP1/tp1_normalite_chi2.ipynb
 
 ```
 MathStat3/
-|-- TP Stat 3.pdf          <- Full course material
 |-- TP1/                   <- Normality & chi-square tests
 |-- TP2/                   <- Linear regression
 |-- TP3/                   <- ANOVA (one factor)

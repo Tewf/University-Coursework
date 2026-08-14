@@ -41,8 +41,8 @@ quarto preview code/TP1_AnalyseDeFourier.qmd
 ```
 ComplementMath1/
 |-- code/              <- Quarto notebooks (.qmd)
-|-- PDFVersion/        <- PDF copies of instructions
-|-- TP cpt maths.pdf   <- Original problem sheet
+|-- pdf/               <- my rendered TPs (PDF)
+|-- html/              <- the same TPs rendered for the web
 ```
 
 ## Tools
