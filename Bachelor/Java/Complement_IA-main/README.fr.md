@@ -2,6 +2,9 @@
 
 > [Read in English](README.md)
 
+**Auteurs :** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
+*Projet universitaire à deux (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
+
 Une implementation complete du jeu classique de la bataille navale en Java, avec plusieurs strategies IA, une interface graphique et des outils statistiques pour evaluer les performances.
 
 ## Ce que vous apprendrez

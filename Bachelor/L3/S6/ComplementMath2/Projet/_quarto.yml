@@ -11,6 +11,9 @@ book:
     logo: uga-logo.png
   author:
     - "HAMLIL Mohamed"
+    - "PARDO TERAN German"
+    - "EL KORAICHI Mohamed Yassine"
+    - "ANZID Keltoum"
   date: today
   date-format: "D MMMM YYYY"
   chapters:
@@ -93,7 +96,9 @@ format:
                 {\color{ugaorange}\rule{\textwidth}{1.5pt}}\\[0.6cm]
                 {\large\itshape Compléments de Mathématiques 2 -- Introduction au Machine Learning}\\[0.2cm]
                 {\normalsize L3 MIASHS -- Université Grenoble Alpes}\\[1.5cm]
-                {\large HAMLIL Mohamed}\\[1.5cm]
+                {\large
+                  HAMLIL Mohamed \quad PARDO TERAN German\\[0.2cm]
+                  EL KORAICHI Mohamed Yassine \quad ANZID Keltoum}\\[1.5cm]
                 {\large \today}
               \end{center}
             \end{titlepage}
