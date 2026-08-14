@@ -1,18 +1,15 @@
 # Prédiction de la Satisfaction des Parfums
 
-![R](https://img.shields.io/badge/R-4.x-blue?logo=r)
-![Quarto](https://img.shields.io/badge/Quarto-1.8-purple?logo=quarto)
-
 > Classification supervisée binaire — Compléments de Mathématiques 2 (L3 MIASHS, 2025-2026)
 > Auteurs : HAMLIL · PARDO TERAN · EL KORAICHI · ANZID
 
-## 📖 Lire le projet
+## Lire le projet
 
 | Format | Lien | Pour quoi faire |
 |---|---|---|
-| 📄 **PDF (24 p)** | [télécharger](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/pdf/Pr%C3%A9diction-de-la-Satisfaction-Client-pour-les-Parfums.pdf) | Lecture linéaire imprimable |
-| 🌐 **Livre HTML** | [ouvrir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) | Sidebar de navigation, **code R dépliable** |
-| 💻 **Code source** | [`notebooks/`](notebooks/) | Chunks R commentés (`.qmd` = `.Rmd` moderne) |
+| **PDF (24 p)** | [télécharger](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/pdf/Pr%C3%A9diction-de-la-Satisfaction-Client-pour-les-Parfums.pdf) | Lecture linéaire imprimable |
+| **Livre HTML** | [ouvrir](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) | Sidebar de navigation, **code R dépliable** |
+| **Code source** | [`notebooks/`](notebooks/) | Chunks R commentés (`.qmd` = `.Rmd` moderne) |
 
 ## Pipeline (7 chapitres)
 
@@ -60,8 +57,8 @@ Dataset : [Fragrantica Fragrance Dataset (Kaggle)](https://www.kaggle.com/datase
 
 Projet académique — Université Grenoble Alpes, 2025-2026.
 
-## Source material
+## Supports de cours
 
-The project brief was written by the teaching staff of Compléments de Mathématiques 2 (UGA). Background reading: Kumar, R., Kaur, R., Auffarth, B., & Bhondekar, A. P. (2015), "Understanding the Odour Spaces", *PLoS ONE*, CC BY — https://doi.org/10.1371/journal.pone.0141263
+L'énoncé du projet a été rédigé par l'équipe enseignante de Compléments de Mathématiques 2 (UGA). Lecture de fond : Kumar, R., Kaur, R., Auffarth, B., & Bhondekar, A. P. (2015), « Understanding the Odour Spaces », *PLoS ONE*, CC BY — https://doi.org/10.1371/journal.pone.0141263
 
-Not redistributed here — see [NOTICE](../../../../../NOTICE) for full credits.
+Non redistribués ici — voir le [NOTICE](../../../../../NOTICE) pour les crédits complets.
