@@ -2,6 +2,8 @@
 
 > [Lire en francais](README.fr.md)
 
+> **This project has its own repository:** [github.com/Tewf/Complement_IA](https://github.com/Tewf/Complement_IA) — that is the one to link to. This copy is kept here because the coursework repository's CI builds it.
+
 **Authors:** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
 *A two-person university project (Compléments d'IA, L3 MIASHS, Université Grenoble Alpes).*
 
