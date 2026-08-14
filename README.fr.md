@@ -6,7 +6,8 @@
 
 Travaux de ma **Licence MIASHS** (Mathématiques et Informatique Appliquées aux
 Sciences Humaines et Sociales) à l'**Université Grenoble Alpes**, poursuivis
-aujourd'hui en **M1 Intelligence Artificielle** (UFR-IM²AG).
+aujourd'hui dans le [**Master of Artificial Intelligence**](https://m-ai.imag.fr/),
+co-porté par l'**UFR IM²AG** et **Ensimag** (Grenoble INP).
 
 Chaque projet est publié avec ses sources et son rendu : rien à cloner ni à
 exécuter pour le lire.
@@ -62,8 +63,8 @@ Fourier, traitement du signal, résolution numérique d'équations différentiel
 | **Paradigmes de programmation** | [Java](Bachelor/Java/), [Racket](Bachelor/SecondSemestreLanguage/DrRacket/), [Prolog](Bachelor/SecondSemestreLanguage/Prolog/), [SQL](Bachelor/SecondSemestreLanguage/SQL/) | Objet, fonctionnel, logique, relationnel |
 | **Web** | [WebDev](Bachelor/L3/S6/WebDev/) | HTML, CSS, JavaScript, Node.js, Express, SQLite |
 
-**Master/** — M1 Intelligence Artificielle, en cours ; le contenu y sera ajouté
-au fil de sa production.
+**Master/** — [Master of Artificial Intelligence](https://m-ai.imag.fr/), M1 en
+cours (semestres S7–S8) ; le contenu y sera ajouté au fil de sa production.
 
 ---
 
