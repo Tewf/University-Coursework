@@ -90,6 +90,25 @@ journal** : zéro tour, contre 1 805 pour `stage_test` et 1 813 pour
 `nash_equilibrium`. Il a été construit à côté des agents engagés, sans être
 engagé lui-même.
 
+## Deux défauts du fichier, consignés plutôt que corrigés
+
+Aucun n'a touché le tournoi, puisque seuls les deux agents sans mémoire ont été
+engagés. Les deux sont dans les parties qui ne l'ont pas été.
+
+`khawa_khawa_prime` **ne renvoie aucun coup tant que l'historique n'atteint pas
+7 tours**. `prefixe(L, N, P) :- length(P, N), append(P, _, L)` exige un préfixe
+d'exactement N éléments, donc échoue sur plus court, et `entropie_adv` lui en
+demande 7. Un moteur attendant un coup à chaque tour n'aurait rien obtenu de cet
+agent pendant les sept premiers tours de chaque match.
+
+`random_member/2` est redéfini ligne 738 et **lève une exception** là où la
+version de la bibliothèque aurait fonctionné. Il appelle
+`random_between(0, N-1, I)`, passant le terme composé `N-1` là où un entier est
+attendu, donc tout appel produit `Type error: integer expected, found 3-1`. La
+ligne 1 importe déjà `library(random)`, qui fournit un `random_member/2`
+correct, et SWI-Prolog avertit au chargement que la définition locale le masque.
+On y arrive par `tirage_nash`.
+
 ## Exécuter le code
 
 ```sh
