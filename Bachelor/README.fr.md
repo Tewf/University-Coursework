@@ -2,75 +2,56 @@
 
 > [Read in English](README.md)
 
-L'ensemble des travaux pratiques et projets de ma **Licence MIASHS** a l'Universite Grenoble Alpes, organises par matiere et semestre.
+L'ensemble des travaux de ma **Licence MIASHS** à l'Université Grenoble Alpes. Les
+projets à ouvrir en premier sont sur la [page d'accueil du dépôt](../README.fr.md) ;
+cette page-ci est le cursus lui-même, dans l'ordre où il a été enseigné.
 
-## Vue d'ensemble par semestre
+## Java, premier semestre de chaque année (S1, S3, S5)
 
-### Annee 2
+Java a été enseigné au premier semestre des trois années, en parallèle du reste du
+programme. Le dossier regroupe donc les trois, plutôt que de les ranger sous une
+seule année.
 
-| Cours | Theme | Langage | Dossier |
+| Cours | Thème | Dossier |
+|-------|-------|---------|
+| POO | Programmation orientée objet, 59 fichiers source | [Java/OOP/](Java/OOP/) |
+| IA de bataille navale | Quatre stratégies de ciblage confrontées | [Java/BattleshipAI/](Java/BattleshipAI/) |
+
+## Modules de langages du second semestre
+
+Trois paradigmes enseignés comme un bloc, d'où le dossier commun.
+
+| Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
-| POO | Programmation orientee objet | Java | [Java/OOP/](Java/OOP/) |
-| Battleship IA | Jeu avec strategies IA | Java | [Java/BattleshipAI/](Java/BattleshipAI/) |
-| Prog. fonctionnelle | Recursion, fonctions d'ordre superieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
-| Prog. logique | Faits, regles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
-| Bases de donnees | Requetes SQL, jointures, agregation | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
+| Programmation fonctionnelle | Récursion, fonctions d'ordre supérieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
+| Programmation logique | Faits, règles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
+| Bases de données | Requêtes, jointures, agrégation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
 
-### Annee 3 — Semestre 5
+## Année 3, semestre 5
 
-| Cours | Theme | Langage | Dossier |
+| Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
-| ComplementMath1 | Analyse de Fourier, equations differentielles | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/) |
-| MathStat2 | Simulation, bootstrap, tests d'hypothese | R | [L3/S5/MathStat2/](L3/S5/MathStat2/) |
-| Econometrie1 | Analyse econometrique des prix immobiliers | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/) |
+| ComplementMath1 | Analyse de Fourier, équations différentielles | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/) |
+| MathStat2 | Simulation, bootstrap, tests d'hypothèse | R | [L3/S5/MathStat2/](L3/S5/MathStat2/) |
+| Econometrie1 | Analyse économétrique des prix immobiliers | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/) |
 
-### Annee 3 — Semestre 6
+## Année 3, semestre 6
 
-| Cours | Theme | Langage | Dossier |
+| Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
 | ComplementMath2 | Apprentissage automatique | R | [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/) |
-| MathStat3 | Regression, ANOVA, tests non-parametriques | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
-| WebDev | Developpement web full-stack | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
-| Econometrie2 | Econometrie avancee | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
-| Reseaux | Reseaux informatiques | — | *non publié — les travaux sont des images de VM Debian* |
-| Systemes | Systemes d'exploitation | — | *non publié — les travaux sont des images de VM Debian* |
+| MathStat3 | Régression, ANOVA, tests non paramétriques | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
+| WebDev | Développement web full-stack | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
+| Econometrie2 | Économétrie avancée | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
+| Reseaux | Réseaux informatiques | — | *non publié : les travaux sont des images de VM Debian* |
+| Systemes | Systèmes d'exploitation | — | *non publié : les travaux sont des images de VM Debian* |
 
-## Projets phares
+## Environnements
 
-### Battleship IA
-Un jeu de bataille navale complet avec interface graphique et **4 strategies IA** : aleatoire uniforme, chaines de Markov, simulation Monte Carlo et heuristique intelligente. Inclut du benchmarking de performance et une analyse statistique de l'efficacite des strategies.
-**Voir :** [Java/BattleshipAI/](Java/BattleshipAI/)
-
-### Analyse des prix immobiliers
-Etude econometrique de bout en bout des prix immobiliers a Grenoble a partir des donnees publiques DVF. Couvre le preprocessing, la revue de litterature, la regression lineaire et une extension Random Forest.
-**Voir :** [L3/S5/Econometrie1/](L3/S5/Econometrie1/)
-
-### Application web full-stack
-Developpement web progressif, des bases HTML a un serveur Express.js complet avec base SQLite, hashage de mots de passe, sessions et authentification.
-**Voir :** [L3/S6/WebDev/](L3/S6/WebDev/)
-
-### Projet Machine Learning
-Projet complet d'exploration et de modelisation en R, couvrant l'exploration de donnees, l'ingenierie de features et les techniques d'apprentissage supervise.
-**Voir :** [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/)
-
-## Progression des competences
-
-```
-Annee 2                         Annee 3 - S5                   Annee 3 - S6
--------                         ------------                   ------------
-Java POO basique         -->    Calcul statistique en R  -->   Machine learning
-Prog. fonctionnelle      -->    Analyse mathematique     -->   Dev web full-stack
-Prog. logique            -->    Modelisation econom.     -->   Statistiques avancees
-SQL fondamentaux         -->    Tests d'hypothese        -->   Reseaux & systemes
-```
-
-## Prerequis
-
-- **Projets Java :** JDK 11+
-- **Projets R :** R avec tidyverse, Quarto
-- **Projets JavaScript :** Node.js 18+
-- **Prolog :** SWI-Prolog
-- **SQL :** PostgreSQL, MySQL ou SQLite
+Chaque dossier de cours précise ses propres dépendances. En résumé : JDK 11+ pour
+le Java, R avec tidyverse et Quarto pour tout ce qui est statistique, Node.js 18+
+pour le WebDev, SWI-Prolog pour le module de logique, et SQLite, PostgreSQL ou
+MySQL pour le SQL.
 
 ## Licence
 

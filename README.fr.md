@@ -11,33 +11,63 @@ dans [`Bachelor/`](Bachelor/), et le
 [`Master/`](Master/) au fil de sa production.
 
 Les sources sont à côté de leur rendu : rien à cloner pour lire.
-Le M1 est en cours et [`Master/`](Master/) se remplit au fil de l'année ; ce qui
-suit est le travail de Licence, par matière.
+Le M1 est en cours et [`Master/`](Master/) se remplit au fil de l'année.
 
-## Apprentissage automatique et statistiques
+## Projets
+
+Des travaux notés, menés de bout en bout, avec un résultat mesuré.
+
+**[Satisfaction client pour des parfums](Bachelor/L3/S6/ComplementMath2/Projet/)** (R, Quarto).
+Classification binaire sur environ 24 000 parfums. Régression logistique LASSO, arbre
+de décision élagué, forêt aléatoire et k plus proches voisins comparés sur courbes ROC
+et matrices de confusion ; Naive Bayes et K-means ont été essayés puis écartés, avec
+justification. Les variables sont ramenées à 10 familles olfactives et la séparation
+70/30 est construite contre les fuites de données.
+[Lire le rapport ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/),
+24 pages, également servi en livre HTML navigable. *Projet de groupe.*
+
+**[Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)** (R, Python).
+Prix hédoniques sur les données ouvertes DVF. C'est la transformation logarithmique qui
+fait fonctionner le modèle linéaire : le R² passe de 0,096 à 0,275. Une forêt aléatoire
+ramène ensuite le RMSE de 265 214 € à 58 750 €, environ 4,5 fois mieux, en abandonnant
+précisément les prix implicites interprétables qui sont l'objet de la démarche hédonique.
+Le rapport soutient que les deux modèles répondent à des questions différentes.
+*Projet de groupe.*
+
+**[IA de bataille navale](Bachelor/Java/BattleshipAI/)** (Java).
+Quatre stratégies de ciblage confrontées sur 1 000 matchs par paire. Les matrices de
+transition de Markov gagnent **74,3 %** des parties et vident la grille en 54,8 tirs,
+contre 94,3 pour le tir aléatoire, soit 42 % de moins. Monte-Carlo coûte bien plus de
+calcul pour un résultat légèrement inférieur, et c'est là que c'est intéressant.
+*Projet en binôme.*
+
+**[Application web full-stack](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
+Neuf TP menant à un serveur complet : middleware, persistance SQLite, hachage des mots
+de passe, sessions et authentification. *Solo.*
+
+## Compétences, et où elles servent
 
 | | |
 |---|---|
-| [Satisfaction client pour des parfums](Bachelor/L3/S6/ComplementMath2/Projet/) | Cinq classifieurs comparés sur ROC et matrices de confusion, séparation anti-fuite, rapport publié. *Projet de groupe.* [Lire ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/) |
-| [TP de classification](Bachelor/L3/S6/ComplementMath2/TP/) | Huit TP corrigés sur les données Titanic. |
-| [Estimation et tests](Bachelor/L3/S5/MathStat2/) | Bootstrap, maximum de vraisemblance, information de Fisher, tests du khi-deux. *Solo.* |
-| [Régression et ANOVA](Bachelor/L3/S6/MathStat3/) | Régression linéaire, ANOVA à un facteur, tests non paramétriques. *Solo.* |
-| [Analyse de Fourier et EDO](Bachelor/L3/S5/ComplementMath1/) | Séries et transformée de Fourier, solveurs d'Euler et Runge-Kutta. *Solo.* |
+| **R** | tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve. [Apprentissage automatique](Bachelor/L3/S6/ComplementMath2/), [économétrie](Bachelor/L3/S5/Econometrie1/), [statistiques](Bachelor/L3/S6/MathStat3/), [analyse](Bachelor/L3/S5/ComplementMath1/) |
+| **Java** | Conception objet, modules, interface graphique, tournois sous CI. [IA de bataille navale](Bachelor/Java/BattleshipAI/), [le cours de POO](Bachelor/Java/OOP/) |
+| **JavaScript** | Node.js, Express, SQLite, sessions et authentification. [Web](Bachelor/L3/S6/WebDev/) |
+| **SQL, Prolog, Racket** | Paradigmes relationnel, logique et fonctionnel. [Modules de langages](Bachelor/SecondSemestreLanguage/) |
+| **Rédaction** | Quarto, R Markdown, LaTeX. Chaque rapport ici est rendu depuis sa source |
 
-## Économie
+## Le reste des travaux
 
-| | |
-|---|---|
-| [Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/) | Prix hédoniques sur les données ouvertes DVF : MCO avec diagnostics, puis une forêt aléatoire ramenant le RMSE de 265 k€ à 59 k€. *Projet de groupe.* |
+Cursus complet, semestre par semestre, dans [`Bachelor/`](Bachelor/README.fr.md).
 
-## Programmation
-
-| | |
-|---|---|
-| [IA de bataille navale](Bachelor/Java/BattleshipAI/) | Bots de ciblage Markov et Monte-Carlo confrontés ; le meilleur gagne 74 % de ses parties. *Projet en binôme.* |
-| [Programmation orientée objet](Bachelor/Java/OOP/) | Le cours de Java, 59 fichiers source. |
-| [Fonctionnel](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logique](Bachelor/SecondSemestreLanguage/Prolog/) · [Relationnel](Bachelor/SecondSemestreLanguage/SQL/) | TP Racket, Prolog et SQL. |
-| [Web full-stack](Bachelor/L3/S6/WebDev/) | Du HTML statique à une application Node.js/Express sur SQLite. |
+| Matière | | |
+|---|---|---|
+| Statistiques | [Estimation et tests](Bachelor/L3/S5/MathStat2/) | Bootstrap, maximum de vraisemblance, information de Fisher, khi-deux. *Solo.* |
+| Statistiques | [Régression et ANOVA](Bachelor/L3/S6/MathStat3/) | Régression linéaire, ANOVA à un facteur, tests non paramétriques. *Solo.* |
+| Analyse | [Fourier et EDO](Bachelor/L3/S5/ComplementMath1/) | Séries et transformée de Fourier, solveurs d'Euler et Runge-Kutta. *Solo.* |
+| Apprentissage | [TP de classification](Bachelor/L3/S6/ComplementMath2/TP/) | Huit TP corrigés sur les données Titanic. |
+| Économie | [Économétrie avancée](Bachelor/L3/S6/Econometrie2/) | Fait suite à l'étude des prix de l'immobilier ci-dessus. |
+| Programmation | [Programmation orientée objet](Bachelor/Java/OOP/) | Le cours de Java, 59 fichiers source. |
+| Programmation | [Fonctionnel](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logique](Bachelor/SecondSemestreLanguage/Prolog/) · [Relationnel](Bachelor/SecondSemestreLanguage/SQL/) | TP Racket, Prolog et SQL. |
 
 ## Licence et crédits
 

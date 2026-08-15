@@ -1,22 +1,32 @@
 # Bachelor Degree Coursework
 
-> [Lire en francais](README.fr.md)
+> [Lire en français](README.fr.md)
 
-All coursework and projects from my **Licence MIASHS** at Universite Grenoble Alpes, organized by subject and semester.
+Everything from my **Licence MIASHS** at Université Grenoble Alpes. The projects
+worth opening first are on the [repository front page](../README.md); this page is
+the curriculum itself, in the order it was taught.
 
-## Semester Overview
+## Java, first semester of every year (S1, S3, S5)
 
-### Year 2
+Java ran in the first semester of all three years, alongside whatever else was on
+the timetable, so it sits in one folder instead of under a single year.
+
+| Course | Topic | Folder |
+|--------|-------|--------|
+| OOP | Object-oriented programming, 59 source files | [Java/OOP/](Java/OOP/) |
+| Battleship AI | Four targeting strategies benchmarked head to head | [Java/BattleshipAI/](Java/BattleshipAI/) |
+
+## Second-semester language modules
+
+Three paradigms taught as one block, which is why they share a folder.
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
-| OOP | Object-oriented programming | Java | [Java/OOP/](Java/OOP/) |
-| Battleship AI | Multi-strategy AI game | Java | [Java/BattleshipAI/](Java/BattleshipAI/) |
-| Functional Programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
-| Logic Programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
-| Databases | SQL queries, joins, aggregation | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
+| Functional programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
+| Logic programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
+| Databases | Queries, joins, aggregation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
 
-### Year 3 — Semester 5
+## Year 3, Semester 5
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
@@ -24,7 +34,7 @@ All coursework and projects from my **Licence MIASHS** at Universite Grenoble Al
 | MathStat2 | Simulation, bootstrap, hypothesis testing | R | [L3/S5/MathStat2/](L3/S5/MathStat2/) |
 | Econometrie1 | Real-estate price econometric analysis | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/) |
 
-### Year 3 — Semester 6
+## Year 3, Semester 6
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
@@ -32,46 +42,15 @@ All coursework and projects from my **Licence MIASHS** at Universite Grenoble Al
 | MathStat3 | Regression, ANOVA, non-parametric tests | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
 | WebDev | Full-stack web development | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
 | Econometrie2 | Advanced econometrics | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
-| Reseaux | Computer networks | — | *not published — the coursework is Debian VM images* |
-| Systemes | Operating systems | — | *not published — the coursework is Debian VM images* |
+| Reseaux | Computer networks | — | *not published: the coursework is Debian VM images* |
+| Systemes | Operating systems | — | *not published: the coursework is Debian VM images* |
 
-## Project Highlights
+## Runtimes
 
-### Battleship AI
-A complete Battleship game with graphical interface and **4 AI strategies**: Uniform random, Markov chains, Monte Carlo simulation, and a Smart heuristic. Includes performance benchmarking and statistical analysis of strategy effectiveness.
-**See:** [Java/BattleshipAI/](Java/BattleshipAI/)
+Each course folder states its own dependencies. In short: JDK 11+ for the Java
+work, R with tidyverse and Quarto for everything statistical, Node.js 18+ for
+WebDev, SWI-Prolog for the logic module, and SQLite, PostgreSQL or MySQL for SQL.
 
-### Real-Estate Price Analysis
-End-to-end econometric study of property prices in Grenoble using DVF public data. Covers data preprocessing, literature review, linear regression, and a Random Forest extension.
-**See:** [L3/S5/Econometrie1/](L3/S5/Econometrie1/)
-
-### Full-Stack Web Application
-Progressive web development from HTML basics to a complete Express.js server with SQLite database, password hashing, session management, and authentication.
-**See:** [L3/S6/WebDev/](L3/S6/WebDev/)
-
-### Machine Learning Project
-Comprehensive exploration and modeling project using R, covering data exploration, feature engineering, and supervised learning techniques.
-**See:** [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/)
-
-## Skills Progression
-
-```
-Year 2                          Year 3 - S5                    Year 3 - S6
------------                     -----------                    -----------
-Java OOP basics          -->    R statistical computing  -->   Machine learning
-Functional programming   -->    Mathematical analysis    -->   Full-stack web dev
-Logic programming        -->    Econometric modeling     -->   Advanced statistics
-SQL fundamentals         -->    Hypothesis testing       -->   Network & systems
-```
-
-## Prerequisites
-
-- **Java projects:** JDK 11+
-- **R projects:** R with tidyverse, Quarto
-- **JavaScript projects:** Node.js 18+
-- **Prolog:** SWI-Prolog
-- **SQL:** PostgreSQL, MySQL, or SQLite
-
-## License
+## Licence
 
 MIT License. See [LICENSE](../LICENSE).
