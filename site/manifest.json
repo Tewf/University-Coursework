@@ -1,0 +1,23 @@
+{
+  "repo": "https://github.com/Tewf/University-Coursework",
+  "brand": "University Coursework",
+  "pages": [
+    { "path": "",                                        "title": "University Coursework", "short": "Home" },
+    { "path": "Bachelor/",                               "title": "Licence MIASHS",        "short": "Licence" },
+    { "path": "Bachelor/Java/",                          "title": "Java",                  "short": "Java" },
+    { "path": "Bachelor/Java/OOP/",                      "title": "Object-oriented programming", "short": "OOP" },
+    { "path": "Bachelor/Java/BattleshipAI/",             "title": "Battleship AI",         "short": "Battleship AI" },
+    { "path": "Bachelor/SecondSemestreLanguage/",        "title": "Language modules",      "short": "Languages" },
+    { "path": "Bachelor/SecondSemestreLanguage/DrRacket/", "title": "Functional programming", "short": "Racket" },
+    { "path": "Bachelor/SecondSemestreLanguage/Prolog/", "title": "Logic programming",     "short": "Prolog" },
+    { "path": "Bachelor/SecondSemestreLanguage/SQL/",    "title": "Relational databases",  "short": "SQL" },
+    { "path": "Bachelor/L3/S5/ComplementMath1/",         "title": "Fourier analysis and ODEs", "short": "ComplementMath1" },
+    { "path": "Bachelor/L3/S5/MathStat2/",               "title": "Estimation and testing", "short": "MathStat2" },
+    { "path": "Bachelor/L3/S5/Econometrie1/",            "title": "Econometrics",          "short": "Econometrie1" },
+    { "path": "Bachelor/L3/S6/ComplementMath2/",         "title": "Machine learning",      "short": "ComplementMath2" },
+    { "path": "Bachelor/L3/S6/MathStat3/",               "title": "Regression and ANOVA",  "short": "MathStat3" },
+    { "path": "Bachelor/L3/S6/Econometrie2/",            "title": "Advanced econometrics", "short": "Econometrie2" },
+    { "path": "Bachelor/L3/S6/WebDev/",                  "title": "Full-stack web",        "short": "WebDev" },
+    { "path": "Master/",                                 "title": "Master of Artificial Intelligence", "short": "Master" }
+  ]
+}

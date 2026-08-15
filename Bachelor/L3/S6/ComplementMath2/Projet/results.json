@@ -1,0 +1,32 @@
+{
+  "source": "rapport/notebooks/07_comparaison.html, table tbl-comparison and tbl-cluster-profiles",
+  "why": "The fitted models live in output/*.rds, which is gitignored because it is a rebuildable cache. The rendered report is the only tracked carrier of these numbers, so they are transcribed here to be chartable. Re-render the report and they can be checked line by line.",
+  "task": "Binary classification: is a fragrance rated at or above the median?",
+  "dataset": { "name": "Fragrantica (Kaggle)", "rows": 24064, "split": "70/30, built against leakage" },
+  "models": [
+    { "name": "Logistic LASSO", "auc_test": 0.6693, "auc_cv": 0.6670, "accuracy": 0.6250,
+      "sensitivity": 0.6354, "specificity": 0.6142, "f1": 0.6323,
+      "tuning": "elastic net, alpha 1.000, lambda 0.002154, 5-fold CV", "retained": true },
+    { "name": "Decision tree", "auc_test": 0.6488, "accuracy": 0.6146,
+      "sensitivity": 0.5939, "specificity": 0.6358, "f1": 0.6099,
+      "tuning": "pruned on the complexity parameter", "retained": true },
+    { "name": "Random forest", "auc_test": 0.6926, "auc_cv": 0.6875, "accuracy": 0.6333,
+      "sensitivity": 0.6551, "specificity": 0.6108, "f1": 0.6445,
+      "tuning": "ranger, 500 trees, mtry 5, min.node.size 10", "retained": true, "best": true },
+    { "name": "kNN", "auc_test": 0.6541, "auc_cv": 0.6520, "accuracy": 0.6114,
+      "sensitivity": 0.5871, "specificity": 0.6364, "f1": 0.6052,
+      "tuning": "k = 51", "retained": true },
+    { "name": "Naive Bayes", "auc_test": 0.6464, "auc_cv": 0.6481, "accuracy": 0.5540,
+      "sensitivity": 0.2002, "specificity": 0.9184, "retained": false,
+      "rejected_because": "sensitivity collapses to 0.20; it buys specificity by almost never predicting the positive class" }
+  ],
+  "clusters": {
+    "method": "K-means, not retained as a classifier, kept as a descriptive read",
+    "profiles": [
+      { "name": "Aromatic-Fresh", "n": 7937, "satisfaction_pct": 51.2, "mean_rating": 3.96 },
+      { "name": "Woody-Oriental", "n": 6006, "satisfaction_pct": 62.0, "mean_rating": 4.03 },
+      { "name": "Floral-Gourmand", "n": 10120, "satisfaction_pct": 43.7, "mean_rating": 3.92 }
+    ]
+  },
+  "caveat": "Every AUC sits near 0.65 to 0.69. The models separate the classes, but only modestly: fragrance ratings are not well predicted by accords and notes alone."
+}

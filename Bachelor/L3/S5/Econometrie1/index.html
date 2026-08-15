@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Econometrics &middot; University Coursework</title>
+<meta name="description" content="Hedonic pricing of Grenoble property on DVF open data: OLS with diagnostics, then a random forest.">
+<link rel="icon" href="../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../site/style.css">
+</head>
+<body data-base="../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Licence 3 MIASHS &middot; semester 5 &middot; R, Python</p>
+    <h1>What is a Grenoble flat worth?</h1>
+    <p class="lede">A hedonic pricing study on DVF open data: what property characteristics are implicitly priced, and what happens when you stop insisting the model be linear.</p>
+  </section>
+  <h2>Results</h2>
+  <figure><div id="r2"></div><figcaption>Explained variance by specification. The log transform is the whole story: prices are right-skewed and multiplicative in their characteristics, which is exactly what the log-linear hedonic form assumes. Source: <code>ProjetEconometrie/results.json</code>.</figcaption></figure>
+  <figure><div id="rmse"></div><figcaption>Prediction error, euro-denominated models only. The two log-price specifications are deliberately absent: their RMSE is in log units and does not belong on this axis. Source: <code>ProjetEconometrie/results.json</code>.</figcaption></figure>
+  <div class="caveat"><h3>What the random forest costs</h3><p>It divides error by about 4.5, and it does so by giving up exactly the thing a hedonic model exists to produce: an interpretable implicit price per characteristic. The two models answer different questions, so the write-up reports both rather than declaring a winner.</p></div>
+  <h2>The study</h2>
+  <div class="cards">
+    <a class="card" href="ProjetEconometrie/">
+      <span class="tag">Group project</span>
+      <span class="t">Full write-up</span>
+      <span class="d">Data preparation, literature review, OLS with diagnostics, and the random forest extension.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Bachelor/L3/S5/Econometrie1/ProjetEconometrie/ModelTraining">
+      <span class="tag">Source</span>
+      <span class="t">Model training</span>
+      <span class="d">The regression output, printed in full.</span>
+    </a>
+  </div>
+  <p>Data: DVF, the French property transaction register (DGFiP), first half of 2025, published as open data.</p>
+
+</main>
+
+<script type="module" src="../../../../site/nav.js"></script>
+<script type="module">
+import { barChart } from '../../../../site/chart.js';
+const d = await (await fetch('ProjetEconometrie/results.json')).json();
+
+barChart(document.getElementById('r2'), {
+  rows: d.models.filter(m => m.r2 !== null).map(m => ({ label: m.name.replace('OLS, ', ''), value: m.r2 })),
+  format: v => v.toFixed(3), max: 0.3, alt: r => r.value > 0.27, axisLabel: 'R squared'
+});
+
+// euros only: the log-price rows are a different unit, not a smaller number
+const euro = d.models.filter(m => m.unit === 'EUR');
+barChart(document.getElementById('rmse'), {
+  rows: euro.map(m => ({ label: m.name.replace('OLS, ', ''), value: m.rmse })),
+  format: v => (v / 1000).toFixed(0) + 'k EUR', max: 300000,
+  alt: r => r.value < 100000, axisLabel: 'RMSE, euros'
+});
+</script>
+</body>
+</html>

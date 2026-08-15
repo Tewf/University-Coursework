@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine learning &middot; University Coursework</title>
+<meta name="description" content="Classification practicals and the perfume satisfaction project: five model families compared on ROC.">
+<link rel="icon" href="../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../site/style.css">
+</head>
+<body data-base="../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Licence 3 MIASHS &middot; semester 6 &middot; R</p>
+    <h1>Machine learning</h1>
+    <p class="lede">Eight classification practicals on the Titanic data, then a group project: can you predict whether a fragrance is rated above the median from its accords and notes?</p>
+  </section>
+  <h2>The project</h2>
+  <p>Roughly 24 000 fragrances, a binary target, and four model families compared on ROC and confusion matrices, with two more tried and rejected on stated grounds.</p>
+  <figure><div id="models"></div><figcaption>Test-set performance of the four retained models. Source: <code>Projet/results.json</code>, transcribed from the rendered report.</figcaption></figure>
+  <div class="caveat"><h3>Read the ceiling, not just the ranking</h3><p>The random forest wins, but every AUC sits between 0.65 and 0.69. The models separate the classes only modestly, which is the honest finding: accords and notes alone do not explain how people rate a perfume. Naive Bayes was dropped for a different reason, that its sensitivity collapses to 0.20 while its specificity climbs to 0.92, which is to say it wins by almost never predicting the positive class.</p></div>
+  <div class="cards">
+    <a class="card" href="Projet/rapport/">
+      <span class="tag">Read it</span>
+      <span class="t">The report</span>
+      <span class="d">24 pages as PDF, or a navigable HTML book with the R folded into each chapter.</span>
+    </a>
+    <a class="card" href="TP/html/">
+      <span class="tag">Rendered</span>
+      <span class="t">Classification practicals</span>
+      <span class="d">Eight worked practicals on the Titanic data.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Bachelor/L3/S6/ComplementMath2/Projet/notebooks">
+      <span class="tag">Source</span>
+      <span class="t">The notebooks</span>
+      <span class="d">Seven Quarto chapters: exploration, feature engineering, one per model, comparison.</span>
+    </a>
+  </div>
+  <p>ROC curves are shown as figures inside the report rather than redrawn here: the curve points live in the model cache, which is rebuildable and not committed.</p>
+
+</main>
+
+<script type="module" src="../../../../site/nav.js"></script>
+<script type="module">
+import { groupedBars } from '../../../../site/chart.js';
+const d = await (await fetch('Projet/results.json')).json();
+groupedBars(document.getElementById('models'), {
+  rows: d.models.filter(m => m.retained).map(m => ({
+    label: m.name.replace('Logistic ', '').replace('Decision ', ''),
+    values: { auc: m.auc_test, acc: m.accuracy, f1: m.f1 }
+  })),
+  metrics: [{ key: 'auc', label: 'AUC' }, { key: 'acc', label: 'Accuracy' }, { key: 'f1', label: 'F1' }],
+  domain: [0.5, 0.75]
+});
+</script>
+</body>
+</html>

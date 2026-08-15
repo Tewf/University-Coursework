@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>University Coursework &middot; Mohamed Hamlil</title>
+<meta name="description" content="The Licence MIASHS and the M1 Artificial Intelligence at Université Grenoble Alpes, end to end. Graded projects with measured results, and the code behind them.">
+<link rel="icon" href="site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site/style.css">
+</head>
+<body data-base="./">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Université Grenoble Alpes</p>
+    <div class="hero-grid">
+      <div>
+        <h1>Coursework, with the numbers still attached.</h1>
+        <p class="lede">
+          The Licence MIASHS and the M1 Artificial Intelligence, end to end. Every figure on
+          this site names the file it came from, so none of it has to be taken on trust.
+        </p>
+        <p>
+          On the right, a Battleship bot playing a game that actually happened: both the shots
+          and the probability grid behind them were recorded out of the Java run.
+          <a href="Bachelor/Java/BattleshipAI/">Open the demo</a>.
+        </p>
+      </div>
+      <div>
+        <a href="Bachelor/Java/BattleshipAI/" style="text-decoration:none">
+          <div id="board"></div>
+        </a>
+        <p class="num" id="status" style="color:var(--muted);font-size:.82rem;margin-top:.6rem"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <span class="v">74.3%</span>
+      <span class="k">win rate for the heatmap bot, over 300 games</span>
+      <span class="src">Bachelor/Java/BattleshipAI/Results/tournament_summary.csv</span>
+    </div>
+    <div class="stat">
+      <span class="v">€58,750</span>
+      <span class="k">prediction error on Grenoble property, down from €265,214</span>
+      <span class="src">Bachelor/L3/S5/Econometrie1/ProjetEconometrie/results.json</span>
+    </div>
+    <div class="stat">
+      <span class="v">0.693</span>
+      <span class="k">best AUC of five model families on perfume ratings</span>
+      <span class="src">Bachelor/L3/S6/ComplementMath2/Projet/results.json</span>
+    </div>
+  </div>
+
+  <h2>Projects</h2>
+  <p>Graded work that runs end to end and reports a measured result.</p>
+  <div class="cards">
+    <a class="card" href="Bachelor/L3/S6/ComplementMath2/">
+      <span class="tag">R &middot; Quarto &middot; group</span>
+      <span class="t">Perfume satisfaction</span>
+      <span class="d">Binary classification over 24 000 fragrances. Four model families compared
+        on ROC and confusion matrices, two more tried and rejected with reasons.</span>
+    </a>
+    <a class="card" href="Bachelor/L3/S5/Econometrie1/">
+      <span class="tag">R &middot; Python &middot; group</span>
+      <span class="t">Grenoble housing prices</span>
+      <span class="d">Hedonic pricing on DVF open data. The log transform is what makes the
+        linear model work; the random forest wins by giving up interpretability.</span>
+    </a>
+    <a class="card" href="Bachelor/Java/BattleshipAI/">
+      <span class="tag">Java &middot; pair</span>
+      <span class="t">Battleship AI</span>
+      <span class="d">Four targeting strategies benchmarked head to head. The cheap
+        probabilistic model beats the expensive simulation.</span>
+    </a>
+    <a class="card" href="Bachelor/L3/S6/WebDev/">
+      <span class="tag">Node &middot; Express &middot; SQLite</span>
+      <span class="t">Full-stack web</span>
+      <span class="d">Nine practicals from a first HTML page to a server with a database,
+        password hashing and sessions. Five of them run right here.</span>
+    </a>
+  </div>
+
+  <h2>Skills, and where they are used</h2>
+  <div class="tw">
+    <table>
+      <tbody>
+        <tr>
+          <th>R</th>
+          <td>tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve.
+            <a href="Bachelor/L3/S6/ComplementMath2/">Machine learning</a>,
+            <a href="Bachelor/L3/S5/Econometrie1/">econometrics</a>,
+            <a href="Bachelor/L3/S6/MathStat3/">statistics</a>,
+            <a href="Bachelor/L3/S5/ComplementMath1/">analysis</a></td>
+        </tr>
+        <tr>
+          <th>Java</th>
+          <td>Object-oriented design, modules, GUI, tournaments under CI.
+            <a href="Bachelor/Java/BattleshipAI/">Battleship AI</a>,
+            <a href="Bachelor/Java/OOP/">the OOP course</a></td>
+        </tr>
+        <tr>
+          <th>JavaScript</th>
+          <td>Node.js, Express, SQLite, sessions and authentication.
+            <a href="Bachelor/L3/S6/WebDev/">Web</a></td>
+        </tr>
+        <tr>
+          <th>SQL, Prolog, Racket</th>
+          <td>Relational, logic and functional paradigms.
+            <a href="Bachelor/SecondSemestreLanguage/">Language modules</a></td>
+        </tr>
+        <tr>
+          <th>Reporting</th>
+          <td>Quarto, R Markdown, LaTeX. Every report here renders from its source</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>By programme</h2>
+  <div class="cards">
+    <a class="card" href="Bachelor/">
+      <span class="tag">2022 &ndash; 2026</span>
+      <span class="t">Licence MIASHS</span>
+      <span class="d">Mathematics, computer science and economics. Java across three years,
+        the language modules, and the two L3 semesters.</span>
+    </a>
+    <a class="card" href="Master/">
+      <span class="tag">In progress</span>
+      <span class="t">Master of Artificial Intelligence</span>
+      <span class="d">UFR IM²AG and Ensimag. Coursework lands as it is produced.</span>
+    </a>
+  </div>
+
+  <h2>About this site</h2>
+  <p>
+    It is committed to the repository and served straight from <code>main</code>: no build
+    step, no framework, no third-party script. The charts are SVG drawn from the same result
+    files the reports were written against, so a re-run of an experiment changes the charts
+    without anyone retyping a number. Source, including the pages you are reading, is on
+    <a href="https://github.com/Tewf/University-Coursework">GitHub</a>.
+  </p>
+
+</main>
+
+<script type="module" src="site/nav.js"></script>
+<script type="module">
+import { loadReplays, Replay } from './site/replay.js';
+
+const data = await loadReplays('Bachelor/Java/BattleshipAI/Results/replays.json');
+const game = data.games.find(g => g.bot === 'Markov');
+
+const player = new Replay(document.getElementById('board'), { board: data.board });
+const status = document.getElementById('status');
+player.onchange = () => {
+  const shot = player.game.shots[player.turn];
+  status.textContent = shot
+    ? `${player.hits()}/19 hit · ${player.turn} shots`
+    : `fleet sunk in ${player.total} shots · random fire needs 94`;
+};
+player.load(game);
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) player.play({ loop: true });
+else player.seek(game.shots.length);
+</script>
+</body>
+</html>
