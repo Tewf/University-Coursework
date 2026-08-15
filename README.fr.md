@@ -4,13 +4,15 @@
 
 > [Read in English](README.md)
 
-Mon parcours académique à l'**Université Grenoble Alpes** — la
+Tout mon parcours académique à l'**Université Grenoble Alpes** — la
 [Licence MIASHS](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
 dans [`Bachelor/`](Bachelor/), et le
 [Master of Artificial Intelligence](https://m-ai.imag.fr/) dans
 [`Master/`](Master/) au fil de sa production.
 
 Les sources sont à côté de leur rendu : rien à cloner pour lire.
+Le M1 est en cours et [`Master/`](Master/) se remplit au fil de l'année ; ce qui
+suit est le travail de Licence, par matière.
 
 ## Apprentissage automatique et statistiques
 

@@ -4,13 +4,15 @@
 
 > [Lire en français](README.fr.md)
 
-My academic work at **Université Grenoble Alpes** — the
+My whole academic path at **Université Grenoble Alpes** — the
 [Licence MIASHS](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
 in [`Bachelor/`](Bachelor/), and the
 [Master of Artificial Intelligence](https://m-ai.imag.fr/) in [`Master/`](Master/)
 as it is produced.
 
 Source sits next to its rendered output, so everything reads without cloning.
+The M1 is under way and [`Master/`](Master/) fills as it goes; what follows is
+the Licence work, by subject.
 
 ## Machine learning and statistics
 
