@@ -73,6 +73,23 @@ and the constants match to the rounding: `Fraction(27, 896)` → `0.03`,
 `stage_test` also beat `nash_equilibrium` head to head, 1,414 to 661, which is
 the ordering the analysis predicted.
 
+## The equilibrium, rechecked
+
+`Equilibrium_Analysis.ipynb` found `stage_test` by minimising the sum of squared
+payoff gradients. On a simplex that searches for the strategies which pay *least*.
+[`equilibrium/`](equilibrium/) redoes it with regret, the condition that is correct
+there, and validates that on two textbook games before touching the 5 × 5.
+
+Sampling `joue/3` 2,000,000 times per agent puts every observed share within 0.0009
+of its declared weight, so the Prolog plays the mixtures the analysis assumes.
+Against `[0, 0, 4/9, 2/9, 1/3]`, picks 3, 4 and 5 each pay 35/9 = 3.8889 while 1 and
+2 pay 1.0000 and 3.3333, which is why the support is the last three.
+
+`stage_test` does beat Nash head to head, 3.5552 to 3.1521, and still earns less
+than Nash would have against **every** opponent scored, by at least 0.1402, so the
+Nash mixture strictly dominates it. It buys the margin by giving up 0.3337 of its
+own payoff, which is the trade the standings above punished.
+
 ## Files
 
 | File | Contents |
@@ -83,7 +100,7 @@ the ordering the analysis predicted.
 | `Equilibrium_Analysis.ipynb` | The notebook the constants come from |
 | `data2.pdf` | The tournament log, 636 pages |
 | `results/` | The log turned into CSVs and the chart above |
-| `equilibrium/` | The same derivation redone with a condition that is correct on a simplex |
+| `equilibrium/` | The same derivation redone with a condition that is correct on a simplex, and every strategy scored against every other |
 
 `khawa_khawa` is the substantial agent, and it **does not appear in the log at
 all**: zero rounds, against 1,805 for `stage_test` and 1,813 for
@@ -113,15 +130,20 @@ warns on load that the local definition shadows it. It is reached through
 ```sh
 swipl -s Code.pl          # then query, for example: joue(stage_test, [], Move).
 cd results && python3 analyse_log.py && python3 plot_leaderboard.py
+cd equilibrium && python3 verify_agents.py && python3 strategy_payoffs.py
 ```
 
 `analyse_log.py` checks each agent's match scores against its leaderboard total
 and stops if they disagree, which is how a parsing bug surfaced.
+`strategy_payoffs.py` checks every figure the write-ups quote against the run that
+produced them, and `verify_agents.py` is seeded, so both rewrite their CSVs byte for
+byte.
 
 ## Prerequisites
 
 SWI-Prolog for the agents. Python 3 with matplotlib, and poppler-utils for
-`pdftotext`, to rebuild the results.
+`pdftotext`, to rebuild the results. `equilibrium/requirements.txt` pins what the
+equilibrium work needs on top of that.
 
 ## Source material
 
