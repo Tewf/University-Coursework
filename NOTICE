@@ -18,6 +18,19 @@ under a licence I have no right to grant. They are cited below and in the
 README of each course that uses them, so the work here remains traceable to
 the material it responds to.
 
+Some of it is also not mine alone. Where a project was done with others, its
+own README names every author, and the MIT licence covers my contribution
+rather than theirs:
+
+  * Bachelor/Java/BattleshipAI/
+      with SGHIOUAR IDRISSI Saad, named in that folder's own LICENSE.
+  * Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/
+      with EL KORAICHI Mohamed Yassine, https://github.com/yassine-ek
+  * Bachelor/L3/S6/ComplementMath2/Projet/
+      with PARDO TERAN, EL KORAICHI Mohamed Yassine and ANZID Keltoum.
+  * Bachelor/L3/S5/Econometrie1/ProjetEconometrie/
+      with ANZID Keltoum and EL KORAICHI Mohamed Yassine.
+
 --- Course material, by author --------------------------------------------
 
 Lola Etiévant (Université Grenoble Alpes)
@@ -50,9 +63,10 @@ Teaching staff, Programmation Logique — Prolog (UGA)
   Project brief and the tournament harness that produced the match log.
   Referenced by: Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/
   The log (data2.pdf) is the harness's own output. It records the play of
-  fourteen other students' agents by the names they submitted, alongside mine.
-  Only my two agents and my analysis of the log are covered by the MIT licence;
-  the strategies those other agents play are their authors' work.
+  fourteen other students' agents by the names they submitted, alongside the
+  two entered by this project. Those two agents and the analysis of the log
+  are the work of its named authors; the strategies the other agents play
+  are their own authors' work and are not licensed here.
 
 Teaching staff, Compléments de Mathématiques 2 (UGA)
   Project brief, perfume customer-satisfaction project.

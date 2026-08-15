@@ -2,7 +2,8 @@
 
 > [Lire en français](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/)
 
-**Course:** Logic Programming, Licence MIASHS, Université Grenoble Alpes
+**Authors:** HAMLIL Mohamed Ali Tewfik · [EL KORAICHI Mohamed Yassine](https://github.com/yassine-ek)
+*A two-person project. Logic Programming, Licence MIASHS, Université Grenoble Alpes.*
 
 Two strategies were derived on paper, written as Prolog agents, and entered into
 a 16-agent tournament against the rest of the year. The interesting part is not
