@@ -12,6 +12,11 @@ pip install -r requirements.txt
 jupyter execute equilibrium_recomputed.ipynb
 ```
 
+[`strategy_comparison.md`](strategy_comparison.md) is the other half: it checks that
+the shipped Prolog plays the mixture it declares, then scores all seven strategies
+against each other. Its headline is stronger than anything on this page, and it is
+not what the original was arguing about, so it is kept separate.
+
 ## The conclusion still stands
 
 `stage_test` does outscore the Nash equilibrium when the two play each other.
