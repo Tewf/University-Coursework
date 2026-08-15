@@ -1,6 +1,6 @@
 # SQL : Bases de donnees relationnelles
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/SQL/)
 
 **Cours :** Bases de donnees, Licence MIASHS, Universite Grenoble Alpes
 

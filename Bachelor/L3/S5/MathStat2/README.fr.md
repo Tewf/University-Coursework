@@ -1,6 +1,6 @@
 # Mathematiques et Statistiques 2
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/)
 
 **Cours :** MathStat2, Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
 

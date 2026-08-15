@@ -1,6 +1,6 @@
 # Master: Artificial Intelligence
 
-> [Lire en français](#version-francaise)
+> [Lire en français](#version-francaise) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Master/)
 
 [Master of Artificial Intelligence](https://m-ai.imag.fr/), Université Grenoble
 Alpes, jointly delivered by UFR IM²AG and Ensimag (Grenoble INP).

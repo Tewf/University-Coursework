@@ -1,6 +1,6 @@
 # DrRacket: Functional Programming
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/DrRacket/)
 
 **Course:** Functional Programming, Licence MIASHS, Universite Grenoble Alpes
 

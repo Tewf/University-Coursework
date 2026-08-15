@@ -1,6 +1,6 @@
 # Langages de programmation & Paradigmes
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/)
 
 **Cours :** Modules de langages du second semestre, Licence MIASHS, Universite Grenoble Alpes
 

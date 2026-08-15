@@ -1,6 +1,6 @@
 # Programmation Orientee Objet (POO)
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/Java/OOP/)
 
 **Cours :** POO, Licence MIASHS, Universite Grenoble Alpes
 

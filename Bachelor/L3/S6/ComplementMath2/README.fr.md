@@ -1,6 +1,6 @@
 # Complements de mathematiques 2 : Introduction au Machine Learning
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Comparer les modèles ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/)
 
 **Cours :** ComplementMath2, Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
 
