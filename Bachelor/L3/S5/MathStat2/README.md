@@ -1,6 +1,6 @@
 # Mathematical Statistics 2
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/MathStat2/)
 
 **Course:** MathStat2, Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
 

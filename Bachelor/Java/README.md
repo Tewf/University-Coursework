@@ -1,6 +1,6 @@
 # Java Programming
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/Java/)
 
 **Course:** Java & AI, Licence MIASHS, Universite Grenoble Alpes
 

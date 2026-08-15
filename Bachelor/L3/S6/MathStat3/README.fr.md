@@ -1,6 +1,6 @@
 # Mathematiques et Statistiques 3
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/MathStat3/)
 
 **Cours :** MathStat3, Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
 

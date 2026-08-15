@@ -1,6 +1,6 @@
 # Bachelor Degree Coursework
 
-> [Lire en français](README.fr.md)
+> [Lire en français](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/)
 
 Everything from my **Licence MIASHS** at Université Grenoble Alpes. The projects
 worth opening first are on the [repository front page](../README.md); this page is

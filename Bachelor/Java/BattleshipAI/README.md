@@ -1,6 +1,6 @@
 # Battleship AI Project
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Watch the bot play ↗](https://tewf.github.io/University-Coursework/Bachelor/Java/BattleshipAI/)
 
 
 **Authors:** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad

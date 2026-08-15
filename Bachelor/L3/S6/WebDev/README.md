@@ -1,6 +1,6 @@
 # Introduction to Web Technologies (ITW)
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Try the practicals ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/WebDev/)
 
 **Course:** ITW, Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
 **Instructor:** Quentin Roy

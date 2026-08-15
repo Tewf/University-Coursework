@@ -1,6 +1,6 @@
 # Econometrie 1
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Voir les graphiques ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/Econometrie1/)
 
 **Cours :** Econometrie1, Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
 

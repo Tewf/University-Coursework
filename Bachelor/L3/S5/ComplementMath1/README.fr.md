@@ -1,6 +1,6 @@
 # Complements de mathematiques 1
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S5/ComplementMath1/)
 
 **Cours :** ComplementMath1, Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
 

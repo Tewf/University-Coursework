@@ -1,6 +1,6 @@
 # Prolog: Logic Programming
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/Prolog/)
 
 **Course:** Logic Programming, Licence MIASHS, Universite Grenoble Alpes
 

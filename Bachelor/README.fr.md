@@ -1,6 +1,6 @@
 # Travaux de Licence
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Ouvrir sur le site ↗](https://tewf.github.io/University-Coursework/Bachelor/)
 
 L'ensemble des travaux de ma **Licence MIASHS** à l'Université Grenoble Alpes. Les
 projets à ouvrir en premier sont sur la [page d'accueil du dépôt](../README.fr.md) ;

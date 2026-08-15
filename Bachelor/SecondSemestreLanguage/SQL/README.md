@@ -1,6 +1,6 @@
 # SQL: Relational Databases
 
-> [Lire en francais](README.fr.md)
+> [Lire en francais](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Bachelor/SecondSemestreLanguage/SQL/)
 
 **Course:** Databases, Licence MIASHS, Universite Grenoble Alpes
 

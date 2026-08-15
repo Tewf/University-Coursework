@@ -1,6 +1,6 @@
 # Bataille Navale : Projet IA
 
-> [Read in English](README.md)
+> [Read in English](README.md) · [Regarder le bot jouer ↗](https://tewf.github.io/University-Coursework/Bachelor/Java/BattleshipAI/)
 
 
 **Auteurs :** HAMLIL Mohamed Ali Tewfik · SGHIOUAR IDRISSI Saad
