@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** MathStat2 — Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
+**Cours :** MathStat2, Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
 
 Travaux pratiques de statistiques en R couvrant la simulation, l'estimation et les tests d'hypothese. Ces seances construisent une base solide pour l'analyse statistique appliquee.
 
@@ -28,8 +28,8 @@ Travaux pratiques de statistiques en R couvrant la simulation, l'estimation et l
 
 ## Jeux de donnees
 
-- `post-199413-Intima_Media.txt` — Mesures d'epaisseur de l'intima-media post-transverse
-- `post-199414-prevalsidafric.xls` — Donnees de prevalence du VIH en Afrique
+- `post-199413-Intima_Media.txt` : Mesures d'epaisseur de l'intima-media post-transverse
+- `post-199414-prevalsidafric.xls` : Donnees de prevalence du VIH en Afrique
 - Voir `data/README.md` pour la description detaillee des variables.
 
 ## Prerequis

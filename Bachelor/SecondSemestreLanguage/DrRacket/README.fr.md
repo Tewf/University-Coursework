@@ -1,8 +1,8 @@
-# DrRacket — Programmation fonctionnelle
+# DrRacket : Programmation fonctionnelle
 
 > [Read in English](README.md)
 
-**Cours :** Programmation fonctionnelle — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** Programmation fonctionnelle, Licence MIASHS, Universite Grenoble Alpes
 
 Une introduction a la programmation fonctionnelle en Racket (un dialecte de Scheme). Les exercices progressent de la recursion de base aux fonctions d'ordre superieur et au calcul symbolique.
 

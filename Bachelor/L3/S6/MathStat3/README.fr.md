@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** MathStat3 — Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
+**Cours :** MathStat3, Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
 
 Methodes statistiques avancees couvrant les tests d'hypothese, la regression, l'ANOVA et les tests non-parametriques. Chaque TP s'appuie sur le precedent, progressant des tests de normalite de base a l'analyse multi-facteurs complexe.
 
@@ -65,4 +65,4 @@ MathStat3/
 
 Le polycopié de TP de ce cours (35 p.) a été rédigé par l'équipe enseignante (UGA).
 
-Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.
+Non redistribués ici ; voir [NOTICE](../../../../NOTICE) pour les crédits complets.

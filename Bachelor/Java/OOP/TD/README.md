@@ -1,4 +1,4 @@
-# Directed Exercises (TD) — OOP
+# Directed Exercises (TD): OOP
 
 > [Lire en francais](README.fr.md)
 

@@ -1,4 +1,4 @@
-# Travaux Diriges (TD) — POO
+# Travaux Diriges (TD) : POO
 
 > [Read in English](README.md)
 

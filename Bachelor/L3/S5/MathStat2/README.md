@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** MathStat2 — Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
+**Course:** MathStat2, Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
 
 Statistical practicals in R covering simulation, estimation, and hypothesis testing. These sessions build a solid foundation for applied statistical analysis.
 
@@ -28,8 +28,8 @@ Statistical practicals in R covering simulation, estimation, and hypothesis test
 
 ## Datasets
 
-- `post-199413-Intima_Media.txt` — Post-transverse intima-media thickness measurements
-- `post-199414-prevalsidafric.xls` — HIV prevalence data in Africa
+- `post-199413-Intima_Media.txt`: Post-transverse intima-media thickness measurements
+- `post-199414-prevalsidafric.xls`: HIV prevalence data in Africa
 - See `data/README.md` for detailed variable descriptions.
 
 ## Prerequisites

@@ -1,4 +1,4 @@
-# Bataille Navale — Projet IA
+# Bataille Navale : Projet IA
 
 > [Read in English](README.md)
 
@@ -25,7 +25,7 @@ commandes ci-dessous ; sorties brutes dans [`Results/`](Results/).
 La grille compte 100 cases : le tir aleatoire en demande 94, soit quasiment
 toute la grille. Markov la vide en 55, une **reduction de 42 %**, et gagne 74 %
 de ses parties. Monte Carlo coute bien plus de calcul pour un resultat
-legerement inferieur — c'est la partie interessante : ici le modele
+legerement inferieur ; c'est la partie interessante : ici le modele
 probabiliste bon marche bat la simulation couteuse.
 
 ## Execution du projet

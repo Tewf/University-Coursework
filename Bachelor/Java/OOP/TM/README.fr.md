@@ -1,4 +1,4 @@
-# Mini-Projets (TM) — POO
+# Mini-Projets (TM) : POO
 
 > [Read in English](README.md)
 

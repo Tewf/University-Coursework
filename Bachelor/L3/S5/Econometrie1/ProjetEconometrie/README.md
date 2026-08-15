@@ -1,4 +1,4 @@
-# Projet d'Économétrie — Prix hédoniques de l'immobilier grenoblois
+# Projet d'Économétrie : Prix hédoniques de l'immobilier grenoblois
 
 **Auteurs :** HAMLIL Mohamed Ali Tewfik · ANZID Keltoum · EL KORAICHI Mohamed Yassine
 *Projet de groupe, Économétrie 1, L3 MIASHS, Université Grenoble Alpes.*
@@ -18,7 +18,7 @@ P_i = f(X_i) + ε_i
 ```
 
 où `X_i` est le vecteur des caractéristiques (surface, pièces, type de bien,
-localisation) et `f` la fonction de prix hédonique — estimée ici d'abord en
+localisation) et `f` la fonction de prix hédonique, estimée ici d'abord en
 spécifications linéaire et log-linéaire, puis de façon non paramétrique.
 
 ## Résultats
@@ -37,12 +37,12 @@ est alors en unités logarithmiques et n'est pas comparable d'une ligne à l'aut
 Deux lectures :
 
 - **C'est la transformation logarithmique qui fait fonctionner le modèle
-  linéaire.** Le R² passe de 0,096 à 0,275 — les prix immobiliers sont
+  linéaire.** Le R² passe de 0,096 à 0,275 ; les prix immobiliers sont
   asymétriques à droite et multiplicatifs en leurs caractéristiques, ce que
   postule précisément la spécification hédonique log-linéaire.
 - **La forêt aléatoire divise le RMSE par environ 4,5** face au meilleur MCO en
   euros (58 750 € contre 265 214 €), ce qui indique des non-linéarités et des
-  interactions — vraisemblablement localisation × surface — qu'une spécification
+  interactions (vraisemblablement localisation × surface) qu'une spécification
   additive ne peut pas représenter. Elle gagne cette précision en abandonnant les
   prix implicites interprétables qui étaient l'objet même de la démarche
   hédonique : les deux modèles répondent à des questions différentes.
@@ -64,7 +64,7 @@ Chaque répertoire a son propre README.
 ## Données
 
 **Demandes de Valeurs Foncières (DVF)**, Direction générale des Finances
-publiques (DGFiP), premier semestre 2025 — données ouvertes sous
+publiques (DGFiP), premier semestre 2025 : données ouvertes sous
 [Licence Ouverte](https://www.etalab.gouv.fr/licence-ouverte-open-licence).
 Source : https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/
 
@@ -80,5 +80,5 @@ in Pure Competition.* Journal of Political Economy, 82(1), 34–55.
 ## Source material
 
 Les documents officiels DGFiP (notice, FAQ, conditions d'utilisation) et
-l'article BIS sont cités et liés, non redistribués ici — voir le
+l'article BIS sont cités et liés, non redistribués ici ; voir le
 [NOTICE](../../../../../NOTICE) pour les crédits complets.

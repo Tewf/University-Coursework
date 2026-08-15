@@ -1,4 +1,4 @@
-# Livrables Moodle — Bundle autonome
+# Livrables Moodle : Bundle autonome
 
 Bundle déposé sur Moodle, **auto-suffisant** : tous les fichiers nécessaires pour compiler le rapport sont dans ce dossier, aucun lien vers l'extérieur.
 
@@ -17,7 +17,7 @@ Bundle déposé sur Moodle, **auto-suffisant** : tous les fichiers nécessaires 
 
 ## Compilation dans RStudio (rapide, avec cache)
 
-1. **Ouvrir** `Rapport_Projet_Parfums.Rproj` — RStudio règle automatiquement le working directory sur ce dossier.
+1. **Ouvrir** `Rapport_Projet_Parfums.Rproj` : RStudio règle automatiquement le working directory sur ce dossier.
 2. **Ouvrir** `Rapport_Projet_Parfums.Rmd` dans l'éditeur.
 3. **Cliquer** sur le bouton **Knit** (ou `Ctrl+Shift+K`).
 
@@ -61,16 +61,16 @@ tinytex::install_tinytex()  # une seule fois, si pas déjà installé
 
 Le `.Rmd` suit une progression en 13 sections :
 
-1. **Introduction** — contexte parfumerie, problématique
-2. **Données** — présentation du dataset Fragrantica, valeurs manquantes
-3. **Analyse Exploratoire** — distributions univariées, bivariées, corrélations
-4. **Feature Engineering** — mapping vers 10 familles olfactives, split 70/30
-5. **Régression Logistique LASSO** — Elastic Net (CV 5-fold)
-6. **Arbre de Décision** — élagué par complexity parameter
-7. **Forêt Aléatoire** — `ranger` 500 arbres (**meilleur modèle**)
-8. **k Plus Proches Voisins** — illustration de la malédiction de la dimensionnalité
-9. **Comparaison** — courbes ROC, table récapitulative
-10. **Pistes non explorées** — Naive Bayes et K-means (justifications de non-rétention)
+1. **Introduction** : contexte parfumerie, problématique
+2. **Données** : présentation du dataset Fragrantica, valeurs manquantes
+3. **Analyse Exploratoire** : distributions univariées, bivariées, corrélations
+4. **Feature Engineering** : mapping vers 10 familles olfactives, split 70/30
+5. **Régression Logistique LASSO** : Elastic Net (CV 5-fold)
+6. **Arbre de Décision** : élagué par complexity parameter
+7. **Forêt Aléatoire** : `ranger` 500 arbres (**meilleur modèle**)
+8. **k Plus Proches Voisins** : illustration de la malédiction de la dimensionnalité
+9. **Comparaison** : courbes ROC, table récapitulative
+10. **Pistes non explorées** : Naive Bayes et K-means (justifications de non-rétention)
 11. **Regard critique et limites**
 12. **Synthèse et conclusion**
 13. **Utilisation de l'IA + contributions individuelles + références**

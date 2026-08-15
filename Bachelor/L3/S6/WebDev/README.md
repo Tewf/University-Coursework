@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** ITW — Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
+**Course:** ITW, Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
 **Instructor:** Quentin Roy
 
 A complete web development course progressing from HTML fundamentals to a full-stack Express.js application. All code files are **heavily commented in French** with simple analogies and common-mistake warnings.

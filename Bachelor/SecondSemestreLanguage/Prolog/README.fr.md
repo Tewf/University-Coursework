@@ -1,10 +1,10 @@
-# Prolog — Programmation logique
+# Prolog : Programmation logique
 
 > [Read in English](README.md)
 
-**Cours :** Programmation logique — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** Programmation logique, Licence MIASHS, Universite Grenoble Alpes
 
-Une introduction a la programmation logique avec Prolog. Au lieu d'ecrire des instructions pas a pas, on declare des **faits** et des **regles**, puis on pose des questions — et le moteur Prolog trouve les reponses.
+Une introduction a la programmation logique avec Prolog. Au lieu d'ecrire des instructions pas a pas, on declare des **faits** et des **regles**, puis on pose des questions, et le moteur Prolog trouve les reponses.
 
 ## Ce que vous apprendrez
 

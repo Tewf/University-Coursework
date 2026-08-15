@@ -1,8 +1,8 @@
-# SQL — Bases de donnees relationnelles
+# SQL : Bases de donnees relationnelles
 
 > [Read in English](README.md)
 
-**Cours :** Bases de donnees — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** Bases de donnees, Licence MIASHS, Universite Grenoble Alpes
 
 Exercices pratiques couvrant le SQL des requetes de base aux transactions et vues. Chaque TP s'appuie progressivement sur le precedent.
 
@@ -66,4 +66,4 @@ SQL/
 
 Les sujets de TP01 à TP04 ont été rédigés par l'équipe enseignante du cours de bases de données (UGA).
 
-Non redistribués ici — voir [NOTICE](../../../NOTICE) pour les crédits complets.
+Non redistribués ici ; voir [NOTICE](../../../NOTICE) pour les crédits complets.

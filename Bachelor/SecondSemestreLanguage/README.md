@@ -2,15 +2,15 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Second Semester Language Modules — Licence MIASHS, Universite Grenoble Alpes
+**Course:** Second Semester Language Modules, Licence MIASHS, Universite Grenoble Alpes
 
 Three courses exposing students to fundamentally different programming paradigms, broadening problem-solving approaches beyond traditional imperative programming.
 
 ## What You'll Learn
 
-- **Functional programming** — Think in terms of pure functions, recursion, and immutable data
-- **Logic programming** — Express problems as facts and rules, let the engine find solutions
-- **Relational databases** — Model data with schemas, query with SQL
+- **Functional programming**: Think in terms of pure functions, recursion, and immutable data
+- **Logic programming**: Express problems as facts and rules, let the engine find solutions
+- **Relational databases**: Model data with schemas, query with SQL
 
 ## Courses
 

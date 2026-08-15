@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** ITW — Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
+**Cours :** ITW, Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
 **Enseignant :** Quentin Roy
 
 Ce dossier contient l'ensemble des Travaux Pratiques du cours d'Introduction aux Technologies du Web. Le code est **richement commente en francais** avec des analogies simples et des avertissements sur les erreurs courantes.

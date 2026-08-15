@@ -2,15 +2,15 @@
 
 > [Read in English](README.md)
 
-**Cours :** Modules de langages du second semestre — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** Modules de langages du second semestre, Licence MIASHS, Universite Grenoble Alpes
 
 Trois cours exposant les etudiants a des paradigmes de programmation fondamentalement differents, elargissant les approches de resolution de problemes au-dela de la programmation imperative traditionnelle.
 
 ## Ce que vous apprendrez
 
-- **Programmation fonctionnelle** — Penser en termes de fonctions pures, recursion et donnees immutables
-- **Programmation logique** — Exprimer les problemes comme des faits et regles, laisser le moteur trouver les solutions
-- **Bases de donnees relationnelles** — Modeliser les donnees avec des schemas, interroger avec SQL
+- **Programmation fonctionnelle** : Penser en termes de fonctions pures, recursion et donnees immutables
+- **Programmation logique** : Exprimer les problemes comme des faits et regles, laisser le moteur trouver les solutions
+- **Bases de donnees relationnelles** : Modeliser les donnees avec des schemas, interroger avec SQL
 
 ## Cours
 

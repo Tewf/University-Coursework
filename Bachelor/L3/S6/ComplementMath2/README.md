@@ -1,8 +1,8 @@
-# Complement of Mathematics 2 — Introduction to Machine Learning
+# Complement of Mathematics 2: Introduction to Machine Learning
 
 > [Lire en francais](README.fr.md)
 
-**Course:** ComplementMath2 — Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
+**Course:** ComplementMath2, Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
 
 An introduction to supervised machine learning in R, combining practical exercises (TPs) with a comprehensive end-to-end classification project on perfume data.
 
@@ -93,4 +93,4 @@ quarto preview TP/TP1/Correction\ TP\ 1.qmd
 
 Practical subjects TP1–TP5 were written by **Lola Etiévant** (Université Grenoble Alpes). The solutions in this directory are mine; the questions they answer are hers.
 
-Not redistributed here — see [NOTICE](../../../../NOTICE) for full credits.
+Not redistributed here; see [NOTICE](../../../../NOTICE) for full credits.
