@@ -4,7 +4,7 @@
 
 > [Lire en français](README.fr.md)
 
-My whole academic path at **Université Grenoble Alpes** — the
+My whole academic path at **Université Grenoble Alpes**: the
 [Licence MIASHS](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
 in [`Bachelor/`](Bachelor/), and the
 [Master of Artificial Intelligence](https://m-ai.imag.fr/) in [`Master/`](Master/)
@@ -35,12 +35,12 @@ the Licence work, by subject.
 | | |
 |---|---|
 | [Battleship AI](Bachelor/Java/Complement_IA-main/) | Markov and Monte-Carlo targeting bots benchmarked head to head; the best wins 74% of its games. *Pair project.* |
-| [Object-oriented programming](Bachelor/Java/OOP/) | The Java course — 59 source files. |
+| [Object-oriented programming](Bachelor/Java/OOP/) | The Java course, 59 source files. |
 | [Functional](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logic](Bachelor/SecondSemestreLanguage/Prolog/) · [Relational](Bachelor/SecondSemestreLanguage/SQL/) | Racket, Prolog and SQL practicals. |
 | [Full-stack web](Bachelor/L3/S6/WebDev/) | Static HTML through to Node.js/Express on SQLite. |
 
 ## Licence and credits
 
-Code and writing are MIT — see [LICENSE](LICENSE). **[NOTICE](NOTICE) matters
+Code and writing are MIT; see [LICENSE](LICENSE). **[NOTICE](NOTICE) matters
 here**: MIT covers my own work only. Practical subjects, handouts and published
 papers belong to their authors and are cited rather than redistributed.
