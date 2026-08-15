@@ -34,7 +34,7 @@ the Licence work, by subject.
 
 | | |
 |---|---|
-| [Battleship AI](Bachelor/Java/Complement_IA-main/) | Markov and Monte-Carlo targeting bots benchmarked head to head; the best wins 74% of its games. *Pair project.* |
+| [Battleship AI](Bachelor/Java/BattleshipAI/) | Markov and Monte-Carlo targeting bots benchmarked head to head; the best wins 74% of its games. *Pair project.* |
 | [Object-oriented programming](Bachelor/Java/OOP/) | The Java course, 59 source files. |
 | [Functional](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logic](Bachelor/SecondSemestreLanguage/Prolog/) · [Relational](Bachelor/SecondSemestreLanguage/SQL/) | Racket, Prolog and SQL practicals. |
 | [Full-stack web](Bachelor/L3/S6/WebDev/) | Static HTML through to Node.js/Express on SQLite. |

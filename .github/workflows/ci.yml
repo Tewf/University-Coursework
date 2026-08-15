@@ -8,11 +8,11 @@ on:
 
 jobs:
   java-build:
-    name: Java — Compile & Test
+    name: Java Compile & Test
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Bachelor/Java/Complement_IA-main
+        working-directory: Bachelor/Java/BattleshipAI
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17

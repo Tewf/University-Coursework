@@ -34,7 +34,7 @@ suit est le travail de Licence, par matière.
 
 | | |
 |---|---|
-| [IA de bataille navale](Bachelor/Java/Complement_IA-main/) | Bots de ciblage Markov et Monte-Carlo confrontés ; le meilleur gagne 74 % de ses parties. *Projet en binôme.* |
+| [IA de bataille navale](Bachelor/Java/BattleshipAI/) | Bots de ciblage Markov et Monte-Carlo confrontés ; le meilleur gagne 74 % de ses parties. *Projet en binôme.* |
 | [Programmation orientée objet](Bachelor/Java/OOP/) | Le cours de Java, 59 fichiers source. |
 | [Fonctionnel](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logique](Bachelor/SecondSemestreLanguage/Prolog/) · [Relationnel](Bachelor/SecondSemestreLanguage/SQL/) | TP Racket, Prolog et SQL. |
 | [Web full-stack](Bachelor/L3/S6/WebDev/) | Du HTML statique à une application Node.js/Express sur SQLite. |

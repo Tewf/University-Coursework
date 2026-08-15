@@ -11,7 +11,7 @@ All coursework and projects from my **Licence MIASHS** at Universite Grenoble Al
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
 | OOP | Object-oriented programming | Java | [Java/OOP/](Java/OOP/) |
-| Battleship AI | Multi-strategy AI game | Java | [Java/Complement_IA-main/](Java/Complement_IA-main/) |
+| Battleship AI | Multi-strategy AI game | Java | [Java/BattleshipAI/](Java/BattleshipAI/) |
 | Functional Programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
 | Logic Programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
 | Databases | SQL queries, joins, aggregation | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
@@ -39,7 +39,7 @@ All coursework and projects from my **Licence MIASHS** at Universite Grenoble Al
 
 ### Battleship AI
 A complete Battleship game with graphical interface and **4 AI strategies**: Uniform random, Markov chains, Monte Carlo simulation, and a Smart heuristic. Includes performance benchmarking and statistical analysis of strategy effectiveness.
-**See:** [Java/Complement_IA-main/](Java/Complement_IA-main/)
+**See:** [Java/BattleshipAI/](Java/BattleshipAI/)
 
 ### Real-Estate Price Analysis
 End-to-end econometric study of property prices in Grenoble using DVF public data. Covers data preprocessing, literature review, linear regression, and a Random Forest extension.
