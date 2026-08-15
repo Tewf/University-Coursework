@@ -35,7 +35,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install SWI-Prolog
         run: sudo apt-get update && sudo apt-get install -y swi-prolog-nox
-      - name: Every agent returns a legal move
+      # khawa_khawa_prime is left out on purpose: it returns no move until the
+      # history reaches 7 rounds, which the folder README records as a defect.
+      - name: Every working agent returns a legal move
         run: |
           swipl -g "forall(member(A, [stage_test, nash_equilibrium, khawa_khawa]),
                            (joue(A, [], M), between(1, 5, M),

@@ -88,6 +88,25 @@ the ordering the analysis predicted.
 all**: zero rounds, against 1,805 for `stage_test` and 1,813 for
 `nash_equilibrium`. It was built alongside the entrants rather than entered.
 
+## Two defects in the file, recorded rather than repaired
+
+Neither touched the tournament, because only the two stateless agents were
+entered. Both are in the parts that were not.
+
+`khawa_khawa_prime` **returns no move until the history reaches 7 rounds**.
+`prefixe(L, N, P) :- length(P, N), append(P, _, L)` demands a prefix of exactly
+N elements, so it fails on anything shorter, and `entropie_adv` asks it for 7.
+A harness expecting a move every round would have got nothing from this agent
+for the first seven of every match.
+
+`random_member/2` is redefined at line 738 and **throws** where the library
+version would have worked. It calls `random_between(0, N-1, I)`, passing the
+compound term `N-1` where an integer is required, so any call raises
+`Type error: integer expected, found 3-1`. Line 1 already imports
+`library(random)`, which provides a correct `random_member/2`, and SWI-Prolog
+warns on load that the local definition shadows it. It is reached through
+`tirage_nash`.
+
 ## Running the code
 
 ```sh
