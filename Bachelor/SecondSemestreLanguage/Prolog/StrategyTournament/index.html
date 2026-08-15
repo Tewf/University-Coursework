@@ -84,6 +84,66 @@
     rewards deliberate repetition, and that is the whole of the gap between 7th and 1st.
   </p>
 
+  <h2>The equilibrium the agents were built on</h2>
+
+  <p>
+    Both entered agents sample a fixed mixture over the five picks, and the shipped Prolog
+    plays what the analysis says it plays. Calling <code>joue/3</code> 2,000,000 times per
+    agent puts every observed share within 0.0009 of its declared weight, and the picks a
+    mixture gives no weight never came up once in either agent. So the numbers below
+    describe the agents that actually ran, not just the vectors on paper.
+  </p>
+
+  <figure>
+    <div id="game"></div>
+    <figcaption>
+      The game. Payoff to the row player for its pick against the column player's, taken
+      from the pure-against-pure rows of <code>equilibrium/strategy_payoffs.csv</code>.
+      Undercutting by one takes the sum, which is the 5, 7 and 9 just above the diagonal.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div id="support"></div>
+    <figcaption>
+      What each pick earns against a Nash opponent. Picks 3, 4 and 5 all pay exactly
+      35/9&nbsp;=&nbsp;3.8889, which is why the equilibrium mixes over those three and
+      gives 1 and 2 no weight at all. Source:
+      <code>equilibrium/strategy_payoffs.csv</code>.
+    </figcaption>
+  </figure>
+
+  <p>
+    That flat top is the whole of the equilibrium condition. A mixture is a best reply
+    exactly when every pick it uses pays the same and nothing unused pays more, so
+    <code>[0,&nbsp;0,&nbsp;4/9,&nbsp;2/9,&nbsp;1/3]</code> has regret 0 while
+    <code>stage_test</code> carries 0.3337 against that opponent and 0.5684 against itself.
+    The best reply to <code>stage_test</code> is pick 5, the one pick
+    <code>stage_test</code> never plays.
+  </p>
+
+  <figure>
+    <div id="margin"></div>
+    <figcaption>
+      How much more the Nash mixture earns than <code>stage_test</code> does, against the
+      same opponent. Every bar is positive, and the shortest is 0.1402. The absolute
+      figures behind it are tabulated in
+      <a href="https://github.com/Tewf/University-Coursework/blob/main/Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/equilibrium/strategy_comparison.md">the
+      folder's own write-up</a>. Source:
+      <code>equilibrium/strategy_payoffs.csv</code>.
+    </figcaption>
+  </figure>
+
+  <p>
+    <code>stage_test</code> does beat Nash head to head, 3.5552 to 3.1521, which is what
+    the original analysis claimed. It also earns <strong>less than Nash would have earned
+    against every one of those opponents</strong>, by at least 0.1402. Payoff is linear in
+    the opponent's mixture, so beating <code>stage_test</code> against all five pure picks
+    settles it for every mixture too: the Nash strategy strictly dominates it. It wins the
+    match by taking 0.7368 off the opponent while giving up 0.3337 itself, which is the
+    same distinction the tournament standings turned on.
+  </p>
+
   <div class="caveat">
     <h3>How to read these numbers</h3>
     <ul>
@@ -108,7 +168,7 @@
 
 <script type="module" src="../../../../site/nav.js"></script>
 <script type="module">
-import { parseCsv, barChart } from '../../../../site/chart.js';
+import { parseCsv, barChart, matrixChart } from '../../../../site/chart.js';
 
 const csv = async path => parseCsv(await (await fetch(path)).text());
 const MINE = new Set(['stage_test', 'nash_equilibrium']);
@@ -135,6 +195,38 @@ Promise.all([csv('results/leaderboard.csv'), csv('results/head_to_head.csv')])
       axisLabel: 'cumulative score, powers of ten'
     });
   });
+
+// The pure picks come back from parseCsv as numbers and the mixtures as strings,
+// so every lookup goes through the same string key.
+const PICKS = ['1', '2', '3', '4', '5'];
+const ALL = [...PICKS, 'stage_test', 'nash_equilibrium'];
+const show = name => name === 'nash_equilibrium' ? 'Nash' : name;
+
+csv('equilibrium/strategy_payoffs.csv').then(rows => {
+  const cell = new Map(rows.map(r => [`${r.strategy} vs ${r.opponent}`, r]));
+  const payoff = (mine, theirs) => cell.get(`${mine} vs ${theirs}`).payoff;
+
+  matrixChart(document.getElementById('game'), {
+    labels: PICKS, get: payoff, format: v => v.toFixed(0),
+    note: 'payoff to the row player'
+  });
+
+  barChart(document.getElementById('support'), {
+    rows: ALL.map(s => ({ label: show(s), value: payoff(s, 'nash_equilibrium') })),
+    // the three picks that tie for the best reply are exactly the equilibrium's support
+    format: v => v.toFixed(4), alt: r => ['3', '4', '5'].includes(r.label), max: 4,
+    axisLabel: 'payoff against a Nash opponent'
+  });
+
+  barChart(document.getElementById('margin'), {
+    rows: ALL.map(o => ({
+      label: show(o),
+      value: payoff('nash_equilibrium', o) - payoff('stage_test', o)
+    })),
+    format: v => `+${v.toFixed(4)}`,
+    axisLabel: "Nash's payoff minus stage_test's, against the same opponent"
+  });
+});
 </script>
 </body>
 </html>
