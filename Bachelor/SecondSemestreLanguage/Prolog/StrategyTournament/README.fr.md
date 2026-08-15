@@ -84,6 +84,7 @@ l'ordre que l'analyse prévoyait.
 | `Equilibrium_Analysis.ipynb` | Le notebook dont viennent les constantes |
 | `data2.pdf` | Le journal du tournoi, 636 pages |
 | `results/` | Le journal converti en CSV, et le graphique ci-dessus |
+| `equilibrium/` | La même dérivation refaite avec une condition correcte sur un simplexe |
 
 `khawa_khawa` est l'agent le plus abouti, et il **n'apparaît pas du tout dans le
 journal** : zéro tour, contre 1 805 pour `stage_test` et 1 813 pour

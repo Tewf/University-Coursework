@@ -46,6 +46,29 @@ jobs:
                     format('khawa_khawa adapting plays ~w~n', [N]),
                     halt" -t "halt(1)" Code.pl
 
+  equilibrium-recomputes:
+    name: Equilibrium Recomputes
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/equilibrium
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      # Equilibrium_Analysis.ipynb is the derivation being corrected. It is kept
+      # as submitted and is not expected to run here.
+      # The notebook saves its figure to a bare relative path, so the
+      # working-directory above is what puts it beside the notebook.
+      - name: The correction recomputes, and its checks still pass
+        run: jupyter execute equilibrium_recomputed.ipynb
+
   tournament-results:
     name: Tournament Results Reproduce
     runs-on: ubuntu-latest

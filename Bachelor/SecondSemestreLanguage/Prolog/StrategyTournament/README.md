@@ -83,6 +83,7 @@ the ordering the analysis predicted.
 | `Equilibrium_Analysis.ipynb` | The notebook the constants come from |
 | `data2.pdf` | The tournament log, 636 pages |
 | `results/` | The log turned into CSVs and the chart above |
+| `equilibrium/` | The same derivation redone with a condition that is correct on a simplex |
 
 `khawa_khawa` is the substantial agent, and it **does not appear in the log at
 all**: zero rounds, against 1,805 for `stage_test` and 1,813 for
