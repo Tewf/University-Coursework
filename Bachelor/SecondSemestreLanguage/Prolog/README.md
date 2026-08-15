@@ -1,10 +1,10 @@
-# Prolog — Logic Programming
+# Prolog: Logic Programming
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Logic Programming — Licence MIASHS, Universite Grenoble Alpes
+**Course:** Logic Programming, Licence MIASHS, Universite Grenoble Alpes
 
-An introduction to logic programming with Prolog. Instead of writing step-by-step instructions, you declare **facts** and **rules**, then ask questions — and the Prolog engine finds the answers.
+An introduction to logic programming with Prolog. Instead of writing step-by-step instructions, you declare **facts** and **rules**, then ask questions, and the Prolog engine finds the answers.
 
 ## What You'll Learn
 

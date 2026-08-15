@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** POO — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** POO, Licence MIASHS, Universite Grenoble Alpes
 
 Exercices progressifs et mini-projets couvrant les concepts fondamentaux de la programmation orientee objet en Java.
 
@@ -38,4 +38,4 @@ java -cp bin package.ClassName
 
 Les sujets de TD1 à TD5 et TM1 à TM3 ont été rédigés par l'équipe enseignante de Programmation Orientée Objet (UGA). Les implémentations Java de ce répertoire sont les miennes.
 
-Non redistribués ici — voir [NOTICE](../../../NOTICE) pour les crédits complets.
+Non redistribués ici ; voir [NOTICE](../../../NOTICE) pour les crédits complets.

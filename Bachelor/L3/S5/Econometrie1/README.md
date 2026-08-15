@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Econometrie1 — Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
+**Course:** Econometrie1, Licence 3 MIASHS, Semester 5, Universite Grenoble Alpes
 
 An applied econometrics project analysing real-estate sales data from Grenoble using public DVF (Demandes de Valeurs Foncieres) data.
 

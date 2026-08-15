@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Java & AI — Licence MIASHS, Universite Grenoble Alpes
+**Course:** Java & AI, Licence MIASHS, Universite Grenoble Alpes
 
 Java coursework covering object-oriented programming fundamentals and a comprehensive AI project.
 
@@ -17,10 +17,10 @@ Java coursework covering object-oriented programming fundamentals and a comprehe
 
 ### Battleship AI
 A complete Battleship game featuring **4 AI strategies**:
-- **Uniform** — Random shooting
-- **Markov** — Probability-based targeting using transition matrices
-- **Monte Carlo** — Simulation-based strategy evaluation
-- **Smart** — Combined heuristic approach
+- **Uniform**: Random shooting
+- **Markov**: Probability-based targeting using transition matrices
+- **Monte Carlo**: Simulation-based strategy evaluation
+- **Smart**: Combined heuristic approach
 
 Includes a graphical interface (Swing), tournament system, and performance benchmarking with statistical output (CSV, PNG).
 

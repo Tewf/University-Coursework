@@ -1,8 +1,8 @@
-# SQL — Relational Databases
+# SQL: Relational Databases
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Databases — Licence MIASHS, Universite Grenoble Alpes
+**Course:** Databases, Licence MIASHS, Universite Grenoble Alpes
 
 Practical exercises covering SQL from basic queries to transactions and views. Each TP builds progressively on the previous one.
 
@@ -66,4 +66,4 @@ SQL/
 
 Practical subjects TP01–TP04 were written by the teaching staff of the databases course (UGA).
 
-Not redistributed here — see [NOTICE](../../../NOTICE) for full credits.
+Not redistributed here; see [NOTICE](../../../NOTICE) for full credits.

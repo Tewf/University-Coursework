@@ -1,5 +1,5 @@
 
-Rapport LaTeX — Complement_IA
+Rapport LaTeX : Complement_IA
 
 Instructions pour compiler le rapport :
 

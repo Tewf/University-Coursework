@@ -1,4 +1,4 @@
-# Revue de littérature — Bataille navale
+# Revue de littérature : Bataille navale
 
 Organisation canonique pour la revue de littérature sur la Bataille navale.
 

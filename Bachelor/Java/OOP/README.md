@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** OOP — Licence MIASHS, Universite Grenoble Alpes
+**Course:** OOP, Licence MIASHS, Universite Grenoble Alpes
 
 Progressive exercises and mini-projects covering core object-oriented programming concepts in Java.
 
@@ -38,4 +38,4 @@ java -cp bin package.ClassName
 
 Tutorial and assignment subjects TD1–TD5 and TM1–TM3 were written by the teaching staff of Programmation Orientée Objet (UGA). The Java implementations in this directory are mine.
 
-Not redistributed here — see [NOTICE](../../../NOTICE) for full credits.
+Not redistributed here; see [NOTICE](../../../NOTICE) for full credits.

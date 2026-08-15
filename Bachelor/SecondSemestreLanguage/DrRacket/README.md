@@ -1,8 +1,8 @@
-# DrRacket — Functional Programming
+# DrRacket: Functional Programming
 
 > [Lire en francais](README.fr.md)
 
-**Course:** Functional Programming — Licence MIASHS, Universite Grenoble Alpes
+**Course:** Functional Programming, Licence MIASHS, Universite Grenoble Alpes
 
 An introduction to functional programming using Racket (a Scheme dialect). Exercises progress from basic recursion to higher-order functions and symbolic computation.
 

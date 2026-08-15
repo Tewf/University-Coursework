@@ -22,7 +22,7 @@ output in [`Results/`](Results/).
 | **Smart** | Hybrid of several heuristics | 56.7% ±2.9 | 61.1 ±1.1 |
 | **Uniform** | Random shots | 2.0% ±0.8 | 94.3 ±0.5 |
 
-The board holds 100 cells, so uniform random needs 94 shots — essentially the
+The board holds 100 cells, so uniform random needs 94 shots, essentially the
 whole grid. Markov clears it in 55, a **42% reduction**, and wins 74% of its
 games. Monte Carlo costs far more computation for a slightly worse result, which
 is the interesting part: the cheap probabilistic model beats the expensive

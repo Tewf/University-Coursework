@@ -1,4 +1,4 @@
-# DVF Grenoble — Régression linéaire (OLS)
+# DVF Grenoble : Régression linéaire (OLS)
 
 Modélisation hédonique des prix immobiliers à Grenoble via régression linéaire (statsmodels/sklearn).  
 Objectifs: charger les données prétraitées, créer des variantes (log, standardisation), préparer jeux de données, ajuster OLS, diagnostiquer (hétéroscédasticité), visualiser observé vs prédit et importance des variables.
@@ -110,7 +110,7 @@ plt.title("Correlation Heatmap of Grenoble_Vente Dataset")
 plt.show()
 ```
 
-(Image de la heatmap incluse dans le notebook — voir la section Visualisation.)
+(Image de la heatmap incluse dans le notebook ; voir la section Visualisation.)
 
 ---
 
@@ -208,7 +208,7 @@ for name, df_in in datasets.items():
     print(f"R2={r2:.3f} RMSE={rmse})")
 ```
 
-Sorties textuelles (résumés OLS clairement imprimés) — extraits complets ci-dessous.
+Sorties textuelles (résumés OLS clairement imprimés) : extraits complets ci-dessous.
 
 ---
 

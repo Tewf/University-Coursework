@@ -2,7 +2,7 @@
 
 > [Lire en francais](README.fr.md)
 
-**Course:** MathStat3 — Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
+**Course:** MathStat3, Licence 3 MIASHS, Semester 6, Universite Grenoble Alpes
 
 Advanced statistical methods covering hypothesis testing, regression, ANOVA, and non-parametric tests. Each TP builds on the previous one, progressing from basic normality tests to complex multi-factor analysis.
 
@@ -65,4 +65,4 @@ MathStat3/
 
 The 35-page practical handout for this course was written by its teaching staff (UGA).
 
-Not redistributed here — see [NOTICE](../../../../NOTICE) for full credits.
+Not redistributed here; see [NOTICE](../../../../NOTICE) for full credits.

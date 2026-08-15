@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** Java & IA — Licence MIASHS, Universite Grenoble Alpes
+**Cours :** Java & IA, Licence MIASHS, Universite Grenoble Alpes
 
 Travaux de programmation Java couvrant les fondamentaux de la programmation orientee objet et un projet d'IA complet.
 
@@ -17,10 +17,10 @@ Travaux de programmation Java couvrant les fondamentaux de la programmation orie
 
 ### Battleship IA
 Un jeu de bataille navale complet avec **4 strategies IA** :
-- **Uniforme** — Tir aleatoire
-- **Markov** — Ciblage probabiliste par matrices de transition
-- **Monte Carlo** — Evaluation de strategies par simulation
-- **Smart** — Approche heuristique combinee
+- **Uniforme** : Tir aleatoire
+- **Markov** : Ciblage probabiliste par matrices de transition
+- **Monte Carlo** : Evaluation de strategies par simulation
+- **Smart** : Approche heuristique combinee
 
 Inclut une interface graphique (Swing), un systeme de tournois et du benchmarking de performance avec sorties statistiques (CSV, PNG).
 

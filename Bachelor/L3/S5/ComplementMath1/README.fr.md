@@ -2,7 +2,7 @@
 
 > [Read in English](README.md)
 
-**Cours :** ComplementMath1 — Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
+**Cours :** ComplementMath1, Licence 3 MIASHS, Semestre 5, Universite Grenoble Alpes
 
 Travaux pratiques d'analyse mathematique en R et Quarto, couvrant l'analyse de Fourier, le traitement du signal et les equations differentielles.
 
@@ -53,4 +53,4 @@ ComplementMath1/
 
 Le document de TP de ce cours (20 p.) a été rédigé par l'équipe enseignante (UGA).
 
-Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.
+Non redistribués ici ; voir [NOTICE](../../../../NOTICE) pour les crédits complets.

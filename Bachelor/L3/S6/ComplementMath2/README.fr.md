@@ -1,8 +1,8 @@
-# Complements de mathematiques 2 — Introduction au Machine Learning
+# Complements de mathematiques 2 : Introduction au Machine Learning
 
 > [Read in English](README.md)
 
-**Cours :** ComplementMath2 — Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
+**Cours :** ComplementMath2, Licence 3 MIASHS, Semestre 6, Universite Grenoble Alpes
 
 Une introduction a l'apprentissage automatique supervise en R, combinant des travaux pratiques (TPs) avec un projet de classification complet de bout en bout sur des donnees de parfums.
 
@@ -93,4 +93,4 @@ quarto preview TP/TP1/Correction\ TP\ 1.qmd
 
 Les sujets de TP1 à TP5 ont été rédigés par **Lola Etiévant** (Université Grenoble Alpes). Les corrections de ce répertoire sont les miennes ; les énoncés auxquels elles répondent sont les siens.
 
-Non redistribués ici — voir [NOTICE](../../../../NOTICE) pour les crédits complets.
+Non redistribués ici ; voir [NOTICE](../../../../NOTICE) pour les crédits complets.

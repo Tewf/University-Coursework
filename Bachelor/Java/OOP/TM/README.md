@@ -1,4 +1,4 @@
-# Mini-Projects (TM) — OOP
+# Mini-Projects (TM): OOP
 
 > [Lire en francais](README.fr.md)
 
