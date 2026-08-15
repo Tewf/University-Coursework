@@ -1,0 +1,17 @@
+rank,agent,rounds,repeat_share,longest_run
+1,best_duo,1509,0.463,89
+2,naenae,1559,0.564,86
+3,youxi,26659,0.430,99
+4,lesStrateges,1513,0.845,99
+5,lesCowBoys,32295,0.412,47
+6,syntax_terror,1506,0.806,100
+7,stage_test,1805,0.329,10
+8,nash_equilibrium,1813,0.354,9
+9,kAuCarre,1589,0.434,21
+10,deficit,1714,0.307,36
+11,ctrlAltDefeat,1521,0.429,93
+12,fao,1515,0.367,8
+13,un_pain_pita,6635,0.304,89
+14,ghost,1611,0.295,2
+15,fave_ok,2174,0.334,90
+16,dfy,1666,0.595,96

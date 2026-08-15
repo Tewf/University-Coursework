@@ -25,6 +25,7 @@ Trois paradigmes enseignés comme un bloc, d'où le dossier commun.
 |-------|-------|---------|---------|
 | Programmation fonctionnelle | Récursion, fonctions d'ordre supérieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
 | Programmation logique | Faits, règles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
+| Tournoi de stratégies | Deux agents engagés face à la promotion, 7e et 8e sur 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/) |
 | Bases de données | Requêtes, jointures, agrégation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
 
 ## Année 3, semestre 5

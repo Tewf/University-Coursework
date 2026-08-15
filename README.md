@@ -42,6 +42,13 @@ transition matrices win **74.3%** of games and clear the board in 54.8 shots aga
 94.3 for uniform random, a 42% reduction. Monte Carlo costs far more computation for a
 slightly worse result, which is the interesting part. *Pair project.*
 
+**[Strategy tournament](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/)** (Prolog).
+Two strategies derived on paper, written as agents, and entered against thirteen other
+students'. They placed 7th and 8th of 16. Reading the 636-page log match by match shows
+the standings measuring something other than winning: the champion won **6 of its 15
+matches**, the agent that won 13 finished 14th, and both entrants beat the champion head
+to head. Across the field, finishing lower correlates with winning more matches.
+
 **[Full-stack web application](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
 Nine practicals building up to a complete server: middleware, SQLite persistence,
 password hashing, sessions and authentication. *Solo.*
@@ -53,7 +60,7 @@ password hashing, sessions and authentication. *Solo.*
 | **R** | tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve. [Machine learning](Bachelor/L3/S6/ComplementMath2/), [econometrics](Bachelor/L3/S5/Econometrie1/), [statistics](Bachelor/L3/S6/MathStat3/), [analysis](Bachelor/L3/S5/ComplementMath1/) |
 | **Java** | Object-oriented design, modules, GUI, tournaments under CI. [Battleship AI](Bachelor/Java/BattleshipAI/), [the OOP course](Bachelor/Java/OOP/) |
 | **JavaScript** | Node.js, Express, SQLite, sessions and authentication. [Web](Bachelor/L3/S6/WebDev/) |
-| **SQL, Prolog, Racket** | Relational, logic and functional paradigms. [Language modules](Bachelor/SecondSemestreLanguage/) |
+| **SQL, Prolog, Racket** | Relational, logic and functional paradigms. [Language modules](Bachelor/SecondSemestreLanguage/), [the Prolog tournament](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/) |
 | **Reporting** | Quarto, R Markdown, LaTeX. Every report here renders from its source |
 
 ## The rest of the coursework

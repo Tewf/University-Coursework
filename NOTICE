@@ -46,6 +46,14 @@ Teaching staff, Bases de Données — SQL (UGA)
   Practical subjects TP01–TP04.
   Referenced by: Bachelor/SecondSemestreLanguage/SQL/
 
+Teaching staff, Programmation Logique — Prolog (UGA)
+  Project brief and the tournament harness that produced the match log.
+  Referenced by: Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/
+  The log (data2.pdf) is the harness's own output. It records the play of
+  fourteen other students' agents by the names they submitted, alongside mine.
+  Only my two agents and my analysis of the log are covered by the MIT licence;
+  the strategies those other agents play are their authors' work.
+
 Teaching staff, Compléments de Mathématiques 2 (UGA)
   Project brief, perfume customer-satisfaction project.
   Referenced by: Bachelor/L3/S6/ComplementMath2/Projet/

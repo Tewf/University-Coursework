@@ -6,6 +6,10 @@
 
 An introduction to logic programming with Prolog. Instead of writing step-by-step instructions, you declare **facts** and **rules**, then ask questions, and the Prolog engine finds the answers.
 
+## The project
+
+**[Strategy tournament](StrategyTournament/)**. Two strategies derived on paper, written as Prolog agents, and entered against thirteen other students'. They finished **7th and 8th of 16**, and reading the 636-page log match by match shows the ranking measuring something other than winning: the champion won 6 of its 15 matches, the agent that won 13 finished 14th, and both entrants beat the champion head to head.
+
 ## What You'll Learn
 
 - Defining facts and rules to represent knowledge

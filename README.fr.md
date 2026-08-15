@@ -45,6 +45,14 @@ contre 94,3 pour le tir aléatoire, soit 42 % de moins. Monte-Carlo coûte bien 
 calcul pour un résultat légèrement inférieur, et c'est là que c'est intéressant.
 *Projet en binôme.*
 
+**[Tournoi de stratégies](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/)** (Prolog).
+Deux stratégies déterminées sur le papier, écrites comme agents, puis engagées face à
+treize agents d'autres étudiants. Elles finissent 7e et 8e sur 16. Relire le journal de
+636 pages match par match montre que le classement mesure autre chose que le fait de
+gagner : le vainqueur a gagné **6 de ses 15 matchs**, l'agent qui en a gagné 13 finit 14e,
+et les deux agents engagés battent le vainqueur en tête-à-tête. Sur l'ensemble, finir plus
+bas est corrélé au fait de gagner plus de matchs.
+
 **[Application web full-stack](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
 Neuf TP menant à un serveur complet : middleware, persistance SQLite, hachage des mots
 de passe, sessions et authentification. *Solo.*
@@ -56,7 +64,7 @@ de passe, sessions et authentification. *Solo.*
 | **R** | tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve. [Apprentissage automatique](Bachelor/L3/S6/ComplementMath2/), [économétrie](Bachelor/L3/S5/Econometrie1/), [statistiques](Bachelor/L3/S6/MathStat3/), [analyse](Bachelor/L3/S5/ComplementMath1/) |
 | **Java** | Conception objet, modules, interface graphique, tournois sous CI. [IA de bataille navale](Bachelor/Java/BattleshipAI/), [le cours de POO](Bachelor/Java/OOP/) |
 | **JavaScript** | Node.js, Express, SQLite, sessions et authentification. [Web](Bachelor/L3/S6/WebDev/) |
-| **SQL, Prolog, Racket** | Paradigmes relationnel, logique et fonctionnel. [Modules de langages](Bachelor/SecondSemestreLanguage/) |
+| **SQL, Prolog, Racket** | Paradigmes relationnel, logique et fonctionnel. [Modules de langages](Bachelor/SecondSemestreLanguage/), [le tournoi Prolog](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/) |
 | **Rédaction** | Quarto, R Markdown, LaTeX. Chaque rapport ici est rendu depuis sa source |
 
 ## Le reste des travaux

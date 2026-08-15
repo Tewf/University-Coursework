@@ -10,6 +10,7 @@
     { "path": "Bachelor/SecondSemestreLanguage/",        "title": "Language modules",      "short": "Languages" },
     { "path": "Bachelor/SecondSemestreLanguage/DrRacket/", "title": "Functional programming", "short": "Racket" },
     { "path": "Bachelor/SecondSemestreLanguage/Prolog/", "title": "Logic programming",     "short": "Prolog" },
+    { "path": "Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/", "title": "Strategy tournament", "short": "Tournament" },
     { "path": "Bachelor/SecondSemestreLanguage/SQL/",    "title": "Relational databases",  "short": "SQL" },
     { "path": "Bachelor/L3/S5/ComplementMath1/",         "title": "Fourier analysis and ODEs", "short": "ComplementMath1" },
     { "path": "Bachelor/L3/S5/MathStat2/",               "title": "Estimation and testing", "short": "MathStat2" },

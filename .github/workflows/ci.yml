@@ -24,3 +24,41 @@ jobs:
         run: javac -d bin $(find src -name "*.java")
       - name: Run smoke tournament
         run: java --module-path bin -m ComplementIA/statistique.Tournament 5 8
+
+  prolog-agents:
+    name: Prolog Load & Smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SWI-Prolog
+        run: sudo apt-get update && sudo apt-get install -y swi-prolog-nox
+      - name: Every agent returns a legal move
+        run: |
+          swipl -g "forall(member(A, [stage_test, nash_equilibrium, khawa_khawa]),
+                           (joue(A, [], M), between(1, 5, M),
+                            format('~w on an empty history plays ~w~n', [A, M]))),
+                    joue(khawa_khawa, [[3,4],[2,1],[5,5],[1,2]], N), between(1, 5, N),
+                    format('khawa_khawa adapting plays ~w~n', [N]),
+                    halt" -t "halt(1)" Code.pl
+
+  tournament-results:
+    name: Tournament Results Reproduce
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/results
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poppler and matplotlib
+        run: |
+          sudo apt-get update && sudo apt-get install -y poppler-utils
+          python3 -m pip install matplotlib
+      - name: Rebuild from the log
+        # analyse_log.py fails if any agent's match scores disagree with its
+        # leaderboard total, so this checks the log parse, not just the exit code.
+        run: python3 analyse_log.py && python3 plot_leaderboard.py
+      - name: The committed CSVs still match the log
+        run: git diff --exit-code -- leaderboard.csv head_to_head.csv repetition.csv
