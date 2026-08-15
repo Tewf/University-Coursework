@@ -13,6 +13,10 @@ as it is produced.
 Source sits next to its rendered output, so everything reads without cloning.
 The M1 is under way and [`Master/`](Master/) fills as it goes.
 
+**[Browse it as a site ↗](https://tewf.github.io/University-Coursework/)**, where the
+results are charted from the files that produced them and the Battleship bot can be
+watched playing a recorded game.
+
 ## Projects
 
 Graded work that runs end to end and reports a measured result.

@@ -13,6 +13,10 @@ dans [`Bachelor/`](Bachelor/), et le
 Les sources sont à côté de leur rendu : rien à cloner pour lire.
 Le M1 est en cours et [`Master/`](Master/) se remplit au fil de l'année.
 
+**[Parcourir le site ↗](https://tewf.github.io/University-Coursework/)**, où les résultats
+sont tracés depuis les fichiers qui les ont produits et où l'on peut regarder le bot de
+bataille navale jouer une partie enregistrée.
+
 ## Projets
 
 Des travaux notés, menés de bout en bout, avec un résultat mesuré.
