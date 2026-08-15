@@ -1,0 +1,11 @@
+agent,pick,drawn,declared_share,observed_share
+stage_test,1,59750,0.030000,0.029875
+stage_test,2,887817,0.444000,0.443908
+stage_test,3,406408,0.203000,0.203204
+stage_test,4,646025,0.323000,0.323012
+stage_test,5,0,0.000000,0.000000
+nash_equilibrium,1,0,0.000000,0.000000
+nash_equilibrium,2,0,0.000000,0.000000
+nash_equilibrium,3,890299,0.444444,0.445149
+nash_equilibrium,4,444670,0.222222,0.222335
+nash_equilibrium,5,665031,0.333333,0.332516
