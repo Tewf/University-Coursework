@@ -24,6 +24,7 @@ Three paradigms taught as one block, which is why they share a folder.
 |--------|-------|----------|--------|
 | Functional programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
 | Logic programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
+| Strategy tournament | Two agents entered against the year, 7th and 8th of 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/) |
 | Databases | Queries, joins, aggregation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
 
 ## Year 3, Semester 5

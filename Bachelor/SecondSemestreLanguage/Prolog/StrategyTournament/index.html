@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategy tournament &middot; University Coursework</title>
+<meta name="description" content="Two Prolog agents in a 16-agent tournament, where the ranking turned out to measure something other than winning.">
+<link rel="icon" href="../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../site/style.css">
+</head>
+<body data-base="../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Licence MIASHS &middot; Prolog</p>
+    <h1>Strategy tournament</h1>
+    <p class="lede">
+      Two strategies derived on paper, written as Prolog agents, and entered against the
+      rest of the year. They finished 7th and 8th of 16. Read the log match by match and
+      the ranking inverts.
+    </p>
+  </section>
+
+  <div class="cards">
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament">
+      <span class="tag">Source</span>
+      <span class="t">The agents</span>
+      <span class="d">Code.pl, four strategies behind a single <code>joue/3</code>.</span>
+    </a>
+    <a class="card" href="Algorithme_Explication.pdf">
+      <span class="tag">PDF</span>
+      <span class="t">The game and the strategy</span>
+      <span class="d">Payoff matrices derived from the rule, and the equilibrium proposed.</span>
+    </a>
+    <a class="card" href="data2.pdf">
+      <span class="tag">Log</span>
+      <span class="t">The tournament</span>
+      <span class="d">636 pages of rounds. The standings are on page 1.</span>
+    </a>
+  </div>
+
+  <h2>What the standings measure</h2>
+
+  <figure>
+    <div id="wins"></div>
+    <figcaption>
+      Matches won out of 15, in final tournament order from 1st at the top. The champion
+      won 6. The agent that won 13 finished 14th. Source:
+      <code>results/head_to_head.csv</code>.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div id="score"></div>
+    <figcaption>
+      The same sixteen agents by cumulative score, as powers of ten, which is the quantity
+      the tournament actually ranked. Source: <code>results/leaderboard.csv</code>.
+    </figcaption>
+  </figure>
+
+  <p>
+    Put the two together and finishing lower correlates with winning <strong>more</strong>
+    matches, Spearman +0.62 against final rank, p&nbsp;=&nbsp;0.011. Both entered agents
+    beat the eventual champion in their direct match, 782 to 435 and 490,335 to 4,772.
+    The tournament did not rank agents by how often they won. It ranked them by how much
+    they scored, and those are different objectives.
+  </p>
+
+  <h2>Why the scores reach 10<sup>62</sup></h2>
+
+  <p>
+    This version of the game pays a <strong>repeated</strong> number its own value as a
+    multiplier: play 5 again and the round pays five times what the last one did, verified
+    on 5,050 of 5,216 consecutive repeats in the log. One stretch of <code>best_duo</code>
+    repeating 5 pays 5<sup>40</sup>, which is 9&nbsp;&times;&nbsp;10<sup>27</sup> from a
+    single round.
+  </p>
+  <p>
+    Both entered agents are stateless: they sample from a fixed distribution and never read
+    the history. Their longest runs are 10 and 9, and they repeat 32.9% and 35.4% of the
+    time, which is exactly what independent sampling gives by chance. Every agent placed
+    above them reached runs of 37 to 100. A fixed mixed strategy cannot exploit a rule that
+    rewards deliberate repetition, and that is the whole of the gap between 7th and 1st.
+  </p>
+
+  <div class="caveat">
+    <h3>How to read these numbers</h3>
+    <ul>
+      <li>
+        The strategies were derived for the plain game, where undercutting by one takes the
+        sum. The tournament ran the version with the repetition multiplier. They are not
+        answers to the same question.
+      </li>
+      <li>
+        One match per pairing, so a 15-match record is a thin sample. The rank correlation
+        is significant at p&nbsp;=&nbsp;0.011 across the sixteen, but no single match is.
+      </li>
+      <li>
+        <code>khawa_khawa</code>, the adaptive agent in the same file, appears in zero
+        rounds of the log against 1,805 and 1,813 for the two entrants. It was built
+        alongside them rather than entered, so nothing here measures it.
+      </li>
+    </ul>
+  </div>
+
+</main>
+
+<script type="module" src="../../../../site/nav.js"></script>
+<script type="module">
+import { parseCsv, barChart } from '../../../../site/chart.js';
+
+const csv = async path => parseCsv(await (await fetch(path)).text());
+const MINE = new Set(['stage_test', 'nash_equilibrium']);
+
+Promise.all([csv('results/leaderboard.csv'), csv('results/head_to_head.csv')])
+  .then(([board, matches]) => {
+    // The `won` column is decided in Python on exact integers. Two matches are
+    // separated by 1 point in 10**54, which a JavaScript double cannot see.
+    const won = Object.fromEntries(board.map(r => [r.agent, 0]));
+    for (const m of matches) won[m.won ? m.agent : m.opponent] += 1;
+
+    barChart(document.getElementById('wins'), {
+      rows: board.map(r => ({ label: `${r.rank}. ${r.agent}`, value: won[r.agent] })),
+      format: v => `${v} of 15`, max: 15, alt: r => MINE.has(r.label.split(' ')[1]),
+      axisLabel: 'matches won'
+    });
+
+    barChart(document.getElementById('score'), {
+      // 10**62 against 5,226 is unreadable on a linear axis, so the bar is the exponent
+      rows: board.map(r => ({
+        label: `${r.rank}. ${r.agent}`, value: Math.log10(r.cumulative_score)
+      })),
+      format: v => `10^${v.toFixed(0)}`, alt: r => MINE.has(r.label.split(' ')[1]),
+      axisLabel: 'cumulative score, powers of ten'
+    });
+  });
+</script>
+</body>
+</html>
