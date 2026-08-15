@@ -74,6 +74,25 @@ et les constantes correspondent à l'arrondi près : `Fraction(27, 896)` → `0.
 `stage_test` bat aussi `nash_equilibrium` en tête-à-tête, 1 414 à 661, ce qui est
 l'ordre que l'analyse prévoyait.
 
+## L'équilibre, revérifié
+
+`Equilibrium_Analysis.ipynb` obtient `stage_test` en minimisant la somme des carrés
+des gradients de gain. Sur un simplexe, cela cherche les stratégies qui rapportent
+le *moins*. [`equilibrium/`](equilibrium/) refait le calcul avec le regret, la
+condition correcte ici, validée sur deux jeux classiques avant d'aborder le 5 × 5.
+
+Deux millions de tirages de `joue/3` par agent placent chaque fréquence observée à
+moins de 0,0009 du poids déclaré : le Prolog joue donc bien les distributions que
+l'analyse suppose. Face à `[0, 0, 4/9, 2/9, 1/3]`, les choix 3, 4 et 5 rapportent
+chacun 35/9 = 3,8889 tandis que 1 et 2 rapportent 1,0000 et 3,3333, d'où un support
+réduit aux trois derniers.
+
+`stage_test` bat effectivement Nash en tête-à-tête, 3,5552 contre 3,1521, et rapporte
+pourtant moins que Nash face à **chacun** des adversaires évalués, d'au moins
+0,1402 : la distribution de Nash domine donc strictement `stage_test`. Celle-ci
+achète son écart en cédant 0,3337 de son propre gain, l'échange même que le
+classement ci-dessus sanctionne.
+
 ## Fichiers
 
 | Fichier | Contenu |
@@ -84,7 +103,7 @@ l'ordre que l'analyse prévoyait.
 | `Equilibrium_Analysis.ipynb` | Le notebook dont viennent les constantes |
 | `data2.pdf` | Le journal du tournoi, 636 pages |
 | `results/` | Le journal converti en CSV, et le graphique ci-dessus |
-| `equilibrium/` | La même dérivation refaite avec une condition correcte sur un simplexe |
+| `equilibrium/` | La même dérivation refaite avec une condition correcte sur un simplexe, et chaque stratégie confrontée à toutes les autres |
 
 `khawa_khawa` est l'agent le plus abouti, et il **n'apparaît pas du tout dans le
 journal** : zéro tour, contre 1 805 pour `stage_test` et 1 813 pour
@@ -115,16 +134,20 @@ On y arrive par `tirage_nash`.
 ```sh
 swipl -s Code.pl          # puis interroger, par exemple : joue(stage_test, [], Coup).
 cd results && python3 analyse_log.py && python3 plot_leaderboard.py
+cd equilibrium && python3 verify_agents.py && python3 strategy_payoffs.py
 ```
 
 `analyse_log.py` compare les scores de match de chaque agent à son total au
 classement et s'arrête s'ils divergent, ce qui a permis de repérer un bug
-d'analyse du journal.
+d'analyse du journal. `strategy_payoffs.py` vérifie chaque chiffre cité dans les
+textes contre le calcul qui le produit, et `verify_agents.py` fixe sa graine
+aléatoire : tous deux réécrivent donc leurs CSV à l'octet près.
 
 ## Prérequis
 
 SWI-Prolog pour les agents. Python 3 avec matplotlib, et poppler-utils pour
-`pdftotext`, pour régénérer les résultats.
+`pdftotext`, pour régénérer les résultats. `equilibrium/requirements.txt` fixe ce
+qu'exige en plus le travail sur l'équilibre.
 
 ## Supports de cours
 
