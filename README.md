@@ -37,7 +37,7 @@ the hedonic method exists to produce. The write-up argues the two models answer
 different questions. *Group project.*
 
 **[Battleship AI](Bachelor/Java/BattleshipAI/)** (Java).
-Four targeting strategies benchmarked head to head over 1 000 matches per pair. Markov
+Four targeting strategies benchmarked head to head over 300 games each. Markov
 transition matrices win **74.3%** of games and clear the board in 54.8 shots against
 94.3 for uniform random, a 42% reduction. Monte Carlo costs far more computation for a
 slightly worse result, which is the interesting part. *Pair project.*
