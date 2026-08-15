@@ -27,3 +27,20 @@ Bachelor/Java/**/docs/api/**                 linguist-generated=true
 # prose, so they are excluded from the language bar unless made detectable.
 *.qmd                    linguist-language=R linguist-detectable=true
 *.Rmd                    linguist-language=R linguist-detectable=true
+
+# The published site's own pages. They document the work rather than being more
+# of it, and the markup is already on show as the site itself, so it does not
+# need a slice of the language bar. Listed one by one on purpose: a glob on
+# index.html would also swallow WebDev/TP3 and TP5, which ARE coursework.
+# site/style.css and site/*.js stay counted; those are hand-written and are work.
+/index.html                                      linguist-documentation=true
+/404.html                                        linguist-documentation=true
+Bachelor/index.html                              linguist-documentation=true
+Bachelor/Java/index.html                         linguist-documentation=true
+Bachelor/Java/OOP/index.html                     linguist-documentation=true
+Bachelor/Java/BattleshipAI/index.html            linguist-documentation=true
+Bachelor/SecondSemestreLanguage/index.html       linguist-documentation=true
+Bachelor/SecondSemestreLanguage/*/index.html     linguist-documentation=true
+Bachelor/L3/S5/*/index.html                      linguist-documentation=true
+Bachelor/L3/S6/*/index.html                      linguist-documentation=true
+Master/index.html                                linguist-documentation=true
