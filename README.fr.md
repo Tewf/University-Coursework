@@ -51,7 +51,10 @@ treize agents d'autres étudiants. Elles finissent 7e et 8e sur 16. Relire le jo
 636 pages match par match montre que le classement mesure autre chose que le fait de
 gagner : le vainqueur a gagné **6 de ses 15 matchs**, l'agent qui en a gagné 13 finit 14e,
 et les deux agents engagés battent le vainqueur en tête-à-tête. Sur l'ensemble, finir plus
-bas est corrélé au fait de gagner plus de matchs. *Projet en binôme.*
+bas est corrélé au fait de gagner plus de matchs. Revérifier l'équilibre qui les
+sous-tend montre que la distribution de Nash **domine strictement** celle qui a été
+soumise : elle rapporte davantage face à chaque adversaire, d'au moins 0,1402, tout
+en perdant le tête-à-tête. *Projet en binôme.*
 
 **[Application web full-stack](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
 Neuf TP menant à un serveur complet : middleware, persistance SQLite, hachage des mots
