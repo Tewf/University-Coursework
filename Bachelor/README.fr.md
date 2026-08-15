@@ -11,7 +11,7 @@ L'ensemble des travaux pratiques et projets de ma **Licence MIASHS** a l'Univers
 | Cours | Theme | Langage | Dossier |
 |-------|-------|---------|---------|
 | POO | Programmation orientee objet | Java | [Java/OOP/](Java/OOP/) |
-| Battleship IA | Jeu avec strategies IA | Java | [Java/Complement_IA-main/](Java/Complement_IA-main/) |
+| Battleship IA | Jeu avec strategies IA | Java | [Java/BattleshipAI/](Java/BattleshipAI/) |
 | Prog. fonctionnelle | Recursion, fonctions d'ordre superieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
 | Prog. logique | Faits, regles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
 | Bases de donnees | Requetes SQL, jointures, agregation | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
@@ -39,7 +39,7 @@ L'ensemble des travaux pratiques et projets de ma **Licence MIASHS** a l'Univers
 
 ### Battleship IA
 Un jeu de bataille navale complet avec interface graphique et **4 strategies IA** : aleatoire uniforme, chaines de Markov, simulation Monte Carlo et heuristique intelligente. Inclut du benchmarking de performance et une analyse statistique de l'efficacite des strategies.
-**Voir :** [Java/Complement_IA-main/](Java/Complement_IA-main/)
+**Voir :** [Java/BattleshipAI/](Java/BattleshipAI/)
 
 ### Analyse des prix immobiliers
 Etude econometrique de bout en bout des prix immobiliers a Grenoble a partir des donnees publiques DVF. Couvre le preprocessing, la revue de litterature, la regression lineaire et une extension Random Forest.

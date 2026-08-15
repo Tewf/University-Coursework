@@ -49,7 +49,7 @@ java --module-path bin -m ComplementIA/statistique.Performance 100
 ## Project Structure
 
 ```
-Complement_IA-main/
+BattleshipAI/
 |-- src/
 |   |-- bataillenavale/       <- Entry points & UI
 |   |-- logique/              <- Core logic (grid, ships, coordinates)

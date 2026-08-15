@@ -10,7 +10,7 @@ Travaux de programmation Java couvrant les fondamentaux de la programmation orie
 
 | Projet | Description | Dossier |
 |--------|-------------|---------|
-| **Battleship IA** | Jeu d'IA multi-strategies avec interface graphique, tournois et analyse statistique | [Complement_IA-main/](Complement_IA-main/) |
+| **Battleship IA** | Jeu d'IA multi-strategies avec interface graphique, tournois et analyse statistique | [BattleshipAI/](BattleshipAI/) |
 | **Exercices POO** | Exercices progressifs des classes de base aux design patterns | [OOP/](OOP/) |
 
 ## Points forts
