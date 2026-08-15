@@ -48,6 +48,7 @@ students'. They placed 7th and 8th of 16. Reading the 636-page log match by matc
 the standings measuring something other than winning: the champion won **6 of its 15
 matches**, the agent that won 13 finished 14th, and both entrants beat the champion head
 to head. Across the field, finishing lower correlates with winning more matches.
+*Pair project.*
 
 **[Full-stack web application](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
 Nine practicals building up to a complete server: middleware, SQLite persistence,
