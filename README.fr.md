@@ -39,7 +39,7 @@ Le rapport soutient que les deux modèles répondent à des questions différent
 *Projet de groupe.*
 
 **[IA de bataille navale](Bachelor/Java/BattleshipAI/)** (Java).
-Quatre stratégies de ciblage confrontées sur 1 000 matchs par paire. Les matrices de
+Quatre stratégies de ciblage confrontées sur 300 parties chacune. Les matrices de
 transition de Markov gagnent **74,3 %** des parties et vident la grille en 54,8 tirs,
 contre 94,3 pour le tir aléatoire, soit 42 % de moins. Monte-Carlo coûte bien plus de
 calcul pour un résultat légèrement inférieur, et c'est là que c'est intéressant.
