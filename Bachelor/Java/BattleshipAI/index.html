@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Battleship AI &middot; University Coursework</title>
+<meta name="description" content="Four Battleship targeting strategies benchmarked head to head. Watch the Markov bot's real recorded games and the probability grid it shoots from.">
+<link rel="icon" href="../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../site/style.css">
+</head>
+<body data-base="../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Licence MIASHS &middot; Java &middot; pair project</p>
+    <div class="hero-grid">
+      <div>
+        <h1>The bot shoots where the ships still fit.</h1>
+        <p class="lede">
+          Four targeting strategies, benchmarked over 300 games each. The winner is not
+          the expensive one: a placement-density heatmap beats Monte&nbsp;Carlo simulation
+          while costing a fraction of the computation.
+        </p>
+        <p>
+          Below is a real recorded game, not a re-enactment. The shots and the grid behind
+          them both come out of the Java run, so what you are watching is the program that
+          produced the numbers further down.
+        </p>
+      </div>
+      <div>
+        <div id="board"></div>
+        <div class="legend">
+          <span><i style="background:var(--hit)"></i>hit</span>
+          <span><i style="background:var(--miss)"></i>miss</span>
+          <span><i style="border:1.5px solid var(--ship)"></i>ship</span>
+          <span><i style="background:var(--ramp-5)"></i>likely</span>
+          <span><i style="background:var(--ramp-1)"></i>unlikely</span>
+        </div>
+        <div class="controls">
+          <button id="play" aria-pressed="false">Play</button>
+          <input id="scrub" type="range" min="0" value="0" aria-label="Turn">
+          <span class="num" id="turnLabel">0</span>
+        </div>
+        <div class="controls">
+          <select id="game" aria-label="Recorded game"></select>
+          <button id="heat" aria-pressed="true">Heatmap</button>
+          <button id="fleet" aria-pressed="false">Reveal fleet</button>
+        </div>
+        <p class="num" id="status" style="color:var(--muted);font-size:.85rem"></p>
+      </div>
+    </div>
+  </section>
+
+  <h2>How the heatmap is built</h2>
+  <p>
+    For every ship still afloat, the bot slides that ship across every position on the
+    board and counts the placements that no missed shot rules out. A cell's value is how
+    many surviving placements cover it, so the brightest cell is simply the one the most
+    remaining fleets pass through. Each miss deletes every placement crossing it, which is
+    why whole regions go dark at once.
+  </p>
+  <p>
+    The parity weighting is the part worth noticing: cells are boosted or halved depending
+    on <code>(row + column) % shortest_remaining_ship</code>. Because no ship can hide
+    between two cells of that lattice, checking it first cannot miss anything, and it is
+    what turns the opening from a scan into a sweep.
+  </p>
+
+  <h2>Results</h2>
+
+  <figure>
+    <div id="winrate"></div>
+    <figcaption>
+      Win rate across 300 games per bot, whiskers are one standard error.
+      Source: <code>Results/tournament_summary.csv</code>.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div id="moves"></div>
+    <figcaption>
+      Mean shots to finish, 100 trials, whiskers are one standard error. Markov clears a
+      10&times;10 board in about 55 shots against 94 for random fire, and the board holds
+      only 100 cells. Source: <code>Results/performance_summary.csv</code>.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <div id="pairwise"></div>
+    <figcaption>
+      Head to head, wins by the row bot against the column bot out of 100.
+      Source: <code>Results/tournament_pairwise.csv</code>.
+    </figcaption>
+  </figure>
+
+  <div class="caveat">
+    <h3>How to read these numbers</h3>
+    <ul>
+      <li>
+        <code>Tournament.java</code> plays each pair once and the lower-indexed bot always
+        moves first, so Markov's 52 to 48 edge over Monte&nbsp;Carlo carries an
+        uncorrected first-move advantage. The gap against Uniform is far too large to be
+        explained that way; the gap against Monte&nbsp;Carlo is not.
+      </li>
+      <li>
+        <code>performance_summary.csv</code> measures self-play, so it reports how fast a
+        bot clears a board, not how it fares against a specific opponent.
+      </li>
+      <li>
+        The heatmap does not model the rule that ships may not touch, although placement
+        enforces it. The model is therefore slightly wrong on purpose, and still wins.
+      </li>
+    </ul>
+  </div>
+
+  <h2>Same fleet, both bots</h2>
+  <p>
+    The identical ship layout, played by the heatmap bot and by random fire, advancing one
+    shot at a time. This is one game each, not an average.
+  </p>
+  <div class="race">
+    <div>
+      <h3>Markov <span class="count" id="cA"></span></h3>
+      <div id="boardA"></div>
+    </div>
+    <div>
+      <h3>Uniform <span class="count" id="cB"></span></h3>
+      <div id="boardB"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button id="raceBtn" aria-pressed="false">Run both</button>
+    <input id="raceScrub" type="range" min="0" value="0" aria-label="Race turn">
+  </div>
+
+  <h2>The code</h2>
+  <div class="cards">
+    <a class="card" href="docs/api/">
+      <span class="tag">Javadoc</span>
+      <span class="t">API documentation</span>
+      <span class="d">Every class, generated from the source.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Bachelor/Java/BattleshipAI/src/heuristic">
+      <span class="tag">Source</span>
+      <span class="t">The strategies</span>
+      <span class="d">Markov, Monte Carlo and Uniform, plus the hunt-and-target state machine.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/blob/main/Bachelor/Java/BattleshipAI/README.md">
+      <span class="tag">Write-up</span>
+      <span class="t">README</span>
+      <span class="d">Rules, strategies and the full results table.</span>
+    </a>
+  </div>
+
+</main>
+
+<script type="module" src="../../../site/nav.js"></script>
+<script type="module">
+import { parseCsv, barChart, matrixChart } from '../../../site/chart.js';
+import { loadReplays, Replay, race } from '../../../site/replay.js';
+
+const pct = v => (v * 100).toFixed(1) + '%';
+
+/* ---- charts, straight from the committed CSVs ---- */
+const csv = async p => parseCsv(await (await fetch(p)).text());
+
+csv('Results/tournament_summary.csv').then(rows => {
+  rows.sort((a, b) => b.win_rate - a.win_rate);
+  barChart(document.getElementById('winrate'), {
+    rows: rows.map(r => ({ label: r.bot, value: r.win_rate, err: r.standard_error })),
+    format: pct, max: 1, alt: r => r.label === 'Markov', axisLabel: 'win rate'
+  });
+});
+
+csv('Results/performance_summary.csv').then(rows => {
+  rows.sort((a, b) => a.mean_moves - b.mean_moves);
+  barChart(document.getElementById('moves'), {
+    rows: rows.map(r => ({ label: r.bot, value: r.mean_moves, err: r.std_error })),
+    format: v => v.toFixed(1), max: 100, alt: r => r.label === 'Markov',
+    axisLabel: 'shots to finish (board holds 100 cells)'
+  });
+});
+
+csv('Results/tournament_pairwise.csv').then(rows => {
+  const labels = rows.map(r => r.bot);
+  const lookup = Object.fromEntries(rows.map(r => [r.bot, r]));
+  const short = { Uniforme: 'Unif.', Markov: 'Markov', MonteCarlo: 'MC', Intelligent: 'Intel.' };
+  matrixChart(document.getElementById('pairwise'), {
+    labels,
+    colLabels: labels.map(l => short[l] || l), // full names overrun a 62px column
+    get: (r, c) => (r === c ? null : lookup[r][c]),
+    note: 'row wins vs column, out of 100'
+  });
+});
+
+/* ---- the recorded games ---- */
+const data = await loadReplays('Results/replays.json');
+const markov = data.games.filter(g => g.bot === 'Markov');
+const uniform = data.games.find(g => g.bot === 'Uniforme');
+
+const player = new Replay(document.getElementById('board'), { board: data.board });
+const scrub = document.getElementById('scrub');
+const playBtn = document.getElementById('play');
+const turnLabel = document.getElementById('turnLabel');
+const status = document.getElementById('status');
+const picker = document.getElementById('game');
+
+markov.forEach((g, i) => {
+  const o = document.createElement('option');
+  o.value = i;
+  o.textContent = `Game ${i + 1} · ${g.shots_to_sink} shots`;
+  picker.append(o);
+});
+
+function selectGame(i) {
+  player.load(markov[i]);
+  scrub.max = player.total;
+  scrub.value = 0;
+  sync();
+}
+
+function sync() {
+  scrub.value = player.turn;
+  turnLabel.textContent = `${player.turn}/${player.total}`;
+  playBtn.textContent = player.playing ? 'Pause' : 'Play';
+  playBtn.setAttribute('aria-pressed', String(player.playing));
+  const shot = player.game.shots[player.turn];
+  status.textContent = shot
+    ? `${player.hits()}/19 hit · next ${String.fromCharCode(65 + shot.c)}${shot.r + 1}` +
+      (shot.t ? ' · finishing a ship' : ' · searching')
+    : `${player.hits()}/19 hit · fleet sunk in ${player.total} shots`;
+}
+
+player.onchange = sync;
+// read the slider before pausing: pause() syncs the slider back to the
+// current turn, which would throw the drag away
+scrub.addEventListener('input', () => { const t = +scrub.value; player.pause(); player.seek(t); });
+playBtn.addEventListener('click', () => player.playing ? player.pause() : player.play());
+picker.addEventListener('change', () => { player.pause(); selectGame(+picker.value); });
+
+const heatBtn = document.getElementById('heat');
+heatBtn.addEventListener('click', () => {
+  player.showHeat = !player.showHeat;
+  heatBtn.setAttribute('aria-pressed', String(player.showHeat));
+  player.draw();
+});
+const fleetBtn = document.getElementById('fleet');
+fleetBtn.addEventListener('click', () => {
+  player.revealFleet = !player.revealFleet;
+  fleetBtn.setAttribute('aria-pressed', String(player.revealFleet));
+  player.draw();
+});
+
+selectGame(0);
+// loop the hero, so someone arriving late does not meet a frozen board
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) player.play({ loop: true });
+
+/* ---- the race ---- */
+const duel = race(
+  [document.getElementById('boardA'), document.getElementById('boardB')],
+  [markov[0], uniform],
+  data.board
+);
+const raceScrub = document.getElementById('raceScrub');
+const raceBtn = document.getElementById('raceBtn');
+const cA = document.getElementById('cA'), cB = document.getElementById('cB');
+raceScrub.max = duel.longest;
+let raceTimer = null;
+
+function raceSync(t) {
+  duel.seek(t);
+  raceScrub.value = t;
+  const [a, b] = duel.players;
+  cA.textContent = `${Math.min(t, a.total)} shots${t >= a.total ? ' · sunk' : ''}`;
+  cB.textContent = `${Math.min(t, b.total)} shots${t >= b.total ? ' · sunk' : ''}`;
+}
+function raceStop() {
+  clearInterval(raceTimer); raceTimer = null;
+  raceBtn.textContent = 'Run both'; raceBtn.setAttribute('aria-pressed', 'false');
+}
+raceBtn.addEventListener('click', () => {
+  if (raceTimer) return raceStop();
+  if (+raceScrub.value >= duel.longest) raceSync(0);
+  raceBtn.textContent = 'Pause'; raceBtn.setAttribute('aria-pressed', 'true');
+  raceTimer = setInterval(() => {
+    const t = +raceScrub.value + 1;
+    raceSync(t);
+    if (duel.done(t)) raceStop();
+  }, 90);
+});
+raceScrub.addEventListener('input', () => { raceStop(); raceSync(+raceScrub.value); });
+raceSync(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "source": "README.md results table, backed by the statsmodels output in ModelTraining/LinearRegression.md",
+  "why": "The fitted models are not committed, so these are transcribed from the write-up to be chartable. Each row matches a printed regression summary in LinearRegression.md.",
+  "task": "Hedonic pricing of Grenoble property from DVF open data (DGFiP, first half of 2025)",
+  "warning": "RMSE is in euros only where the dependent variable is price. The log_price rows are in log units and cannot be compared with the euro rows, or with each other on one axis.",
+  "models": [
+    { "name": "OLS, base specification",     "target": "price",     "r2": 0.096, "r2_adj": 0.082, "rmse": 275007, "unit": "EUR", "n": 194 },
+    { "name": "OLS, extended specification", "target": "price",     "r2": 0.157, "r2_adj": 0.136, "rmse": 265214, "unit": "EUR", "n": 247 },
+    { "name": "OLS, log-linear",             "target": "log_price", "r2": 0.275, "r2_adj": 0.264, "rmse": 0.665,  "unit": "log", "n": 194 },
+    { "name": "OLS, alternative log spec",   "target": "log_price", "r2": 0.167, "r2_adj": 0.157, "rmse": 0.776,  "unit": "log", "n": 243 },
+    { "name": "Random forest",               "target": "price",     "r2": null,  "r2_adj": null,  "rmse": 58750,  "unit": "EUR", "n": null }
+  ],
+  "readings": [
+    "The log transform is what makes the linear model work: R squared goes from 0.096 to 0.275, because prices are right-skewed and multiplicative in their characteristics, which is exactly what the log-linear hedonic specification assumes.",
+    "The random forest divides RMSE by about 4.5 against the best euro-denominated OLS (58 750 EUR against 265 214 EUR), which points to non-linearities and interactions, most likely location by surface, that an additive specification cannot represent. It buys that accuracy by giving up the interpretable implicit prices the hedonic method exists to produce."
+  ]
+}
