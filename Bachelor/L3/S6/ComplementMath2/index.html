@@ -18,7 +18,7 @@
     <p class="lede">Eight classification practicals on the Titanic data, then a group project: can you predict whether a fragrance is rated above the median from its accords and notes?</p>
   </section>
   <h2>The project</h2>
-  <p>Roughly 24 000 fragrances, a binary target, and four model families compared on ROC and confusion matrices, with two more tried and rejected on stated grounds.</p>
+  <p>Roughly 24 000 fragrances, a binary target, and five model families compared on ROC and confusion matrices, one of them rejected on stated grounds.</p>
   <figure><div id="models"></div><figcaption>Test-set performance of the four retained models. Source: <code>Projet/results.json</code>, transcribed from the rendered report.</figcaption></figure>
   <div class="caveat"><h3>Read the ceiling, not just the ranking</h3><p>The random forest wins, but every AUC sits between 0.65 and 0.69. The models separate the classes only modestly, which is the honest finding: accords and notes alone do not explain how people rate a perfume. Naive Bayes was dropped for a different reason, that its sensitivity collapses to 0.20 while its specificity climbs to 0.92, which is to say it wins by almost never predicting the positive class.</p></div>
   <div class="cards">
