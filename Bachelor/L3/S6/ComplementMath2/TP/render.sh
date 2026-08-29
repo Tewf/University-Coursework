@@ -9,7 +9,16 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
-export QUARTO_R="~/miniforge3/envs/r_env/bin/R"
+# R for Quarto: QUARTO_R if the caller set it; else r_env's interpreter, located
+# through conda (or ~/miniforge3 when conda is not on PATH); else the first R on
+# PATH. An unattended run therefore needs no environment set up beforehand.
+if [ -z "${QUARTO_R:-}" ]; then
+  CONDA_BASE="$(conda info --base 2>/dev/null || echo "$HOME/miniforge3")"
+  if [ -x "$CONDA_BASE/envs/r_env/bin/R" ]; then
+    QUARTO_R="$CONDA_BASE/envs/r_env/bin/R"
+  fi
+fi
+[ -n "${QUARTO_R:-}" ] && export QUARTO_R
 QUARTO="/usr/local/bin/quarto"
 PDF_DIR="pdf"
 HTML_DIR="html"
