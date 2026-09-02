@@ -11,9 +11,16 @@ it as a temperature map of France.
 The folder is its own `uv` project, so you never install anything by hand:
 
 ```bash
-cd Master/Programming/Python/WeatherMapApp
+cd Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp
 uv run python weather_map_matplotlib.py   # version 1: Matplotlib draws, Tkinter shows
 uv run python weather_map_tkinter.py      # version 2: Tkinter draws everything itself
+```
+
+Inside the course's conda environment it runs directly, without `uv`:
+
+```bash
+conda activate m1ai-programming
+python weather_map_matplotlib.py
 ```
 
 The first run downloads the outline of France (about 600 kB) and keeps it in
