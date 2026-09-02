@@ -1,21 +1,37 @@
 # Master: Artificial Intelligence
 
-> [Lire en français](#version-francaise) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Master/)
+> [Lire en français](README.fr.md) · [Open on the site ↗](https://tewf.github.io/University-Coursework/Master/)
 
 [Master of Artificial Intelligence](https://m-ai.imag.fr/), Université Grenoble
 Alpes, jointly delivered by UFR IM²AG and Ensimag (Grenoble INP).
 
-M1 in progress. Coursework lands here as it is produced; the Licence work is
-under [Bachelor/](../Bachelor/).
+M1 is under way and [`M1/`](M1/) fills as the coursework is produced. The Licence
+work is under [`Bachelor/`](../Bachelor/).
 
----
+## Where things are
 
-<a id="version-francaise"></a>
+Semester by semester, mirroring the Licence layout:
 
-## Master
+| Year | Semester | Course | Folder |
+|------|----------|--------|--------|
+| M1 | S7 | Programming — Python, C++, pybind11, a TSP solver | [M1/S7/Programming/](M1/S7/Programming/) |
 
-[Master of Artificial Intelligence](https://m-ai.imag.fr/), Université Grenoble
-Alpes, co-porté par l'UFR IM²AG et Ensimag (Grenoble INP).
+The full M1 curriculum is in [`M1/README.md`](M1/README.md).
 
-M1 en cours. Le contenu arrive ici au fil de sa production ; les travaux de
-Licence sont dans [Bachelor/](../Bachelor/).
+## Working here
+
+Each course declares its own dependencies rather than sharing one environment,
+so a course can be picked up years later without resolving against the others.
+For the Programming course:
+
+```bash
+conda env create -f M1/S7/Programming/environment.yml
+conda activate m1ai-programming
+```
+
+## Handouts
+
+TP subjects and provided code belong to their authors and are **not
+redistributed** here; see [NOTICE](../NOTICE). They stay on disk beside each TP,
+with a `.txt` extraction next to them so they can be searched, and `.gitignore`
+keeps both out of the repository. What is committed is my own work.
