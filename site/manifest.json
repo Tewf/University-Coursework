@@ -19,6 +19,7 @@
     { "path": "Bachelor/L3/S6/MathStat3/",               "title": "Regression and ANOVA",  "short": "MathStat3" },
     { "path": "Bachelor/L3/S6/Econometrie2/",            "title": "Advanced econometrics", "short": "Econometrie2" },
     { "path": "Bachelor/L3/S6/WebDev/",                  "title": "Full-stack web",        "short": "WebDev" },
-    { "path": "Master/",                                 "title": "Master of Artificial Intelligence", "short": "Master" }
+    { "path": "Master/",                                 "title": "Master of Artificial Intelligence", "short": "Master" },
+    { "path": "Master/M1/S7/Programming/",               "title": "Programming: Python and C++", "short": "Programming" }
   ]
 }
