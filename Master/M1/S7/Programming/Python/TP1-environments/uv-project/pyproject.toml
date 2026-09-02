@@ -1,11 +1,16 @@
 [project]
-name = "master"
+name = "tp1-weather"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "TP1 question 4: the same weather project, managed by uv instead of venv + pip"
 requires-python = ">=3.11"
 dependencies = [
     "matplotlib>=3.11.1",
     "numpy>=2.0",
     "requests>=2.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "nbclient>=0.11.0",
 ]
