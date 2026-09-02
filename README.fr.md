@@ -11,7 +11,9 @@ dans [`Bachelor/`](Bachelor/), et le
 [`Master/`](Master/) au fil de sa production.
 
 Les sources sont à côté de leur rendu : rien à cloner pour lire.
-Le M1 est en cours et [`Master/`](Master/) se remplit au fil de l'année.
+Le M1 est en cours : le cours de
+[programmation](Master/M1/S7/Programming/) du semestre 7 est le premier
+arrivé, et [`Master/`](Master/) se remplit au fil de l'année.
 
 **[Parcourir le site ↗](https://tewf.github.io/University-Coursework/)**, où les résultats
 sont tracés depuis les fichiers qui les ont produits et où l'on peut regarder le bot de
@@ -72,7 +74,8 @@ de passe, sessions et authentification. *Solo.*
 
 ## Le reste des travaux
 
-Cursus complet, semestre par semestre, dans [`Bachelor/`](Bachelor/README.fr.md).
+Cursus complet, semestre par semestre, dans [`Bachelor/`](Bachelor/README.fr.md)
+et [`Master/`](Master/README.fr.md).
 
 | Matière | | |
 |---|---|---|

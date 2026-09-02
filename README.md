@@ -11,7 +11,9 @@ in [`Bachelor/`](Bachelor/), and the
 as it is produced.
 
 Source sits next to its rendered output, so everything reads without cloning.
-The M1 is under way and [`Master/`](Master/) fills as it goes.
+The M1 is under way: semester 7's
+[Programming course](Master/M1/S7/Programming/) is the first to land, and
+[`Master/`](Master/) fills as it goes.
 
 **[Browse it as a site ↗](https://tewf.github.io/University-Coursework/)**, where the
 results are charted from the files that produced them and the Battleship bot can be
@@ -68,7 +70,8 @@ password hashing, sessions and authentication. *Solo.*
 
 ## The rest of the coursework
 
-Full curriculum, semester by semester, in [`Bachelor/`](Bachelor/README.md).
+Full curriculum, semester by semester, in [`Bachelor/`](Bachelor/README.md)
+and [`Master/`](Master/README.md).
 
 | Subject | | |
 |---|---|---|
