@@ -77,6 +77,14 @@ souches qui font `throw std::runtime_error("Not implemented yet")` : chaque
 paramètre inutilisé est donc une erreur tant que la fonction n'est pas écrite.
 C'est l'exercice, pas une installation cassée.
 
+## Cookbook
+
+[cookbook/](cookbook/) rassemble les motifs dont chaque TP finit par avoir
+besoin à nouveau : un fichier exécutable par tâche, avec les lignes à recopier
+encadrées. Il ne grandit qu'à partir des TP déjà faits, et couvre donc pour
+l'instant l'appel d'une API JSON, la lecture d'une réponse imbriquée et le tracé
+de séries — ce que le TP1 a produit.
+
 ## Projet
 
 [Project-TSPSolver/](Project-TSPSolver/) — résolution du problème du voyageur de
