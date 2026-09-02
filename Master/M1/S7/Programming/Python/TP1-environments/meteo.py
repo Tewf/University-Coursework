@@ -16,7 +16,7 @@ COORDINATES: dict[str, tuple[float, float]] = {
 
 def query_open_meteo(
     latitude: float, longitude: float, start_date: str, end_date: str
-) -> json:
+) -> dict:
     """Query the Open-Meteo API for weather data at the given latitude and longitude between the two dates."""
     #  Note: this is just a multiline string concatenation (to avoid very long lines)
     #        + fstrings (formatted strings) are used for easier variable insertion
@@ -33,7 +33,7 @@ def query_open_meteo(
     raise RuntimeError(f"Error querying Open-Meteo API: {response.status_code}")
 
 
-def extract_temperatures(data: json) -> tuple[list[str], list[float], list[float]]:
+def extract_temperatures(data: dict) -> tuple[list[str], list[float], list[float]]:
     """Process the weather data to extract daily maximum and minimum temperatures in the form of three lists: dates, minimum temperatures, maximum temperatures."""
     daily_data = data.get("daily", {})
     days = daily_data.get("time", [])
@@ -42,7 +42,9 @@ def extract_temperatures(data: json) -> tuple[list[str], list[float], list[float
     return days, min_temps, max_temps
 
 
-def plot_temperatures(days: list[str], min_temps: list[float], max_temps: list[float]):
+def plot_temperatures(
+    days: list[str], min_temps: list[float], max_temps: list[float]
+) -> None:
     """Plot the minimum and maximum temperatures over time."""
     fig, ax = plt.subplots()  # Create a figure containing a single Axes.
     ax.plot(days, min_temps, label="Minimum Temperature")
