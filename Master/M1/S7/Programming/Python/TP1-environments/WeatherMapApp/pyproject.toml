@@ -1,0 +1,11 @@
+[project]
+name = "weather-map-app"
+version = "0.1.0"
+description = "TP1 Exercise 2: real-time weather from Open-Meteo, drawn as a map of France"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.11.1",
+    "numpy>=2.4.6",
+    "pillow>=12.3.0",
+    "requests>=2.34.2",
+]
