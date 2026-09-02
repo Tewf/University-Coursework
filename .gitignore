@@ -62,3 +62,38 @@ Bachelor/L3/S6/MathStat3/TP Stat 3.pdf
 Bachelor/L3/S6/ComplementMath2/Projet/consignes/
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/DataPreprocessing/DataDocumentation/
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/RevueDeLitterature/HedonicHousingPriceIndexes.pdf
+
+# Python virtual environments -- recreate them from pyproject.toml + uv.lock
+.venv/
+
+# Downloaded once at runtime, not source
+Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp/france_border.geojson
+
+# --- Master ---
+
+# C++ build trees
+build/
+
+# Supports et code fournis du Master ; voir NOTICE.
+# Les sujets de TP d'E. Foussard, leur extraction en .txt et le code fourni
+# restent en local : ce n'est pas mon travail et la licence MIT ne s'y applique
+# pas. Le README de chaque cours cite la source.
+Master/M1/**/TP*.pdf
+Master/M1/**/TP*.txt
+Master/M1/**/Project-TSPSolver.pdf
+Master/M1/**/Project-TSPSolver.txt
+Master/M1/**/pointers-references.pdf
+Master/M1/**/pointers-references.txt
+Master/M1/**/provided-files/
+Master/M1/**/provided-files.zip
+Master/M1/**/instance_generator.py
+Master/M1/**/cmake-template/
+Master/M1/**/cmake-template.zip
+Master/M1/**/pybind_cmake_project/
+Master/M1/**/sample_images/
+Master/M1/**/sample_images.zip
+Master/M1/**/TSP-instances/
+Master/M1/**/TSP-instances.zip
+
+# Téléchargement interrompu : seul un nouveau téléchargement le répare.
+*.crdownload
