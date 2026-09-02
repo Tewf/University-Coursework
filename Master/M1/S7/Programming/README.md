@@ -75,6 +75,13 @@ with `-Wall -Wextra -Wpedantic -Werror`, and the provided sources are stubs that
 an error until you implement the function. That is the exercise, not a broken
 setup.
 
+## Cookbook
+
+[cookbook/](cookbook/) keeps the patterns each practical turns out to need
+again, one runnable file per task with the lines worth copying marked. It grows
+only from practicals already done, so it currently covers fetching JSON,
+reading a nested answer and plotting series — what TP1 produced.
+
 ## Project
 
 [Project-TSPSolver/](Project-TSPSolver/) — solving the Travelling Salesman
