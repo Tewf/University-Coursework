@@ -1,0 +1,39 @@
+# The Programming course, M1 AI, UGA -- everything the Python side needs.
+#
+# The C++ TPs deliberately take Boost and Google Test from apt rather than from
+# here, so CMake's find_package() locates them in /usr like any system library:
+#   sudo apt install libboost-all-dev libgtest-dev
+#
+#   conda env create -f environment.yml
+#   conda activate m1ai-programming
+name: m1ai-programming
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+
+  # TP1 asks Open-Meteo for the weather over HTTP, and plots what comes back.
+  - requests
+  - matplotlib
+
+  # TP2 reads images with Pillow, then convolves them as Numpy arrays.
+  - pillow
+  - numpy
+  - scipy
+
+  # TP4 and the TSP project tabulate their results.
+  - pandas
+
+  # TP8 binds C++ to Python. Its handout installs pybind11 exactly this way.
+  - pybind11
+
+  # TP1 question 7 wants a notebook; ipykernel registers this env for it.
+  - jupyterlab
+  - ipykernel
+
+  # The Python-side counterpart to Google Test on the C++ side.
+  - pytest
+
+  - pip
