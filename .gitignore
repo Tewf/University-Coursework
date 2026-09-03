@@ -12,6 +12,10 @@ bin_backup*/
 .classpath
 .project
 
+# Local-only pointers into the Obsidian vault. Any *.local.md file names paths
+# on this machine, so it stays here: the repo is public and those paths are not.
+*.local.md
+
 # IDE / editor configs
 .vscode/
 .claude/
@@ -30,6 +34,11 @@ node_modules/
 *.pyc
 __pycache__/
 .ipynb_checkpoints/
+# Tool caches. mypy writes its own .gitignore inside the directory, but that
+# only holds while the tool keeps doing it; name it here too.
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
 
 # R
 .Rhistory
