@@ -23,8 +23,3 @@ Chaque dossier de cours déclare ses propres dépendances. Le cours de
 programmation utilise un environnement conda pour Python et `apt` pour les
 bibliothèques C++ ; voir [S7/Programming/README.fr.md](S7/Programming/README.fr.md).
 
-## Supports
-
-Les notes de cours, sujets de TP et code fourni appartiennent à leurs auteurs et
-**ne sont pas redistribués** ici. Voir [NOTICE](../../NOTICE) ; le README de
-chaque cours en cite la source.

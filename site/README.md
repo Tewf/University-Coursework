@@ -37,7 +37,7 @@ served from a different prefix.
 `path` is relative to the root and ends with `/`. `short` is the breadcrumb
 label. The breadcrumb is every manifest entry whose `path` is a prefix of the
 current one, shortest first, so a page missing from the list does not merely
-lose its own crumb — **it renders its parent as the current page**, and points
+lose its own crumb: **it renders its parent as the current page**, and points
 "Source on GitHub" at the parent's folder. Directories with no page of their
 own are simply absent, which is why `Bachelor/L3/` and `Master/M1/` never
 appear.
@@ -55,7 +55,7 @@ every page here is excluded so it measures the coursework instead.
 ## Checking it
 
 Serve the repository root and open the page, rather than opening the file
-directly — `nav.js` fetches the manifest, which `file://` refuses:
+directly, because `nav.js` fetches the manifest and `file://` refuses it:
 
 ```bash
 python3 -m http.server 8000

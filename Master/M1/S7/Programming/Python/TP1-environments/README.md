@@ -1,4 +1,4 @@
-# TP1 — Managing Environments and Packages
+# TP1: Managing Environments and Packages
 
 Two exercises on Open-Meteo's free weather API, where the real subject is the
 tooling: `venv` and `pip` first, then `uv`, then notebooks against both.
@@ -7,10 +7,10 @@ tooling: `venv` and `pip` first, then `uv`, then notebooks against both.
 
 | File | Is |
 |---|---|
-| [meteo.py](meteo.py) | Exercise 1 — fetch past weather and plot it (Q1, Q2) |
+| [meteo.py](meteo.py) | Exercise 1, fetching past weather and plotting it (Q1, Q2) |
 | [venv-and-pip/](venv-and-pip/) | The `venv` + `pip` half: the frozen `requirements.txt` (Q3) and its notebook (Q8) |
 | [uv-project/](uv-project/) | The same project managed by `uv` (Q4) and its notebook (Q7) |
-| [WeatherMapApp/](WeatherMapApp/README.md) | Exercise 2 — real-time weather on a map of France (Q5, Q6) |
+| [WeatherMapApp/](WeatherMapApp/README.md) | Exercise 2, real-time weather on a map of France (Q5, Q6) |
 | `provided-files/` | The subject's own starter code, kept unmodified for comparison |
 
 Both halves are kept rather than merged: the point of the practical is that the
@@ -47,7 +47,7 @@ python3 -m venv .venv                       # 5. recreate
 
 **`pip freeze` inside a conda environment produces a file that installs
 nowhere.** The first attempt at this folder was frozen from a conda env, so
-every line came out as `numpy @ file:///home/conda/feedstock_root/...` — a path
+every line came out as `numpy @ file:///home/conda/feedstock_root/...`, a path
 to a build directory that exists on no machine, including this one after a
 rebuild. `pip freeze` records where a package *came from*, and for conda
 packages that is a local path. This is specified behaviour, not a bug:
@@ -71,8 +71,8 @@ uv-project/.venv/bin/python3       ← Q7
 
 The `uv` half needed `uv add --dev ipykernel` for that path to be the project's
 own environment. Without it, `uv run --with jupyter` builds a throwaway
-environment in `~/.cache/uv/` and the notebook reports *that* path instead —
-which looks like it worked and does not show what the question asks about.
+environment in `~/.cache/uv/` and the notebook reports *that* path instead.
+That looks like it worked and does not show what the question asks about.
 uv's own [Jupyter guide](https://docs.astral.sh/uv/guides/integration/jupyter/)
 says the same: `uv run --with jupyter` "runs in an isolated environment", and
 reaching the project's packages means installing `ipykernel` as a development

@@ -23,8 +23,3 @@ Each course folder declares its own dependencies. The Programming course uses a
 conda environment for Python and `apt` for the C++ libraries; see
 [S7/Programming/README.md](S7/Programming/README.md).
 
-## Handouts
-
-Lecture notes, TP subjects and provided code belong to their authors and are
-**not redistributed** here. See [NOTICE](../../NOTICE); each course README names
-its source.
