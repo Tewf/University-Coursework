@@ -46,3 +46,5 @@ Bachelor/L3/S5/*/index.html                      linguist-documentation=true
 Bachelor/L3/S6/*/index.html                      linguist-documentation=true
 Master/index.html                                linguist-documentation=true
 Master/M1/*/*/index.html                         linguist-documentation=true
+Master/M1/*/*/*/index.html                       linguist-documentation=true
+Master/M1/**/steps/index.html                    linguist-documentation=true
