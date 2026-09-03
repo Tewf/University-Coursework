@@ -67,6 +67,6 @@ Almost everything lives in [configuration.py](configuration.py):
 
 ## Learning from it
 
-The [guide](guide/) explains how the whole thing fits together, how to lift
+The [guide](guide/README.md) explains how the whole thing fits together, how to lift
 pieces of it into your own code, and the two or three places where the obvious
 approach turns out to be a thousand times slower than the right one.

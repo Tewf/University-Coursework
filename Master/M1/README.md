@@ -11,7 +11,7 @@ order the semesters are taught.
 
 | Course | Topic | Languages | Folder |
 |--------|-------|-----------|--------|
-| Programming | Python tooling and data, C++ and CMake, pybind11 interop, a TSP solver | Python, C++ | [S7/Programming/](S7/Programming/) |
+| Programming | Python tooling and data, C++ and CMake, pybind11 interop, a TSP solver | Python, C++ | [S7/Programming/](S7/Programming/README.md) |
 
 ## Semester 8
 

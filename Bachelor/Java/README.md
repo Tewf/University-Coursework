@@ -10,8 +10,8 @@ Java coursework covering object-oriented programming fundamentals and a comprehe
 
 | Project | Description | Folder |
 |---------|-------------|--------|
-| **Battleship AI** | Multi-strategy AI game with GUI, tournaments, and statistical analysis | [BattleshipAI/](BattleshipAI/) |
-| **OOP Exercises** | Progressive exercises from basic classes to design patterns | [OOP/](OOP/) |
+| **Battleship AI** | Multi-strategy AI game with GUI, tournaments, and statistical analysis | [BattleshipAI/](BattleshipAI/README.md) |
+| **OOP Exercises** | Progressive exercises from basic classes to design patterns | [OOP/](OOP/README.md) |
 
 ## Highlights
 

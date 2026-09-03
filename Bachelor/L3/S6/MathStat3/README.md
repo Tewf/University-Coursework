@@ -29,7 +29,7 @@ Advanced statistical methods covering hypothesis testing, regression, ANOVA, and
 ## Prerequisites
 
 - Basic probability and statistics (distributions, p-values, confidence intervals)
-- [MathStat2](../../S5/MathStat2/) recommended as a foundation
+- [MathStat2](../../S5/MathStat2/README.md) recommended as a foundation
 - R programming fundamentals
 
 ## Running the Notebooks

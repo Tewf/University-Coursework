@@ -19,8 +19,8 @@ Exercices progressifs et mini-projets couvrant les concepts fondamentaux de la p
 
 | Dossier | Type | Contenu |
 |---------|------|---------|
-| [TD/](TD/) | Exercices diriges | Exercices cibles sur des concepts POO specifiques |
-| [TM/](TM/) | Mini-projets | Projets plus larges appliquant plusieurs principes POO |
+| [TD/](TD/README.fr.md) | Exercices diriges | Exercices cibles sur des concepts POO specifiques |
+| [TM/](TM/README.fr.md) | Mini-projets | Projets plus larges appliquant plusieurs principes POO |
 
 ## Execution
 

@@ -71,7 +71,7 @@ Each TP folder contains the problem statement (`.Rmd`/`.pdf`) and corrections (`
 
 - Statistics fundamentals (regression, hypothesis testing)
 - R programming with tidyverse
-- [MathStat2](../../S5/MathStat2/) and [MathStat3](../MathStat3/) recommended
+- [MathStat2](../../S5/MathStat2/README.md) and [MathStat3](../MathStat3/README.md) recommended
 
 ## Running the Notebooks
 

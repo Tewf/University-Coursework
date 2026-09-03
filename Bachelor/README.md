@@ -13,8 +13,8 @@ the timetable, so it sits in one folder instead of under a single year.
 
 | Course | Topic | Folder |
 |--------|-------|--------|
-| OOP | Object-oriented programming, 59 source files | [Java/OOP/](Java/OOP/) |
-| Battleship AI | Four targeting strategies benchmarked head to head | [Java/BattleshipAI/](Java/BattleshipAI/) |
+| OOP | Object-oriented programming, 59 source files | [Java/OOP/](Java/OOP/README.md) |
+| Battleship AI | Four targeting strategies benchmarked head to head | [Java/BattleshipAI/](Java/BattleshipAI/README.md) |
 
 ## Second-semester language modules
 
@@ -22,27 +22,27 @@ Three paradigms taught as one block, which is why they share a folder.
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
-| Functional programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
-| Logic programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
-| Strategy tournament | Two agents entered against the year, 7th and 8th of 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/) |
-| Databases | Queries, joins, aggregation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
+| Functional programming | Recursion, higher-order functions | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/README.md) |
+| Logic programming | Facts, rules, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/README.md) |
+| Strategy tournament | Two agents entered against the year, 7th and 8th of 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/README.md) |
+| Databases | Queries, joins, aggregation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/README.md) |
 
 ## Year 3, Semester 5
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
-| ComplementMath1 | Fourier analysis, differential equations | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/) |
-| MathStat2 | Simulation, bootstrap, hypothesis testing | R | [L3/S5/MathStat2/](L3/S5/MathStat2/) |
-| Econometrie1 | Real-estate price econometric analysis | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/) |
+| ComplementMath1 | Fourier analysis, differential equations | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/README.md) |
+| MathStat2 | Simulation, bootstrap, hypothesis testing | R | [L3/S5/MathStat2/](L3/S5/MathStat2/README.md) |
+| Econometrie1 | Real-estate price econometric analysis | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/README.md) |
 
 ## Year 3, Semester 6
 
 | Course | Topic | Language | Folder |
 |--------|-------|----------|--------|
-| ComplementMath2 | Machine learning | R | [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/) |
-| MathStat3 | Regression, ANOVA, non-parametric tests | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
-| WebDev | Full-stack web development | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
-| Econometrie2 | Advanced econometrics | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
+| ComplementMath2 | Machine learning | R | [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/README.md) |
+| MathStat3 | Regression, ANOVA, non-parametric tests | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/README.md) |
+| WebDev | Full-stack web development | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/README.md) |
+| Econometrie2 | Advanced econometrics | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/README.md) |
 | Reseaux | Computer networks | — | *not published: the coursework is Debian VM images* |
 | Systemes | Operating systems | — | *not published: the coursework is Debian VM images* |
 

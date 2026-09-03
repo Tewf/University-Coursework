@@ -16,9 +16,9 @@ Three courses exposing students to fundamentally different programming paradigms
 
 | Paradigm | Language | Folder | Key Concepts |
 |----------|---------|--------|-------------|
-| **Functional** | Racket (Scheme) | [DrRacket/](DrRacket/) | Recursion, higher-order functions, list processing, closures |
-| **Logic** | Prolog | [Prolog/](Prolog/) | Facts, rules, backtracking, unification, reasoning |
-| **Relational** | SQL | [SQL/](SQL/) | Schemas, SELECT, JOIN, aggregation, transactions |
+| **Functional** | Racket (Scheme) | [DrRacket/](DrRacket/README.md) | Recursion, higher-order functions, list processing, closures |
+| **Logic** | Prolog | [Prolog/](Prolog/README.md) | Facts, rules, backtracking, unification, reasoning |
+| **Relational** | SQL | [SQL/](SQL/README.md) | Schemas, SELECT, JOIN, aggregation, transactions |
 
 ## Why Study Multiple Paradigms?
 

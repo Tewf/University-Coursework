@@ -11,7 +11,7 @@ donc dans l'ordre où les semestres sont enseignés.
 
 | Cours | Sujet | Langages | Dossier |
 |-------|-------|----------|---------|
-| Programmation | Outillage et données en Python, C++ et CMake, interop pybind11, un solveur TSP | Python, C++ | [S7/Programming/](S7/Programming/) |
+| Programmation | Outillage et données en Python, C++ et CMake, interop pybind11, un solveur TSP | Python, C++ | [S7/Programming/](S7/Programming/README.fr.md) |
 
 ## Semestre 8
 

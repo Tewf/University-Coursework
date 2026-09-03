@@ -5,8 +5,8 @@
 [Master of Artificial Intelligence](https://m-ai.imag.fr/), Université Grenoble
 Alpes, jointly delivered by UFR IM²AG and Ensimag (Grenoble INP).
 
-M1 is under way and [`M1/`](M1/) fills as the coursework is produced. The Licence
-work is under [`Bachelor/`](../Bachelor/).
+M1 is under way and [`M1/`](M1/README.md) fills as the coursework is produced. The Licence
+work is under [`Bachelor/`](../Bachelor/README.md).
 
 ## Where things are
 
@@ -14,7 +14,7 @@ Semester by semester, mirroring the Licence layout:
 
 | Year | Semester | Course | Folder |
 |------|----------|--------|--------|
-| M1 | S7 | Programming — Python, C++, pybind11, a TSP solver | [M1/S7/Programming/](M1/S7/Programming/) |
+| M1 | S7 | Programming — Python, C++, pybind11, a TSP solver | [M1/S7/Programming/](M1/S7/Programming/README.md) |
 
 The full M1 curriculum is in [`M1/README.md`](M1/README.md).
 

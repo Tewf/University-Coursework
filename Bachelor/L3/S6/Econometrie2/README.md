@@ -8,5 +8,5 @@ Advanced econometrics course. Content coming soon.
 
 ## Prerequisites
 
-- [Econometrie1](../../S5/Econometrie1/): Introductory econometrics
+- [Econometrie1](../../S5/Econometrie1/README.md): Introductory econometrics
 - Linear algebra and basic statistics

@@ -35,7 +35,7 @@ folder, as its handout says.
 
 | TP | Topic | Folder |
 |----|-------|--------|
-| TP1 | Virtual environments, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/) |
+| TP1 | Virtual environments, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) |
 | TP2 | Images as Numpy arrays, convolution, edge detection | [Python/TP2-image-processing/](Python/TP2-image-processing/) |
 | TP3 | A command-line tool that finds duplicate files | [Python/TP3-cli-tool/](Python/TP3-cli-tool/) |
 | TP4 | The `logging` module, then a logger of your own | [Python/TP4-logger/](Python/TP4-logger/) |
@@ -44,7 +44,7 @@ TP1 is where the environment tooling itself is the subject, so its folder keeps
 both answers side by side: [venv-and-pip/](Python/TP1-environments/venv-and-pip/)
 holds the frozen `requirements.txt`, [uv-project/](Python/TP1-environments/uv-project/)
 holds the same project done with `uv`. Its exercise 2 grew into
-[WeatherMapApp](Python/TP1-environments/WeatherMapApp/), a Tkinter application
+[WeatherMapApp](Python/TP1-environments/WeatherMapApp/README.md), a Tkinter application
 that maps live temperatures across France; that folder has its own README.
 
 ## C++
@@ -80,7 +80,7 @@ setup.
 Each practical documents itself. What a TP answered, what it cost time to learn
 and the patterns worth reusing all stay in that TP's own folder rather than in
 a shared document, so a folder can be read on its own years later. TP1's are in
-[Python/TP1-environments/](Python/TP1-environments/).
+[Python/TP1-environments/](Python/TP1-environments/README.md).
 
 ## Project
 

@@ -29,7 +29,7 @@ Methodes statistiques avancees couvrant les tests d'hypothese, la regression, l'
 ## Prerequis
 
 - Probabilites et statistiques de base (distributions, p-valeurs, intervalles de confiance)
-- [MathStat2](../../S5/MathStat2/) recommande comme base
+- [MathStat2](../../S5/MathStat2/README.fr.md) recommande comme base
 - Notions de programmation R
 
 ## Executer les notebooks
