@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ &middot; Programming &middot; M1 Artificial Intelligence</title>
+<meta name="description" content="Eight C++ practicals from M1 AI semester 7: CMake and Google Test, classes and memory, iterators, templates, concurrency, and pybind11.">
+<link rel="canonical" href="https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tewf.github.io/University-Coursework">
+<meta property="og:title" content="C++ &middot; Programming &middot; M1 Artificial Intelligence">
+<meta property="og:description" content="Eight C++ practicals from M1 AI semester 7: CMake and Google Test, classes and memory, iterators, templates, concurrency, and pybind11.">
+<meta property="og:url" content="https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/">
+<meta property="og:image" content="https://tewf.github.io/University-Coursework/site/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../../site/style.css">
+</head>
+<body data-base="../../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">M1 Artificial Intelligence &middot; semester 7 &middot; C++</p>
+    <h1>C++: the machinery underneath</h1>
+    <p class="lede">From a first CMake target to threads and pybind11, with the compiler set to refuse every warning along the way.</p>
+  </section>
+
+  <h2>The practicals</h2>
+  <p>Each card opens that practical's step by step.</p>
+  <div class="cards">
+    <a class="card" href="TP1-first-programs/steps/">
+      <span class="tag">TP1</span>
+      <span class="t">First programs, CMake and tests</span>
+      <span class="d">Compiling and running with CMake, the course's warning flags, Boost, and Google Test.</span>
+    </a>
+    <a class="card" href="TP2-without-objects/steps/">
+      <span class="tag">TP2</span>
+      <span class="t">C++ without objects</span>
+      <span class="d">A 2D vector as free functions: parameters, references, const, operator overloading, file streams, exceptions.</span>
+    </a>
+    <a class="card" href="TP3-custom-vectors/steps/">
+      <span class="tag">TP3</span>
+      <span class="t">The same vector, now a class</span>
+      <span class="d">Attributes, constructors, destructor, copy semantics, resizing and smart pointers.</span>
+    </a>
+    <a class="card" href="TP4-oop-graphs/steps/">
+      <span class="tag">TP4</span>
+      <span class="t">Objects and graphs</span>
+      <span class="d">Abstract base classes, inheritance, weighted and complete graphs, multiple inheritance, path finding.</span>
+    </a>
+    <a class="card" href="TP5-subsets/steps/">
+      <span class="tag">TP5</span>
+      <span class="t">Subsets and iterators</span>
+      <span class="d">A Subset class and its iterators, written to the STL's iterator contract.</span>
+    </a>
+    <a class="card" href="TP6-templates/steps/">
+      <span class="tag">TP6</span>
+      <span class="t">Templates</span>
+      <span class="d">Function templates, specialisation, class templates with non-type parameters, and variadic templates.</span>
+    </a>
+    <a class="card" href="TP7-concurrency/steps/">
+      <span class="tag">TP7</span>
+      <span class="t">Concurrent programming</span>
+      <span class="d">Threads, shared state, mutexes, a producer-consumer buffer with condition variables, and atomics.</span>
+    </a>
+    <a class="card" href="TP8-interoperability/steps/">
+      <span class="tag">TP8</span>
+      <span class="t">Binding C++ to Python</span>
+      <span class="d">pybind11: exposing constants, functions, a class with operator overloads, and an iterator.</span>
+    </a>
+  </div>
+
+  <h2>One skeleton, and a first build that fails</h2>
+  <p>Every practical starts from the same CMake template: library in
+  <code>src/</code>, headers in <code>include/</code>, tests in
+  <code>tests/</code>. It compiles with
+  <code>-Wall -Wextra -Wpedantic -Werror</code>, and the provided sources are
+  stubs that throw. So a fresh folder is <em>expected</em> to fail its first
+  build: every unused parameter is an error until the function is written. That
+  is the exercise, not a broken setup.</p>
+
+  <div class="cards">
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/C%2B%2B">
+      <span class="tag">Source</span>
+      <span class="t">The folder on GitHub</span>
+      <span class="d">Eight practicals, the CMake skeleton, and the course note on pointers.</span>
+    </a>
+  </div>
+
+</main>
+
+<script src="../../../../../site/nav.js"></script>
+</body>
+</html>

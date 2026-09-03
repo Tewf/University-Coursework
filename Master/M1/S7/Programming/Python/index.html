@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python &middot; Programming &middot; M1 Artificial Intelligence</title>
+<meta name="description" content="Four Python practicals from M1 AI semester 7: environments and packaging, Numpy image processing, a click CLI tool, and logging.">
+<link rel="canonical" href="https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tewf.github.io/University-Coursework">
+<meta property="og:title" content="Python &middot; Programming &middot; M1 Artificial Intelligence">
+<meta property="og:description" content="Four Python practicals from M1 AI semester 7: environments and packaging, Numpy image processing, a click CLI tool, and logging.">
+<meta property="og:url" content="https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/">
+<meta property="og:image" content="https://tewf.github.io/University-Coursework/site/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../../site/style.css">
+</head>
+<body data-base="../../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">M1 Artificial Intelligence &middot; semester 7 &middot; Python</p>
+    <h1>Python: tooling and data</h1>
+    <p class="lede">Environments and packaging first, then images, a command-line tool, and logging.</p>
+  </section>
+
+  <h2>The practicals</h2>
+  <p>Each card opens that practical's step by step.</p>
+  <div class="cards">
+    <a class="card" href="TP1-environments/steps/">
+      <span class="tag">TP1</span>
+      <span class="t">Environments and packages</span>
+      <span class="d">Virtual environments with venv and pip, then uv, then notebooks running against each. Built around a weather API.</span>
+    </a>
+    <a class="card" href="TP2-image-processing/steps/">
+      <span class="tag">TP2</span>
+      <span class="t">Images as Numpy arrays</span>
+      <span class="d">Loading, greyscale, padding, convolution, blurring and edge detection.</span>
+    </a>
+    <a class="card" href="TP3-cli-tool/steps/">
+      <span class="tag">TP3</span>
+      <span class="t">A duplicate finder on the command line</span>
+      <span class="d">A click tool: walking a directory, hashing files, handling duplicates and corrupt images, resizing, reporting.</span>
+    </a>
+    <a class="card" href="TP4-logger/steps/">
+      <span class="tag">TP4</span>
+      <span class="t">Logging, then a logger of your own</span>
+      <span class="d">The standard module, then a logger class of your own: levels, file output, decorators, a static class, a singleton.</span>
+    </a>
+  </div>
+
+  <h2>The environment</h2>
+  <p>All four run in one conda environment, declared once in
+  <code>environment.yml</code> and registered as the Jupyter kernel
+  <em>Python 3.11 (m1ai-programming)</em>. TP1 is the exception by design: its
+  subject is environments, so it builds its own with <code>venv</code> and
+  <code>uv</code> rather than using this one.</p>
+
+  <div class="cards">
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/Python">
+      <span class="tag">Source</span>
+      <span class="t">The folder on GitHub</span>
+      <span class="d">Four practicals, each with its README, handout and steps pages.</span>
+    </a>
+  </div>
+
+</main>
+
+<script src="../../../../../site/nav.js"></script>
+</body>
+</html>

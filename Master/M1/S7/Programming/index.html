@@ -28,38 +28,51 @@
     <p class="lede">Python for tooling and data, C++ for the machinery underneath, then pybind11 to bridge the two. Twelve practicals and a solver.</p>
   </section>
 
-  <h2>Grown past its practical</h2>
-  <p>TP1's second exercise asked for the weather in a few cities. It turned into an application.</p>
+  <h2>Two languages, one course</h2>
   <div class="cards">
-    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp">
-      <span class="tag">TP1 &middot; Python</span>
-      <span class="t">Weather Map</span>
-      <span class="d">Live temperatures for twelve French cities, drawn as a map of France two ways: Matplotlib inside Tkinter, then Tkinter drawing every pixel itself. One request for all twelve cities, not twelve.</span>
+    <a class="card" href="Python/">
+      <span class="tag">Python</span>
+      <span class="t">Tooling and data</span>
+      <span class="d">Four practicals: environments and packaging, Numpy images, a command-line tool, and logging.</span>
+    </a>
+    <a class="card" href="C++/">
+      <span class="tag">C++</span>
+      <span class="t">The machinery underneath</span>
+      <span class="d">Eight practicals: CMake and tests, classes and memory, iterators, templates, threads, and pybind11.</span>
+    </a>
+    <a class="card" href="Project-TSPSolver/steps/">
+      <span class="tag">Project</span>
+      <span class="t">Travelling salesman</span>
+      <span class="d">An exact method and an approximate one, and a measured comparison between them.</span>
     </a>
   </div>
 
-  <h2>The rest of the course</h2>
-  <p>Source only: the practicals are worked in the repository, and the subjects themselves belong to their author and are not republished here.</p>
+  <h2>How the work is recorded</h2>
+  <p>Every practical carries a <strong>steps</strong> page: the steps it asks
+  for, and once the work happens, what each step decided, what was rejected, and
+  the reference that settled it. A choice without a reference is a guess, so the
+  trail is written down where the code can be read beside it.</p>
+
+  <h2>Reading it</h2>
   <div class="cards">
-    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/Python">
-      <span class="tag">Python</span>
-      <span class="t">Four practicals</span>
-      <span class="d">Environments and packaging, images as Numpy arrays and convolution, a duplicate-finding CLI, and a logger.</span>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming">
+      <span class="tag">Source</span>
+      <span class="t">The folder on GitHub</span>
+      <span class="d">Each practical holds its README, its steps pages, and its solution.</span>
     </a>
-    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/C%2B%2B">
-      <span class="tag">C++</span>
-      <span class="t">Eight practicals</span>
-      <span class="d">CMake, Boost and Google Test, then vectors with and without objects, graphs, subsets, templates, concurrency, and binding it all back into Python.</span>
-    </a>
-    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/Project-TSPSolver">
-      <span class="tag">Project</span>
-      <span class="t">Travelling salesman</span>
-      <span class="d">A solver measured against the TSPLIB benchmark instances.</span>
+    <a class="card" href="https://tewf.github.io/University-Coursework/Master/">
+      <span class="tag">Up</span>
+      <span class="t">The rest of the Master</span>
+      <span class="d">M1 Artificial Intelligence, semester by semester, as it is produced.</span>
     </a>
   </div>
+
+  <p class="caveat">The TP subjects are not redistributed here. Each practical
+  keeps its handout on disk, out of the repository; what is committed is my own
+  work and the starter code it is written into, credited in NOTICE.</p>
 
 </main>
 
-<script type="module" src="../../../../site/nav.js"></script>
+<script src="../../../../site/nav.js"></script>
 </body>
 </html>
