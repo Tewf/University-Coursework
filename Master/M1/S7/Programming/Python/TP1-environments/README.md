@@ -10,7 +10,7 @@ tooling: `venv` and `pip` first, then `uv`, then notebooks against both.
 | [meteo.py](meteo.py) | Exercise 1 — fetch past weather and plot it (Q1, Q2) |
 | [venv-and-pip/](venv-and-pip/) | The `venv` + `pip` half: the frozen `requirements.txt` (Q3) and its notebook (Q8) |
 | [uv-project/](uv-project/) | The same project managed by `uv` (Q4) and its notebook (Q7) |
-| [WeatherMapApp/](WeatherMapApp/) | Exercise 2 — real-time weather on a map of France (Q5, Q6) |
+| [WeatherMapApp/](WeatherMapApp/README.md) | Exercise 2 — real-time weather on a map of France (Q5, Q6) |
 | `provided-files/` | The subject's own starter code, kept unmodified for comparison |
 
 Both halves are kept rather than merged: the point of the practical is that the

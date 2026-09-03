@@ -78,7 +78,7 @@ l'ordre que l'analyse prévoyait.
 
 `Equilibrium_Analysis.ipynb` obtient `stage_test` en minimisant la somme des carrés
 des gradients de gain. Sur un simplexe, cela cherche les stratégies qui rapportent
-le *moins*. [`equilibrium/`](equilibrium/) refait le calcul avec le regret, la
+le *moins*. [`equilibrium/`](equilibrium/README.md) refait le calcul avec le regret, la
 condition correcte ici, validée sur deux jeux classiques avant d'aborder le 5 × 5.
 
 Deux millions de tirages de `joue/3` par agent placent chaque fréquence observée à

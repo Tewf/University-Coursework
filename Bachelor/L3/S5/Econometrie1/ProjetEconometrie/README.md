@@ -48,7 +48,7 @@ Deux lectures :
   hédonique : les deux modèles répondent à des questions différentes.
 
 Les diagnostics d'hétéroscédasticité et de multicolinéarité et le traitement des
-valeurs aberrantes sont dans [`ModelTraining/`](ModelTraining/).
+valeurs aberrantes sont dans [`ModelTraining/`](ModelTraining/README.md).
 
 ## Structure
 

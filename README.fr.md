@@ -6,14 +6,14 @@
 
 Tout mon parcours académique à l'**Université Grenoble Alpes** : la
 [Licence MIASHS](https://formations.univ-grenoble-alpes.fr/fr/catalogue-2021/licence-XA/licence-mathematiques-et-informatique-appliquees-aux-sciences-humaines-et-sociales-miashs-IDIVNLE7/parcours-mathematiques-informatique-et-sciences-economiques-2e-et-3e-annee-IGRNO2YS.html)
-dans [`Bachelor/`](Bachelor/), et le
+dans [`Bachelor/`](Bachelor/README.fr.md), et le
 [Master of Artificial Intelligence](https://m-ai.imag.fr/) dans
-[`Master/`](Master/) au fil de sa production.
+[`Master/`](Master/README.fr.md) au fil de sa production.
 
 Les sources sont à côté de leur rendu : rien à cloner pour lire.
 Le M1 est en cours : le cours de
-[programmation](Master/M1/S7/Programming/) du semestre 7 est le premier
-arrivé, et [`Master/`](Master/) se remplit au fil de l'année.
+[programmation](Master/M1/S7/Programming/README.fr.md) du semestre 7 est le premier
+arrivé, et [`Master/`](Master/README.fr.md) se remplit au fil de l'année.
 
 **[Parcourir le site ↗](https://tewf.github.io/University-Coursework/)**, où les résultats
 sont tracés depuis les fichiers qui les ont produits et où l'on peut regarder le bot de
@@ -23,7 +23,7 @@ bataille navale jouer une partie enregistrée.
 
 Des travaux notés, menés de bout en bout, avec un résultat mesuré.
 
-**[Satisfaction client pour des parfums](Bachelor/L3/S6/ComplementMath2/Projet/)** (R, Quarto).
+**[Satisfaction client pour des parfums](Bachelor/L3/S6/ComplementMath2/Projet/README.md)** (R, Quarto).
 Classification binaire sur environ 24 000 parfums. Régression logistique LASSO, arbre
 de décision élagué, forêt aléatoire et k plus proches voisins comparés sur courbes ROC
 et matrices de confusion ; Naive Bayes et K-means ont été essayés puis écartés, avec
@@ -32,7 +32,7 @@ justification. Les variables sont ramenées à 10 familles olfactives et la sép
 [Lire le rapport ↗](https://tewf.github.io/University-Coursework/Bachelor/L3/S6/ComplementMath2/Projet/rapport/),
 24 pages, également servi en livre HTML navigable. *Projet de groupe.*
 
-**[Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/)** (R, Python).
+**[Prix de l'immobilier grenoblois](Bachelor/L3/S5/Econometrie1/ProjetEconometrie/README.md)** (R, Python).
 Prix hédoniques sur les données ouvertes DVF. C'est la transformation logarithmique qui
 fait fonctionner le modèle linéaire : le R² passe de 0,096 à 0,275. Une forêt aléatoire
 ramène ensuite le RMSE de 265 214 € à 58 750 €, environ 4,5 fois mieux, en abandonnant
@@ -40,14 +40,14 @@ précisément les prix implicites interprétables qui sont l'objet de la démarc
 Le rapport soutient que les deux modèles répondent à des questions différentes.
 *Projet de groupe.*
 
-**[IA de bataille navale](Bachelor/Java/BattleshipAI/)** (Java).
+**[IA de bataille navale](Bachelor/Java/BattleshipAI/README.fr.md)** (Java).
 Quatre stratégies de ciblage confrontées sur 300 parties chacune. Les matrices de
 transition de Markov gagnent **74,3 %** des parties et vident la grille en 54,8 tirs,
 contre 94,3 pour le tir aléatoire, soit 42 % de moins. Monte-Carlo coûte bien plus de
 calcul pour un résultat légèrement inférieur, et c'est là que c'est intéressant.
 *Projet en binôme.*
 
-**[Tournoi de stratégies](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/)** (Prolog).
+**[Tournoi de stratégies](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/README.fr.md)** (Prolog).
 Deux stratégies déterminées sur le papier, écrites comme agents, puis engagées face à
 treize agents d'autres étudiants. Elles finissent 7e et 8e sur 16. Relire le journal de
 636 pages match par match montre que le classement mesure autre chose que le fait de
@@ -58,7 +58,7 @@ sous-tend montre que la distribution de Nash **domine strictement** celle qui a 
 soumise : elle rapporte davantage face à chaque adversaire, d'au moins 0,1402, tout
 en perdant le tête-à-tête. *Projet en binôme.*
 
-**[Application web full-stack](Bachelor/L3/S6/WebDev/)** (Node.js, Express, SQLite).
+**[Application web full-stack](Bachelor/L3/S6/WebDev/README.fr.md)** (Node.js, Express, SQLite).
 Neuf TP menant à un serveur complet : middleware, persistance SQLite, hachage des mots
 de passe, sessions et authentification. *Solo.*
 
@@ -66,10 +66,10 @@ de passe, sessions et authentification. *Solo.*
 
 | | |
 |---|---|
-| **R** | tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve. [Apprentissage automatique](Bachelor/L3/S6/ComplementMath2/), [économétrie](Bachelor/L3/S5/Econometrie1/), [statistiques](Bachelor/L3/S6/MathStat3/), [analyse](Bachelor/L3/S5/ComplementMath1/) |
-| **Java** | Conception objet, modules, interface graphique, tournois sous CI. [IA de bataille navale](Bachelor/Java/BattleshipAI/), [le cours de POO](Bachelor/Java/OOP/) |
-| **JavaScript** | Node.js, Express, SQLite, sessions et authentification. [Web](Bachelor/L3/S6/WebDev/) |
-| **SQL, Prolog, Racket** | Paradigmes relationnel, logique et fonctionnel. [Modules de langages](Bachelor/SecondSemestreLanguage/), [le tournoi Prolog](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/) |
+| **R** | tidyverse, caret, glmnet, ranger, rpart, pROC, deSolve. [Apprentissage automatique](Bachelor/L3/S6/ComplementMath2/README.fr.md), [économétrie](Bachelor/L3/S5/Econometrie1/README.fr.md), [statistiques](Bachelor/L3/S6/MathStat3/README.fr.md), [analyse](Bachelor/L3/S5/ComplementMath1/README.fr.md) |
+| **Java** | Conception objet, modules, interface graphique, tournois sous CI. [IA de bataille navale](Bachelor/Java/BattleshipAI/README.fr.md), [le cours de POO](Bachelor/Java/OOP/README.fr.md) |
+| **JavaScript** | Node.js, Express, SQLite, sessions et authentification. [Web](Bachelor/L3/S6/WebDev/README.fr.md) |
+| **SQL, Prolog, Racket** | Paradigmes relationnel, logique et fonctionnel. [Modules de langages](Bachelor/SecondSemestreLanguage/README.fr.md), [le tournoi Prolog](Bachelor/SecondSemestreLanguage/Prolog/StrategyTournament/README.fr.md) |
 | **Rédaction** | Quarto, R Markdown, LaTeX. Chaque rapport ici est rendu depuis sa source |
 
 ## Le reste des travaux
@@ -79,13 +79,13 @@ et [`Master/`](Master/README.fr.md).
 
 | Matière | | |
 |---|---|---|
-| Statistiques | [Estimation et tests](Bachelor/L3/S5/MathStat2/) | Bootstrap, maximum de vraisemblance, information de Fisher, khi-deux. *Solo.* |
-| Statistiques | [Régression et ANOVA](Bachelor/L3/S6/MathStat3/) | Régression linéaire, ANOVA à un facteur, tests non paramétriques. *Solo.* |
-| Analyse | [Fourier et EDO](Bachelor/L3/S5/ComplementMath1/) | Séries et transformée de Fourier, solveurs d'Euler et Runge-Kutta. *Solo.* |
+| Statistiques | [Estimation et tests](Bachelor/L3/S5/MathStat2/README.fr.md) | Bootstrap, maximum de vraisemblance, information de Fisher, khi-deux. *Solo.* |
+| Statistiques | [Régression et ANOVA](Bachelor/L3/S6/MathStat3/README.fr.md) | Régression linéaire, ANOVA à un facteur, tests non paramétriques. *Solo.* |
+| Analyse | [Fourier et EDO](Bachelor/L3/S5/ComplementMath1/README.fr.md) | Séries et transformée de Fourier, solveurs d'Euler et Runge-Kutta. *Solo.* |
 | Apprentissage | [TP de classification](Bachelor/L3/S6/ComplementMath2/TP/) | Huit TP corrigés sur les données Titanic. |
-| Économie | [Économétrie avancée](Bachelor/L3/S6/Econometrie2/) | Fait suite à l'étude des prix de l'immobilier ci-dessus. |
-| Programmation | [Programmation orientée objet](Bachelor/Java/OOP/) | Le cours de Java, 59 fichiers source. |
-| Programmation | [Fonctionnel](Bachelor/SecondSemestreLanguage/DrRacket/) · [Logique](Bachelor/SecondSemestreLanguage/Prolog/) · [Relationnel](Bachelor/SecondSemestreLanguage/SQL/) | TP Racket, Prolog et SQL. |
+| Économie | [Économétrie avancée](Bachelor/L3/S6/Econometrie2/README.fr.md) | Fait suite à l'étude des prix de l'immobilier ci-dessus. |
+| Programmation | [Programmation orientée objet](Bachelor/Java/OOP/README.fr.md) | Le cours de Java, 59 fichiers source. |
+| Programmation | [Fonctionnel](Bachelor/SecondSemestreLanguage/DrRacket/README.fr.md) · [Logique](Bachelor/SecondSemestreLanguage/Prolog/README.fr.md) · [Relationnel](Bachelor/SecondSemestreLanguage/SQL/README.fr.md) | TP Racket, Prolog et SQL. |
 
 ## Licence et crédits
 

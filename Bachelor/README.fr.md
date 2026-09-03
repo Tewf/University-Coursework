@@ -14,8 +14,8 @@ seule année.
 
 | Cours | Thème | Dossier |
 |-------|-------|---------|
-| POO | Programmation orientée objet, 59 fichiers source | [Java/OOP/](Java/OOP/) |
-| IA de bataille navale | Quatre stratégies de ciblage confrontées | [Java/BattleshipAI/](Java/BattleshipAI/) |
+| POO | Programmation orientée objet, 59 fichiers source | [Java/OOP/](Java/OOP/README.fr.md) |
+| IA de bataille navale | Quatre stratégies de ciblage confrontées | [Java/BattleshipAI/](Java/BattleshipAI/README.fr.md) |
 
 ## Modules de langages du second semestre
 
@@ -23,27 +23,27 @@ Trois paradigmes enseignés comme un bloc, d'où le dossier commun.
 
 | Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
-| Programmation fonctionnelle | Récursion, fonctions d'ordre supérieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/) |
-| Programmation logique | Faits, règles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/) |
-| Tournoi de stratégies | Deux agents engagés face à la promotion, 7e et 8e sur 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/) |
-| Bases de données | Requêtes, jointures, agrégation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/) |
+| Programmation fonctionnelle | Récursion, fonctions d'ordre supérieur | Racket | [SecondSemestreLanguage/DrRacket/](SecondSemestreLanguage/DrRacket/README.fr.md) |
+| Programmation logique | Faits, règles, backtracking | Prolog | [SecondSemestreLanguage/Prolog/](SecondSemestreLanguage/Prolog/README.fr.md) |
+| Tournoi de stratégies | Deux agents engagés face à la promotion, 7e et 8e sur 16 | Prolog | [SecondSemestreLanguage/Prolog/StrategyTournament/](SecondSemestreLanguage/Prolog/StrategyTournament/README.fr.md) |
+| Bases de données | Requêtes, jointures, agrégation, transactions | SQL | [SecondSemestreLanguage/SQL/](SecondSemestreLanguage/SQL/README.fr.md) |
 
 ## Année 3, semestre 5
 
 | Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
-| ComplementMath1 | Analyse de Fourier, équations différentielles | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/) |
-| MathStat2 | Simulation, bootstrap, tests d'hypothèse | R | [L3/S5/MathStat2/](L3/S5/MathStat2/) |
-| Econometrie1 | Analyse économétrique des prix immobiliers | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/) |
+| ComplementMath1 | Analyse de Fourier, équations différentielles | R | [L3/S5/ComplementMath1/](L3/S5/ComplementMath1/README.fr.md) |
+| MathStat2 | Simulation, bootstrap, tests d'hypothèse | R | [L3/S5/MathStat2/](L3/S5/MathStat2/README.fr.md) |
+| Econometrie1 | Analyse économétrique des prix immobiliers | R, Python | [L3/S5/Econometrie1/](L3/S5/Econometrie1/README.fr.md) |
 
 ## Année 3, semestre 6
 
 | Cours | Thème | Langage | Dossier |
 |-------|-------|---------|---------|
-| ComplementMath2 | Apprentissage automatique | R | [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/) |
-| MathStat3 | Régression, ANOVA, tests non paramétriques | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/) |
-| WebDev | Développement web full-stack | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/) |
-| Econometrie2 | Économétrie avancée | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/) |
+| ComplementMath2 | Apprentissage automatique | R | [L3/S6/ComplementMath2/](L3/S6/ComplementMath2/README.fr.md) |
+| MathStat3 | Régression, ANOVA, tests non paramétriques | R, Python | [L3/S6/MathStat3/](L3/S6/MathStat3/README.fr.md) |
+| WebDev | Développement web full-stack | JS, HTML, CSS | [L3/S6/WebDev/](L3/S6/WebDev/README.fr.md) |
+| Econometrie2 | Économétrie avancée | — | [L3/S6/Econometrie2/](L3/S6/Econometrie2/README.fr.md) |
 | Reseaux | Réseaux informatiques | — | *non publié : les travaux sont des images de VM Debian* |
 | Systemes | Systèmes d'exploitation | — | *non publié : les travaux sont des images de VM Debian* |
 

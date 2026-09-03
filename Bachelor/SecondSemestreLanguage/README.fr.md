@@ -16,9 +16,9 @@ Trois cours exposant les etudiants a des paradigmes de programmation fondamental
 
 | Paradigme | Langage | Dossier | Concepts cles |
 |-----------|---------|---------|---------------|
-| **Fonctionnel** | Racket (Scheme) | [DrRacket/](DrRacket/) | Recursion, fonctions d'ordre superieur, traitement de listes, closures |
-| **Logique** | Prolog | [Prolog/](Prolog/) | Faits, regles, backtracking, unification, raisonnement |
-| **Relationnel** | SQL | [SQL/](SQL/) | Schemas, SELECT, JOIN, agregation, transactions |
+| **Fonctionnel** | Racket (Scheme) | [DrRacket/](DrRacket/README.fr.md) | Recursion, fonctions d'ordre superieur, traitement de listes, closures |
+| **Logique** | Prolog | [Prolog/](Prolog/README.fr.md) | Faits, regles, backtracking, unification, raisonnement |
+| **Relationnel** | SQL | [SQL/](SQL/README.fr.md) | Schemas, SELECT, JOIN, agregation, transactions |
 
 ## Pourquoi etudier plusieurs paradigmes ?
 

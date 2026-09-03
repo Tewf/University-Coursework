@@ -77,7 +77,7 @@ the ordering the analysis predicted.
 
 `Equilibrium_Analysis.ipynb` found `stage_test` by minimising the sum of squared
 payoff gradients. On a simplex that searches for the strategies which pay *least*.
-[`equilibrium/`](equilibrium/) redoes it with regret, the condition that is correct
+[`equilibrium/`](equilibrium/README.md) redoes it with regret, the condition that is correct
 there, and validates that on two textbook games before touching the 5 × 5.
 
 Sampling `joue/3` 2,000,000 times per agent puts every observed share within 0.0009

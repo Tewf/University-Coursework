@@ -8,5 +8,5 @@ Cours d'econometrie avancee. Contenu a venir.
 
 ## Prerequis
 
-- [Econometrie1](../../S5/Econometrie1/) : Econometrie introductive
+- [Econometrie1](../../S5/Econometrie1/README.fr.md) : Econometrie introductive
 - Algebre lineaire et statistiques de base

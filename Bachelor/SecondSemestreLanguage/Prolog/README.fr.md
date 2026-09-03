@@ -8,7 +8,7 @@ Une introduction a la programmation logique avec Prolog. Au lieu d'ecrire des in
 
 ## Le projet
 
-**[Tournoi de strategies](StrategyTournament/)**. Deux strategies determinees sur le papier, ecrites comme agents Prolog, puis engagees face a treize agents d'autres etudiants. Elles finissent **7e et 8e sur 16**, et relire le journal de 636 pages match par match montre que le classement mesure autre chose que le fait de gagner : le vainqueur a gagne 6 de ses 15 matchs, l'agent qui en a gagne 13 finit 14e, et les deux agents engages battent le vainqueur en tete-a-tete.
+**[Tournoi de strategies](StrategyTournament/README.fr.md)**. Deux strategies determinees sur le papier, ecrites comme agents Prolog, puis engagees face a treize agents d'autres etudiants. Elles finissent **7e et 8e sur 16**, et relire le journal de 636 pages match par match montre que le classement mesure autre chose que le fait de gagner : le vainqueur a gagne 6 de ses 15 matchs, l'agent qui en a gagne 13 finit 14e, et les deux agents engages battent le vainqueur en tete-a-tete.
 
 ## Ce que vous apprendrez
 

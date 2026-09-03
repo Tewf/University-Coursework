@@ -36,7 +36,7 @@ le dossier du TP, comme l'indique son sujet.
 
 | TP | Sujet | Dossier |
 |----|-------|---------|
-| TP1 | Environnements virtuels, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/) |
+| TP1 | Environnements virtuels, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) |
 | TP2 | Images en tableaux Numpy, convolution, détection de contours | [Python/TP2-image-processing/](Python/TP2-image-processing/) |
 | TP3 | Un outil en ligne de commande qui repère les doublons | [Python/TP3-cli-tool/](Python/TP3-cli-tool/) |
 | TP4 | Le module `logging`, puis son propre logger | [Python/TP4-logger/](Python/TP4-logger/) |
@@ -45,7 +45,7 @@ Le TP1 a pour sujet l'outillage d'environnement lui-même : son dossier garde do
 les deux réponses côte à côte. [venv-and-pip/](Python/TP1-environments/venv-and-pip/)
 contient le `requirements.txt` figé, [uv-project/](Python/TP1-environments/uv-project/)
 le même projet fait avec `uv`. Son exercice 2 est devenu
-[WeatherMapApp](Python/TP1-environments/WeatherMapApp/), une application Tkinter
+[WeatherMapApp](Python/TP1-environments/WeatherMapApp/README.md), une application Tkinter
 qui cartographie les températures de France en direct ; ce dossier a son propre
 README.
 
@@ -82,7 +82,7 @@ C'est l'exercice, pas une installation cassée.
 Chaque TP se documente lui-même. Ce qu'il a répondu, ce qu'il a coûté à
 comprendre et les motifs à réutiliser restent dans son propre dossier plutôt
 que dans un document commun : un dossier se lit ainsi seul, des années après.
-Ceux du TP1 sont dans [Python/TP1-environments/](Python/TP1-environments/).
+Ceux du TP1 sont dans [Python/TP1-environments/](Python/TP1-environments/README.md).
 
 ## Projet
 

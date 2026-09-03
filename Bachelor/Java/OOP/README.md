@@ -19,8 +19,8 @@ Progressive exercises and mini-projects covering core object-oriented programmin
 
 | Folder | Type | Content |
 |--------|------|---------|
-| [TD/](TD/) | Directed exercises | Focused exercises on specific OOP concepts |
-| [TM/](TM/) | Mini-projects | Larger projects applying multiple OOP principles |
+| [TD/](TD/README.md) | Directed exercises | Focused exercises on specific OOP concepts |
+| [TM/](TM/README.md) | Mini-projects | Larger projects applying multiple OOP principles |
 
 ## Running
 

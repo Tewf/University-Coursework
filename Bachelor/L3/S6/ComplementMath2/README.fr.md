@@ -71,7 +71,7 @@ Chaque dossier de TP contient l'enonce (`.Rmd`/`.pdf`) et les corrections (`.qmd
 
 - Fondamentaux de statistiques (regression, tests d'hypothese)
 - Programmation R avec tidyverse
-- [MathStat2](../../S5/MathStat2/) et [MathStat3](../MathStat3/) recommandes
+- [MathStat2](../../S5/MathStat2/README.fr.md) et [MathStat3](../MathStat3/README.fr.md) recommandes
 
 ## Executer les notebooks
 
