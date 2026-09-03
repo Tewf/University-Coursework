@@ -43,6 +43,21 @@ Lola Etiévant (Université Grenoble Alpes)
   TP2 and TP8 is hers. Those three should be read as reformatted course
   material, not as original work.
 
+E. Foussard, with J. Perier-Camby on one practical (UGA)
+  Practical subjects for Programming (M1 AI), and the starter code shipped
+  with them: CMake skeletons, header and function stubs, the calculator and
+  pybind11 projects, and the TSP instance generator.
+  Referenced by: Master/M1/S7/Programming/
+  The subjects themselves are not redistributed: each practical keeps its PDF
+  and its .txt extraction in a handout/ directory that .gitignore excludes.
+  The starter code splits on one line. Files the exercise implements *into*
+  are committed, because his scaffolding and my work cannot be separated after
+  the fact: read those as derived work, the same way as the Compléments de
+  Mathématiques 2 files above, not as original. Files consumed unchanged are
+  not committed at all: the cmake-template skeleton, the pybind11 project
+  scaffold, the TSP instance generator, the sample images and the TSPLIB
+  instances stay local, and .gitignore keeps them out.
+
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
   Referenced by: Bachelor/L3/S6/MathStat3/
