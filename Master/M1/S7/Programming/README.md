@@ -28,7 +28,7 @@ sudo apt install libboost-all-dev libgtest-dev
 
 TP8 is the exception: its `CMakeLists.txt` calls `add_subdirectory(pybind11)`,
 so it wants a checkout inside the project rather than the copy in the conda
-environment — `git clone https://github.com/pybind/pybind11.git` from the TP
+environment. Run `git clone https://github.com/pybind/pybind11.git` from the TP
 folder, as its handout says.
 
 ## Python
@@ -39,13 +39,6 @@ folder, as its handout says.
 | TP2 | Images as Numpy arrays, convolution, edge detection | [Python/TP2-image-processing/](Python/TP2-image-processing/) |
 | TP3 | A command-line tool that finds duplicate files | [Python/TP3-cli-tool/](Python/TP3-cli-tool/) |
 | TP4 | The `logging` module, then a logger of your own | [Python/TP4-logger/](Python/TP4-logger/) |
-
-TP1 is where the environment tooling itself is the subject, so its folder keeps
-both answers side by side: [venv-and-pip/](Python/TP1-environments/venv-and-pip/)
-holds the frozen `requirements.txt`, [uv-project/](Python/TP1-environments/uv-project/)
-holds the same project done with `uv`. Its exercise 2 grew into
-[WeatherMapApp](Python/TP1-environments/WeatherMapApp/README.md), a Tkinter application
-that maps live temperatures across France; that folder has its own README.
 
 ## C++
 
@@ -60,8 +53,8 @@ that maps live temperatures across France; that folder has its own README.
 | TP7 | Concurrent programming | [C++/TP7-concurrency/](C++/TP7-concurrency/) |
 | TP8 | Interoperability: binding C++ to Python with pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/) |
 
-Every C++ TP starts from the same skeleton, `C++/cmake-template/` — library in
-`src/`, headers in `include/`, tests in `tests/`:
+Every C++ TP starts from the same skeleton, `C++/cmake-template/`, with the
+library in `src/`, headers in `include/` and tests in `tests/`:
 
 ```bash
 cmake -S . -B build          # add -DBUILD_TESTS=ON to build the tests too
@@ -75,22 +68,15 @@ with `-Wall -Wextra -Wpedantic -Werror`, and the provided sources are stubs that
 an error until you implement the function. That is the exercise, not a broken
 setup.
 
-## Where the explanations live
-
-Each practical documents itself. What a TP answered, what it cost time to learn
-and the patterns worth reusing all stay in that TP's own folder rather than in
-a shared document, so a folder can be read on its own years later. TP1's are in
-[Python/TP1-environments/](Python/TP1-environments/README.md).
-
 ## Project
 
-[Project-TSPSolver/](Project-TSPSolver/) — solving the Travelling Salesman
+[Project-TSPSolver/](Project-TSPSolver/) solves the Travelling Salesman
 Problem. `instance_generator.py` builds random instances; `TSP-instances/` holds
 the TSPLIB benchmarks to measure against.
 
 ## Handouts
 
 The TP subjects, and the code E. Foussard provides with them, are **not
-redistributed here** — see [NOTICE](../../../../NOTICE). They stay on disk next
+redistributed here**: see [NOTICE](../../../../NOTICE). They stay on disk next
 to each TP, alongside a `.txt` extraction that makes them greppable, and
 `.gitignore` keeps both out of the repository. What is committed is my own work.

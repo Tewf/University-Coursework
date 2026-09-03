@@ -29,7 +29,7 @@ sudo apt install libboost-all-dev libgtest-dev
 
 Le TP8 fait exception : son `CMakeLists.txt` appelle `add_subdirectory(pybind11)`
 et attend donc une copie clonée dans le projet plutôt que celle de
-l'environnement conda — `git clone https://github.com/pybind/pybind11.git` depuis
+l'environnement conda. Lancer `git clone https://github.com/pybind/pybind11.git` depuis
 le dossier du TP, comme l'indique son sujet.
 
 ## Python
@@ -40,14 +40,6 @@ le dossier du TP, comme l'indique son sujet.
 | TP2 | Images en tableaux Numpy, convolution, détection de contours | [Python/TP2-image-processing/](Python/TP2-image-processing/) |
 | TP3 | Un outil en ligne de commande qui repère les doublons | [Python/TP3-cli-tool/](Python/TP3-cli-tool/) |
 | TP4 | Le module `logging`, puis son propre logger | [Python/TP4-logger/](Python/TP4-logger/) |
-
-Le TP1 a pour sujet l'outillage d'environnement lui-même : son dossier garde donc
-les deux réponses côte à côte. [venv-and-pip/](Python/TP1-environments/venv-and-pip/)
-contient le `requirements.txt` figé, [uv-project/](Python/TP1-environments/uv-project/)
-le même projet fait avec `uv`. Son exercice 2 est devenu
-[WeatherMapApp](Python/TP1-environments/WeatherMapApp/README.md), une application Tkinter
-qui cartographie les températures de France en direct ; ce dossier a son propre
-README.
 
 ## C++
 
@@ -62,8 +54,9 @@ README.
 | TP7 | Programmation concurrente | [C++/TP7-concurrency/](C++/TP7-concurrency/) |
 | TP8 | Interopérabilité : lier C++ et Python avec pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/) |
 
-Chaque TP C++ part du même squelette, `C++/cmake-template/` — la bibliothèque
-dans `src/`, les en-têtes dans `include/`, les tests dans `tests/` :
+Chaque TP C++ part du même squelette, `C++/cmake-template/`, avec la
+bibliothèque dans `src/`, les en-têtes dans `include/` et les tests dans
+`tests/` :
 
 ```bash
 cmake -S . -B build          # ajouter -DBUILD_TESTS=ON pour compiler les tests
@@ -77,22 +70,15 @@ souches qui font `throw std::runtime_error("Not implemented yet")` : chaque
 paramètre inutilisé est donc une erreur tant que la fonction n'est pas écrite.
 C'est l'exercice, pas une installation cassée.
 
-## Où sont les explications
-
-Chaque TP se documente lui-même. Ce qu'il a répondu, ce qu'il a coûté à
-comprendre et les motifs à réutiliser restent dans son propre dossier plutôt
-que dans un document commun : un dossier se lit ainsi seul, des années après.
-Ceux du TP1 sont dans [Python/TP1-environments/](Python/TP1-environments/README.md).
-
 ## Projet
 
-[Project-TSPSolver/](Project-TSPSolver/) — résolution du problème du voyageur de
+[Project-TSPSolver/](Project-TSPSolver/) résout le problème du voyageur de
 commerce. `instance_generator.py` fabrique des instances aléatoires ;
 `TSP-instances/` contient les jeux de référence TSPLIB pour se mesurer.
 
 ## Supports
 
 Les sujets de TP, et le code fourni avec eux par E. Foussard, **ne sont pas
-redistribués ici** — voir [NOTICE](../../../../NOTICE). Ils restent sur le disque
+redistribués ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le disque
 à côté de chaque TP, avec une extraction `.txt` qui les rend cherchables, et le
 `.gitignore` tient les deux hors du dépôt. Ce qui est versionné est mon travail.
