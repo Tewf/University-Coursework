@@ -50,8 +50,12 @@ nowhere.** The first attempt at this folder was frozen from a conda env, so
 every line came out as `numpy @ file:///home/conda/feedstock_root/...` — a path
 to a build directory that exists on no machine, including this one after a
 rebuild. `pip freeze` records where a package *came from*, and for conda
-packages that is a local path. Freeze from a real `venv`, or the file is
-decoration.
+packages that is a local path. This is specified behaviour, not a bug:
+[PEP 610](https://peps.python.org/pep-0610/) says tools like `pip freeze`
+"SHOULD exploit `direct_url.json` if it is present, and give it priority over
+the Version metadata in order to generate a higher fidelity output". Higher
+fidelity here means a path that exists on exactly one machine. Freeze from a
+real `venv`, or the file is decoration.
 
 ## Questions 7 and 8, the notebooks
 
@@ -69,6 +73,10 @@ The `uv` half needed `uv add --dev ipykernel` for that path to be the project's
 own environment. Without it, `uv run --with jupyter` builds a throwaway
 environment in `~/.cache/uv/` and the notebook reports *that* path instead —
 which looks like it worked and does not show what the question asks about.
+uv's own [Jupyter guide](https://docs.astral.sh/uv/guides/integration/jupyter/)
+says the same: `uv run --with jupyter` "runs in an isolated environment", and
+reaching the project's packages means installing `ipykernel` as a development
+dependency and registering a kernel from it.
 
 ## Type checking
 
