@@ -77,13 +77,12 @@ souches qui font `throw std::runtime_error("Not implemented yet")` : chaque
 paramètre inutilisé est donc une erreur tant que la fonction n'est pas écrite.
 C'est l'exercice, pas une installation cassée.
 
-## Cookbook
+## Où sont les explications
 
-[cookbook/](cookbook/) rassemble les motifs dont chaque TP finit par avoir
-besoin à nouveau : un fichier exécutable par tâche, avec les lignes à recopier
-encadrées. Il ne grandit qu'à partir des TP déjà faits, et couvre donc pour
-l'instant l'appel d'une API JSON, la lecture d'une réponse imbriquée et le tracé
-de séries — ce que le TP1 a produit.
+Chaque TP se documente lui-même. Ce qu'il a répondu, ce qu'il a coûté à
+comprendre et les motifs à réutiliser restent dans son propre dossier plutôt
+que dans un document commun : un dossier se lit ainsi seul, des années après.
+Ceux du TP1 sont dans [Python/TP1-environments/](Python/TP1-environments/).
 
 ## Projet
 

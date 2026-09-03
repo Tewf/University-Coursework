@@ -98,5 +98,5 @@ Master/M1/**/TSP-instances.zip
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
 
-# Figures the cookbook demos write when you run them
-Master/M1/S7/Programming/cookbook/*.png
+# Figures the practicals write when their demos are run
+Master/M1/**/patterns_demo.png

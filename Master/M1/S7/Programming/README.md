@@ -75,12 +75,12 @@ with `-Wall -Wextra -Wpedantic -Werror`, and the provided sources are stubs that
 an error until you implement the function. That is the exercise, not a broken
 setup.
 
-## Cookbook
+## Where the explanations live
 
-[cookbook/](cookbook/) keeps the patterns each practical turns out to need
-again, one runnable file per task with the lines worth copying marked. It grows
-only from practicals already done, so it currently covers fetching JSON,
-reading a nested answer and plotting series — what TP1 produced.
+Each practical documents itself. What a TP answered, what it cost time to learn
+and the patterns worth reusing all stay in that TP's own folder rather than in
+a shared document, so a folder can be read on its own years later. TP1's are in
+[Python/TP1-environments/](Python/TP1-environments/).
 
 ## Project
 

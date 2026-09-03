@@ -86,6 +86,14 @@ Corrected to `-> dict`, which takes `mypy meteo.py` from three errors to clean.
 
 ## Reusable pieces
 
-The patterns worth keeping from this practical are extracted, runnable, in
-[../../cookbook/](../../cookbook/) — fetching JSON, reading a nested answer,
-and plotting series.
+[patterns.py](patterns.py) is the three steps this practical is really about --
+ask an API, read its answer, draw it -- written the way they should be written
+once you know what goes wrong, rather than the way the starter code writes them.
+Copy between a `THE PATTERN` marker and its `END`; run the file to check it
+still works first.
+
+Its docstring carries the four traps and the page that backs each one, so the
+reasoning sits next to the code instead of in a document that drifts from it.
+The retry loop is marked as having no source on purpose: it is not in any
+documentation, it is there because this API answered with a 502 and timed out
+twice while this practical was being written.
