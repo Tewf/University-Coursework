@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TSP solver step by step &amp;middot; Programming</title>
+<meta name="description" content="How the Travelling Salesman Problem solver was built, step by step, with the reference behind each decision.">
+<link rel="icon" href="../../../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../../../site/style.css">
+</head>
+<body data-base="../../../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">M1 Artificial Intelligence &middot; C++ &middot; project</p>
+    <h1>Step by step</h1>
+    <p class="lede">The stages the project asks for, from parsing an instance to measuring one algorithm against another.</p>
+  </section>
+
+  <ol class="steps">
+    <li>
+      <h3><a href="step-01.html">Read the instance format</a></h3>
+      <p class="asked">Parse TSPLIB files: NODE_COORD_SECTION for coordinates and the lower-diagonal form for explicit distance matrices.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-02.html">Build the distance matrix</a></h3>
+      <p class="asked">Turn an instance into the matrix every algorithm below consumes, so the solvers never touch the file format.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-03.html">Trivial method</a></h3>
+      <p class="asked">Return the tour of vertices sorted by index, as the handout specifies.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-04.html">Held-Karp</a></h3>
+      <p class="asked">The exact dynamic-programming method the handout sets out, built on c(v, S).</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-05.html">A heuristic</a></h3>
+      <p class="asked">An approximate method, for instances the exact one cannot reach.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-06.html">Performance evaluation</a></h3>
+      <p class="asked">Execution time and tour length against instance size, on the provided TSPLIB benchmarks and on instances from instance_generator.py, written up with figures.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+  </ol>
+
+  <h2>Where the rest lives</h2>
+  <div class="cards">
+    <a class="card" href="../">
+      <span class="tag">Code</span>
+      <span class="t">The project</span>
+      <span class="d">Its README, the handout, and the TSPLIB instances.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/commits/main/Master/M1/S7/Programming/Project-TSPSolver">
+      <span class="tag">History</span>
+      <span class="t">Every change to this folder</span>
+      <span class="d">Each commit says why, which is the part the diff cannot show.</span>
+    </a>
+  </div>
+
+</main>
+
+<script src="../../../../../../site/nav.js"></script>
+</body>
+</html>
