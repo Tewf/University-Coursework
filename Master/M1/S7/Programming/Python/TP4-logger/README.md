@@ -33,7 +33,7 @@ conda activate m1ai-programming
 
 ## Where the explanation lives
 
-This folder holds code. The concept note for it is in the M1AI vault, under
+This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Programming/TP - Python/TP4 - Logging.md`. The map of all of them is
 `obsidian-note.local.md` at the course root, which is gitignored because it
 names local paths.

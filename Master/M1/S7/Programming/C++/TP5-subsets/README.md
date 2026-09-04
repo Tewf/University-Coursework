@@ -38,7 +38,7 @@ cmake --build build
 
 ## Where the explanation lives
 
-This folder holds code. The concept note for it is in the M1AI vault, under
+This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Programming/TP - C++/TP5 - Subsets and Iterators.md`. The map of all of them is
 `obsidian-note.local.md` at the course root, which is gitignored because it
 names local paths.
