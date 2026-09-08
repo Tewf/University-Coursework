@@ -58,6 +58,16 @@ E. Foussard, with J. Perier-Camby on one practical (UGA)
   scaffold, the TSP instance generator, the sample images and the TSPLIB
   instances stay local, and .gitignore keeps them out.
 
+Nguyen Kim Thang, Enikő Kevi and Lorena León (UGA)
+  Project subjects APP1–APP4, tutorial subjects TD1–TD2 and the 2024 exam for
+  Algorithmic Problem Solving (M1 AI), and the C skeleton shipped with APP1
+  (main.c, maze.h, svg.c/.h, Makefile). APP2–APP4 are CC BY-SA 3.0.
+  Referenced by: Master/M1/S7/AlgorithmicProblemSolving/
+  Nothing of theirs is redistributed: each folder keeps the PDF and its .txt
+  extraction in a handout/ directory that .gitignore excludes, and the APP1
+  skeleton is consumed unchanged and stays local the same way. What is
+  committed is the maze implementation written against it.
+
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
   Referenced by: Bachelor/L3/S6/MathStat3/
