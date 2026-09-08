@@ -105,16 +105,14 @@ Master/M1/**/sample_images.zip
 Master/M1/**/TSP-instances/
 Master/M1/**/TSP-instances.zip
 
-# Sujets d'APP, de TD et d'examen du cours Algorithmic Problem Solving, et le
-# squelette C fourni avec l'APP1 ; voir NOTICE. Les PDF, leur extraction .txt et
-# le code fourni restent en local : seul mon travail est publie ici.
-Master/M1/S7/AlgorithmicProblemSolving/**/handout/
+# Squelette C fourni avec l'APP1 d'Algorithmic Problem Solving ; voir NOTICE.
+# Il reste en local : seule mon implementation (maze.c) est publiee ici.
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code-as-downloaded.tar.gz
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code/Makefile
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code/main.c
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code/maze.h
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code/svg.c
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code/svg.h
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/Makefile
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/main.c
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/maze.h
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.c
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.h
 
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
