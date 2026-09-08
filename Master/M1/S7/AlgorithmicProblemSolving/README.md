@@ -20,7 +20,9 @@ any position to the exit. A maze built that way is a binary tree, which is the
 point of the exercise: its generation is divide and conquer, its solving is a
 tree traversal, and its cost analysis is the recurrence that falls out.
 
-The provided skeleton is `main.c`, `maze.h`, `svg.c/.h` and a `Makefile` that
+The subject sits in `handout/`, beside a `.txt` extraction of it so the
+statement greps next to the work — you cannot write the thing without it. The
+provided skeleton is `main.c`, `maze.h`, `svg.c/.h` and a `Makefile` that
 compiles with `gcc -g -Wall -O0 -Werror`. It is deliberately incomplete:
 `maze.c`, holding `maze_random()` and `maze_svg()`, is the part to write.
 
@@ -44,6 +46,7 @@ note instead.
 
 ## Source material
 
-The C skeleton shipped with APP1 is **not redistributed here**: see
-[NOTICE](../../../../NOTICE). It stays on disk and `.gitignore` keeps it out of
-the repository. What is committed is the implementation written against it.
+The subject and the C skeleton shipped with APP1 are **not redistributed
+here**: see [NOTICE](../../../../NOTICE). Both stay on disk and `.gitignore`
+keeps them out of the repository. What is committed is the implementation
+written against them.

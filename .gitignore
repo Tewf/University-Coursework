@@ -105,8 +105,10 @@ Master/M1/**/sample_images.zip
 Master/M1/**/TSP-instances/
 Master/M1/**/TSP-instances.zip
 
-# Squelette C fourni avec l'APP1 d'Algorithmic Problem Solving ; voir NOTICE.
-# Il reste en local : seule mon implementation (maze.c) est publiee ici.
+# Sujet et squelette C fournis avec l'APP1 d'Algorithmic Problem Solving ; voir
+# NOTICE. Le PDF, son extraction .txt et le code fourni restent en local : seule
+# mon implementation (maze.c) est publiee ici.
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/handout/
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code-as-downloaded.tar.gz
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/Makefile
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/main.c

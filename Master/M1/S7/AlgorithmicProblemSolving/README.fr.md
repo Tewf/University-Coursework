@@ -22,8 +22,10 @@ l'intérêt de l'exercice : sa génération est un diviser pour régner, sa
 résolution un parcours d'arbre, et son analyse de coût la récurrence qui en
 découle.
 
-Le squelette fourni est `main.c`, `maze.h`, `svg.c/.h` et un `Makefile` qui
-compile avec `gcc -g -Wall -O0 -Werror`. Il est volontairement incomplet :
+Le sujet est dans `handout/`, à côté de son extraction `.txt` pour que
+l'énoncé soit greppable près du travail — on ne peut pas écrire la chose sans
+lui. Le squelette fourni est `main.c`, `maze.h`, `svg.c/.h` et un `Makefile`
+qui compile avec `gcc -g -Wall -O0 -Werror`. Il est volontairement incomplet :
 `maze.c`, qui contient `maze_random()` et `maze_svg()`, est la partie à écrire.
 
 ```bash
@@ -48,6 +50,7 @@ dans cette note, pas dans le code.
 
 ## Matériel source
 
-Le squelette C fourni avec l'APP1 n'est **pas redistribué ici** : voir
-[NOTICE](../../../../NOTICE). Il reste sur le disque et `.gitignore` l'exclut du
-dépôt. Ce qui est versionné est l'implémentation écrite en réponse.
+Le sujet et le squelette C fournis avec l'APP1 ne sont **pas redistribués
+ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le disque et
+`.gitignore` les exclut du dépôt. Ce qui est versionné est l'implémentation
+écrite en réponse.
