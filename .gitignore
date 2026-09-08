@@ -68,6 +68,9 @@ Bachelor/SecondSemestreLanguage/SQL/tp0*.pdf
 Bachelor/L3/S5/ComplementMath1/TP cpt maths.pdf
 Bachelor/L3/S6/MathStat3/TP Stat 3.pdf
 Bachelor/L3/S6/ComplementMath2/Projet/consignes/
+# Les sujets .Rmd de L. Etiévant et son TP8 complet restent à côté de mes corrections.
+Bachelor/L3/S6/ComplementMath2/TP/**/*sujet*.[Rr]md
+Bachelor/L3/S6/ComplementMath2/TP/TP8/TP8_complet.Rmd
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/DataPreprocessing/DataDocumentation/
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/RevueDeLitterature/HedonicHousingPriceIndexes.pdf
 
