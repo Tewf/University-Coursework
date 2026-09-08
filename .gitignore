@@ -18,8 +18,6 @@ bin_backup*/
 
 # IDE / editor configs
 .vscode/
-.claude/
-CLAUDE.md
 *.iml
 .idea/
 
