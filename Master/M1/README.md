@@ -12,6 +12,9 @@ order the semesters are taught.
 | Course | Topic | Languages | Folder |
 |--------|-------|-----------|--------|
 | Programming | Python tooling and data, C++ and CMake, pybind11 interop, a TSP solver | Python, C++ | [S7/Programming/](S7/Programming/README.md) |
+| Algorithmic Problem Solving | Divide and conquer, dynamic programming, flows and cuts, spanning trees, approximation; four APP projects solved on paper, one with a C skeleton | C | [S7/AlgorithmicProblemSolving/](S7/AlgorithmicProblemSolving/README.md) |
+| Introduction to AI | Seven machine-learning notebooks from model evaluation to recurrent networks; Datalog and constraint programming | Python | [S7/IntroductionToAI/](S7/IntroductionToAI/README.md) |
+| Applied Probability and Statistics | Simulation, estimators, Gaussian vectors and kriging, in R Markdown | R | [S7/AppliedProbabilityAndStatistics/](S7/AppliedProbabilityAndStatistics/README.md) |
 
 ## Semester 8
 
@@ -21,5 +24,8 @@ Not started.
 
 Each course folder declares its own dependencies. The Programming course uses a
 conda environment for Python and `apt` for the C++ libraries; see
-[S7/Programming/README.md](S7/Programming/README.md).
+[S7/Programming/README.md](S7/Programming/README.md). Introduction to AI and
+Applied Probability and Statistics each declare a conda environment of their
+own (`m1ai-intro-ai`, `m1ai-applied-stats`); Algorithmic Problem Solving needs
+only `gcc` and `make`.
 
