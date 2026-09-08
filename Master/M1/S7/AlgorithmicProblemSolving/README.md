@@ -6,23 +6,31 @@
 **Teaching staff:** Nguyen Kim Thang (responsable), with Enikő Kevi and Lorena León on the projects
 
 The course is taught by *apprentissage par problème*: four APP projects and two
-tutorials, each solved on paper by a group across several sessions. Only APP1
-comes with code, and even there the implementation is optional — so this folder
-holds one C project and nothing else. The subjects, the lecture material and the
-write-ups all live in the notes vault, which is where a problem solved on paper
-belongs.
+tutorials, each solved on paper by a group across several sessions, plus a past
+exam. Implementing any of it is optional — which is exactly why each subject has
+a folder here waiting, with its statement in it. When a problem is worth coding,
+the place to code it already exists.
+
+## The subjects
+
+| Folder | Problem | Solved with | Code |
+|---|---|---|---|
+| [APP1-maze/](APP1-maze/) | Generate a random maze by recursive division, then find the unique path to its exit | Divide and conquer, binary trees, traversals | skeleton provided |
+| [APP2-candy-crush/](APP2-candy-crush/) | Candy Crush | Where greedy fails, then dynamic programming | — |
+| [APP3-scheduling/](APP3-scheduling/) | School scheduling | Maximum flow, minimum cut, reduction | — |
+| [APP4-hole-drilling/](APP4-hole-drilling/) | Hole drilling | Minimum spanning tree, 2-approximation of the tour | — |
+| [TD1-optimal-bst/](TD1-optimal-bst/) | Optimal binary search tree | Dynamic programming | — |
+| [TD2-bipartite-matching/](TD2-bipartite-matching/) | Maximum-cardinality bipartite matching | Reduction to maximum flow | — |
+| [exam-2024/](exam-2024/) | Exam of 5 December 2024 | Matching, knapsack (DP then greedy), disjoint paths | — |
 
 ## APP1 — Be Amazed
 
-[APP1-maze/](APP1-maze/) generates a random maze by dividing its area with a full
-wall bearing one door, recursing on each half, then finds the unique path from
-any position to the exit. A maze built that way is a binary tree, which is the
-point of the exercise: its generation is divide and conquer, its solving is a
+The one subject that ships code. A maze built by dividing an area with a full
+wall bearing one door, then recursing on each half, is a binary tree — which is
+the point of the exercise: its generation is divide and conquer, its solving is a
 tree traversal, and its cost analysis is the recurrence that falls out.
 
-The subject sits in `handout/`, beside a `.txt` extraction of it so the
-statement greps next to the work — you cannot write the thing without it. The
-provided skeleton is `main.c`, `maze.h`, `svg.c/.h` and a `Makefile` that
+The provided skeleton is `main.c`, `maze.h`, `svg.c/.h` and a `Makefile` that
 compiles with `gcc -g -Wall -O0 -Werror`. It is deliberately incomplete:
 `maze.c`, holding `maze_random()` and `maze_svg()`, is the part to write.
 
@@ -35,18 +43,36 @@ exists, since `main.c` calls both of its functions. And `main.c` as shipped
 declares an `unsigned int len;` it never uses, which `-Wall -Werror` turns into
 an error under gcc 13.3 — that line has to go even once `maze.c` is there.
 
-## Where everything else lives
+## Folder Structure
 
-Not here. The subject PDFs, the lecture slides, the concepts each question needs
-— divide and conquer, the master theorem, tree traversals, dynamic programming,
-flows and cuts, spanning trees, approximation ratios — and the paper solutions to
-APP2–APP4, the two TDs and the past exam are all in a separate Obsidian vault,
-one note per concept. A comment here that starts teaching theory belongs in that
-note instead.
+Each subject keeps its statement in `handout/`, beside a `.txt` extraction that
+makes it greppable next to the work. `.gitignore` excludes every one of them, so
+what a folder shows on GitHub is the code and nothing else — and a folder with no
+code yet shows nothing at all.
+
+```
+AlgorithmicProblemSolving/
+|-- APP1-maze/
+|   |-- handout/               <- the subject PDF beside its .txt extraction
+|   |-- main.c maze.h svg.c/.h Makefile   <- the provided skeleton, and my maze.c
+|   |-- code-as-downloaded.tar.gz
+|-- APP2-candy-crush/ ... APP4-hole-drilling/
+|-- TD1-optimal-bst/ TD2-bipartite-matching/
+|-- exam-2024/
+```
+
+## Where the explanations live
+
+Not here. The concepts each subject needs — divide and conquer, the master
+theorem, tree traversals, dynamic programming, flows and cuts, spanning trees,
+approximation ratios — are written up in a separate Obsidian vault, one note per
+concept, alongside the lecture slides they come from and the paper solutions.
+Each subject there maps its questions to the concepts they need. A comment here
+that starts teaching theory belongs in that note instead.
 
 ## Source material
 
-The subject and the C skeleton shipped with APP1 are **not redistributed
-here**: see [NOTICE](../../../../NOTICE). Both stay on disk and `.gitignore`
-keeps them out of the repository. What is committed is the implementation
-written against them.
+The subjects, and the C skeleton provided with APP1, are **not redistributed
+here**: see [NOTICE](../../../../NOTICE). They stay on disk in each `handout/`
+directory, and `.gitignore` keeps both them and the skeleton out of the
+repository. What is committed is my own work.
