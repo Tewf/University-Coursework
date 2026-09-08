@@ -1,0 +1,38 @@
+# Introduction to AI, M1 AI, UGA -- everything the lab notebooks import.
+#
+#   conda env create -f environment.yml
+#   conda activate m1ai-intro-ai
+#
+# conda-forge ships the CPU build of PyTorch. On a machine with an NVIDIA card,
+# take the CUDA build instead, with the command pytorch.org gives for it.
+name: m1ai-intro-ai
+
+channels:
+  - conda-forge
+
+dependencies:
+  # pyDatalog's last release is from 2019; 3.11 is the newest it is known to run on.
+  - python=3.11
+
+  # Machine-learning labs 1 to 4: models, metrics, PCA, t-SNE, clustering, regularisation.
+  - scikit-learn
+  - pandas
+  - numpy
+  - matplotlib
+
+  # Machine-learning labs 5 to 7: networks, image datasets, model summaries, training curves.
+  - pytorch
+  - torchvision
+  - torchinfo
+  - tensorboard
+
+  # The labs are notebooks; ipykernel registers this env for them.
+  - jupyterlab
+  - ipykernel
+
+  - pip
+  - pip:
+      # Symbolic-AI lab 1, Datalog in Python; lab 2, constraint programming.
+      # Both handouts install them with pip, so this does too.
+      - pyDatalog
+      - ortools

@@ -1,0 +1,21 @@
+# Applied Probability and Statistics, M1 AI, UGA -- the R the labs need.
+#
+#   conda env create -f environment.yml
+#   conda activate m1ai-applied-stats
+name: m1ai-applied-stats
+
+channels:
+  - conda-forge
+
+dependencies:
+  - r-base
+
+  # The labs are R Markdown notebooks.
+  - r-rmarkdown
+  - r-knitr
+
+  # Lab 0 loads the BreastCancer data from mlbench; the only package any lab attaches.
+  - r-mlbench
+
+  # Run them in Jupyter as well as RStudio.
+  - r-irkernel

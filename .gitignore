@@ -116,6 +116,35 @@ Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/maze.h
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.c
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.h
 
+# Sujets, corrections officielles, modules fournis et jeux de données des TP
+# d'Introduction to AI ; voir NOTICE. Tout reste en local : handout/ pour les
+# sujets et corrections, le reste à côté du travail. data/ et runs/ reçoivent
+# les téléchargements torchvision et les traces TensorBoard.
+Master/M1/S7/IntroductionToAI/**/handout/
+Master/M1/S7/IntroductionToAI/**/as-downloaded.zip
+Master/M1/S7/IntroductionToAI/**/data/
+Master/M1/S7/IntroductionToAI/**/runs/
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/avalanche_data.csv
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/svm.png
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/svm0.png
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab4-regularization/gut_abundances.tsv
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab4-regularization/ibd_status.lst
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab5-deep-learning/utilsDL.py
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab7-recurrent-networks/utils.py
+Master/M1/S7/IntroductionToAI/MachineLearning/Lab7-recurrent-networks/data.csv
+Master/M1/S7/IntroductionToAI/SymbolicAI/**/got.csv
+Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/trains.csv
+Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/familyTree.py
+Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/test-pyDatalog.py
+
+# Sujets, solution officielle et jeux de données des TP d'Applied Probability
+# and Statistics ; voir NOTICE. Les .Rdata s'écrivent en minuscules : la règle
+# globale .RData ne les attrape pas.
+Master/M1/S7/AppliedProbabilityAndStatistics/**/handout/
+Master/M1/S7/AppliedProbabilityAndStatistics/**/*.Rdata
+Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/saison_2022.csv
+Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/BreastCancer.csv
+
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
 

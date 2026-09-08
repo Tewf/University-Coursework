@@ -69,6 +69,39 @@ Nguyen Kim Thang, Enikő Kevi and Lorena León (UGA)
   local the same way. What is committed is the code written against them.
   The tutorials and the past exam are worked on paper and are not here.
 
+Nguyen Kim Thang (UGA)
+  The machine-learning lab notebooks 1–7 of Introduction to AI (M1 AI), the
+  official corrections of labs 1–3, the helper modules utilsDL.py and
+  utils.py, and the datasets they load (avalanche_data.csv,
+  gut_abundances.tsv, ibd_status.lst, Hitters.csv, data.csv). The notebooks
+  are unsigned; the attribution follows the lecturer named on the deck.
+  Referenced by: Master/M1/S7/IntroductionToAI/MachineLearning/
+  None of it is redistributed: each lab keeps its subject and correction in a
+  handout/ directory that .gitignore excludes, and the helpers and datasets
+  stay local beside it the same way. The notebook I complete from a subject
+  is committed; it carries the staff's question text, so read it as derived
+  work, not as original.
+
+Sylvain Bouveret (Grenoble INP, UGA)
+  The symbolic-AI lab subjects of Introduction to AI (M1 AI): Logic Reasoning
+  (November 2024), with its rule base Datalog Rules.pdf and the starter
+  scripts familyTree.py and test-pyDatalog.py, and Constraint Programming
+  (April 2024); the datasets got.csv and trains.csv shipped with them.
+  Referenced by: Master/M1/S7/IntroductionToAI/SymbolicAI/
+  Not redistributed: subjects in handout/, scripts and data beside the work,
+  all excluded by .gitignore. familyTree.py is a starter the lab extends; the
+  pristine copy stays local and my predicates live in a module that imports
+  it. What is committed is written against them.
+
+Teaching staff, Applied Probability and Statistics (M1AM, UGA)
+  The R Markdown subjects of practical sessions 0, 1 and 3, the PDF subjects
+  of sessions 2 and 3, the official solution script of session 3, and the
+  datasets they load (saison_2022.csv, BreastCancer.csv, three .Rdata files).
+  Referenced by: Master/M1/S7/AppliedProbabilityAndStatistics/
+  Not redistributed: subjects and the solution in handout/, data beside the
+  work, all excluded by .gitignore. The .Rmd I complete from a subject is
+  committed and, like the notebooks above, is derived work.
+
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
   Referenced by: Bachelor/L3/S6/MathStat3/
