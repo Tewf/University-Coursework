@@ -82,6 +82,13 @@ Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp/france_border.geo
 # C++ build trees
 build/
 
+# Tout sujet distribué par l'équipe pédagogique vit dans un handout/ à côté du
+# travail, avec l'archive telle que téléchargée ; voir NOTICE. Règle générale,
+# pour qu'un nouveau cours ne puisse pas fuir par oubli ; les blocs par cours
+# ci-dessous nomment en plus le code et les données fournis.
+Master/**/handout/
+Master/**/as-downloaded.zip
+
 # Supports et code fournis du Master ; voir NOTICE.
 # Les sujets de TP d'E. Foussard, leur extraction en .txt et le code fourni
 # restent en local : ce n'est pas mon travail et la licence MIT ne s'y applique
