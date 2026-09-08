@@ -5,13 +5,15 @@
 **Course:** Algorithmic Problem Solving, M1 Artificial Intelligence, Semester 7, Université Grenoble Alpes
 **Teaching staff:** Nguyen Kim Thang (responsable), with Enikő Kevi and Lorena León on the projects
 
-The course is taught by *apprentissage par problème*: four APP projects and two
-tutorials, each solved on paper by a group across several sessions, plus a past
-exam. Implementing any of it is optional — which is exactly why each subject has
-a folder here waiting, with its statement in it. When a problem is worth coding,
-the place to code it already exists.
+The course is taught by *apprentissage par problème*: four APP projects, each
+solved by a group across several sessions. Implementing one is optional — which
+is exactly why all four have a folder here waiting, statement included. When a
+project is worth coding, the place to code it already exists.
 
-## The subjects
+The two tutorials and the past exam are not here. They are worked on paper and
+hand in nothing, so they live in the notes vault with the rest of the course.
+
+## The projects
 
 | Folder | Problem | Solved with | Code |
 |---|---|---|---|
@@ -19,9 +21,6 @@ the place to code it already exists.
 | [APP2-candy-crush/](APP2-candy-crush/) | Candy Crush | Where greedy fails, then dynamic programming | — |
 | [APP3-scheduling/](APP3-scheduling/) | School scheduling | Maximum flow, minimum cut, reduction | — |
 | [APP4-hole-drilling/](APP4-hole-drilling/) | Hole drilling | Minimum spanning tree, 2-approximation of the tour | — |
-| [TD1-optimal-bst/](TD1-optimal-bst/) | Optimal binary search tree | Dynamic programming | — |
-| [TD2-bipartite-matching/](TD2-bipartite-matching/) | Maximum-cardinality bipartite matching | Reduction to maximum flow | — |
-| [exam-2024/](exam-2024/) | Exam of 5 December 2024 | Matching, knapsack (DP then greedy), disjoint paths | — |
 
 ## APP1 — Be Amazed
 
@@ -45,7 +44,7 @@ an error under gcc 13.3 — that line has to go even once `maze.c` is there.
 
 ## Folder Structure
 
-Each subject keeps its statement in `handout/`, beside a `.txt` extraction that
+Each project keeps its statement in `handout/`, beside a `.txt` extraction that
 makes it greppable next to the work. `.gitignore` excludes every one of them, so
 what a folder shows on GitHub is the code and nothing else — and a folder with no
 code yet shows nothing at all.
@@ -57,8 +56,6 @@ AlgorithmicProblemSolving/
 |   |-- main.c maze.h svg.c/.h Makefile   <- the provided skeleton, and my maze.c
 |   |-- code-as-downloaded.tar.gz
 |-- APP2-candy-crush/ ... APP4-hole-drilling/
-|-- TD1-optimal-bst/ TD2-bipartite-matching/
-|-- exam-2024/
 ```
 
 ## Where the explanations live
@@ -66,9 +63,10 @@ AlgorithmicProblemSolving/
 Not here. The concepts each subject needs — divide and conquer, the master
 theorem, tree traversals, dynamic programming, flows and cuts, spanning trees,
 approximation ratios — are written up in a separate Obsidian vault, one note per
-concept, alongside the lecture slides they come from and the paper solutions.
-Each subject there maps its questions to the concepts they need. A comment here
-that starts teaching theory belongs in that note instead.
+concept, alongside the lecture slides they come from and the paper solutions —
+tutorials and exam included. Each subject there maps its questions to the
+concepts they need. A comment here that starts teaching theory belongs in that
+note instead.
 
 ## Source material
 

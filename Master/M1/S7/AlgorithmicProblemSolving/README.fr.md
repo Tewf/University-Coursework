@@ -5,13 +5,15 @@
 **Cours :** Algorithmic Problem Solving, M1 Intelligence Artificielle, semestre 7, Université Grenoble Alpes
 **Équipe pédagogique :** Nguyen Kim Thang (responsable), avec Enikő Kevi et Lorena León sur les projets
 
-Le cours se fait en apprentissage par problème : quatre projets APP et deux TD,
-chacun résolu sur papier, en groupe, sur plusieurs séances, plus un sujet
-d'examen. Implémenter reste facultatif — et c'est précisément pour cela que
-chaque sujet a ici un dossier qui l'attend, son énoncé dedans. Quand un problème
-mérite d'être codé, l'endroit où le coder existe déjà.
+Le cours se fait en apprentissage par problème : quatre projets APP, chacun
+résolu en groupe sur plusieurs séances. Implémenter reste facultatif — et c'est
+précisément pour cela que les quatre ont ici un dossier qui les attend, énoncé
+compris. Quand un projet mérite d'être codé, l'endroit où le coder existe déjà.
 
-## Les sujets
+Les deux TD et l'examen passé ne sont pas ici. Ils se traitent sur papier et ne
+rendent rien, donc ils vivent dans le coffre de notes avec le reste du cours.
+
+## Les projets
 
 | Dossier | Problème | Résolu avec | Code |
 |---|---|---|---|
@@ -19,9 +21,6 @@ mérite d'être codé, l'endroit où le coder existe déjà.
 | [APP2-candy-crush/](APP2-candy-crush/) | Candy Crush | Là où le glouton échoue, puis programmation dynamique | — |
 | [APP3-scheduling/](APP3-scheduling/) | Emploi du temps scolaire | Flot maximum, coupe minimum, réduction | — |
 | [APP4-hole-drilling/](APP4-hole-drilling/) | Perçage de trous | Arbre couvrant minimum, 2-approximation du tour | — |
-| [TD1-optimal-bst/](TD1-optimal-bst/) | Arbre binaire de recherche optimal | Programmation dynamique | — |
-| [TD2-bipartite-matching/](TD2-bipartite-matching/) | Couplage biparti de cardinalité maximum | Réduction au flot maximum | — |
-| [exam-2024/](exam-2024/) | Examen du 5 décembre 2024 | Couplage, sac à dos (PD puis glouton), chemins disjoints | — |
 
 ## APP1 — Be Amazed
 
@@ -47,7 +46,7 @@ doit disparaître, même une fois `maze.c` écrit.
 
 ## Structure du dossier
 
-Chaque sujet garde son énoncé dans `handout/`, à côté d'une extraction `.txt`
+Chaque projet garde son énoncé dans `handout/`, à côté d'une extraction `.txt`
 qui le rend greppable près du travail. `.gitignore` les exclut tous, donc ce
 qu'un dossier montre sur GitHub est le code et rien d'autre — et un dossier sans
 code ne montre rien du tout.
@@ -59,8 +58,6 @@ AlgorithmicProblemSolving/
 |   |-- main.c maze.h svg.c/.h Makefile   <- le squelette fourni, et mon maze.c
 |   |-- code-as-downloaded.tar.gz
 |-- APP2-candy-crush/ ... APP4-hole-drilling/
-|-- TD1-optimal-bst/ TD2-bipartite-matching/
-|-- exam-2024/
 ```
 
 ## Où sont les explications
@@ -69,9 +66,9 @@ Pas ici. Les concepts dont chaque sujet a besoin — diviser pour régner, le
 théorème maître, les parcours d'arbres, la programmation dynamique, les flots et
 coupes, les arbres couvrants, les rapports d'approximation — sont rédigés dans un
 coffre Obsidian séparé, une note par concept, avec les diapositives de cours dont
-ils viennent et les solutions papier. Chaque sujet y associe ses questions aux
-concepts qu'elles demandent. Un commentaire d'ici qui se met à enseigner la
-théorie a sa place dans cette note, pas dans le code.
+ils viennent et les solutions papier, TD et examen compris. Chaque sujet y
+associe ses questions aux concepts qu'elles demandent. Un commentaire d'ici qui
+se met à enseigner la théorie a sa place dans cette note, pas dans le code.
 
 ## Matériel source
 

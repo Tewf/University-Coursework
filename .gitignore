@@ -105,9 +105,9 @@ Master/M1/**/sample_images.zip
 Master/M1/**/TSP-instances/
 Master/M1/**/TSP-instances.zip
 
-# Sujets d'APP, de TD et d'examen d'Algorithmic Problem Solving, et le squelette
-# C fourni avec l'APP1 ; voir NOTICE. Chaque sujet reste en local dans son
-# handout/, avec son extraction .txt : seul mon travail est publie ici.
+# Sujets des APP d'Algorithmic Problem Solving, et le squelette C fourni avec
+# l'APP1 ; voir NOTICE. Chaque sujet reste en local dans son handout/, avec son
+# extraction .txt : seul mon travail est publie ici.
 Master/M1/S7/AlgorithmicProblemSolving/**/handout/
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code-as-downloaded.tar.gz
 Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/Makefile
