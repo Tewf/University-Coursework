@@ -6,9 +6,11 @@ Virtual environments with venv and pip, then uv, then notebooks running against 
 
 Questions 1 to 5 are done and verified; question 6 (the tkinter GUI) is the
 deliberate stopping point, and 7 and 8 follow it. Both exercises pass the
-checkers the handout recommends: `pylint` 10.00/10, `mypy` clean. Each
-question's reasoning, what was rejected and the reference that settled it are
-in [steps/](steps/index.html) — the abridged questions are listed there too.
+checkers the handout recommends — `pylint` 10.00/10, `mypy` clean — and carry
+16 tests between them that run offline, so the contracts hold without asking
+the API what today's weather is. Each question's reasoning, what was rejected
+and the reference that settled it are in [steps/](steps/index.html), where the
+abridged questions are listed too.
 
 ## What the handout provides
 
@@ -20,38 +22,31 @@ does not.
 
 ## Layout
 
-The practical is two projects, because that is the comparison it is built
-around: the same weather API reached through two different environment tools.
+One folder per exercise, because the practical is a comparison: the same weather
+API reached through two environment tools, kept side by side so the difference is
+visible rather than described. Each folder has its own README, contents and
+worked example.
 
-| Path | What it is |
-|------|-----------|
-| `meteo.py` | Exercise 1. Provided file, with `plot_temperature` implemented into it. |
-| `requirements.txt` | Exercise 1's environment, frozen: 30 pinned lines for 5 packages asked for. |
-| `WeatherMapApp/` | Exercise 2, a `uv` project: `pyproject.toml` + `uv.lock`. |
-| `WeatherMapApp/current_weather.py` | The real-time query (question 5). |
-| `WeatherMapApp/locations.py` | The cities the map will show, as data. |
-| `WeatherMapApp/main.py` | Prints the current weather for each; the GUI is question 6. |
+| Folder | Exercise | Environment |
+|--------|----------|-------------|
+| [`venv-and-pip/`](venv-and-pip/) | Past temperatures, plotted (Q1–Q3) | `venv` + `pip`, frozen to `requirements.txt` |
+| [`WeatherMapApp/`](WeatherMapApp/) | Live weather, map to come (Q4–Q6) | `uv`, declared in `pyproject.toml` + `uv.lock` |
+| [`steps/`](steps/index.html) | The record, one page per question | — |
 
 Neither `.venv/` is committed: both rebuild from the files above, which is the
-claim the practical asks you to verify.
+claim the practical asks you to verify, and it was verified by deleting one.
 
 ## Running it
 
-Exercise 1 uses `venv` and `pip`, as the handout sets out — not the course's
-conda environment, since the tooling is the subject here:
+Exercise 1 uses `venv` and `pip` as the handout sets out, not the course's conda
+environment, since the tooling is the subject here. Exercise 2 uses `uv`, which
+needs no activation step.
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python meteo.py            # prints the JSON, then plots Grenoble
-```
+cd venv-and-pip && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt && python -m pytest -q && python meteo.py
 
-Exercise 2 uses `uv`, which needs no activation step:
-
-```bash
-cd WeatherMapApp
-uv run python main.py      # current weather for ten French cities
-uv run pylint *.py && uv run mypy .
+cd ../WeatherMapApp && uv run pytest -q && uv run python main.py
 ```
 
 ## References used
