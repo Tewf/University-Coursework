@@ -1,9 +1,15 @@
 """Tests for the weather map: the town table, the colour scale, the request.
 
-None of these open a window or touch the network; the one test that cares about
-the request replaces requests.get with a stub and reads what it was handed.
+None of these opens a window or touches the network. The one test that cares
+about the request replaces requests.get with a stub and reads what it was handed.
 """
+import pytest
+
 import main
+
+# The box this map is published with, repeated here on purpose: if the copy in
+# main's comment is edited, this one disagrees and the tests say so.
+WEST, SOUTH, EAST, NORTH = -5.8, 41.0, 10.0, 51.5
 
 
 class StubResponse:
@@ -20,24 +26,40 @@ class StubResponse:
         return self.payload
 
 
+def test_each_pixel_matches_the_coordinates_beside_it():
+    """The two halves of a row must describe the same place.
+
+    A hand-typed pixel is the one thing in this program that can silently
+    disagree with the coordinates sent to the API, which would print a real
+    temperature over the wrong part of the country. Recomputing it from the
+    published box is what makes adding a town safe.
+    """
+    width, height = main.MAP_SIZE
+    for name, town in main.TOWNS.items():
+        expected_x = (town.longitude - WEST) / (EAST - WEST) * width
+        expected_y = (NORTH - town.latitude) / (NORTH - SOUTH) * height
+        assert town.x == pytest.approx(expected_x, abs=1), name
+        assert town.y == pytest.approx(expected_y, abs=1), name
+
+
 def test_every_town_sits_inside_the_map_image():
     """A pixel outside the image would be drawn where nothing is ever seen."""
     width, height = main.MAP_SIZE
-    outside = [name for name, (x, y, _, _) in main.TOWNS.items()
-               if not (0 <= x <= width and 0 <= y <= height)]
+    outside = [name for name, town in main.TOWNS.items()
+               if not (0 <= town.x <= width and 0 <= town.y <= height)]
     assert not outside
 
 
 def test_every_town_is_actually_in_france():
     """The coordinates sent to the API must match the country being drawn."""
-    for name, (_, _, latitude, longitude) in main.TOWNS.items():
-        assert 41.0 <= latitude <= 51.5, name
-        assert -5.8 <= longitude <= 10.0, name
+    for name, town in main.TOWNS.items():
+        assert SOUTH <= town.latitude <= NORTH, name
+        assert WEST <= town.longitude <= EAST, name
 
 
 def test_no_two_towns_share_a_label_position():
-    """Two labels at the same pixel would silently hide one of the readings."""
-    positions = [(x, y) for x, y, _, _ in main.TOWNS.values()]
+    """Two labels at one pixel would silently hide a reading."""
+    positions = [(town.x, town.y) for town in main.TOWNS.values()]
     assert len(set(positions)) == len(positions)
 
 
@@ -49,7 +71,7 @@ def test_temperature_colour_separates_cold_from_hot():
 
 
 def test_one_request_asks_for_every_town_in_order(monkeypatch):
-    """Ten towns must cost one round trip, with the coordinates in TOWNS order."""
+    """Any number of towns must cost one round trip, in table order."""
     seen = {}
 
     def stub_get(url, timeout, params):
@@ -62,9 +84,22 @@ def test_one_request_asks_for_every_town_in_order(monkeypatch):
 
     assert seen["url"] == main.FORECAST_URL
     assert seen["params"]["latitude"].split(",") == [
-        str(latitude) for _, _, latitude, _ in main.TOWNS.values()]
+        str(town.latitude) for town in main.TOWNS.values()]
     assert seen["params"]["current"] == "temperature_2m"
     assert len(temperatures) == len(main.TOWNS)
+
+
+def test_another_table_can_be_queried(monkeypatch):
+    """The default table is a default, not a hard-coded assumption."""
+    seen = {}
+
+    def stub_get(_url, timeout, params):        # pylint: disable=unused-argument
+        seen.update(params=params)
+        return StubResponse([{"current": {"temperature_2m": 1.0}}])
+
+    monkeypatch.setattr(main.requests, "get", stub_get)
+    main.fetch_temperatures({"Berlin": main.Town(0, 0, 52.52, 13.405)})
+    assert seen["params"]["latitude"] == "52.52"
 
 
 def test_a_cached_map_is_not_downloaded_again(tmp_path, monkeypatch):

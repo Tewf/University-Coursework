@@ -5,7 +5,7 @@ Virtual environments with venv and pip, then uv, then notebooks running against 
 ## State
 
 All eight questions are done and verified. Both exercises pass the checkers the
-handout recommends — `pylint` 10.00/10, `mypy` clean — and carry 32 tests
+handout recommends — `pylint` 10.00/10, `mypy` clean — and carry 17 tests
 between them that run offline, so the contracts hold without asking the API
 what today's weather is. Both notebooks are committed with their output, since
 "verify that you can import" is answered by the output and not by the code.

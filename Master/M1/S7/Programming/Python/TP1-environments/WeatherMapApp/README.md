@@ -8,7 +8,7 @@ same language, environment managed by `uv` instead of `venv` and `pip`.
 
 - [`main.py`](main.py) — the whole program. Fetch the map picture, ask the API
   for every town at once, write each answer at the pixel that town sits on.
-- [`test_main.py`](test_main.py) — 6 tests. None opens a window or touches the
+- [`test_main.py`](test_main.py) — 8 tests. None opens a window or touches the
   network; the one that cares about the request replaces `requests.get` with a
   stub and reads what it was handed.
 - [`environment_check.ipynb`](environment_check.ipynb) — question 7's notebook.
@@ -22,20 +22,42 @@ One table holds each town twice: where it is on the picture, and where it is on
 Earth.
 
 ```python
-"Paris": (495, 232, 48.8566, 2.3522),
+"Paris": Town(495, 232, 48.8566, 2.3522),
+#             x    y   latitude  longitude
 ```
 
-The pair on the right goes to Open-Meteo. The pair on the left is where the
-answer is drawn. Nothing in the program converts one into the other, which is
-the whole reason there is no projection code.
+The right pair goes to Open-Meteo. The left pair is where the answer is drawn.
+Nothing in the program converts one into the other, which is the whole reason
+there is no projection code.
 
-The pixels were not measured by eye. They were computed once from the
-[geographic box](https://en.wikipedia.org/wiki/Module:Location_map/data/France)
-Wikipedia publishes for this image, then written into the table. That is also
-their limit: they describe *this* picture at *this* size, so `main.py` checks
-the image is 960×923 on load and stops with a clear message if it is not.
-Adding a town means finding its pixel, which is the price of not carrying a
-projection.
+## Changing what it shows
+
+Adding a town is one line in `TOWNS`. To get its `x` and `y`, convert its
+degrees with the box this picture is published with, which `main.py` repeats
+above the table:
+
+```python
+x = (longitude - -5.8) / (10.0 - -5.8) * 960
+y = (51.5 - latitude)  / (51.5 - 41.0) * 923
+```
+
+Latitude subtracts the other way round because pixels count down the screen
+while degrees count up the globe. You do not have to trust your arithmetic:
+`test_each_pixel_matches_the_coordinates_beside_it` recomputes every row and
+fails if a pixel and its coordinates disagree by more than one pixel. That test
+is the reason hand-written pixels are safe to add.
+
+Two towns closer than about a hundred kilometres will overlap each other's
+labels at this size. That is why Lyon and Nice are absent: they sit on top of
+Grenoble and Marseille.
+
+The pixels describe *this* picture at *this* size. `main.py` checks the image is
+960×923 when it loads and stops with a message saying what to do if it is not,
+because failing on the first line beats placing ten towns wrongly and looking
+plausible.
+
+Colours, fonts, the dot size and the label spacing are named constants under the
+table, meant to be edited on sight.
 
 ## The map image
 
@@ -54,8 +76,8 @@ each run.
 ```console
 $ uv run python main.py                        # opens the map
 $ uv run pytest -q
-......                                                                   [100%]
-6 passed in 0.05s
+........                                                                   [100%]
+8 passed in 0.05s
 $ uv run --with jupyter jupyter lab            # question 7's notebook
 ```
 
