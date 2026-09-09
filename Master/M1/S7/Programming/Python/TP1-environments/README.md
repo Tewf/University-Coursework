@@ -4,39 +4,74 @@ Virtual environments with venv and pip, then uv, then notebooks running against 
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the steps this practical asks
-for, ready to be filled in as the work happens.
-
-## Steps
-
-The handout's questions, abridged. The wording that counts is the handout's own.
-
-| # | Asked |
-|---|-------|
-| 1 | Run the file meteo.py and observe the output |
-| 2 | Implement the function plot_temperature that takes as input the JSON response from the API and plots the temperature data using matplotlib |
-| 3 | Generate the requirements file for your virtual environment |
-| 4 | Create a new directory for the weather map application, and initialize a new uv environment in it by running the following command: |
-| 5 | Go to https://open-meteo.com/en/docs and generate the API pip install -r requirements.txt location |
-| 6 | Using tkinter canvas, create a simple GUI that displays a map of a region of your choice (e.g., France, Europe, etc.) and displays the weather data for multiple locations on the map |
-| 7 | Create a new Jupyter Notebook in your uv environment and For more details on using Jupyter with uv, refer to the official documentation: |
-| 8 | Create a new Jupyter Notebook in your venv environment and verify that you can import the installed packages (e.g., requests) |
+Questions 1 to 5 are done and verified; question 6 (the tkinter GUI) is the
+deliberate stopping point, and 7 and 8 follow it. Both exercises pass the
+checkers the handout recommends: `pylint` 10.00/10, `mypy` clean. Each
+question's reasoning, what was rejected and the reference that settled it are
+in [steps/](steps/index.html) — the abridged questions are listed there too.
 
 ## What the handout provides
 
-Unpacked and set up in place, so this folder reads as a working project
-rather than an archive next to a drop zone. The archive itself stays for
-reference; the `provided-files/` wrapper it unpacked into does not.
+`meteo.py`, unpacked from `provided-files.zip` and set up in place so this
+folder reads as a working project rather than an archive beside a drop zone.
+`plot_temperature` is implemented into it, which makes it derived work; the
+archive stays for reference, the `provided-files/` wrapper it unpacked into
+does not.
 
-From `provided-files.zip`:
+## Layout
 
-- `meteo.py`
+The practical is two projects, because that is the comparison it is built
+around: the same weather API reached through two different environment tools.
+
+| Path | What it is |
+|------|-----------|
+| `meteo.py` | Exercise 1. Provided file, with `plot_temperature` implemented into it. |
+| `requirements.txt` | Exercise 1's environment, frozen: 30 pinned lines for 5 packages asked for. |
+| `WeatherMapApp/` | Exercise 2, a `uv` project: `pyproject.toml` + `uv.lock`. |
+| `WeatherMapApp/current_weather.py` | The real-time query (question 5). |
+| `WeatherMapApp/locations.py` | The cities the map will show, as data. |
+| `WeatherMapApp/main.py` | Prints the current weather for each; the GUI is question 6. |
+
+Neither `.venv/` is committed: both rebuild from the files above, which is the
+claim the practical asks you to verify.
 
 ## Running it
 
+Exercise 1 uses `venv` and `pip`, as the handout sets out — not the course's
+conda environment, since the tooling is the subject here:
+
 ```bash
-conda activate m1ai-programming
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python meteo.py            # prints the JSON, then plots Grenoble
 ```
+
+Exercise 2 uses `uv`, which needs no activation step:
+
+```bash
+cd WeatherMapApp
+uv run python main.py      # current weather for ten French cities
+uv run pylint *.py && uv run mypy .
+```
+
+## References used
+
+Beyond the handout. Each is cited with its trail on the step page that used it.
+
+| Reference | What it settled | Step |
+|---|---|---|
+| [PEP 668](https://peps.python.org/pep-0668/) | Why the system interpreter refuses `pip install` | 1 |
+| matplotlib [`fill_between_demo.py`](https://github.com/matplotlib/matplotlib/blob/v3.11.1/galleries/examples/lines_bars_and_markers/fill_between_demo.py) | The filled band, and lightening it with `alpha` | 2 |
+| matplotlib [`ticks/date.py`](https://github.com/matplotlib/matplotlib/blob/v3.11.1/galleries/examples/ticks/date.py) | Why a date axis needs no configuring | 2 |
+| matplotlib [`quick_start.py`](https://github.com/matplotlib/matplotlib/blob/v3.11.1/galleries/users_explain/quick_start.py) | The optional-`ax` helper signature | 2 |
+| matplotlib [#27140](https://github.com/matplotlib/matplotlib/issues/27140) | The stub gap the `type: ignore` comments name | 2 |
+| [`pip freeze`](https://pip.pypa.io/en/stable/cli/pip_freeze/) | What a freeze does and does not claim | 3 |
+| [uv projects guide](https://docs.astral.sh/uv/guides/projects/) | What `uv init` generates, what to commit | 4 |
+| [Open-Meteo docs](https://open-meteo.com/en/docs) | The forecast endpoint and `current=` | 5 |
+| [requests quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/) | `params=` and `raise_for_status()` | 5 |
+
+The three matplotlib examples were read from upstream source at the exact
+installed tag, v3.11.1, because matplotlib.org refuses automated fetches.
 
 ## Where the explanation lives
 
