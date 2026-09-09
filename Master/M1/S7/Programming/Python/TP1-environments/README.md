@@ -4,13 +4,13 @@ Virtual environments with venv and pip, then uv, then notebooks running against 
 
 ## State
 
-Questions 1 to 5 are done and verified; question 6 (the tkinter GUI) is the
-deliberate stopping point, and 7 and 8 follow it. Both exercises pass the
-checkers the handout recommends — `pylint` 10.00/10, `mypy` clean — and carry
-16 tests between them that run offline, so the contracts hold without asking
-the API what today's weather is. Each question's reasoning, what was rejected
-and the reference that settled it are in [steps/](steps/index.html), where the
-abridged questions are listed too.
+All eight questions are done and verified. Both exercises pass the checkers the
+handout recommends — `pylint` 10.00/10, `mypy` clean — and carry 32 tests
+between them that run offline, so the contracts hold without asking the API
+what today's weather is. Both notebooks are committed with their output, since
+"verify that you can import" is answered by the output and not by the code.
+Each question's reasoning, what was rejected and the reference that settled it
+are in [steps/](steps/index.html), where the abridged questions are listed too.
 
 ## What the handout provides
 
@@ -29,8 +29,8 @@ worked example.
 
 | Folder | Exercise | Environment |
 |--------|----------|-------------|
-| [`venv-and-pip/`](venv-and-pip/) | Past temperatures, plotted (Q1–Q3) | `venv` + `pip`, frozen to `requirements.txt` |
-| [`WeatherMapApp/`](WeatherMapApp/) | Live weather, map to come (Q4–Q6) | `uv`, declared in `pyproject.toml` + `uv.lock` |
+| [`venv-and-pip/`](venv-and-pip/) | Past temperatures, plotted (Q1–Q3, Q8) | `venv` + `pip`, frozen to `requirements.txt` |
+| [`WeatherMapApp/`](WeatherMapApp/) | Live weather on a map of France (Q4–Q7) | `uv`, declared in `pyproject.toml` + `uv.lock` |
 | [`steps/`](steps/index.html) | The record, one page per question | — |
 
 Neither `.venv/` is committed: both rebuild from the files above, which is the
@@ -49,6 +49,9 @@ pip install -r requirements.txt && python -m pytest -q && python meteo.py
 cd ../WeatherMapApp && uv run pytest -q && uv run python main.py
 ```
 
+The map needs a coastline file that is downloaded rather than committed; if it
+is missing, `france_outline.py` fails with the exact `curl` command to get it.
+
 ## References used
 
 Beyond the handout. Each is cited with its trail on the step page that used it.
@@ -64,6 +67,9 @@ Beyond the handout. Each is cited with its trail on the step page that used it.
 | [uv projects guide](https://docs.astral.sh/uv/guides/projects/) | What `uv init` generates, what to commit | 4 |
 | [Open-Meteo docs](https://open-meteo.com/en/docs) | The forecast endpoint and `current=` | 5 |
 | [requests quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/) | `params=` and `raise_for_status()` | 5 |
+| [france-geojson](https://github.com/gregoiredavid/france-geojson) (IGN, [Licence ouverte](https://www.etalab.gouv.fr/licence-ouverte-open-licence/)) | The coastline, and that it may be reused | 6 |
+| [PROJ, equidistant cylindrical](https://proj.org/en/stable/operations/projections/eqc.html) | Why longitude is scaled by cos(latitude) | 6 |
+| [uv with Jupyter](https://docs.astral.sh/uv/guides/integration/jupyter/) | `--with jupyter`, and what it does not record | 7 |
 
 The three matplotlib examples were read from upstream source at the exact
 installed tag, v3.11.1, because matplotlib.org refuses automated fetches.

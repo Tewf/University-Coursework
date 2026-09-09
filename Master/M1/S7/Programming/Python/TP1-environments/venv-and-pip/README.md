@@ -15,11 +15,15 @@ with `uv`, so the two can be read side by side.
   replaced by a stand-in.
 - [`conftest.py`](conftest.py) — selects matplotlib's `Agg` backend before any
   test imports it, which is why the tests need no display.
-- [`requirements.txt`](requirements.txt) — the environment, frozen. 34 pinned
-  lines for the six packages actually asked for.
+- [`environment_check.ipynb`](environment_check.ipynb) — question 8. Runs inside
+  this environment and prints what it can import; the saved output is the answer.
+- [`requirements.txt`](requirements.txt) — the environment, frozen. **119 pinned
+  lines for the seven packages actually asked for**, most of that arriving with
+  Jupyter in question 8. Which seven is not recorded anywhere in the file; that
+  is the gap `uv` closes next door.
 
 `.venv/` is not committed; the point of the file above is that it does not need
-to be.
+to be, and that was checked by deleting it.
 
 ## Using it
 
@@ -28,8 +32,9 @@ $ python3 -m venv .venv && source .venv/bin/activate
 $ pip install -r requirements.txt
 $ python -m pytest -q
 .........                                                                [100%]
-9 passed in 0.24s
+9 passed in 0.26s
 $ python meteo.py            # prints the JSON, then opens the plot
+$ jupyter lab                # question 8's notebook, in this environment
 ```
 
 `plot_temperature` is written to be reused rather than only run: give it an Axes
