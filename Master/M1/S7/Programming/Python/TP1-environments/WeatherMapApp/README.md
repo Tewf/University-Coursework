@@ -1,6 +1,6 @@
 # Exercise 2 — the weather map, as a uv project
 
-A tkinter map of France showing the current weather at ten cities, from
+A tkinter map of France showing the current weather at ten towns, from
 Open-Meteo. The counterpart to [`../venv-and-pip/`](../venv-and-pip/): same API,
 same language, environment managed by `uv` instead of `venv` and `pip`.
 
@@ -12,18 +12,19 @@ The API layer:
   weather code for one location, or for many in a single request. This is the
   forecast endpoint, not the archive one exercise 1 uses, and its parameter
   names differ.
-- [`locations.py`](locations.py) — the ten places shown, as data. Adding a city
+- [`locations.py`](locations.py) — the ten places shown, as data. Adding a town
   is an edit here and nowhere else.
 
 The map:
 
-- [`france_outline.py`](france_outline.py) — reads the coastline rings out of the
-  GeoJSON file.
+- [`france_map_image.py`](france_map_image.py) — fetches and caches the map
+  image, and holds the geographic box its four edges correspond to.
 - [`map_projection.py`](map_projection.py) — turns latitude and longitude into
-  canvas pixels, narrowing longitude by the cosine of the mid-latitude so France
-  is not drawn too wide.
+  pixels on that image, which is interpolation and nothing more.
+- [`canvas_labels.py`](canvas_labels.py) — stacked text on an opaque plate, so a
+  reading stays legible over the map's own ink.
 - [`weather_codes.py`](weather_codes.py) — the WMO code table, and the colour
-  scale the dots are painted with.
+  scale the dots and readings are painted with.
 - [`weather_map.py`](weather_map.py) — the tkinter window itself.
 - [`main.py`](main.py) — opens it.
 
@@ -38,17 +39,22 @@ Checks and environment:
   the six packages it resolves to. Next door the same information is 119
   undifferentiated lines.
 
-`france_border.geojson` is **not committed**: it is downloaded, not written here.
-`france_outline.py` says so with the exact command if it is missing.
+## The map image
 
-```bash
-curl -sSLo france_border.geojson \
-  https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/metropole-version-simplifiee.geojson
-```
+`france_map.png` is **not committed**: the first run downloads it, and every run
+after that reads the file. It is
+[this map](https://commons.wikimedia.org/wiki/File:France_location_map-Regions_and_departements-2016.svg)
+by Superbenjamin on Wikimedia Commons, under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), credited in the
+window itself.
 
-It is IGN Admin Express via [gregoiredavid/france-geojson](https://github.com/gregoiredavid/france-geojson),
-published under the [Licence ouverte](https://www.etalab.gouv.fr/licence-ouverte-open-licence/),
-which allows reuse with attribution.
+It is a Wikipedia *location map*, which is the only reason it can be drawn on:
+Wikipedia publishes the
+[geographic box](https://en.wikipedia.org/wiki/Module:Location_map/data/France)
+its four edges correspond to, so turning a latitude and longitude into a pixel
+is interpolation. The image and that box are one fact in two halves, and
+changing either alone moves every town by the same silent amount, which is what
+`test_the_image_has_the_shape_its_bounds_imply` exists to catch.
 
 ## Using it
 

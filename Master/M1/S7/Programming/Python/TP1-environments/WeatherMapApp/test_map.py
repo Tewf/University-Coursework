@@ -1,96 +1,112 @@
-"""Tests for the drawing side: the border file, the projection, the code table.
+"""Tests for the drawing side: the map image, the projection, the code table.
 
-The projection is the only part with real arithmetic in it, so most of this file
-is about it. None of these tests open a window.
+The projection is the only part with arithmetic in it, so most of this file is
+about it. None of these tests open a window, and none of them need the network.
 """
+from math import cos, radians
+
 import pytest
 
-import france_outline
 import weather_codes
-from map_projection import MapProjection, geographic_bounds
+from france_map_image import MAP_BOUNDS, MAP_FILE, ensure_map_image
+from locations import FRANCE
+from map_projection import ImageProjection
 
-# A one-degree square somewhere near France, small enough to reason about by hand.
-SQUARE = [[(2.0, 45.0), (3.0, 45.0), (3.0, 46.0), (2.0, 46.0), (2.0, 45.0)]]
-
-
-def test_geographic_bounds_encloses_every_point():
-    """The box is the extremes of all rings taken together."""
-    assert geographic_bounds(SQUARE) == (2.0, 45.0, 3.0, 46.0)
+# A one-degree square with a 100x50 image over it, small enough to check by hand.
+SQUARE = (2.0, 45.0, 3.0, 46.0)          # west, south, east, north
+WIDTH, HEIGHT = 100, 50
 
 
-def test_geographic_bounds_rejects_having_nothing_to_enclose():
-    """An empty ring list is a caller error, not an empty box."""
-    with pytest.raises(ValueError):
-        geographic_bounds([])
+def png_size(path) -> tuple[int, int]:
+    """Return a PNG's pixel size, read from the IHDR chunk at a fixed offset.
+
+    Read from the bytes rather than through tkinter so that these tests need
+    neither a display nor an event loop.
+    """
+    header = path.read_bytes()[16:24]
+    return int.from_bytes(header[:4], "big"), int.from_bytes(header[4:], "big")
 
 
 def test_projection_puts_north_above_south():
-    """Canvas y grows downwards while latitude grows upwards."""
-    projection = MapProjection(geographic_bounds(SQUARE), 400, 400)
-    _, y_north = projection.project(46.0, 2.5)
-    _, y_south = projection.project(45.0, 2.5)
-    assert y_north < y_south
+    """Pixel y grows downwards while latitude grows upwards."""
+    projection = ImageProjection(SQUARE, WIDTH, HEIGHT)
+    assert projection.project(46.0, 2.5)[1] < projection.project(45.0, 2.5)[1]
 
 
 def test_projection_puts_east_right_of_west():
-    """Longitude grows eastwards, and so does canvas x."""
-    projection = MapProjection(geographic_bounds(SQUARE), 400, 400)
-    x_west, _ = projection.project(45.5, 2.0)
-    x_east, _ = projection.project(45.5, 3.0)
-    assert x_west < x_east
+    """Longitude grows eastwards, and so does pixel x."""
+    projection = ImageProjection(SQUARE, WIDTH, HEIGHT)
+    assert projection.project(45.5, 2.0)[0] < projection.project(45.5, 3.0)[0]
 
 
-def test_projection_narrows_longitude_by_the_standard_parallel():
-    """One degree east-west is shorter than one degree north-south away from the equator.
+def test_projection_maps_the_bounds_onto_the_whole_image():
+    """The four corners of the box are the four corners of the image, exactly."""
+    projection = ImageProjection(SQUARE, WIDTH, HEIGHT)
+    assert projection.project(46.0, 2.0) == pytest.approx((0.0, 0.0))
+    assert projection.project(45.0, 3.0) == pytest.approx((WIDTH, HEIGHT))
 
-    This is the whole point of the cosine factor: without it France comes out
-    visibly too wide.
+
+def test_projection_is_linear_in_both_axes():
+    """Halfway along in degrees is halfway across in pixels.
+
+    Linearity is what makes this projection interpolation rather than
+    trigonometry, so it is worth pinning rather than assuming.
     """
-    projection = MapProjection(geographic_bounds(SQUARE), 400, 400)
-    x_west, _ = projection.project(45.5, 2.0)
-    x_east, _ = projection.project(45.5, 3.0)
-    _, y_north = projection.project(46.0, 2.5)
-    _, y_south = projection.project(45.0, 2.5)
-    assert (x_east - x_west) < (y_south - y_north)
+    projection = ImageProjection(SQUARE, WIDTH, HEIGHT)
+    assert projection.project(45.5, 2.5) == pytest.approx((WIDTH / 2, HEIGHT / 2))
 
 
-def test_projection_keeps_the_drawing_inside_the_canvas():
-    """Every corner of the bounds lands within the canvas, margin included."""
-    projection = MapProjection(geographic_bounds(SQUARE), 400, 300, margin=20)
-    for latitude in (45.0, 46.0):
-        for longitude in (2.0, 3.0):
-            x, y = projection.project(latitude, longitude)
-            assert 20 - 1e-9 <= x <= 380 + 1e-9
-            assert 20 - 1e-9 <= y <= 280 + 1e-9
-
-
-def test_projection_centres_what_it_cannot_fill():
-    """The unused axis is padded equally at both ends rather than left-aligned."""
-    projection = MapProjection(geographic_bounds(SQUARE), 800, 300, margin=0)
-    x_west, _ = projection.project(45.5, 2.0)
-    x_east, _ = projection.project(45.5, 3.0)
-    assert x_west == pytest.approx(800 - x_east)
+def test_projection_does_not_clamp_what_falls_outside():
+    """A location off the map projects off the image, so a caller can tell."""
+    projection = ImageProjection(SQUARE, WIDTH, HEIGHT)
+    x, _ = projection.project(45.5, 1.0)
+    assert x < 0
+    assert not projection.contains(45.5, 1.0)
+    assert projection.contains(45.5, 2.5)
 
 
 def test_projection_rejects_bounds_with_no_area():
-    """A single point has no extent to scale to."""
+    """A single point has no extent to interpolate across."""
     with pytest.raises(ValueError):
-        MapProjection((2.0, 45.0, 2.0, 45.0), 400, 400)
+        ImageProjection((2.0, 45.0, 2.0, 45.0), WIDTH, HEIGHT)
 
 
-def test_border_file_loads_and_covers_metropolitan_france():
-    """The downloaded outline is the right country, Corsica included."""
-    rings = france_outline.load_border_rings()
-    lon_min, lat_min, lon_max, lat_max = geographic_bounds(rings)
-    assert len(rings) > 1                       # mainland plus islands
-    assert -5.5 < lon_min and lon_max < 9.8     # Brittany to Corsica
-    assert 41.0 < lat_min and lat_max < 51.5    # Bonifacio to Dunkirk
+def test_projection_rejects_an_image_with_no_size():
+    """Dividing a box across zero pixels is a caller error, not an empty map."""
+    with pytest.raises(ValueError):
+        ImageProjection(SQUARE, 0, HEIGHT)
 
 
-def test_missing_border_file_says_how_to_get_it(tmp_path):
-    """The file is not committed, so the error has to be actionable."""
-    with pytest.raises(FileNotFoundError, match="curl"):
-        france_outline.load_border_rings(tmp_path / "absent.geojson")
+def test_every_town_falls_inside_the_mapped_area():
+    """A town outside the bounds would be drawn off the image without complaint."""
+    projection = ImageProjection(MAP_BOUNDS, 960, 923)
+    outside = [name for name, (lat, lon) in FRANCE.items()
+               if not projection.contains(lat, lon)]
+    assert not outside
+
+
+@pytest.mark.skipif(not MAP_FILE.exists(), reason="map image not downloaded yet")
+def test_the_image_has_the_shape_its_bounds_imply():
+    """The image and the bounds must describe the same drawing.
+
+    They are two constants that only agree by intent, and nothing at runtime
+    would notice them disagreeing: every town would simply be placed wrongly by
+    the same amount. An equidistant cylindrical map is as many pixels wide as
+    its longitude span shortened by the cosine of its middle latitude, so that
+    ratio is a consequence the pair can be checked against.
+    """
+    west, south, east, north = MAP_BOUNDS
+    width, height = png_size(MAP_FILE)
+    expected = (east - west) * cos(radians((south + north) / 2)) / (north - south)
+    assert width / height == pytest.approx(expected, rel=0.01)
+
+
+def test_a_cached_image_is_not_downloaded_again(tmp_path):
+    """The download happens once; every later run reads the file."""
+    cached = tmp_path / "already-here.png"
+    cached.write_bytes(b"not really a png")
+    assert ensure_map_image(cached) == cached
+    assert cached.read_bytes() == b"not really a png"
 
 
 def test_known_weather_codes_are_described():
@@ -100,7 +116,7 @@ def test_known_weather_codes_are_described():
 
 
 def test_an_unknown_weather_code_still_reads_as_something():
-    """A code added to the table upstream must not crash the map."""
+    """A code added upstream must not crash the map."""
     assert "42" in weather_codes.describe(42)
 
 

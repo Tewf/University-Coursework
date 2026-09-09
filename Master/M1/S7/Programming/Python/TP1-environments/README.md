@@ -49,8 +49,8 @@ pip install -r requirements.txt && python -m pytest -q && python meteo.py
 cd ../WeatherMapApp && uv run pytest -q && uv run python main.py
 ```
 
-The map needs a coastline file that is downloaded rather than committed; if it
-is missing, `france_outline.py` fails with the exact `curl` command to get it.
+The map needs an image that is downloaded rather than committed. The first run
+fetches it from Wikimedia Commons and caches it; every run after that is offline.
 
 ## References used
 
@@ -67,8 +67,10 @@ Beyond the handout. Each is cited with its trail on the step page that used it.
 | [uv projects guide](https://docs.astral.sh/uv/guides/projects/) | What `uv init` generates, what to commit | 4 |
 | [Open-Meteo docs](https://open-meteo.com/en/docs) | The forecast endpoint and `current=` | 5 |
 | [requests quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/) | `params=` and `raise_for_status()` | 5 |
-| [france-geojson](https://github.com/gregoiredavid/france-geojson) (IGN, [Licence ouverte](https://www.etalab.gouv.fr/licence-ouverte-open-licence/)) | The coastline, and that it may be reused | 6 |
-| [PROJ, equidistant cylindrical](https://proj.org/en/stable/operations/projections/eqc.html) | Why longitude is scaled by cos(latitude) | 6 |
+| [Module:Location map/data/France](https://en.wikipedia.org/wiki/Module:Location_map/data/France) | The geographic box the map image's edges are | 6 |
+| [Commons map](https://commons.wikimedia.org/wiki/File:France_location_map-Regions_and_departements-2016.svg) (Superbenjamin, CC BY-SA 4.0) | The map drawn on, and that it may be reused | 6 |
+| [API:Imageinfo](https://www.mediawiki.org/wiki/API:Imageinfo) | Asking Commons for a rendered PNG and its licence | 6 |
+| [PROJ, equidistant cylindrical](https://proj.org/en/stable/operations/projections/eqc.html) | Why that image's proportions are the cosine correction | 6 |
 | [uv with Jupyter](https://docs.astral.sh/uv/guides/integration/jupyter/) | `--with jupyter`, and what it does not record | 7 |
 
 The three matplotlib examples were read from upstream source at the exact
