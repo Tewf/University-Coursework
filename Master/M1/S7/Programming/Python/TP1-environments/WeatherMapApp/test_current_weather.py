@@ -91,3 +91,22 @@ def test_every_location_sits_inside_metropolitan_france():
     for name, (latitude, longitude) in FRANCE.items():
         assert 41.0 <= latitude <= 51.5, name
         assert -5.5 <= longitude <= 9.6, name
+
+
+def test_the_batch_query_asks_for_every_location_in_one_request(recorded):
+    """Ten locations must cost one round trip, not ten."""
+    current_weather.query_current_weather_at([(48.86, 2.35), (45.76, 4.84)])
+    assert recorded["params"]["latitude"] == "48.86,45.76"
+    assert recorded["params"]["longitude"] == "2.35,4.84"
+
+
+def test_the_batch_query_asks_for_the_same_variables_as_the_single_one(recorded):
+    """One code path changing its mind about variable names is a silent bug."""
+    current_weather.query_current_weather_at([(48.86, 2.35)])
+    assert recorded["params"]["current"] == "temperature_2m,weather_code"
+
+
+def test_the_batch_query_skips_the_network_when_there_is_nothing_to_ask(recorded):
+    """No locations means no request, not a request for nothing."""
+    assert current_weather.query_current_weather_at([]) == []
+    assert not recorded

@@ -38,3 +38,26 @@ def query_current_weather(latitude : float, longitude : float) -> WeatherRespons
                             timeout=REQUEST_TIMEOUT_SECONDS)
     response.raise_for_status()
     return response.json()
+
+
+def query_current_weather_at(coordinates : list[tuple[float, float]]) -> list[WeatherResponse]:
+    """Query the current weather at several locations in a single request.
+
+    `coordinates` is a list of (latitude, longitude) pairs. Open-Meteo accepts
+    comma-separated coordinate lists and answers with a JSON array holding one
+    response per location, in the order asked, each shaped exactly like the one
+    `query_current_weather` returns. Raises the same errors as that function.
+    Returns an empty list for empty input, without calling the API.
+    """
+    if not coordinates:
+        return []
+    params : dict[str, float | str] = {
+        "latitude": ",".join(str(latitude) for latitude, _ in coordinates),
+        "longitude": ",".join(str(longitude) for _, longitude in coordinates),
+        "current": ",".join(CURRENT_VARIABLES),
+        "timezone": "auto",
+    }
+    response = requests.get(FORECAST_URL, params=params,
+                            timeout=REQUEST_TIMEOUT_SECONDS)
+    response.raise_for_status()
+    return response.json()
