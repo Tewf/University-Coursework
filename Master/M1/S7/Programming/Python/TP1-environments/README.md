@@ -67,9 +67,8 @@ Beyond the handout. Each is cited with its trail on the step page that used it.
 | [uv projects guide](https://docs.astral.sh/uv/guides/projects/) | What `uv init` generates, what to commit | 4 |
 | [Open-Meteo docs](https://open-meteo.com/en/docs) | The forecast endpoint and `current=` | 5 |
 | [requests quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/) | `params=` and `raise_for_status()` | 5 |
-| [Module:Location map/data/France](https://en.wikipedia.org/wiki/Module:Location_map/data/France) | The geographic box the map image's edges are | 6 |
+| [Module:Location map/data/France](https://en.wikipedia.org/wiki/Module:Location_map/data/France) | The box that turned coordinates into the table's pixels | 6 |
 | [Commons map](https://commons.wikimedia.org/wiki/File:France_location_map-Regions_and_departements-2016.svg) (Superbenjamin, CC BY-SA 4.0) | The map drawn on, and that it may be reused | 6 |
-| [API:Imageinfo](https://www.mediawiki.org/wiki/API:Imageinfo) | Asking Commons for a rendered PNG and its licence | 6 |
 | [PROJ, equidistant cylindrical](https://proj.org/en/stable/operations/projections/eqc.html) | Why that image's proportions are the cosine correction | 6 |
 | [uv with Jupyter](https://docs.astral.sh/uv/guides/integration/jupyter/) | `--with jupyter`, and what it does not record | 7 |
 
