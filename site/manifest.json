@@ -22,6 +22,7 @@
     { "path": "Master/",                                 "title": "Master of Artificial Intelligence", "short": "Master" },
     { "path": "Master/M1/S7/Programming/",               "title": "Programming: Python and C++", "short": "Programming" },
     { "path": "Master/M1/S7/Programming/Python/",        "title": "Python: tooling and data", "short": "Python" },
+    { "path": "Master/M1/S7/Programming/Python/TP1-environments/steps/", "title": "Python TP1, step by step", "short": "TP1 steps" },
     { "path": "Master/M1/S7/Programming/C++/",           "title": "C++: the machinery underneath", "short": "C++" }
   ]
 }

@@ -247,6 +247,23 @@ select { font: inherit; font-size: .9rem; padding: .35rem .5rem; border-radius: 
 .trail dd { margin: 0; }
 p.pending { color: var(--muted); font-style: italic; max-width: 74ch; }
 
+/* The one sentence a step is worth remembering by; the teal counterpart of the
+   gold .caveat, so a page reads as claim-then-caveat at a glance. */
+.takeaway { border-left: 3px solid var(--teal); background: var(--teal-lo);
+            padding: .8rem 1.1rem; border-radius: 0 var(--r) var(--r) 0;
+            margin: 1.2rem 0; max-width: 74ch; }
+
+/* Commands as they were actually run, so a step can be repeated rather than
+   only read. The prompt is drawn by CSS: selecting the block copies the
+   command, not a "$" that would have to be deleted before pasting. */
+.console { background: var(--sunken); border: 1px solid var(--line);
+           border-radius: var(--r); padding: .9rem 1.1rem; margin: 1.1rem 0;
+           overflow-x: auto; font-family: var(--mono); font-size: .82rem;
+           line-height: 1.6; color: var(--muted); white-space: pre; }
+.console .cmd { color: var(--ink); font-weight: 600; }
+.console .cmd::before { content: "$ "; color: var(--teal); font-weight: 400; }
+.console .note { color: var(--teal); font-style: italic; }
+
 @media (max-width: 620px) {
   .steps dl, .trail { grid-template-columns: 1fr; gap: .1rem; }
   .steps dt, .trail dt { margin-top: .55rem; }
