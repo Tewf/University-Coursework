@@ -92,6 +92,12 @@ build/
 Master/**/handout/
 Master/**/as-downloaded.zip
 
+# Les sujets d'examen et leurs corrigés ne sont jamais publiés, même retravaillés :
+# ils vivent dans le coffre de notes. Un dossier nommé exam*/ ou examen*/ déposé
+# à côté d'un cours ne peut donc pas être ajouté par oubli.
+Master/**/exam*/
+Master/**/examen*/
+
 # Supports et code fournis du Master ; voir NOTICE.
 # Les sujets de TP d'E. Foussard, leur extraction en .txt et le code fourni
 # restent en local : ce n'est pas mon travail et la licence MIT ne s'y applique
