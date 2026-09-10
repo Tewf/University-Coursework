@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choco: Operations Research &middot; M1 Artificial Intelligence</title>
+<meta name="description" content="11 pychoco exercises from M1 AI semester 7: magic squares, digit puzzles, N-queens, warehouse location, car sequencing and steel production, modelled as constraint programs.">
+<link rel="canonical" href="https://tewf.github.io/University-Coursework/Master/M1/S7/OperationsResearch/Choco/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tewf.github.io/University-Coursework">
+<meta property="og:title" content="Choco: Operations Research &middot; M1 Artificial Intelligence">
+<meta property="og:description" content="11 pychoco exercises from M1 AI semester 7: magic squares, digit puzzles, N-queens, warehouse location, car sequencing and steel production, modelled as constraint programs.">
+<meta property="og:url" content="https://tewf.github.io/University-Coursework/Master/M1/S7/OperationsResearch/Choco/">
+<meta property="og:image" content="https://tewf.github.io/University-Coursework/site/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../../site/style.css">
+</head>
+<body data-base="../../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">M1 Artificial Intelligence &middot; semester 7 &middot; Choco</p>
+    <h1>Choco</h1>
+    <p class="lede">Constraint programs written in Python with pychoco (Choco-solver's bindings) — puzzles first, then two benchmark scheduling problems run across several instance sizes.</p>
+  </section>
+
+  <h2>The exercises</h2>
+  <p>Each card opens that exercise's step by step.</p>
+  <div class="cards">
+    <a class="card" href="01-toy-meeting/steps/">
+      <span class="tag">Choco 01</span>
+      <span class="t">Toy meeting scheduling</span>
+      <span class="d">Look at the CP model already built for this problem in OPL, then run the given pychoco version to see the same model in pychoco's syntax: four one-hour meetings scheduled between 8h and 13h under two deadlines, one ordering constraint, and one spaced-gap constraint.</span>
+    </a>
+    <a class="card" href="02-magic-square/steps/">
+      <span class="tag">Choco 02</span>
+      <span class="t">Magic square</span>
+      <span class="d">Write a CP model in pychoco that finds an order-n magic square in standard form — every row, column and both diagonals summing to the same value, with the smallest corner cell first and the second cell smaller than its mirror.</span>
+    </a>
+    <a class="card" href="03-abcde/steps/">
+      <span class="tag">Choco 03</span>
+      <span class="t">Find digits where ABCDE*4=EDCBA</span>
+      <span class="d">Write a CP model in pychoco for the digit puzzle ABCDE×4=EDCBA: five different digits satisfying that scalar relation.</span>
+    </a>
+    <a class="card" href="04-birthday/steps/">
+      <span class="tag">Choco 04</span>
+      <span class="t">Guess a birth year from clues</span>
+      <span class="d">Write a CP model in pychoco for the puzzle: in 2021 a person's age equalled the sum of their birth year's digits, and they were under 100; find the possible birth years.</span>
+    </a>
+    <a class="card" href="05-sujiko/steps/">
+      <span class="tag">Choco 05</span>
+      <span class="t">Sujiko puzzle</span>
+      <span class="d">Write a CP model in pychoco that places 1 to 9 once each on a 3×3 grid so the four overlapping 2×2 quadrants sum to given clue values.</span>
+    </a>
+    <a class="card" href="06-heterosquare/steps/">
+      <span class="tag">Choco 06</span>
+      <span class="t">Heterosquare puzzle</span>
+      <span class="d">Write a CP model in pychoco that finds order-3 heterosquares in standard form — every row, column and diagonal summing to a *different* value — and use it to check the claim that 3,120 essentially different ones exist.</span>
+    </a>
+    <a class="card" href="07-magic-series/steps/">
+      <span class="tag">Choco 07</span>
+      <span class="t">Magic series</span>
+      <span class="d">Write a CP model in pychoco that finds a magic series of a given length n — a sequence of n values between 0 and n−1 where each value i occurs exactly as many times as the sequence's i-th entry says — strong enough not to time out.</span>
+    </a>
+    <a class="card" href="08-n-queens/steps/">
+      <span class="tag">Choco 08</span>
+      <span class="t">N-queens</span>
+      <span class="d">Write a CP model in pychoco that places n queens on an n×n board with no two sharing a row, column or diagonal, for any given n.</span>
+    </a>
+    <a class="card" href="09-warehouse-location/steps/">
+      <span class="tag">Choco 09</span>
+      <span class="t">Warehouse location problem</span>
+      <span class="d">Write a CP model in pychoco for the CSPLib warehouse-location problem: which candidate warehouses to open and which store connects to which, each warehouse capped in how many stores it serves, to minimise total fixed and connection cost.</span>
+    </a>
+    <a class="card" href="10-car-sequencing/steps/">
+      <span class="tag">Choco 10</span>
+      <span class="t">Car sequencing, several instance sizes</span>
+      <span class="d">Solve the car-sequencing instances Caseine provides, sequencing cars on a line so that no option's per-window occupancy ratio is exceeded, comparing a reified-IfThen formulation against an Element formulation across instances from 10 up to 100 cars.</span>
+    </a>
+    <a class="card" href="11-steel-production/steps/">
+      <span class="tag">Choco 11</span>
+      <span class="t">Steel production, several instance sizes</span>
+      <span class="d">Solve the steel-production instances Caseine provides, with the 'M2' CP model, over instances from 10 up to 111 orders, each run under a 5-second time limit.</span>
+    </a>
+  </div>
+
+  <h2>How the work is recorded</h2>
+  <p>Each exercise that gets solved carries a <strong>steps</strong> page: what it
+  asks, and once it is solved, what was tried, what was rejected, and the
+  reference that settled it. A choice without a reference is a guess, so the
+  trail is written down where the code can be read beside it.</p>
+
+  <h2>Reading it</h2>
+  <div class="cards">
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/OperationsResearch/Choco">
+      <span class="tag">Source</span>
+      <span class="t">The folder on GitHub</span>
+      <span class="d">Every Choco exercise folder, each with its own README and completed model once the work is done.</span>
+    </a>
+    <a class="card" href="https://github.com/Tewf/University-Coursework/blob/main/Master/M1/S7/OperationsResearch/README.md">
+      <span class="tag">README</span>
+      <span class="t">The course README</span>
+      <span class="d">The full table of exercises across both halves of Operations Research, what each is solved with, and what is provided going in.</span>
+    </a>
+  </div>
+
+  <p class="caveat">The exercise statements, and the starter models and data
+  Caseine distributes with them, are not redistributed here. Each exercise
+  keeps its handout on disk, out of the repository; what is committed is my
+  own work.</p>
+
+</main>
+
+<script src="../../../../../site/nav.js"></script>
+</body>
+</html>
