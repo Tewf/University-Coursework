@@ -4,25 +4,9 @@ Threads, shared state, mutexes, a producer-consumer buffer with condition variab
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the steps this practical asks
-for, ready to be filled in as the work happens.
-
-## Steps
-
-The handout's questions, abridged. The wording that counts is the handout's own.
-
-| # | Asked |
-|---|-------|
-| 1 | Create a new blank C++ project using CMake |
-| 2 | Modifiy the provided code to create 10 threads that each print before the program exits |
-| 3 | Run the program multiple times |
-| 4 | Modify your C++ project to include a shared integer variable Threads Creation and Management In C++, threads can be created using the <thread> library |
-| 5 | Modify your previous C++ project to include a mutex lock for the shared variable x |
-| 6 | Download the provided Buffer class implementation and include it in your C++ project |
-| 7 | Create a main function that initializes a Buffer object with a specified size (e.g., 5) |
-| 8 | Modify the Buffer class to include a mutex and two condition variables: |
-| 9 | Modify your C++ project to include a performance measurement for the incrementing of the shared variable x from the earlier exercise |
-| 10 | Modify your C++ project to use an atomic variable for x instead previous measurements and analyze the performance benefits of |
+Not started. Each question's reasoning, what was rejected and the reference
+that settled it are in [steps/](steps/index.html), where the abridged
+questions are listed too.
 
 ## Running it
 

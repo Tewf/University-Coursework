@@ -4,26 +4,9 @@ pybind11: exposing constants, functions, a class with operator overloads, and an
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the steps this practical asks
-for, ready to be filled in as the work happens.
-
-## Steps
-
-The handout's questions, abridged. The wording that counts is the handout's own.
-
-| # | Asked |
-|---|-------|
-| 1 | Open the file module.cpp and examine its contents |
-| 2 | Compile the module. This will produce a shared library file named my_math.<extension>, where the extension depends on your |
-| 3 | Complete the file module.cpp to expose any remaining constants and functions to the shared library |
-| 4 | Open the file fractions.cpp and examine its contents |
-| 5 | Complete the file fractions.cpp to add the missing constructors, methods and operator overloads to the module |
-| 6 | Open the file CMakeLists.txt and have a look at its contents |
-| 7 | Clone pybind11 into the active directory |
-| 8 | Create a copy of your implementation of the subset iterator |
-| 9 | Write the code to port the class Subset, and verify that you can successfully use it in your Python Shell |
-| 10 | Copy the code below to implement the iterator on the elements |
-| 11 | Implement SubsetIterator, test it in your Python shell |
+Not started. Each question's reasoning, what was rejected and the reference
+that settled it are in [steps/](steps/index.html), where the abridged
+questions are listed too.
 
 ## What the handout provides
 

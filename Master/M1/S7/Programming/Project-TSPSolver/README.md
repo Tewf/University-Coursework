@@ -5,28 +5,39 @@ two measured against each other.
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the stages, ready to be filled in
-as the work happens.
+Not started. Each question's reasoning, what was rejected and the reference
+that settled it are in [steps/](steps/index.html), where the abridged
+questions are listed too.
 
-## Stages
+## What the handout provides
 
-| # | Stage | What it is |
-|---|-------|-----------|
-| 1 | Read the instance format | Parse TSPLIB files: NODE_COORD_SECTION for coordinates and the lower-diagonal form for explicit distance matrices. |
-| 2 | Build the distance matrix | Turn an instance into the matrix every algorithm below consumes, so the solvers never touch the file format. |
-| 3 | Trivial method | Return the tour of vertices sorted by index, as the handout specifies. |
-| 4 | Held-Karp | The exact dynamic-programming method the handout sets out, built on c(v, S). |
-| 5 | A heuristic | An approximate method, for instances the exact one cannot reach. |
-| 6 | Performance evaluation | Execution time and tour length against instance size, on the provided TSPLIB benchmarks and on instances from instance_generator.py, written up with figures. |
+Unpacked in place, so this folder reads as a working project rather than an
+archive beside a drop zone. Neither is redistributed here — see Source
+material below.
 
-## Instances
+- `instance_generator.py`
+- `TSP-instances.zip`, unpacked into `TSP-instances/coord/` and
+  `TSP-instances/lower_diag/`
 
-`TSP-instances/` holds the TSPLIB benchmarks, in two forms: `coord/` for
-instances given as coordinates, `lower_diag/` for those given as an explicit
-lower-diagonal distance matrix. `instance_generator.py` makes random ones.
+## Running it
+
+Nothing to run yet: no build script or sources exist. Once written, a single
+`bash build-TSPsolver.sh` at the project root is meant to produce
+`build/TSPsolver` — taking an instance path, an output path, and an optional
+method flag — and `build/tests`.
+
+## Where the explanation lives
+
+This folder holds code. The concept note for it is in the Notes vault, under
+`S7/Programming/Project - TSP Solver/Project - TSP Solver.md`. The map of all
+of them is `obsidian-note.local.md` at the course root, which is gitignored
+because it names local paths.
 
 ## Source material
 
 The subject and `instance_generator.py` are by E. Foussard (UGA) and are **not
-redistributed here**: see [NOTICE](../../../../../NOTICE). TSPLIB instances
-belong to their authors and are cited, not claimed.
+redistributed here**: see [NOTICE](../../../../../NOTICE). It sits in
+`handout/`, the PDF beside the `.txt` extraction that makes it greppable, and
+`.gitignore` keeps that whole directory, `instance_generator.py`, and
+`TSP-instances/` out of the repository. The TSPLIB instances themselves belong
+to their original authors and are cited, not claimed.

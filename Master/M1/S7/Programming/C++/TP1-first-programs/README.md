@@ -4,24 +4,9 @@ Compiling and running with CMake, the course's warning flags, Boost, and Google 
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the steps this practical asks
-for, ready to be filled in as the work happens.
-
-## Steps
-
-The handout's questions, abridged. The wording that counts is the handout's own.
-
-| # | Asked |
-|---|-------|
-| 1 | What are the main similarities and differences you notice between Programming TP1 - Your first C++ programs You may have noticed that the syntax of the printing function std::cout E. Foussard quences of bytes, better known as streams |
-| 2 | Complete the provided skeleton code in compute-circle.cpp, by using π = 3.14, then compile and run your program using CMake |
-| 3 | Modify your program accordingly, then compile and run it again |
-| 4 | skeleton code provided in the file circle.cpp |
-| 5 | Complete the implementation of the gcd in utils.cpp according to their declarations in utils.hpp |
-| 6 | Create a new file compute-lcm.cpp in the src folder that will • -Weffc++ : |
-| 7 | Add new test cases to verify the correctness of your gcd and lcm functions |
-| 8 | Modify the CMakeLists.txt file to create a new executable tions in utils.cpp |
-| 9 | Add your lcm function to the calculator program |
+Not started. Each question's reasoning, what was rejected and the reference
+that settled it are in [steps/](steps/index.html), where the abridged
+questions are listed too.
 
 ## What the handout provides
 

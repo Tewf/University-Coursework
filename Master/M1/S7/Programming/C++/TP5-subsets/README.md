@@ -4,29 +4,9 @@ A Subset class and its iterators, written to the STL's iterator contract.
 
 ## State
 
-Not started. [steps/](steps/index.html) lists the steps this practical asks
-for, ready to be filled in as the work happens.
-
-## Steps
-
-The handout's questions, abridged. The wording that counts is the handout's own.
-
-| # | Asked |
-|---|-------|
-| 1 | Set up a new C++ project |
-| 2 | Create the constructor Subset(size_t k, size_t n), which create the subset S ′ = {0..k} of the set S = {0..n} |
-| 3 | Overload the « operator to print your subset |
-| 4 | Implement the following methods: |
-| 5 | Overload your methods to handle subsets as parameters: |
-| 6 | Create the class ElementsIterator inside the namespace subset |
-| 7 | Implement the methods begin() and end() in the Subset class |
-| 8 | Overload the * operator in the ElementsIterator class to return the current element of the subset |
-| 9 | Overload the ++ operator in the ElementsIterator class to move to the next element of the subset |
-| 10 | Overload the != operator in the ElementsIterator class to compare two iterators |
-| 11 | Create the class SubsetIterator inside the namespace subset |
-| 12 | Implement the ++ operator in the SubsetIterator class using 3 Iterating on all subsets of fixed size Your SubsetIterator class should now be fully functional |
-| 13 | Add the required type definitions to your SubsetIterator class to make it STL-compatible |
-| 14 | Implement any missing methods in your SubsetIterator class to make it STL-compatible |
+Not started. Each question's reasoning, what was rejected and the reference
+that settled it are in [steps/](steps/index.html), where the abridged
+questions are listed too.
 
 ## Running it
 
