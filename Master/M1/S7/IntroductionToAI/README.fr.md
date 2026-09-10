@@ -66,8 +66,9 @@ Chaque TP garde ce que l'équipe a distribué dans `handout/` (sujet, correction
 officielle quand elle existe, et une extraction `.txt` de tout PDF pour qu'il
 soit greppable). Les modules fournis et les jeux de données sont à la racine du
 TP, là où le notebook les attend. `.gitignore` exclut tout cela, donc ce qu'un
-dossier montre sur GitHub est le notebook complété et rien d'autre, et un TP
-pas encore commencé ne montre rien.
+dossier montre sur GitHub est mon travail et rien d'autre : un README qui dit,
+avec mes mots, ce qui est demandé, une page `steps/` par question, et le
+notebook complété dès qu'il existe.
 
 ```
 IntroductionToAI/
@@ -75,6 +76,7 @@ IntroductionToAI/
 |-- MachineLearning/
 |   |-- Lab1-performance-evaluation/
 |   |   |-- handout/             <- sujet, correction officielle
+|   |   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
 |   |-- Lab2-supervised-ml/
 |   |   |-- handout/
 |   |   |-- avalanche_data.csv svm.png svm0.png   <- ce que lit le notebook

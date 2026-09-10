@@ -62,8 +62,9 @@ That copy is the file that gets committed. The one in `handout/` never changes.
 Each lab keeps what the staff handed out in `handout/` (subject, official
 correction when one exists, and a `.txt` extraction of any PDF so it greps).
 Provided modules and datasets sit at the lab root, where the notebook expects
-them. `.gitignore` excludes all of it, so what a folder shows on GitHub is the
-completed notebook and nothing else, and a lab not started yet shows nothing.
+them. `.gitignore` excludes all of it, so what a folder shows on GitHub is my
+work and nothing else: a README saying what it asks, in my words, a `steps/`
+page per question, and the completed notebook once there is one.
 
 ```
 IntroductionToAI/
@@ -71,6 +72,7 @@ IntroductionToAI/
 |-- MachineLearning/
 |   |-- Lab1-performance-evaluation/
 |   |   |-- handout/             <- subject, official correction
+|   |   |-- README.md steps.json steps/   <- the ask in my words, one page per question
 |   |-- Lab2-supervised-ml/
 |   |   |-- handout/
 |   |   |-- avalanche_data.csv svm.png svm0.png   <- what the notebook reads

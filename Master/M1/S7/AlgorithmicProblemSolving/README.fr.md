@@ -48,13 +48,15 @@ doit disparaître, même une fois `maze.c` écrit.
 
 Chaque projet garde son énoncé dans `handout/`, à côté d'une extraction `.txt`
 qui le rend greppable près du travail. `.gitignore` les exclut tous, donc ce
-qu'un dossier montre sur GitHub est le code et rien d'autre — et un dossier sans
-code ne montre rien du tout.
+qu'un dossier montre sur GitHub est mon travail et rien d'autre : un README qui
+dit, avec mes mots, ce qui est demandé, une page `steps/` par question, et le
+code dès qu'il y en a.
 
 ```
 AlgorithmicProblemSolving/
 |-- APP1-maze/
 |   |-- handout/               <- le PDF du sujet à côté de son extraction .txt
+|   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
 |   |-- main.c maze.h svg.c/.h Makefile   <- le squelette fourni, et mon maze.c
 |   |-- code-as-downloaded.tar.gz
 |-- APP2-candy-crush/ ... APP4-hole-drilling/

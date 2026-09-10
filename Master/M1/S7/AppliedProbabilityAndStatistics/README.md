@@ -51,14 +51,16 @@ That copy is the file that gets committed. The one in `handout/` never changes.
 Each lab keeps what the staff handed out in `handout/` (the `.Rmd` or PDF
 subject, a `.txt` extraction of any PDF so it greps, and the official solution
 when one exists). Datasets sit at the lab root, where the code `load()`s them.
-`.gitignore` excludes all of it, so what a folder shows on GitHub is the
-completed notebook and nothing else, and a lab not started yet shows nothing.
+`.gitignore` excludes all of it, so what a folder shows on GitHub is my work
+and nothing else: a README saying what it asks, in my words, a `steps/` page
+per question, and the completed notebook once there is one.
 
 ```
 AppliedProbabilityAndStatistics/
 |-- environment.yml              <- the one conda environment
 |-- Lab0-first-manipulations-with-r/
 |   |-- handout/                 <- the .Rmd subject
+|   |-- README.md steps.json steps/   <- the ask in my words, one page per question
 |   |-- saison_2022.csv BreastCancer.csv
 |-- Lab1-real-random-variables/
 |-- Lab2-estimators-exponential-model/
