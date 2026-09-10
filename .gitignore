@@ -159,6 +159,15 @@ Master/M1/S7/AppliedProbabilityAndStatistics/**/*.Rdata
 Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/saison_2022.csv
 Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/BreastCancer.csv
 
+# Recherche opérationnelle (Caseine) ; voir NOTICE. Chaque énoncé VPL reste dans le
+# handout/ de son exercice, les supports de cours dans celui du cours ; la config
+# du correcteur, les fichiers .dat requis et les instances CSPLib sont consommés
+# tels quels. Les squelettes .mod et .py sont complétés, donc publiés comme
+# travail dérivé.
+Master/M1/S7/OperationsResearch/**/configExe
+Master/M1/S7/OperationsResearch/**/*.dat
+Master/M1/S7/OperationsResearch/**/instances/
+
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
 

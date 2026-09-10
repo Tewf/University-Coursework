@@ -105,6 +105,20 @@ Teaching staff, Applied Probability and Statistics (M1AM, UGA)
   work, all excluded by .gitignore. The .Rmd I complete from a subject is
   committed and, like the notebooks above, is derived work.
 
+Hadrien Cambazard, Nicolas Catusse, Maxime Ogier, Nadia Brauner and Olivier
+Briant (Grenoble INP, UGA)
+  The Caseine VPL exercises of Introduction to AI part 2, operations research
+  (M1 AI): 26 OPL statements and 11 pychoco statements with their model
+  templates, grader configurations, required .dat files and CSPLib instances;
+  the course handouts (OPL tutorial, Caseine OPL editor tutorial, pychoco
+  cheat sheet, modelling activity).
+  Referenced by: Master/M1/S7/OperationsResearch/
+  Not redistributed: each statement in its exercise's handout/, the course
+  handouts in the course's, the grader configuration, .dat files and
+  instances beside the work, all excluded by .gitignore. The .mod and .py
+  templates are implemented into, so read the committed models as derived
+  work, not as original. Lectures and tutorial sheets stay in the vault.
+
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
   Referenced by: Bachelor/L3/S6/MathStat3/
