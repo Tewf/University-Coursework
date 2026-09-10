@@ -1,6 +1,6 @@
 /**
  * @file vector2D.hpp
- * @author Ernest Foussard (ernest.foussard@univ-grenoble-alpes.fr)
+ * @author Ernest Foussard
  * @brief Implementation of 2D vectors
  * @version 0.1
  * @date 2026-01-19
