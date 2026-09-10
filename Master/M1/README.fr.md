@@ -15,6 +15,7 @@ donc dans l'ordre où les semestres sont enseignés.
 | Algorithmic Problem Solving | Diviser pour régner, programmation dynamique, flots et coupes, arbres couvrants, approximation ; quatre projets APP résolus sur papier, un avec un squelette C | C | [S7/AlgorithmicProblemSolving/](S7/AlgorithmicProblemSolving/README.fr.md) |
 | Introduction to AI | Sept notebooks d'apprentissage automatique, de l'évaluation des modèles aux réseaux récurrents ; Datalog et programmation par contraintes | Python | [S7/IntroductionToAI/](S7/IntroductionToAI/README.fr.md) |
 | Applied Probability and Statistics | Simulation, estimateurs, vecteurs gaussiens et krigeage, en R Markdown | R | [S7/AppliedProbabilityAndStatistics/](S7/AppliedProbabilityAndStatistics/README.fr.md) |
+| Operations Research | Programmation linéaire et en nombres entiers, dualité, branch and bound, programmation par contraintes ; 37 exercices Caseine en OPL et pychoco | OPL, Python | [S7/OperationsResearch/](S7/OperationsResearch/README.fr.md) |
 
 ## Semestre 8
 

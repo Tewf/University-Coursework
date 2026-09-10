@@ -15,6 +15,7 @@ order the semesters are taught.
 | Algorithmic Problem Solving | Divide and conquer, dynamic programming, flows and cuts, spanning trees, approximation; four APP projects solved on paper, one with a C skeleton | C | [S7/AlgorithmicProblemSolving/](S7/AlgorithmicProblemSolving/README.md) |
 | Introduction to AI | Seven machine-learning notebooks from model evaluation to recurrent networks; Datalog and constraint programming | Python | [S7/IntroductionToAI/](S7/IntroductionToAI/README.md) |
 | Applied Probability and Statistics | Simulation, estimators, Gaussian vectors and kriging, in R Markdown | R | [S7/AppliedProbabilityAndStatistics/](S7/AppliedProbabilityAndStatistics/README.md) |
+| Operations Research | Linear and integer programming, duality, branch and bound, constraint programming; 37 Caseine exercises in OPL and pychoco | OPL, Python | [S7/OperationsResearch/](S7/OperationsResearch/README.md) |
 
 ## Semester 8
 
