@@ -22,6 +22,14 @@ donc dans l'ordre où les semestres sont enseignés.
 
 Pas encore commencé.
 
+## Projets faits en binôme
+
+Le solveur TSP et le projet de fouille de données sont partagés avec un
+binôme via un dépôt privé chacun, où rien n'est ignoré. Leurs dossiers ici
+sont l'arbre de travail des deux dépôts à la fois : `git` tout court est
+celui-ci, `private-git NAME` le dépôt privé. Fonctionnement et mise en place
+sur un nouveau clone : [private-projects/](private-projects/README.md).
+
 ## Environnements
 
 Chaque dossier de cours déclare ses propres dépendances. Le cours de

@@ -33,6 +33,14 @@ This folder holds code. The concept note for it is in the Notes vault, under
 of them is `obsidian-note.local.md` at the course root, which is gitignored
 because it names local paths.
 
+## Done with a partner
+
+This folder is also the work tree of a private repository shared with a
+partner, where nothing is ignored: the handout, the data and the work live
+there in full, and what appears here is the subset the repository's
+allowlist names. The mechanism is [private-projects/](../../../private-projects/README.md)
+at the M1 level.
+
 ## Source material
 
 The subject and `instance_generator.py` are by E. Foussard (UGA) and are **not
