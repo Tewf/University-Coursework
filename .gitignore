@@ -174,6 +174,16 @@ Master/M1/S7/OperationsResearch/**/configExe
 Master/M1/S7/OperationsResearch/**/*.dat
 Master/M1/S7/OperationsResearch/**/instances/
 
+# Data Acquisition, Processing and Mining for AI ; voir NOTICE. Le sujet du
+# projet, le modèle de fiche de données, le guide de mise en place,
+# environment.yml et verify_setup.py vivent dans le handout/ du cours ; chaque
+# TP garde son notebook sujet dans le sien. Les jeux de données restent en
+# local, fournis comme collectés : le cours demande la forme des fichiers, pas
+# les fichiers, et le dépôt est public.
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/data/
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/*.parquet
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/acquisition_log.json
+
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
 

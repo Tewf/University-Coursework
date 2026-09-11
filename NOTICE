@@ -119,6 +119,23 @@ Briant (Grenoble INP, UGA)
   templates are implemented into, so read the committed models as derived
   work, not as original. Lectures and tutorial sheets stay in the vault.
 
+Teaching staff, Data Acquisition, Processing and Mining for AI (M1 AI, UGA)
+  The project handout and the data-card template that goes with it, the
+  pre-course setup guide, the conda environment file environment.yml and the
+  checker verify_setup.py, the weekly lab notebooks, and the datasets shipped
+  with them (a sample of January 2025 New York Yellow Taxi trips).
+  The documents name no author; the attribution follows the course.
+  Referenced by: Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/
+  Not redistributed: every unit of the course keeps its own handout/ — the
+  project's subject and data-card template in the project's, the setup guide
+  in the setup folder's, each lab's subject notebook in the lab's — with the
+  datasets beside the work that reads them, all excluded by .gitignore.
+  environment.yml and verify_setup.py are consumed unchanged and stay local
+  the same way. The notebook I complete from a subject is committed; it
+  carries the staff's exercise text, so read it as derived work, not as
+  original. Data collected for the project is never
+  committed either: what is published is the code that pulled it.
+
 Teaching staff, Mathématiques et Statistiques 3 (UGA)
   Lecture handout for the practical sessions (35 pp).
   Referenced by: Bachelor/L3/S6/MathStat3/
@@ -169,6 +186,12 @@ publiques (DGFiP), République française. Open data under Licence Ouverte /
 Open Licence. The official notice, FAQ, terms of use and GDPR information
 are published by DGFiP and are linked rather than copied here.
   https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/
+
+New York City Taxi and Limousine Commission (TLC) trip records. Published
+by the City of New York as open data; the course ships a 200 000-row sample
+of the January 2025 Yellow Taxi file, which stays local rather than being
+mirrored here.
+  https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 If you believe something in this repository is yours and is not credited
 correctly, please open an issue and I will fix it.
