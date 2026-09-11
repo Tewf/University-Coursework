@@ -16,6 +16,7 @@ donc dans l'ordre où les semestres sont enseignés.
 | Introduction to AI | Sept notebooks d'apprentissage automatique, de l'évaluation des modèles aux réseaux récurrents ; Datalog et programmation par contraintes | Python | [S7/IntroductionToAI/](S7/IntroductionToAI/README.fr.md) |
 | Applied Probability and Statistics | Simulation, estimateurs, vecteurs gaussiens et krigeage, en R Markdown | R | [S7/AppliedProbabilityAndStatistics/](S7/AppliedProbabilityAndStatistics/README.fr.md) |
 | Operations Research | Programmation linéaire et en nombres entiers, dualité, branch and bound, programmation par contraintes ; 37 exercices Caseine en OPL et pychoco | OPL, Python | [S7/OperationsResearch/](S7/OperationsResearch/README.fr.md) |
+| Data Acquisition, Processing and Mining for AI | Récupérer des données depuis une API vivante, les nettoyer, les explorer, et en tirer un résultat interprétable ; TP hebdomadaires et un projet en binôme noté sur 20 | Python | [S7/DataAcquisitionProcessingAndMiningForAI/](S7/DataAcquisitionProcessingAndMiningForAI/README.fr.md) |
 
 ## Semestre 8
 
@@ -28,5 +29,8 @@ programmation utilise un environnement conda pour Python et `apt` pour les
 bibliothèques C++ ; voir [S7/Programming/README.fr.md](S7/Programming/README.fr.md).
 Introduction to AI et Applied Probability and Statistics déclarent chacun leur
 environnement conda (`m1ai-intro-ai`, `m1ai-applied-stats`) ; Algorithmic
-Problem Solving n'a besoin que de `gcc` et `make`.
+Problem Solving n'a besoin que de `gcc` et `make`. Data Acquisition, Processing
+and Mining for AI tourne dans `datacq`, un environnement fourni par l'équipe
+pédagogique et non écrit ici : son `environment.yml` reste dans le `handout/` de
+ce cours avec le reste de leur matériel.
 

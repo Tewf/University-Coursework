@@ -42,6 +42,8 @@
     { "path": "Master/M1/S7/IntroductionToAI/SymbolicAI/",                                             "title": "Symbolic AI: Introduction to AI", "short": "Symbolic AI" },
     { "path": "Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/steps/",                          "title": "Lab1, step by step", "short": "Lab1 steps" },
     { "path": "Master/M1/S7/IntroductionToAI/SymbolicAI/Lab2-constraint-programming/steps/",           "title": "Lab2, step by step", "short": "Lab2 steps" },
+    { "path": "Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/",                       "title": "Data Acquisition, Processing and Mining for AI", "short": "Data Acquisition" },
+    { "path": "Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Lab1-pandas-taxi-data/steps/", "title": "Lab1, step by step", "short": "Lab1 steps" },
     { "path": "Master/M1/S7/OperationsResearch/",                                                      "title": "Operations Research", "short": "Operations Research" },
     { "path": "Master/M1/S7/OperationsResearch/Choco/",                                                "title": "Choco: Operations Research", "short": "Choco" },
     { "path": "Master/M1/S7/OperationsResearch/Choco/01-toy-meeting/steps/",                           "title": "Choco 01, step by step", "short": "01 steps" },

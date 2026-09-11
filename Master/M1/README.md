@@ -16,6 +16,7 @@ order the semesters are taught.
 | Introduction to AI | Seven machine-learning notebooks from model evaluation to recurrent networks; Datalog and constraint programming | Python | [S7/IntroductionToAI/](S7/IntroductionToAI/README.md) |
 | Applied Probability and Statistics | Simulation, estimators, Gaussian vectors and kriging, in R Markdown | R | [S7/AppliedProbabilityAndStatistics/](S7/AppliedProbabilityAndStatistics/README.md) |
 | Operations Research | Linear and integer programming, duality, branch and bound, constraint programming; 37 Caseine exercises in OPL and pychoco | OPL, Python | [S7/OperationsResearch/](S7/OperationsResearch/README.md) |
+| Data Acquisition, Processing and Mining for AI | Pulling data from a live API, cleaning and exploring it, and mining it for something interpretable; weekly labs and a paired project marked out of 20 | Python | [S7/DataAcquisitionProcessingAndMiningForAI/](S7/DataAcquisitionProcessingAndMiningForAI/README.md) |
 
 ## Semester 8
 
@@ -28,5 +29,8 @@ conda environment for Python and `apt` for the C++ libraries; see
 [S7/Programming/README.md](S7/Programming/README.md). Introduction to AI and
 Applied Probability and Statistics each declare a conda environment of their
 own (`m1ai-intro-ai`, `m1ai-applied-stats`); Algorithmic Problem Solving needs
-only `gcc` and `make`.
+only `gcc` and `make`. Data Acquisition, Processing and Mining for AI runs in
+`datacq`, an environment the staff ship rather than one written here, so its
+`environment.yml` stays in that course's `handout/` with the rest of their
+material.
 
