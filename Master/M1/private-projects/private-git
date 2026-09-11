@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Run git against a project's private repository, whose work tree is a folder of
+# this public repository. One folder, two repositories: plain `git` in the folder
+# is this repo and its ignore rules decide what is public; `private-git NAME ...`
+# is the private repo, which tracks everything in the folder, handouts included.
+#
+#   private-git list                 the projects in projects.tsv and their state
+#   private-git setup NAME           link NAME's folder to its private remote (once per clone)
+#   private-git NAME <git command>   e.g. status, add -A, commit, pull, push
+#
+# The private git directory lives in .git/private/NAME.git of this clone: never
+# committed here, gone with the clone, always recoverable from the remote.
+set -euo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+TABLE="$ROOT/Master/M1/private-projects/projects.tsv"
+
+project_row() {  # name -> "folder<TAB>remote", or fails
+  awk -F'\t' -v n="$1" '$1 == n {print $2 "\t" $3}' "$TABLE" | grep . \
+    || { echo "private-git: no project named '$1' in $TABLE" >&2; exit 2; }
+}
+
+private_dir() { echo "$ROOT/.git/private/$1.git"; }
+
+cmd_list() {
+  awk -F'\t' '!/^#/ && NF == 3 {print $1 "\t" $2}' "$TABLE" | while IFS=$'\t' read -r name folder; do
+    if [ -d "$(private_dir "$name")" ]; then state="linked"; else state="not set up: private-git setup $name"; fi
+    printf '%-18s %-62s %s\n' "$name" "$folder" "$state"
+  done
+}
+
+cmd_setup() {
+  local name="$1" folder remote dir
+  IFS=$'\t' read -r folder remote <<<"$(project_row "$name")"
+  dir="$(private_dir "$name")"
+  [ -d "$dir" ] && { echo "private-git: $name is already linked ($dir)" >&2; exit 1; }
+  mkdir -p "$ROOT/$folder" "$ROOT/.git/private"
+  git clone --quiet --bare "$remote" "$dir"
+  git --git-dir="$dir" config core.bare false
+  git --git-dir="$dir" config core.worktree "$ROOT/$folder"
+  git --git-dir="$dir" config core.logAllRefUpdates true
+  # A bare clone fetches nothing and tracks nothing; give it a normal clone's remote.
+  git --git-dir="$dir" config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+  git --git-dir="$dir" fetch --quiet origin
+  git --git-dir="$dir" branch --quiet --set-upstream-to=origin/main main
+  # The index now matches the remote's HEAD; the folder's files are left as they are,
+  # so `private-git NAME status` shows exactly what differs between the two.
+  git --git-dir="$dir" reset --quiet
+  echo "linked $name: $folder <-> $remote"
+}
+
+cmd_run() {
+  local name="$1"; shift
+  local folder dir; IFS=$'\t' read -r folder _ <<<"$(project_row "$name")"
+  dir="$(private_dir "$name")"
+  [ -d "$dir" ] || { echo "private-git: $name is not set up in this clone; run: private-git setup $name" >&2; exit 1; }
+  cd "$ROOT/$folder" && exec git --git-dir="$dir" "$@"
+}
+
+case "${1:-}" in
+  list) cmd_list ;;
+  setup) [ $# -eq 2 ] || { echo "usage: private-git setup NAME" >&2; exit 2; }; cmd_setup "$2" ;;
+  "" | -h | --help) sed -n '2,12p' "$0" ;;
+  *) [ $# -ge 2 ] || { echo "usage: private-git NAME <git command>" >&2; exit 2; }; cmd_run "$@" ;;
+esac

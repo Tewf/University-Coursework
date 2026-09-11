@@ -187,5 +187,50 @@ Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/acquisition_log.json
 # Téléchargement interrompu : seul un nouveau téléchargement le répare.
 *.crdownload
 
+# Projet TSP : dossier partagé avec un binôme via son dépôt privé (voir
+# Master/M1/private-projects/). Tout est ignoré, puis seules les sortes nommées
+# sont publiées ; un fichier ajouté par le binôme reste privé tant qu'aucune
+# règle ne le nomme. handout/, data/ et .dat sont refusés à nouveau à l'intérieur.
+Master/M1/S7/Programming/Project-TSPSolver/**
+!Master/M1/S7/Programming/Project-TSPSolver/**/
+!Master/M1/S7/Programming/Project-TSPSolver/README.md
+!Master/M1/S7/Programming/Project-TSPSolver/steps.json
+!Master/M1/S7/Programming/Project-TSPSolver/steps/**
+!Master/M1/S7/Programming/Project-TSPSolver/src/**
+!Master/M1/S7/Programming/Project-TSPSolver/include/**
+!Master/M1/S7/Programming/Project-TSPSolver/tests/**
+!Master/M1/S7/Programming/Project-TSPSolver/notebooks/**
+!Master/M1/S7/Programming/Project-TSPSolver/CMakeLists.txt
+!Master/M1/S7/Programming/Project-TSPSolver/environment.yml
+!Master/M1/S7/Programming/Project-TSPSolver/pyproject.toml
+!Master/M1/S7/Programming/Project-TSPSolver/*.py
+Master/M1/S7/Programming/Project-TSPSolver/**/handout/
+Master/M1/S7/Programming/Project-TSPSolver/**/data/
+Master/M1/S7/Programming/Project-TSPSolver/**/*.dat
+Master/M1/S7/Programming/Project-TSPSolver/**/.vscode/
+Master/M1/S7/Programming/Project-TSPSolver/instance_generator.py
+
+# Projet data mining : dossier partagé avec un binôme via son dépôt privé (voir
+# Master/M1/private-projects/). Tout est ignoré, puis seules les sortes nommées
+# sont publiées ; un fichier ajouté par le binôme reste privé tant qu'aucune
+# règle ne le nomme. handout/, data/ et .dat sont refusés à nouveau à l'intérieur.
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/README.md
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/steps.json
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/steps/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/src/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/include/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/tests/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/notebooks/**
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/CMakeLists.txt
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/environment.yml
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/pyproject.toml
+!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/*.py
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/handout/
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/data/
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/*.dat
+Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/.vscode/
+
 # Figures the practicals write when their demos are run
 Master/M1/**/patterns_demo.png
