@@ -74,6 +74,12 @@ Bachelor/L3/S6/ComplementMath2/TP/TP8/TP8_complet.Rmd
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/DataPreprocessing/DataDocumentation/
 Bachelor/L3/S5/Econometrie1/ProjetEconometrie/RevueDeLitterature/HedonicHousingPriceIndexes.pdf
 
+# Identifiants. Jamais dans ce dépôt : il est public, et un secret poussé ne se
+# dépublie pas. Les clés d'API se lisent depuis l'environnement.
+.env
+.env.*
+!.env.example
+
 # Python virtual environments -- recreate them from pyproject.toml + uv.lock
 .venv/
 
