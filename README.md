@@ -51,6 +51,14 @@ The code and the writing. Not the data: the raw Parquet and the cleaned dataset
 stay on disk and `.gitignore` keeps them out, which is also what the course
 asks — the milestones take the shapes of the files, not the files.
 
+## Done with a partner
+
+This folder is also the work tree of a private repository shared with a
+partner, where nothing is ignored: the handout, the data and the work live
+there in full, and what appears here is the subset the repository's
+allowlist names. The mechanism is [private-projects/](../../../private-projects/README.md)
+at the M1 level.
+
 ## Source material
 
 The project handout and the data card template are the course staff's and are
