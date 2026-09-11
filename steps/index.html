@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TSP solver step by step &middot; Programming</title>
+<meta name="description" content="How TSP solver (Travelling Salesman Problem) was worked through, step by step, with the reference behind each decision.">
+<link rel="icon" href="../../../../../../site/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../../../site/style.css">
+</head>
+<body data-base="../../../../../../">
+
+<main class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">M1 Artificial Intelligence &middot; C++ &middot; project</p>
+    <h1>Step by step</h1>
+    <p class="lede">The steps this practical asks for. Each one records what was tried, what was rejected, and the reference that settled it.</p>
+  </section>
+
+  <ol class="steps">
+    <li>
+      <h3><a href="step-01.html">Read the instance format</a></h3>
+      <p class="asked">Parse TSPLIB files: NODE_COORD_SECTION for coordinates and the lower-diagonal form for explicit distance matrices.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-02.html">Build the distance matrix</a></h3>
+      <p class="asked">Turn an instance into the matrix every algorithm below consumes, so the solvers never touch the file format.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-03.html">Trivial method</a></h3>
+      <p class="asked">Output the vertices in plain ascending index order as a placeholder tour, to prove the read-solve-write pipeline runs before any real algorithm exists.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-04.html">Held-Karp</a></h3>
+      <p class="asked">The exact solver: dynamic programming over (vertex, subset) pairs, growing from single vertices to the full set to read off the optimal round trip.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-05.html">A heuristic</a></h3>
+      <p class="asked">An approximate method, for instances the exact one cannot reach.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+    <li>
+      <h3><a href="step-06.html">Performance evaluation</a></h3>
+      <p class="asked">Execution time and tour length against instance size, on the provided TSPLIB benchmarks and on instances from instance_generator.py, written up with figures.</p>
+      <dl><dt>Status</dt><dd class="pending">Not started.</dd></dl>
+    </li>
+  </ol>
+
+  <h2>Where the rest lives</h2>
+  <div class="cards">
+    <a class="card" href="https://github.com/Tewf/University-Coursework/tree/main/Master/M1/S7/Programming/Project-TSPSolver">
+      <span class="tag">Code</span>
+      <span class="t">The practical</span>
+      <span class="d">Its README, the handout, and the solution when there is one.</span>
+    </a>
+  </div>
+
+</main>
+
+<script src="../../../../../../site/nav.js"></script>
+</body>
+</html>
