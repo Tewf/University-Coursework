@@ -1,6 +1,7 @@
-% Section 2: the data structure, the generation algorithm, and the proof that
-% what comes out is the spanning tree Section 1 said it had to be. The cost of
-% all of this is deferred to Section 6; only correctness is argued here.
+% Section 2: the node record, the generation algorithm, and the proof that what
+% comes out is the spanning tree Section 1 said it had to be. The construction
+% is additive -- every division contributes its door and nothing else -- so no
+% edge is ever materialised only to be removed.
 \section{Generating the maze into a graph}
 \label{sec:maze-generation}
 
@@ -15,41 +16,54 @@ Two different things are worth keeping, and confusing them is the usual way to
 end up storing neither well.
 
 \begin{description}[leftmargin=*,style=nextline]
-  \item[The maze itself --- which doors exist.] A subset of $\gridedges$. It is
-    what a walker needs, and the only thing needed to answer Problem~2.
+  \item[The maze itself --- which doors exist.] It is what a walker needs, and
+    the only thing needed to answer Problem~2.
   \item[The way it was built --- the region decomposition.] Which wall was put
     where, and in what order. It is the binary tree the divide-and-conquer rule
     produces for free, and the object whose depth the cost analysis of
     Section~\ref{sec:analysis} is written in terms of.
 \end{description}
 
-\subsection{The cell array: two links per cell}
+\subsection{The node record}
 
-The doors are held in a $W\times H$ array $T$ whose entry $T[x][y]$ is one cell
-record holding two links,
+The maze is a set of nodes, one per cell. A node holds
+
 \[
-  T[x][y]=\bigl\langle P_0,\;P_1 \bigr\rangle,
+  \texttt{Node} \;=\; \bigl\langle\;
+    \underbrace{\textit{value}}_{\text{its }(i,j)\text{ coordinates}},\;\;
+    \underbrace{\textit{neighbours}}_{\text{the cells it has a door to}}
+  \;\bigr\rangle,
 \]
-where $P_0$ points at the cell $(x+1,y)$ to its right and $P_1$ at the cell
-$(x,y+1)$ below it, and where a link set to \textsc{nil} means \emph{no door
-there}. Figure~\ref{fig:cell-record} draws the arrangement.
 
-\input{figure-cell-record.tex}
+and the neighbour list is \emph{empty when the node is created}. A cell has
+four sides, so the list never holds more than four entries, and it grows only
+when a division puts a door on that node. An index $\langle P_i,P_j\rangle$
+--- a $W\times H$ array of references --- maps a coordinate pair to its node in
+$O(1)$, so a division can reach the two cells it wants without searching.
+Figure~\ref{fig:node-record} is one node before and after.
 
-Two links, not four, is the one design decision in the structure. Every edge of
-$\gridgraph$ joins a cell to the cell on its right or the cell below it, never
-to a third kind of neighbour, so \emph{ownership by the upper-left endpoint}
-covers the whole edge set exactly once: the $2WH-W-H$ possible doors are held
-in $2WH$ slots with no edge duplicated, and the last column and last row are
-where the unused slots sit.
+\input{figure-node-record.tex}
+
+Each door is recorded at both of its ends, so the finished maze holds
+$2(WH-1)$ list entries for $WH-1$ doors. That is the cost of being able to
+enumerate a cell's exits in $O(\deg)$ from the cell alone, which is what the
+search of Section~\ref{sec:shortest-path} does at every step.
 
 \begin{remark}
-The four-neighbour record --- a node holding its coordinates and an array
-$\mathit{Neighbour}[4]$ --- is the convenient \emph{view} for a search, which
-wants all ways out of a cell at once. It is not a second structure: the
-neighbours of $(x,y)$ to the west and north are recovered in $O(1)$ from
-$T[x-1][y].P_0$ and $T[x][y-1].P_1$. Materialising it costs twice the memory
-and buys no information, so this report stores two links and reads four.
+An alternative is to give each cell two links, to its right and lower
+neighbour, so that every \emph{possible} door is owned by exactly one cell and
+none is stored twice. That trick exists to stop a dense grid of candidate edges
+being duplicated. It has nothing to save here: the construction below never
+represents a door that does not exist, so there is no duplication to avoid and
+no \textsc{nil} to store for a wall.
+\end{remark}
+
+\begin{remark}
+Storing the coordinates costs nothing in secrecy. The cells and their positions
+are fixed by $W$ and $H$, and are known to anyone who knows the dimensions; what
+the randomness has to protect is the edge set, and a node's \textit{value}
+reveals nothing about which of its four sides became doors. The list does, but
+the list \emph{is} the maze.
 \end{remark}
 
 \subsection{The region tree}
@@ -57,103 +71,69 @@ and buys no information, so this report stores two links and reads four.
 The second structure is a binary tree, one node per call of the recursion:
 
 \begin{itemize}[leftmargin=*]
-  \item an \textbf{internal node} records one cut --- its orientation $t$, the
-        boundary $j$ the wall sits on, the position $i$ of its single door ---
-        and has the two regions the cut created as its children;
+  \item an \textbf{internal node} records one division --- its orientation $t$,
+        the boundary $j$ the wall sits on, the position $i$ of its single door
+        --- and has the two regions the division created as its children;
   \item a \textbf{leaf} is a region reduced to one cell.
 \end{itemize}
 
-Figure~\ref{fig:region-tree} shows the first three cuts of a $4\times4$ area
-beside the top of the tree they build. Since every cut creates exactly one
-door, internal nodes and doors are in bijection: a tree with $WH$ leaves has
-$WH-1$ internal nodes, which is the $|E|=WH-1$ of
-Proposition~\ref{prop:spanning-tree} arrived at from the other side.
+Figure~\ref{fig:region-tree} shows the first three divisions of a $4\times4$
+area beside the top of the tree they build.
 
 \input{figure-region-tree.tex}
 
-\subsection{Starting full, then deleting}
+\subsection{One division contributes exactly one door}
+\label{sec:one-door-per-division}
 
-The algorithm starts from $T$ with \emph{every} link set: that is $\gridgraph$
-itself, all doors open, every cell reachable from every other. Generation only
-ever deletes. This is the direction that makes the invariant cheap to state and
-to keep:
+Everything below follows from a single observation. Take any door
+$e=(u,v)$ of the finished maze and walk down the region tree from the root. At
+each internal node, $u$ and $v$ either fall in the same child --- and the walk
+continues --- or they are separated, which happens precisely when $e$ crosses
+that node's wall. Since the leaves are single cells, they must be separated
+somewhere; and at the node that separates them, $e$ is a crossing that
+survived, so $e$ is that node's door.
 
-\begin{quote}
-  \emph{At every call, the region handled is connected in $T$, and no edge of
-  $T$ joins that region to anything outside it that the caller did not put
-  there.}
-\end{quote}
+So each door belongs to exactly one internal node, and each internal node
+supplies exactly one door: internal nodes and doors are in bijection. A binary
+tree with $WH$ leaves has $WH-1$ internal nodes, and $WH-1$ is the door count
+Proposition~\ref{prop:spanning-tree} demanded.
 
-It holds at the root because $\gridgraph$ is connected, and
-Figure~\ref{fig:one-partition-step} is one step of preserving it.
+The construction reads that bijection forwards. Rather than opening every door
+and closing the ones a wall covers, a division \emph{adds its own door and
+nothing else}. The maze is assembled edge by edge, one per call, and a wall is
+never drawn at all --- it is simply the doors that were never added.
 
-\subsection{One partition step}
+\begin{remark}
+This is what makes the neighbour list a sound representation. A list cannot
+express ``these two cells are not joined'' except by omission, which is useless
+if the algorithm needs to remove links; here nothing is ever removed, so
+omission is exactly right.
+\end{remark}
+
+\subsection{One division step}
 
 A call handles a region $\region{a_0,a_1}{b_0,b_1}$. If the region is a single
-cell there is nothing to cut and the call returns a leaf. Otherwise:
+cell there is nothing to divide and the call returns a leaf. Otherwise:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Choose the orientation $t$.} The rule puts the wall across
-        the longest dimension, so $t=1$ (a vertical wall, cutting the column
-        range) when $a_1-a_0>b_1-b_0$, $t=0$ (a horizontal wall, cutting the
-        row range) when it is smaller, and a random bit decides a tie. Because
-        the comparison is strict, the dimension chosen is the one of
-        \emph{strictly} greater extent, and a tie is only possible when the two
-        are equal; a dimension of extent $0$ is therefore never cut unless both
-        are $0$, which is the base case. This is what keeps the range
-        $[a_0,a_1-1]$ that $j$ is drawn from non-empty, and it is the whole of
-        why the recursion is total.
+  \item \textbf{Choose the orientation $t$.} The rule puts the wall across the
+        longest dimension, so $t=1$ (a vertical wall, cutting the column range)
+        when $a_1-a_0>b_1-b_0$, $t=0$ (a horizontal wall, cutting the row
+        range) when it is smaller, and a random bit decides a tie. The
+        comparison is strict, so the dimension cut is the one of strictly
+        greater extent; a dimension of extent $0$ is never cut unless both are
+        $0$, which is the base case. This is what keeps the range
+        $[a_0,a_1-1]$ that $j$ is drawn from non-empty.
   \item \textbf{Choose the wall position $j$}, uniformly among the interior
         boundaries of the chosen dimension, and \textbf{the door position $i$},
         uniformly along the wall.
-  \item \textbf{Delete every crossing but one.} Walk $k$ along the wall and
-        delete the edge it crosses at $k$, skipping $k=i$.
+  \item \textbf{Link the two cells the door falls on}, appending each to the
+        other's neighbour list.
   \item \textbf{Recurse} on the two regions, and hang them under the node
         recording $\langle t,j,i\rangle$.
 \end{enumerate}
 
-\input{figure-one-partition-step.tex}
-
-\subsection{Why a one-cell-wide region is not a special case}
-\label{sec:corridor}
-
-A region reduced to a single row or a single column is where a recursion of
-this shape is expected to come apart, and it is worth following one through
-rather than trusting the rule. Take $\region{2,2}{0,3}$, four cells in a
-column. Then $d_x=0$ and $d_y=3$, so $t=0$ and the wall cuts the row range,
-with $j$ drawn from $[0,2]$ --- non-empty, as it must be. The door is drawn
-from $[a_0,a_1]=[2,2]$, a range of one value, so $i=2$ is forced. The loop then
-runs for $k=2$ alone, finds $k=i$, and stops. \emph{No edge is deleted.}
-
-Figure~\ref{fig:corridor-base-case} is that call. The corridor is not an
-exception to the partition step; it is the partition step at its extreme, where
-the wall has one crossing and the door is obliged to sit on it. The recursion
-walks the corridor down to its leaves, doing nothing at each level, and cannot
-disconnect it.
-
-What makes this safe is that the two draws have different shapes. The wall is
-drawn from $[a_0,a_1-1]$, which is \emph{empty} when $a_1-a_0=0$; the door is
-drawn from $[a_0,a_1]$, which holds one value there and is never empty. So
-$a_0=a_1$ forces the door and cannot starve it, and the only draw that needs
-protecting is the wall --- which is exactly what the strict comparison in
-\texttt{SplitOrientation} protects. One guard, in one place, for the one draw
-that can fail.
-
-The extreme of the extreme is $W=1$: the root region is itself a corridor, and
-$\gridgraph$ is then a path, which is already a spanning tree. There is exactly
-one maze on such an area, the random draws have nothing to choose between, and
-deleting no edge at all is the only correct behaviour. The same holds for $H=1$
-by symmetry.
-
-\input{figure-corridor-base-case.tex}
-
-Stopping at such a region instead --- returning a corridor as one leaf --- is a
-legitimate optimisation and saves the $2n-1$ calls a corridor of $n$ cells
-costs. It is not taken here. The recursion is $\Theta(WH)$ calls either way, so
-the saving is a constant factor, while a corridor leaf would hold $n-1$ doors
-that no internal node records, breaking the bijection of
-Section~\ref{sec:maze-generation} on which the leaf-and-node counts, and the
-traversal of Section~\ref{sec:shortest-path}, both rest.
+\input{figure-one-division-step.tex}
 
 \subsection{The algorithm}
 
@@ -161,47 +141,47 @@ traversal of Section~\ref{sec:shortest-path}, both rest.
 \caption{Maze generation by recursive division.}
 \label{alg:generate-maze}
 \SetKwFunction{GenerateMaze}{GenerateMaze}
-\SetKwFunction{CarveRegion}{CarveRegion}
+\SetKwFunction{Divide}{Divide}
 \SetKwFunction{SplitOrientation}{SplitOrientation}
-\SetKwFunction{FullGrid}{FullGridGraph}
 \SetKwFunction{RandomIn}{RandomIn}
 \SetKwFunction{RandomBit}{RandomBit}
-\SetKwFunction{Delete}{DeleteDoor}
+\SetKwFunction{Link}{Link}
 \SetKwFunction{Leaf}{Leaf}
 \SetKwFunction{NodeOf}{CutNode}
+\SetKwFunction{NewNode}{NewNode}
 \KwIn{$W,H\ge1$, the width and height of the area in cells.}
-\KwOut{$T$, the cell array holding a spanning tree of $\gridgraph$; $r$, the
+\KwOut{$N$, the set of nodes holding a spanning tree of $\gridgraph$; $r$, the
        root of the region tree that built it.}
 \BlankLine
 \Fn{\GenerateMaze{$W$, $H$}}{
-  $T \leftarrow$ \FullGrid{$W$, $H$}\tcp*{all doors open}
-  $r \leftarrow$ \CarveRegion{$T$, $[0,W-1]$, $[0,H-1]$}\;
-  \Return $(T,r)$\;
+  $N \leftarrow \{\,\NewNode{$x$, $y$} : 0\le x<W,\; 0\le y<H\,\}$
+     \tcp*{every neighbour list empty}
+  $r \leftarrow$ \Divide{$N$, $[0,W-1]$, $[0,H-1]$}\;
+  \Return $(N,r)$\;
 }
 \BlankLine
-\Fn{\CarveRegion{$T$, $[a_0,a_1]$, $[b_0,b_1]$}}{
+\Fn{\Divide{$N$, $[a_0,a_1]$, $[b_0,b_1]$}}{
   \lIf{$a_0=a_1$ \textup{\textbf{and}} $b_0=b_1$}{\Return \Leaf{$a_0$, $b_0$}}
   $t \leftarrow$ \SplitOrientation{$a_1-a_0$, $b_1-b_0$}\;
   \eIf{$t=1$}{
     $j \leftarrow$ \RandomIn{$a_0$, $a_1-1$}\tcp*{wall between columns $j$ and $j+1$}
     $i \leftarrow$ \RandomIn{$b_0$, $b_1$}\tcp*{the one door, on row $i$}
-    \For{$k \leftarrow b_0$ \KwTo $b_1$}{
-      \lIf{$k=i$}{\textbf{continue}}
-      \Delete{$T$, $(j,k)$, $(j+1,k)$}\;
-    }
-    $\ell \leftarrow$ \CarveRegion{$T$, $[a_0,j]$, $[b_0,b_1]$}\;
-    $r \leftarrow$ \CarveRegion{$T$, $[j+1,a_1]$, $[b_0,b_1]$}\;
+    \Link{$N$, $(j,i)$, $(j+1,i)$}\;
+    $\ell \leftarrow$ \Divide{$N$, $[a_0,j]$, $[b_0,b_1]$}\;
+    $r \leftarrow$ \Divide{$N$, $[j+1,a_1]$, $[b_0,b_1]$}\;
   }{
     $j \leftarrow$ \RandomIn{$b_0$, $b_1-1$}\tcp*{wall between rows $j$ and $j+1$}
     $i \leftarrow$ \RandomIn{$a_0$, $a_1$}\tcp*{the one door, on column $i$}
-    \For{$k \leftarrow a_0$ \KwTo $a_1$}{
-      \lIf{$k=i$}{\textbf{continue}}
-      \Delete{$T$, $(k,j)$, $(k,j+1)$}\;
-    }
-    $\ell \leftarrow$ \CarveRegion{$T$, $[a_0,a_1]$, $[b_0,j]$}\;
-    $r \leftarrow$ \CarveRegion{$T$, $[a_0,a_1]$, $[j+1,b_1]$}\;
+    \Link{$N$, $(i,j)$, $(i,j+1)$}\;
+    $\ell \leftarrow$ \Divide{$N$, $[a_0,a_1]$, $[b_0,j]$}\;
+    $r \leftarrow$ \Divide{$N$, $[a_0,a_1]$, $[j+1,b_1]$}\;
   }
   \Return \NodeOf{$t$, $j$, $i$, $\ell$, $r$}\;
+}
+\BlankLine
+\Fn{\Link{$N$, $u$, $v$}}{
+  append $N[v]$ to $N[u].\textit{neighbours}$\;
+  append $N[u]$ to $N[v].\textit{neighbours}$\;
 }
 \BlankLine
 \Fn{\SplitOrientation{$d_x$, $d_y$}}{
@@ -211,43 +191,40 @@ traversal of Section~\ref{sec:shortest-path}, both rest.
 }
 \end{algorithm}
 
-\Delete{} clears one link: deleting the edge $(j,k)\!-\!(j{+}1,k)$ sets
-$T[j][k].P_0 \leftarrow \textsc{nil}$, and deleting $(k,j)\!-\!(k,j{+}1)$ sets
-$T[k][j].P_1 \leftarrow \textsc{nil}$. Ownership by the upper-left endpoint
-means each deletion touches one slot and no lookup is needed to find it.
+Both cells a \Link{} touches lie in the region, since $j$ and $j+1$ are both in
+$[a_0,a_1]$ and $i$ is in $[b_0,b_1]$, and they are adjacent --- so every
+appended entry is a genuine edge of $\gridgraph$.
 
-The exit plays no part in generation. Proposition~\ref{prop:spanning-tree}
-makes every cell reachable from every other, so any boundary cell may be
-declared $\exitcell$ afterwards, and any interior cell is an admissible start.
+The exit plays no part in generation, for the reasons given in
+Section~\ref{sec:exit-constraints}: the algorithm never reads it, and any
+boundary cell may be designated once the tree exists.
 
 \subsection{Why the result is a spanning tree}
 
 \begin{proposition}[Correctness of Algorithm~\ref{alg:generate-maze}]
 \label{prop:generation-is-a-tree}
-On a region of $m$ cells, \textup{\texttt{CarveRegion}} leaves the subgraph of
-$T$ induced on that region connected and acyclic, with exactly $m-1$ doors. In
-particular \textup{\texttt{GenerateMaze}} returns a spanning tree of
-$\gridgraph$.
+On a region of $m$ cells, \textup{\texttt{Divide}} leaves the subgraph induced
+on that region connected and acyclic, with exactly $m-1$ doors. In particular
+\textup{\texttt{GenerateMaze}} returns a spanning tree of $\gridgraph$.
 \end{proposition}
 
 \begin{proof}
-By induction on $m$. If $m=1$ the region is one cell: no edges, connected and
-acyclic, $m-1=0$ doors, and the call returns without touching $T$.
+By induction on $m$. If $m=1$ the region is one cell: no doors, connected and
+acyclic, $m-1=0$, and the call adds nothing.
 
-Let $m>1$. The orientation rule picks a dimension of extent at least $1$
-(Section~\ref{sec:corridor}), so $j$ and the two sub-regions exist and are
-non-empty; call them $R_\ell$ and $R_r$, with $m_\ell+m_r=m$ cells. Every edge of the region that crosses the
-wall does so at exactly one position $k$ along it, and the loop deletes all of
-them but the one at $k=i$. No edge internal to $R_\ell$ or to $R_r$ is touched,
-so the two recursive calls receive their regions with every internal door still
-open and, by the induction hypothesis, return them connected, acyclic and
-carrying $m_\ell-1$ and $m_r-1$ doors.
+Let $m>1$. The orientation rule cuts a dimension of extent at least $1$, so
+$j$ exists and the two sub-regions $R_\ell$ and $R_r$ are non-empty, with
+$m_\ell+m_r=m$. The call adds the single door at $i$, whose two cells lie one
+in each sub-region, and then recurses; by the induction hypothesis the two
+calls leave their regions connected and acyclic with $m_\ell-1$ and $m_r-1$
+doors. Neither recursive call can add an edge between the two sub-regions,
+because every \Link{} a call makes joins two cells of its own region.
 
-The only remaining edge between the two is the door at $i$. Joining two
-disjoint trees by a single edge yields a tree: it is connected, since any two
-cells are joined inside their own half or by crossing that one door, and
-acyclic, since a cycle would have to cross the wall an even, hence non-zero,
-number of times while only one crossing exists. The door count is
+So the door at $i$ is the only edge between $R_\ell$ and $R_r$. Joining two
+disjoint trees by a single edge yields a tree: connected, since any two cells
+are joined inside their own half or by crossing that door; acyclic, since a
+cycle would have to cross the wall an even, hence non-zero, number of times
+while only one crossing exists. The door count is
 $(m_\ell-1)+(m_r-1)+1=m-1$.
 
 Applying this to the root region gives a connected acyclic spanning subgraph of
@@ -261,25 +238,31 @@ rather than of a property that had to be tested.
 
 \subsection{The graph that comes out}
 
-Three readings of the one result, none of them a separate copy:
+Generation returns the set $N$ of nodes, each carrying its coordinates and the
+doors it ended up with, together with the root $r$ of the region tree. Three
+readings of that one result, none of them a separate copy:
 
 \begin{center}
 \begin{tabular}{@{}lll@{}}
   \toprule
   View & Held as & Used by \\
   \midrule
-  Doors, compactly   & the array $T$ of $\langle P_0,P_1\rangle$ records
-                     & generation, and storage \\
-  Adjacency          & the four-neighbour view read off $T$
+  Adjacency          & each node's neighbour list
                      & the search of Section~\ref{sec:shortest-path} \\
+  Position           & each node's \textit{value}
+                     & the heuristics of Section~\ref{sec:shortest-path} \\
   How it was built   & the region tree rooted at $r$
                      & the cost analysis of Section~\ref{sec:analysis} \\
   \bottomrule
 \end{tabular}
 \end{center}
 
+The second row is what makes Section~\ref{sec:shortest-path} possible at all: a
+heuristic that estimates the remaining distance to the exit needs the
+coordinates of the cell it is standing on, and they are in the node.
+
 Figure~\ref{fig:maze-as-graph} is the output of one $4\times4$ run, whose first
-three cuts are the ones drawn in Figure~\ref{fig:region-tree-cuts}: $15$ doors
-on $16$ cells, one path between any two of them. What
+three divisions are drawn in Figure~\ref{fig:region-tree-cuts}: $15$ doors on
+$16$ cells, one path between any two of them. What
 Section~\ref{sec:unit-edge-weights} adds is a length on those doors, so that
 ``the path out'' becomes a quantity a search can minimise.

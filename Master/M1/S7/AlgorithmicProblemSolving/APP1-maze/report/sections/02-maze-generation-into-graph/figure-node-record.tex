@@ -1,0 +1,42 @@
+% The node record, before and after. It starts knowing only where it is; the
+% divisions that pass through it are the only thing that ever fills the list,
+% and a cell has at most four sides, so the list is capped at four.
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    % --- the record as created -------------------------------------------
+    \node[tree node, align=left, font=\scriptsize] (before) at (0,0)
+      {\textbf{value}\quad $(2,1)$\\[2pt]
+       \textbf{neighbours}\quad $\langle\;\rangle$};
+    \node[font=\tiny, black!70, below=1pt of before]
+      {at creation: position known, no doors yet};
+    % --- the arrow --------------------------------------------------------
+    \draw[link, thick] (2.55,0) -- node[above, font=\tiny, black!70]
+      {two divisions} node[below, font=\tiny, black!70] {link it} (4.15,0);
+    % --- the record once generation is over -------------------------------
+    \node[tree node, align=left, font=\scriptsize] (after) at (6.7,0)
+      {\textbf{value}\quad $(2,1)$\\[2pt]
+       \textbf{neighbours}\quad $\langle\,(1,1),\,(2,2)\,\rangle$};
+    \node[font=\tiny, black!70, below=1pt of after]
+      {degree $2$ of a possible $4$};
+    % --- the same thing drawn as graph ------------------------------------
+    \begin{scope}[shift={(10.3,0)}, scale=0.95]
+      \node[node vertex, label={[font=\tiny,black!70]below:$(2,1)$}] (c) at (0,0) {};
+      \node[node vertex, label={[font=\tiny,black!70]left:$(1,1)$}]  (w) at (-1.1,0) {};
+      \node[node vertex, label={[font=\tiny,black!70]below:$(2,2)$}] (s) at (0,-1.1) {};
+      \draw[door] (c) -- (w);
+      \draw[door] (c) -- (s);
+      \draw[black!35, dash pattern=on 1.5pt off 1.5pt] (c) -- (0,0.85);
+      \draw[black!35, dash pattern=on 1.5pt off 1.5pt] (c) -- (0.85,0);
+      \node[font=\tiny, black!45, above] at (0,0.85) {no door};
+      \node[font=\tiny, black!45, right] at (0.9,0) {no door};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{The node record. A node carries its coordinates and a list of the
+  neighbours it has a door to; the list is empty when the node is made and is
+  appended to only by a division whose door lands on that node. A cell has four
+  sides, so the list never exceeds four entries, and in the finished maze the
+  entries across all nodes number $2(WH-1)$ --- each door recorded once at each
+  of its two ends.}
+  \label{fig:node-record}
+\end{figure}

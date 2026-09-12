@@ -1,0 +1,47 @@
+% One division, additively: the call places its wall, links the single pair the
+% door falls on, and recurses. It never looks at the other crossings, because
+% they were never there to remove.
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.82]
+      \foreach \x in {0,1,2,3,4} \foreach \y in {0,1,2,3}
+        \node[node vertex] (u\x\y) at (\x,-\y) {};
+      \draw[door] (u21) -- (u31);
+      \draw[wall] (2.5,0.45) -- (2.5,-0.75);
+      \draw[wall] (2.5,-1.25) -- (2.5,-3.45);
+      \node[font=\tiny, wallred, above] at (2.5,0.45) {wall at $j=2$};
+      \node[font=\tiny, doorgreen, left] at (-0.2,-1) {door at $i{=}1$};
+    \end{tikzpicture}
+    \caption{The call links one pair and stops. Every other node is still
+    isolated; no crossing was examined, let alone removed.}
+    \label{fig:division-adds}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.82]
+      \foreach \x in {0,1,2,3,4} \foreach \y in {0,1,2,3}
+        \node[node vertex] (v\x\y) at (\x,-\y) {};
+      % left half, carved by the first recursive call
+      \foreach \a/\b in {v00/v10, v10/v20, v00/v01, v01/v02, v02/v03,
+                         v20/v21, v11/v21, v02/v12, v12/v22,
+                         v03/v13, v13/v23}
+        \draw[black!55] (\a) -- (\b);
+      % right half, carved by the second
+      \foreach \a/\b in {v30/v40, v30/v31, v31/v32, v32/v42, v42/v43,
+                         v32/v33, v40/v41}
+        \draw[black!55] (\a) -- (\b);
+      \draw[door] (v21) -- (v31);
+      \draw[wall] (2.5,0.45) -- (2.5,-0.75);
+      \draw[wall] (2.5,-1.25) -- (2.5,-3.45);
+    \end{tikzpicture}
+    \caption{After both recursive calls return. Each half is a tree, and the
+    door is still the only edge between them.}
+    \label{fig:division-recursed}
+  \end{subfigure}
+  \caption{One division, with $t=1$. The call draws the wall position $j$ and
+  the door position $i$, links $(j,i)$ to $(j{+}1,i)$, and recurses on the two
+  halves. Counting edges: $11$ on the left, $7$ on the right, one door, total
+  $19=20-1$ on $20$ cells --- the tally of
+  Proposition~\ref{prop:generation-is-a-tree}, assembled one edge per call.}
+  \label{fig:one-division-step}
+\end{figure}
