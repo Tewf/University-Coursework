@@ -1,56 +1,55 @@
-# APP1 maze — C++ implementation
+# APP1 maze — C implementation
 
-Generates a random maze by recursive division, then finds the route out of it,
-measuring how much of the maze each search setting had to look at.
+Generates a maze by recursive division, returning **two** structures, and finds
+the route out of each — then measures what each way cost.
 
-The handout leaves code optional and provides a C skeleton. This is written in
-C++ instead, against the algorithms derived in [../report/](../report/).
+C11, one Makefile, nothing outside the standard library, built with
+`-Wall -Wextra -Wpedantic -Werror`.
 
-## Building and running
-
-```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build
-
-./build/maze 24 16 7 maze.svg   # width height seed output
-./build/benchmark 200           # the report's tables, 200 mazes per size
-```
-
-Tests need GoogleTest, which CMake fetches on first configure:
+## Running it
 
 ```bash
-cmake -S . -B build-tests -DBUILD_TESTS=ON && cmake --build build-tests
-./build-tests/tests
+make
+./maze 24 16 7 maze.svg   # width height seed output
+./benchmark 200           # the report's tables, 200 mazes per size
+make test                 # 1121 assertions
 ```
-
-C++20, `-Wall -Wextra -Wpedantic -Werror`, the course's `cmake-template` layout.
 
 ## Layout
 
 | File | Role |
 |---|---|
-| `include/cell.hpp` | a cell, and the two axis operations the division needs |
-| `maze.{hpp,cpp}` | node records: coordinates and neighbour lists |
-| `maze_generator.{hpp,cpp}` | recursive division, and the region tree it builds |
-| `maze_solver.{hpp,cpp}` | Dijkstra, with a distance estimate as tie-break or as priority |
-| `maze_invariants.{hpp,cpp}` | the properties a finished maze must have |
-| `maze_svg.{hpp,cpp}` | drawing a maze, and a route through it |
-| `tests/tests.cpp` | the invariants, on shapes including 1x1, 1x40, 40x1 |
-| `tests/benchmark.cpp` | the measurements the report's tables come from |
+| `cell.{h,c}` | a cell, and the axis operations the division needs |
+| `maze.{h,c}` | **first output**: cells, coordinates, neighbour lists |
+| `region_tree.{h,c}` | **second output**: divisions, doors, addresses |
+| `generator.{h,c}` | recursive division, filling both outputs at once |
+| `solver.{h,c}` | Dijkstra on the graph; common-ancestor descent on the tree |
+| `invariants.{h,c}` | the properties a finished maze must have |
+| `svg.{h,c}` | drawing a maze, and a route through it |
+| `tests.c` `benchmark.c` | the checks, and the measurements |
 
-The invariants are their own module because a generator that checked its own
-work would only confirm its own assumptions.
+Two deliberate choices. The invariants are their own module, because a
+generator that checked its own work would only confirm its own assumptions. And
+randomness comes from a small `xorshift` rather than `rand()`, so a seed
+determines a maze on any machine.
 
 ## What it found
 
-Every setting returns the same route — the maze is a spanning tree, so there is
-only one — and what separates them is cells expanded. On 128x128, mean of 200
-mazes: Dijkstra 14128, either estimate as a tie-break 14124, A* with Manhattan
-13303, A* with Euclidean 13489. Manhattan as a priority wins; as a tie-break
-neither estimate does anything, for the reason Section 4 of the report proves.
+Both solvers return the same route, cell for cell — the maze is a spanning
+tree, so there is only one. What differs is how much each examines. At
+256×256, mean of 200 mazes:
+
+| | examined |
+|---|---|
+| Dijkstra | 56 193 |
+| A\* with Manhattan | 53 753 |
+| **common ancestor on the tree** | **1 776** |
+
+A factor of thirty, and the gap widens with size: `Theta(n^0.68)` against
+`Theta(n)`.
 
 ## Where the explanation lives
 
 Not here. The concepts are in the Notes vault under
 `S7/Algorithmic Problem Solving/`, and the design decisions behind these
-algorithms are in `Projects/APP1 - Maze - Report Design Decisions.md` there.
+algorithms in `Projects/APP1 - Maze - Report Design Decisions.md` there.
