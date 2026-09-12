@@ -44,6 +44,18 @@ __pycache__/
 .RData
 *.rds
 
+# LaTeX. Le PDF compilé est le livrable et reste suivi ; ce que pdflatex et
+# latexmk reconstruisent à chaque passe ne l'est pas.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
 # Quarto
 _site/
 _freeze/
