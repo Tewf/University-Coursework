@@ -1,49 +1,61 @@
-% Section 1: the problem stated, restated as a graph problem, and the one
-% property (the maze is a spanning tree) that makes the rest of the report
-% possible. No algorithm appears here.
+% Section 1: what is being asked, restated as a graph problem, and the one
+% property (the maze is a spanning tree) the rest of the report rests on.
+% No algorithm appears here, and no argument against a design not taken.
 \section{Problem formulation}
 \label{sec:problem-formulation}
 
 \subsection{Statement}
 
-A rectangular area of $W\times H$ unit cells is to be laid out as a maze. The
-layout must be drawn at random, so that $W$ and $H$ do not determine it; the
-area is enclosed and has a single exit; and it is entered at an arbitrary
-cell. Two problems follow, and both are to be settled algorithmically
-before any implementation and then analysed for cost:
+A rectangular area of $W\times H$ unit cells is to be laid out as a maze.
 
-\begin{enumerate}[label=\arabic*.,leftmargin=*]
-  \item given the width and the height of the initial area, generate a maze;
-  \item find the path from any position in the maze to the exit, which the
-        specification states is unique and hence shortest.
+Three things are fixed. The layout is drawn \keyterm{at random}, so $W$ and $H$
+do not determine it. The area is \keyterm{enclosed} and has a single
+\keyterm{exit}. It is entered at an arbitrary cell.
+
+Two problems follow. Both are settled on paper first, then analysed for cost.
+
+\begin{enumerate}[label=\arabic*.,leftmargin=*,itemsep=2pt]
+  \item Given the width and the height of the initial area, generate a maze.
+  \item Find the path from any position in the maze to the exit. The
+        specification states it is unique, hence shortest.
 \end{enumerate}
 
-The construction is prescribed. Divide the allocated space with a full wall
-across its longest dimension, leave exactly one door in that wall, and apply
-the same rule to each of the two spaces this creates.
-Figure~\ref{fig:construction-rule} is the entire rule; everything the report
-derives follows from it.
+The construction is prescribed.
 
-``At random'' constrains one half of the output and not the other. The cells
-are fixed by $W$ and $H$: the same $WH$ positions appear in every run, and
-their coordinates are public knowledge the moment the dimensions are. What must
-not be predictable is \emph{which doors were kept} --- the edge set. The
-requirement is therefore on the draws, not on the storage: the wall and door
-positions must come from a genuine random source, because any rule that derives
-them from the geometry alone (the midpoint, say) makes the maze a function of
-$W$ and $H$ and reconstructible by anyone holding those two numbers.
+\begin{keypoint}
+Divide the allocated space with a full \wallword{wall} across its longest
+dimension. Leave exactly one \doorword{door} in that wall. Apply the same rule
+to each of the two spaces this creates.
+\end{keypoint}
+
+Figure~\ref{fig:construction-rule} is the entire rule. Everything below follows
+from it.
 
 \input{figure-construction-rule.tex}
 
+\paragraph{What ``at random'' binds.}
+Half the output, not all of it.
+
+The cells are fixed by $W$ and $H$. The same $WH$ positions appear in every run,
+and their coordinates are public the moment the dimensions are.
+
+What must be unpredictable is \keyterm{which doors were kept} --- the edge set.
+
+So the requirement falls on the draws, not on the storage. A rule that takes the
+wall from the geometry, the midpoint say, makes the maze a function of $W$ and
+$H$. Anyone holding those two numbers could rebuild it.
+
 \subsection{From a drawing of walls to a graph}
 
-A maze drawn on paper is a picture of walls; what an algorithm can generate,
-store and search is a graph. The translation is the first decision of this
-report, and every later section rests on it.
+A maze on paper is a picture of walls. What an algorithm can generate, store and
+search is a graph.
+
+That translation is the first decision of this report, and every later section
+rests on it.
 
 \begin{definition}[Area, cells, grid graph]
-Let $W,H\in\mathbb{N}^{*}$ be the width and the height of the allocated area,
-measured in unit cells. The cells are
+Let $W,H\in\mathbb{N}^{*}$ be the width and the height of the area, in unit
+cells. The cells are
 \[
   \cells=\{(x,y)\in\mathbb{N}^{2}\;:\;0\le x<W,\;0\le y<H\},
   \qquad |\cells|=WH,
@@ -60,15 +72,15 @@ the cells as vertices and the adjacent pairs as edges, so
 
 \begin{definition}[Maze]
 A \emph{maze} on that area is a spanning subgraph $\maze=(\cells,E)$ with
-$E\subseteq\gridedges$. An edge of $E$ is a \emph{door}: the two cells it joins
-can be walked between. A pair of $\gridedges\setminus E$ is a \emph{wall
-segment}. One distinguished cell $\exitcell$ is the exit.
+$E\subseteq\gridedges$. An edge of $E$ is a \doorword{door}: the two cells it
+joins can be walked between. A pair of $\gridedges\setminus E$ is a
+\wallword{wall segment}. One distinguished cell $\exitcell$ is the exit.
 \end{definition}
 
-Figure~\ref{fig:maze-and-its-graph} puts the two readings of the same object
-side by side. The vertex set is fixed by $W$ and $H$ alone; generating a maze
-therefore means nothing more than \emph{choosing which subset of
-$\gridedges$ to keep}.
+Figure~\ref{fig:maze-and-its-graph} shows the two readings of one object.
+
+The vertex set is fixed by $W$ and $H$ alone. So generating a maze means nothing
+more than \keyterm{choosing which subset of $\gridedges$ to keep}.
 
 \input{figure-maze-and-its-graph.tex}
 
@@ -76,23 +88,22 @@ $\gridedges$ to keep}.
 
 Three requirements follow from the statement.
 
-\begin{enumerate}[label=(R\arabic*),leftmargin=*]
-  \item \textbf{Every cell reaches the exit.} The entry position is arbitrary,
-        so any cell may be a starting point and each must have a route out:
-        $\maze$ is connected.
-  \item \textbf{There is exactly one exit.} Exactly one cell is designated
+\begin{enumerate}[label=(R\arabic*),leftmargin=*,itemsep=4pt]
+  \item \keyterm{Every cell reaches the exit.} The entry position is arbitrary,
+        so any cell may be a start and each must have a route out. $\maze$ is
+        connected.
+  \item \keyterm{There is exactly one exit.} One cell is designated
         $\exitcell$. It is a \emph{cell}, not a gap in the outer wall: the area
-        is enclosed on every side, and the exit is the one place that leads out
-        of it --- a stair or a shaft, in an area dug under a building. It may
-        therefore lie anywhere, including strictly inside.
-  \item \textbf{The route out does not fork.} The path to the exit is required
-        to be unique, hence shortest; a cycle in $\maze$ would give two
-        distinct simple routes between the cells it passes through, so $\maze$
-        is acyclic.
+        is enclosed on every side, and the exit is the one place leading out of
+        it. It may lie anywhere, including strictly inside.
+  \item \keyterm{The route out does not fork.} The path to the exit is required
+        to be unique, hence shortest. A cycle in $\maze$ would give two distinct
+        simple routes between the cells it passes through, so $\maze$ is
+        acyclic.
 \end{enumerate}
 
-Connected and acyclic on a fixed vertex set is a spanning tree, which settles
-the shape of the answer before any algorithm is written.
+Connected and acyclic on a fixed vertex set is a spanning tree. The shape of the
+answer is settled before any algorithm is written.
 
 \begin{proposition}[The object to produce]
 \label{prop:spanning-tree}
@@ -102,63 +113,51 @@ $|E|=WH-1$ doors, and between any two cells there is exactly one simple path,
 which is therefore also a shortest one.
 \end{proposition}
 
-That last clause is what makes the second problem well posed: asking for
-\emph{the} path out is only meaningful because there is one. It is also the
-lever for the rest of the report --- Section~\ref{sec:maze-generation} shows
-that the construction rule produces such a tree \emph{by construction} rather
-than by checking afterwards.
+That last clause is what makes Problem~2 well posed. Asking for \emph{the} path
+out is only meaningful because there is one.
+
+It is also the lever for the rest of the report:
+Section~\ref{sec:maze-generation} produces such a tree \keyterm{by
+construction}, rather than by checking afterwards.
 
 \subsection{Constraints on the exit}
 \label{sec:exit-constraints}
 
-Three questions about $\exitcell$ are worth settling before an algorithm is
-written. None of the three turns out to constrain the construction, but two of
-them invite an answer that would.
+Three questions about $\exitcell$, none of which constrains the construction.
 
-\begin{description}[leftmargin=*,style=nextline]
-  \item[When is it chosen --- before or after generation?] After, and it can
-    only be after in any useful sense. Generation takes $W$ and $H$ and nothing
-    else; by Proposition~\ref{prop:spanning-tree} the maze it returns makes
-    every cell reachable from every other, so \emph{any} cell designated
-    afterwards is reachable from all of them. Choosing first would change
-    nothing about what is built, because there is no step in the construction
-    that could consult it. Section~\ref{sec:maze-generation} never does.
-  \item[Must it be on the boundary?] No. This is the tempting answer and it is
-    wrong. The exit is a cell of the area, not a hole in the wall enclosing it,
-    so nothing obliges it to touch the perimeter --- and the subject's own
-    worked example puts it several cells inside one, with the outer wall drawn
-    closed the whole way round. An area dug beneath a building leaves it by a
-    stair, and a stair can be anywhere.
-  \item[Must it have exactly one door?] No, and requiring it would be a
-    mistake. Uniqueness of the route out comes from $\maze$ being a tree, not
-    from the exit's degree: whether $\exitcell$ has $1$, $2$, $3$ or $4$ doors,
-    there is still exactly one simple path to it from anywhere. Worse, the
-    constraint can be unsatisfiable --- a spanning tree of $\gridgraph$ need not
-    place any of its leaves where one is wanted, so demanding a degree-one exit
-    at a chosen position can rule out a maze the construction legitimately
-    produced.
+\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
+  \item[Chosen before or after generation?] After. Generation takes $W$ and $H$
+    and nothing else, and no step of it could consult an exit. By
+    Proposition~\ref{prop:spanning-tree} every cell is reachable from every
+    other, so any cell designated afterwards works.
+  \item[On the boundary?] No. The exit is a cell of the area, not a hole in the
+    wall enclosing it, so nothing obliges it to touch the perimeter.
+  \item[Exactly one door?] No. Uniqueness of the route out comes from $\maze$
+    being a tree, not from the exit's degree: with $1$, $2$, $3$ or $4$ doors
+    there is still exactly one simple path to it from anywhere.
 \end{description}
 
-So the exit carries no constraint at all: it is a label applied to a finished
-tree, and every cell is an equally valid candidate. The report treats it as one,
-and Figure~\ref{fig:maze-and-its-graph} marks an interior cell of degree $3$ to
-make the point.
+\begin{keypoint}
+The exit carries no constraint. It is a \keyterm{label applied to a finished
+tree}, and every cell is an equally valid candidate.
+Figure~\ref{fig:maze-and-its-graph} marks an interior one of degree $3$.
+\end{keypoint}
 
 \subsection{The two problems, restated on the graph}
 
-\begin{description}[leftmargin=*,style=nextline]
+\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
   \item[Problem 1 --- Generation.] Given $W$, $H$ and a source of random bits,
-    produce a spanning tree $\maze$ of $\gridgraph$, drawn at random so that no
-    two runs need agree, together with the structure that records how it was
-    built. The exit is not an input: any cell is designated $\exitcell$ once
-    $\maze$ exists.
-  \item[Problem 2 --- Escape.] Given $\maze$ and any start cell
-    $s\in\cells$, return the unique simple path from $s$ to $\exitcell$.
+    produce a spanning tree $\maze$ of $\gridgraph$, drawn so that no two runs
+    need agree, together with the structure recording how it was built. The
+    exit is not an input.
+  \item[Problem 2 --- Escape.] Given $\maze$ and any start cell $s\in\cells$,
+    return the unique simple path from $s$ to $\exitcell$.
 \end{description}
 
-Problem~1 is solved in Section~\ref{sec:maze-generation}. Problem~2 needs a
-notion of length before it can be measured: Section~\ref{sec:unit-edge-weights}
-gives every door weight $1$, and Section~\ref{sec:shortest-path} runs the
+Problem~1 is solved in Section~\ref{sec:maze-generation}.
+
+Problem~2 needs a notion of length first. Section~\ref{sec:unit-edge-weights}
+gives every door weight $1$; Section~\ref{sec:shortest-path} runs the
 shortest-path search that weight makes meaningful, guided by the Manhattan and
 Euclidean distances.
 
@@ -171,8 +170,8 @@ Euclidean distances.
   \midrule
   $W$, $H$            & width and height of the area, in cells \\
   $n=WH$              & number of cells, the size of the input \\
-  $(x,y)$             & cell in column $x$ (left to right) and row $y$ (top to bottom) \\
-  $\gridgraph$, $\gridedges$ & the grid graph and its edges: every adjacency, all doors open \\
+  $(x,y)$             & cell in column $x$ (left to right), row $y$ (top to bottom) \\
+  $\gridgraph$, $\gridedges$ & the grid graph and its edges: every adjacency \\
   $\maze=(\cells,E)$  & the maze produced: a spanning tree of $\gridgraph$ \\
   $\exitcell$         & the single exit cell, anywhere in $\cells$ \\
   $\region{x_0,y_0}{x_1,y_1}$ & a region, by its upper-left and lower-right cells \\
@@ -182,10 +181,9 @@ Euclidean distances.
 
 \subsection{Scope of the deliverable}
 
-The specification fixes the contents and not only the topic: a data structure
-with a statement of what it holds, an algorithm for each of the two problems,
-the size of that structure and the cost of both algorithms. The table below is
-the report's own checklist against that list.
+The specification fixes the contents, not only the topic: a data structure and
+what it holds, an algorithm per problem, the size of that structure, and the
+cost of both algorithms.
 
 \begin{center}
 \begin{tabular}{@{}lll@{}}
@@ -194,10 +192,10 @@ the report's own checklist against that list.
   \midrule
   Data structure, and what it stores & Section~\ref{sec:maze-generation} & done \\
   Maze generation algorithm          & Section~\ref{sec:maze-generation} & done \\
-  Cost of a door, and what a path costs & Section~\ref{sec:unit-edge-weights} & to write \\
+  Cost of a door, and of a path      & Section~\ref{sec:unit-edge-weights} & to write \\
   Path-finding algorithm             & Section~\ref{sec:shortest-path} & to write \\
-  Implementation (optional in the specification) & Section~\ref{sec:python-testing} & to write \\
-  Size of the structure, complexity of both algorithms & Section~\ref{sec:analysis} & to write \\
+  Implementation (optional)          & Section~\ref{sec:python-testing} & to write \\
+  Size of the structure, cost of both algorithms & Section~\ref{sec:analysis} & to write \\
   \bottomrule
 \end{tabular}
 \end{center}
