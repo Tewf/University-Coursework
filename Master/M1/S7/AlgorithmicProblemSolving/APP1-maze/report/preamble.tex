@@ -1,0 +1,73 @@
+% Everything the document needs before the first section: packages, page setup,
+% the theorem and pseudocode environments, the drawing styles shared by every
+% figure, and the notation macros. Sections and figures declare nothing of their
+% own, so one edit here restyles the whole report.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,fit,positioning,backgrounds}
+\usepackage{import}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+% --- Shared palette ------------------------------------------------------
+% Named by the role each colour plays in a figure, not by the colour itself,
+% so a change of palette does not turn every caption into a lie.
+\definecolor{linkblue}{HTML}{1F4E79}
+\definecolor{doorgreen}{HTML}{2E7D32}   % an edge kept: a door
+\definecolor{wallred}{HTML}{C62828}     % an edge deleted: a wall segment
+\definecolor{cellgrey}{HTML}{ECEFF1}    % the area a region covers
+\definecolor{exitorange}{HTML}{E65100}  % the single exit cell
+
+\hypersetup{colorlinks=true,linkcolor=linkblue,citecolor=linkblue,urlcolor=linkblue}
+
+% --- Shared drawing styles ----------------------------------------------
+\tikzset{
+  cell/.style     = {draw=black!45, fill=cellgrey, minimum size=9mm},
+  node vertex/.style = {circle, draw=black!70, fill=white, inner sep=0pt,
+                        minimum size=4.2mm, font=\scriptsize},
+  exit vertex/.style = {node vertex, draw=exitorange, very thick,
+                        fill=exitorange!12},
+  door/.style     = {doorgreen, line width=1.1pt},
+  wall/.style     = {wallred, line width=1.1pt, dash pattern=on 2pt off 2pt},
+  wall segment/.style = {wallred, line width=1.6pt},
+  region/.style   = {draw=black!60, fill=cellgrey, thick},
+  link/.style     = {-{Stealth[length=2mm]}, black!65},
+  tree node/.style = {draw=black!70, rounded corners=1.5pt, inner sep=2.5pt,
+                      font=\scriptsize, fill=white},
+  tree leaf/.style = {tree node, draw=doorgreen!80!black, fill=doorgreen!8},
+  tree edge/.style = {black!55},
+}
+
+% --- Theorem-like environments ------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% --- Notation ------------------------------------------------------------
+% The report says "the grid graph" and "the maze" constantly; these keep the
+% symbols identical in prose, in displays and in pseudocode.
+\newcommand{\gridgraph}{G_{\text{grid}}}
+\newcommand{\gridedges}{E_{\text{grid}}}
+\newcommand{\maze}{M}
+\newcommand{\cells}{V}
+\newcommand{\region}[2]{[#1]\times[#2]}
+\newcommand{\exitcell}{v_{\text{exit}}}
+\SetKwProg{Fn}{Function}{:}{}

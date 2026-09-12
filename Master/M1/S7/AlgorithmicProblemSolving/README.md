@@ -55,6 +55,7 @@ AlgorithmicProblemSolving/
 |-- APP1-maze/
 |   |-- handout/               <- the subject PDF beside its .txt extraction
 |   |-- README.md steps.json steps/   <- the ask in my words, one page per question
+|   |-- report/                <- the deliverable, one LaTeX folder per section
 |   |-- main.c maze.h svg.c/.h Makefile   <- the provided skeleton, and my maze.c
 |   |-- code-as-downloaded.tar.gz
 |-- APP2-candy-crush/ ... APP4-hole-drilling/

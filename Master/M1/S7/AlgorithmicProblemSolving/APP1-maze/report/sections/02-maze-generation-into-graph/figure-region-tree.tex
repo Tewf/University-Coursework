@@ -1,0 +1,55 @@
+% The picture and the data structure are the same object seen twice: every wall
+% drawn on the left is one internal node on the right, and the parameters
+% labelling that node are exactly the t, j and i the algorithm drew.
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.36\textwidth}\centering
+    \begin{tikzpicture}[scale=0.78]
+      \fill[cellgrey] (0,0) rectangle (4,-4);
+      \draw[black!60] (0,0) rectangle (4,-4);
+      \draw[black!20] (1,0) -- (1,-4); \draw[black!20] (3,0) -- (3,-4);
+      \draw[black!20] (0,-1) -- (4,-1); \draw[black!20] (0,-2) -- (4,-2);
+      \draw[black!20] (0,-3) -- (4,-3);
+      % cut A: the root, a vertical wall at j=1 with its door at row i=1
+      \draw[wall segment] (2,0) -- (2,-1);
+      \draw[wall segment] (2,-2) -- (2,-4);
+      \draw[door] (2,-1) -- (2,-2);
+      \node[wallred, font=\scriptsize\bfseries] at (2.35,0.28) {A};
+      % cut B: inside the left half, a horizontal wall at j=1, door at column 0
+      \draw[wall segment] (1,-2) -- (2,-2);
+      \draw[door] (0,-2) -- (1,-2);
+      \node[wallred, font=\scriptsize\bfseries] at (-0.32,-2) {B};
+      % cut C: inside the right half, a horizontal wall at j=2, door at column 3
+      \draw[wall segment] (2,-3) -- (3,-3);
+      \draw[door] (3,-3) -- (4,-3);
+      \node[wallred, font=\scriptsize\bfseries] at (4.32,-3) {C};
+    \end{tikzpicture}
+    \caption{The first three cuts of a $4\times4$ area.}
+    \label{fig:region-tree-cuts}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.60\textwidth}\centering
+    \begin{tikzpicture}[scale=1.0, level distance=13mm,
+      level 1/.style={sibling distance=42mm},
+      level 2/.style={sibling distance=21mm}]
+      \node[tree node] {A: $t{=}1,\,j{=}1,\,i{=}1$}
+        child {node[tree node] {B: $t{=}0,\,j{=}1,\,i{=}0$}
+          child {node[tree leaf] {$\region{0,1}{0,1}$}}
+          child {node[tree leaf] {$\region{0,1}{2,3}$}}
+        }
+        child {node[tree node] {C: $t{=}0,\,j{=}2,\,i{=}3$}
+          child {node[tree leaf] {$\region{2,3}{0,2}$}}
+          child {node[tree leaf] {$\region{2,3}{3,3}$}}
+        };
+    \end{tikzpicture}
+    \caption{The top of the region tree it builds. The four boxes at the bottom
+    are regions still to be cut, not cells.}
+    \label{fig:region-tree-tree}
+  \end{subfigure}
+  \caption{Cuts and tree nodes are in bijection. An internal node records the
+  orientation $t$, the wall position $j$ and the door position $i$ that made
+  the cut, and its two children are the two regions the cut created; a leaf is
+  a single cell. Carrying this $4\times4$ example down to its leaves gives $16$
+  leaves and $15$ internal nodes --- one per door, matching the $WH-1$ edges of
+  Proposition~\ref{prop:spanning-tree}.}
+  \label{fig:region-tree}
+\end{figure}

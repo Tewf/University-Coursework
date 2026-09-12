@@ -6,9 +6,13 @@ optional.
 
 ## State
 
-Not started. Each question's reasoning, what was rejected and the reference
-that settled it are in [steps/](steps/index.html), where the abridged
-questions are listed too.
+Under way. The deliverable is written in [report/](report/), one LaTeX folder
+per section: the maze is stated as a graph problem and the generation
+algorithm is derived and proved, the four sections after that are headings so
+far. Implementing it in C is still optional and untouched.
+
+Each question's reasoning, what was rejected and the reference that settled it
+are in [steps/](steps/index.html), where the abridged questions are listed too.
 
 ## What the handout provides
 

@@ -1,0 +1,44 @@
+% One turn of the loop in Algorithm 2, shown on the graph rather than on the
+% drawing: the region arrives with every crossing edge present and leaves with
+% exactly one of them kept.
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.82]
+      \foreach \x in {0,1,2,3,4} \foreach \y in {0,1,2,3}
+        \node[node vertex] (u\x\y) at (\x,-\y) {};
+      \foreach \x/\xn in {0/1,1/2,2/3,3/4} \foreach \y in {0,1,2,3}
+        \draw[black!45] (u\x\y) -- (u\xn\y);
+      \foreach \y/\yn in {0/1,1/2,2/3} \foreach \x in {0,1,2,3,4}
+        \draw[black!45] (u\x\y) -- (u\x\yn);
+    \end{tikzpicture}
+    \caption{On entry the region is the full grid graph on
+    $\region{a_0,a_1}{b_0,b_1}$: connected, and full of cycles.}
+    \label{fig:partition-before}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.82]
+      \foreach \x in {0,1,2,3,4} \foreach \y in {0,1,2,3}
+        \node[node vertex] (w\x\y) at (\x,-\y) {};
+      \foreach \x/\xn in {0/1,1/2,3/4} \foreach \y in {0,1,2,3}
+        \draw[black!45] (w\x\y) -- (w\xn\y);
+      \foreach \y/\yn in {0/1,1/2,2/3} \foreach \x in {0,1,2,3,4}
+        \draw[black!45] (w\x\y) -- (w\x\yn);
+      \draw[door] (w21) -- (w31);
+      \draw[wall] (2.5,0.45) -- (2.5,-0.75);
+      \draw[wall] (2.5,-1.25) -- (2.5,-3.45);
+      \node[font=\tiny, wallred, above] at (2.5,0.45) {wall at $j=2$};
+      \node[font=\tiny, doorgreen, left] at (-0.2,-1) {door at $i{=}1$};
+    \end{tikzpicture}
+    \caption{On exit every edge crossing column boundary $j$ is gone except the
+    one at row $i$.}
+    \label{fig:partition-after}
+  \end{subfigure}
+  \caption{One partition step, with $t=1$ (a vertical wall). The loop walks
+  $k$ over the rows $b_0..b_1$ of the region and deletes the edge
+  $(j,k)\!-\!(j{+}1,k)$ for every $k\neq i$. The two halves stay connected
+  internally, and the single surviving edge is the only way between them ---
+  which is exactly the induction step of
+  Proposition~\ref{prop:generation-is-a-tree}.}
+  \label{fig:one-partition-step}
+\end{figure}

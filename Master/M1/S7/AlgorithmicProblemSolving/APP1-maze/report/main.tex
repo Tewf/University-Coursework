@@ -1,0 +1,43 @@
+% APP1 "Be Amazed" deliverable -- Algorithmic Problem Solving, M1 AI, UGA.
+%
+% This file is the skeleton and nothing else. Each section lives in its own
+% folder under sections/ and is pulled in with \subimport, so a section's
+% figures sit next to the prose that cites them and are \input by bare name.
+% To reorder the report, reorder the calls below; to rewrite a section, open
+% one folder.
+
+\documentclass[11pt,a4paper]{article}
+\input{preamble.tex}
+
+\title{Be Amazed: generating a maze as a graph\\
+       and walking it back to the exit}
+\author{Mohamed Ali Tewfik Hamlil}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Minos wants mazes that nobody can predict from a blueprint, with a single exit
+and a route out from anywhere inside. This report turns that request into a
+graph problem, builds the maze by recursive division so that the object
+produced is a spanning tree of the grid graph, then reads the escape route off
+that tree. Giving every door unit length makes the tree metric the number of
+doors crossed, which is what the shortest-path search of
+Section~\ref{sec:shortest-path} measures and what the Manhattan and Euclidean
+distances are compared against as heuristic guidance. A Python implementation
+is used to check the claims on generated instances, and the closing section
+puts costs on the data structure and on both algorithms.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\subimport{sections/01-problem-formulation/}{section.tex}
+\subimport{sections/02-maze-generation-into-graph/}{section.tex}
+\subimport{sections/03-unit-edge-weights/}{section.tex}
+\subimport{sections/04-shortest-path-with-distance-heuristic/}{section.tex}
+\subimport{sections/05-python-implementation-and-testing/}{section.tex}
+\subimport{sections/06-complexity-and-result-analysis/}{section.tex}
+
+\end{document}

@@ -1,0 +1,147 @@
+% Section 1: what is being asked, restated as a graph problem, plus the one
+% property (the maze is a spanning tree) that makes the rest of the report
+% possible. No algorithm appears here.
+\section{Problem formulation}
+\label{sec:problem-formulation}
+
+\subsection{The request}
+
+Minos asks for mazes that are generated at random, so that owning the
+blueprints tells nobody anything, built under the palace with \emph{one} exit
+and reachable from \emph{many} entries scattered through the floor above. Two
+things are wanted: a way to build such a maze, and a way to walk out of it from
+wherever a trap-door happens to drop you.
+
+The suggested construction is already the answer to the first half: divide the
+allocated space with a full wall across its longest dimension, leave exactly
+one door in that wall, and apply the same reasoning to the two spaces this
+creates. Figure~\ref{fig:construction-rule} is the whole rule.
+
+\input{figure-construction-rule.tex}
+
+\subsection{From a drawing of walls to a graph}
+
+A maze drawn on paper is a picture of walls; what an algorithm can generate,
+store and search is a graph. The translation is the first decision of this
+report, and every later section rests on it.
+
+\begin{definition}[Area, cells, grid graph]
+Let $W,H\in\mathbb{N}^{*}$ be the width and the height of the allocated area,
+measured in unit cells. The cells are
+\[
+  \cells=\{(x,y)\in\mathbb{N}^{2}\;:\;0\le x<W,\;0\le y<H\},
+  \qquad |\cells|=WH,
+\]
+and two cells are \emph{adjacent} when they share a side, that is when
+$|x-x'|+|y-y'|=1$. The \emph{grid graph} $\gridgraph=(\cells,\gridedges)$ has
+the cells as vertices and the adjacent pairs as edges, so
+\[
+  |\gridedges| \;=\; \underbrace{H(W-1)}_{\text{horizontal}}
+                  +\underbrace{W(H-1)}_{\text{vertical}}
+               \;=\; 2WH-W-H .
+\]
+\end{definition}
+
+\begin{definition}[Maze]
+A \emph{maze} on that area is a spanning subgraph $\maze=(\cells,E)$ with
+$E\subseteq\gridedges$. An edge of $E$ is a \emph{door}: the two cells it joins
+can be walked between. A pair of $\gridedges\setminus E$ is a \emph{wall
+segment}. One distinguished boundary cell $\exitcell$ is the exit.
+\end{definition}
+
+Figure~\ref{fig:maze-and-its-graph} puts the two readings of the same object
+side by side. The vertex set is fixed by $W$ and $H$ alone; generating a maze
+therefore means nothing more than \emph{choosing which subset of
+$\gridedges$ to keep}.
+
+\input{figure-maze-and-its-graph.tex}
+
+\subsection{What the request forces \texorpdfstring{$E$}{E} to be}
+
+Three requirements can be read directly off the situation.
+
+\begin{enumerate}[label=(R\arabic*),leftmargin=*]
+  \item \textbf{Every cell can get out.} Entries are trap-doors scattered
+        anywhere in the palace, so any cell may be a starting point and each
+        must reach $\exitcell$: $\maze$ is connected.
+  \item \textbf{There is one exit.} $\exitcell$ is a single cell on the
+        boundary of the area, and the outer wall is closed everywhere else.
+  \item \textbf{The way out does not fork.} The handout calls the path to the
+        exit \emph{unique, hence shortest}; a cycle in $\maze$ would give two
+        distinct simple routes between the cells it passes through, so $\maze$
+        is acyclic.
+\end{enumerate}
+
+Connected and acyclic on a fixed vertex set is a spanning tree, which settles
+the shape of the answer before any algorithm is written.
+
+\begin{proposition}[The object to produce]
+\label{prop:spanning-tree}
+A subgraph $\maze=(\cells,E)$ of $\gridgraph$ satisfies \textup{(R1)} and
+\textup{(R3)} if and only if it is a spanning tree of $\gridgraph$. It then has
+$|E|=WH-1$ doors, and between any two cells there is exactly one simple path,
+which is therefore also a shortest one.
+\end{proposition}
+
+That last clause is what makes the second problem well posed: asking for
+\emph{the} path out is only meaningful because there is one. It is also the
+lever for the rest of the report --- Section~\ref{sec:maze-generation} shows
+that the construction rule produces such a tree \emph{by construction} rather
+than by checking afterwards.
+
+\subsection{The two problems, stated}
+
+\begin{description}[leftmargin=*,style=nextline]
+  \item[Problem 1 --- Generation.] Given $W$, $H$, an exit cell $\exitcell$ and
+    a source of random bits, produce a spanning tree $\maze$ of $\gridgraph$,
+    drawn at random so that no two runs need agree, together with the
+    structure that records how it was built.
+  \item[Problem 2 --- Escape.] Given $\maze$ and any start cell
+    $s\in\cells$, return the unique simple path from $s$ to $\exitcell$.
+\end{description}
+
+Problem~1 is solved in Section~\ref{sec:maze-generation}. Problem~2 needs a
+notion of length before it can be measured: Section~\ref{sec:unit-edge-weights}
+gives every door weight $1$, and Section~\ref{sec:shortest-path} runs the
+shortest-path search that weight makes meaningful, guided by the Manhattan and
+Euclidean distances.
+
+\subsection{Conventions}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+  \toprule
+  Symbol & Meaning \\
+  \midrule
+  $W$, $H$            & width and height of the area, in cells \\
+  $n=WH$              & number of cells, the size of the input \\
+  $(x,y)$             & cell in column $x$ (left to right) and row $y$ (top to bottom) \\
+  $\gridgraph$, $\gridedges$ & the grid graph and its edges: every adjacency, all doors open \\
+  $\maze=(\cells,E)$  & the maze produced: a spanning tree of $\gridgraph$ \\
+  $\exitcell$         & the single exit cell, on the boundary \\
+  $\region{a_0,a_1}{b_0,b_1}$ & a region: columns $a_0..a_1$, rows $b_0..b_1$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{What the deliverable has to contain}
+
+The handout fixes the contents, not just the topic: a data structure with a
+statement of what it holds, an algorithm for each of the two problems, the size
+of the structure and the cost of both algorithms. The table below is the
+report's own checklist against that list.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  Required & Where & State \\
+  \midrule
+  Data structure, and what it stores & Section~\ref{sec:maze-generation} & done \\
+  Maze generation algorithm          & Section~\ref{sec:maze-generation} & done \\
+  Cost of a door, and what a path costs & Section~\ref{sec:unit-edge-weights} & to write \\
+  Path-finding algorithm             & Section~\ref{sec:shortest-path} & to write \\
+  Implementation (optional in the handout) & Section~\ref{sec:python-testing} & to write \\
+  Size of the structure, complexity of both algorithms & Section~\ref{sec:analysis} & to write \\
+  \bottomrule
+\end{tabular}
+\end{center}
