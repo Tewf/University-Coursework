@@ -1,0 +1,48 @@
+% The separation lemma in one picture: the door of a division is on the route
+% exactly when that division puts the two endpoints on opposite sides.
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \fill[cellgrey] (0,0) rectangle (8,5);
+      \draw[black!55] (0,0) rectangle (8,5);
+      \draw[wall segment] (4,0) -- (4,2);
+      \draw[wall segment] (4,3) -- (4,5);
+      \draw[door] (4,2) -- (4,3);
+      \node[node vertex, fill=exitorange!25, draw=exitorange] (a) at (1.6,3.8) {};
+      \node[node vertex, fill=exitorange!25, draw=exitorange] (b) at (6.4,1.2) {};
+      \node[font=\tiny, above=1pt] at (a.north) {$a$};
+      \node[font=\tiny, above=1pt] at (b.north) {$b$};
+      \draw[linkblue, line width=1pt, rounded corners=3pt]
+        (a) -- (2.6,2.5) -- (4,2.5) -- (5.4,2.5) -- (b);
+      \node[font=\tiny, doorgreen, right] at (4.15,3.4) {the door};
+    \end{tikzpicture}
+    \caption{Opposite sides: the route \emph{must} cross, and the door is the
+    only crossing there is. Recurse on both halves.}
+    \label{fig:separated}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.47\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \fill[cellgrey] (0,0) rectangle (8,5);
+      \draw[black!55] (0,0) rectangle (8,5);
+      \draw[wall segment] (4,0) -- (4,2);
+      \draw[wall segment] (4,3) -- (4,5);
+      \draw[door] (4,2) -- (4,3);
+      \node[node vertex, fill=exitorange!25, draw=exitorange] (a) at (1.2,3.9) {};
+      \node[node vertex, fill=exitorange!25, draw=exitorange] (b) at (2.9,1.1) {};
+      \node[font=\tiny, above=1pt] at (a.north) {$a$};
+      \node[font=\tiny, above=1pt] at (b.north) {$b$};
+      \draw[linkblue, line width=1pt, rounded corners=3pt]
+        (a) -- (2.2,3.0) -- (1.7,2.0) -- (b);
+      \node[font=\tiny, black!55] at (6,2.5) {never entered};
+    \end{tikzpicture}
+    \caption{Same side: the route stays inside that half, and the other half is
+    never looked at. Recurse once.}
+    \label{fig:together}
+  \end{subfigure}
+  \caption{The separation lemma. Whether a division contributes a door to the
+  route is decided by a containment test on its two children --- no cell of the
+  maze is examined. The right-hand case is where the saving comes from: half the
+  region is discarded in one step.}
+  \label{fig:separation}
+\end{figure}
