@@ -1,7 +1,7 @@
 % Section 2: the node record, the generation algorithm, and the proof that what
 % comes out is the spanning tree Section 1 said it had to be. Designs that were
 % considered and rejected are argued in the vault note, not here.
-\section{Generating the maze into a graph}
+\section{Maze generation, and the two structures it returns}
 \label{sec:maze-generation}
 
 Section~\ref{sec:problem-formulation} fixed the target: a spanning tree of
@@ -11,17 +11,24 @@ This section builds one. The structure comes first, because the algorithm is
 written against it. The guarantee comes last, because the construction rule is
 what supplies it.
 
-\subsection{What has to be stored}
+\subsection{Two outputs, not one}
 
-Two different things, and confusing them is the usual way to store neither well.
+The generator fills two structures as it goes, and returns both. They are the
+same maze seen twice, and neither is derived from the other.
 
-\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
-  \item[The maze --- which doors exist.] What a walker needs, and all that
-    Problem~2 requires.
-  \item[The way it was built --- the region decomposition.] Which wall went
-    where, in what order. The binary tree the divide-and-conquer rule produces
-    for free, and the object Section~\ref{sec:analysis} measures.
+\begin{description}[leftmargin=*,style=nextline,itemsep=6pt]
+  \item[The \keyterm{graph}: which doors exist.] A set of cells, each holding
+    the neighbours it has a door to. It is what a walker needs, and what
+    Section~\ref{sec:dijkstra} searches.
+  \item[The \keyterm{binary tree}: how it was built.] One node per division,
+    recording where the wall went and where its door was left, with the two
+    sub-mazes that division created as its children. It is what
+    Section~\ref{sec:common-ancestor} reads.
 \end{description}
+
+Building the second costs nothing asymptotically --- the recursion already has
+the information, and only has to keep it --- and
+Section~\ref{sec:common-ancestor} shows it is worth thirty times its price.
 
 \subsection{The node record}
 
@@ -46,7 +53,7 @@ without searching. Figure~\ref{fig:node-record} is one node before and after.
 
 Each door is recorded at both ends, so the finished maze holds $2(WH-1)$ entries
 for $WH-1$ doors. That buys enumeration of a cell's exits in $O(\deg)$ from the
-cell alone, which is what Section~\ref{sec:shortest-path} does at every step.
+cell alone, which is what Section~\ref{sec:dijkstra} does at every step.
 
 \subsection{Regions, named by two corners}
 \label{sec:regions}
@@ -115,7 +122,7 @@ own door and nothing else; a leaf adds its corridor. A wall is never represented
 at all --- it is simply the doors that were never added.
 \end{keypoint}
 
-\subsection{The region tree}
+\subsection{The second output: the binary tree}
 
 The recursion's shape is a binary tree, one node per call.
 
@@ -282,35 +289,33 @@ ever rejected and retried.
 The uniqueness of the route out --- the whole of Problem~2 --- follows from the
 shape of the recursion, not from a property that had to be tested.
 
-\subsection{The graph that comes out}
+\subsection{What generation returns}
 
-Generation returns the set $N$ of nodes, each carrying its coordinates and the
-doors it ended up with, plus the root $r$ of the region tree.
-
-Three readings of that one result, none of them a separate copy:
+Generation returns both structures: the set $N$ of nodes, each carrying its
+coordinates and the doors it ended up with, and the root $r$ of the binary
+tree.
 
 \begin{center}
 \begin{tabular}{@{}lll@{}}
   \toprule
-  View & Held as & Used by \\
+  Output & What it holds & Solved by \\
   \midrule
-  Adjacency          & each node's neighbour list
-                     & the search of Section~\ref{sec:shortest-path} \\
-  Position           & each node's \textit{value}
-                     & the heuristics of Section~\ref{sec:shortest-path} \\
-  How it was built   & the region tree rooted at $r$
-                     & the cost analysis of Section~\ref{sec:analysis} \\
+  Graph & each node's neighbours and coordinates
+        & Dijkstra, Section~\ref{sec:dijkstra} \\
+  Binary tree & one node per division, with its door
+        & common ancestor, Section~\ref{sec:common-ancestor} \\
   \bottomrule
 \end{tabular}
 \end{center}
 
-The second row is what makes Section~\ref{sec:shortest-path} possible. A
-heuristic estimating the remaining distance to the exit needs the coordinates of
-the cell it stands on, and they are in the node.
+The coordinates in the first row are what make the heuristics of
+Section~\ref{sec:dijkstra} possible: an estimate of the remaining distance
+needs to know where the cell is.
 
 Figure~\ref{fig:maze-as-graph} is the output of one $4\times4$ run, whose first
 three divisions are drawn in Figure~\ref{fig:region-tree-cuts}: $15$ doors on
 $16$ cells, one path between any two of them.
 
-Section~\ref{sec:unit-edge-weights} adds a length to those doors, so that ``the
-path out'' becomes a quantity a search can minimise.
+Section~\ref{sec:unit-edge-weights} already gave every door a length of one
+step, so ``the route out'' is a quantity. The next two sections find it, once
+on each output.

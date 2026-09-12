@@ -1,13 +1,14 @@
 % Section 4: Dijkstra on the unit-weight maze, and the two ways a distance to
 % the exit can guide it. The ceiling on what tie-breaking can save is derived
 % here, because it is what the measurements of Section 5 confirm.
-\section{Shortest path to the exit, with distance as heuristic guidance}
-\label{sec:shortest-path}
+\section{Solving the graph output: Dijkstra}
+\label{sec:dijkstra}
 
 \subsection{Dijkstra on the maze}
 
-Every door weighs $1$ and no weight is negative, so Dijkstra's
-algorithm~\cite{dijkstra1959note} applies to $\maze$ directly.
+The first output is a graph of cells joined by doors. Every door weighs $1$ by
+Section~\ref{sec:unit-edge-weights} and no weight is negative, so Dijkstra's
+algorithm~\cite{dijkstra1959note} applies to it directly.
 
 It keeps a distance $g(v)$ for every cell, a priority queue of cells reached but
 not yet settled, and repeatedly settles the nearest one, relaxing its doors.
@@ -161,8 +162,11 @@ dead end is dropped as soon as its depth plus its estimate exceeds $d$.
 The queue is ordered by $g+h$ when the estimate is a priority and by $g$ when it
 is a tie-break, with $h$ separating equals in both cases. Setting $h\equiv0$
 recovers plain Dijkstra, so one procedure covers every row of the table in
-Section~\ref{sec:cpp-testing}.
+Section~\ref{sec:implementation}.
 
 \emph{expanded} is the figure that section reports. Every setting returns the
 same route --- Proposition~\ref{prop:spanning-tree} leaves only one --- so it is
 the only thing there is to compare.
+
+It is also what Section~\ref{sec:common-ancestor} improves on, by not searching
+the graph at all.

@@ -21,29 +21,29 @@
 
 \begin{abstract}
 A rectangular area of $W\times H$ cells is laid out as a maze by recursive
-division: a full wall across the longest dimension, exactly one door in it, and
-the same rule inside each of the two halves. This report states that as a graph
-problem, shows that the requirements force the maze to be a spanning tree of
-the grid graph, and derives a generation algorithm together with the data
-structure it runs on and a proof that what it returns is that spanning tree.
-Giving every door unit weight makes the length of a route the number of doors
-crossed, which is what the shortest-path search of
-Section~\ref{sec:shortest-path} minimises and what the Manhattan and Euclidean
-distances are compared against as heuristic guidance. A C++ implementation
-measures the claims on generated instances, and the closing section gives the
-cost of both algorithms and places them against the literature.
+division: a full wall across a dimension, exactly one door in it, and the same
+rule inside each of the two halves. The requirements force the result to be a
+spanning tree of the grid graph, and the generator returns it \emph{twice}: as
+a graph of cells joined by doors, and as a binary tree recording which division
+made which sub-maze. Each structure has its own way out. The graph is searched
+with Dijkstra's algorithm, every door costing one step; the tree is read with a
+lowest-common-ancestor descent, which never touches a cell. Both return the
+same route --- the maze is a tree, so there is only one --- so what separates
+them is how much they examine, and the tree wins by a factor of thirty. A C
+implementation measures every claim, and the closing section puts costs on all
+of it and against the literature.
 \end{abstract}
 
 \clearpage
 \tableofcontents
 \clearpage
 
-\subimport{sections/01-problem-formulation/}{section.tex}
-\subimport{sections/02-maze-generation-into-graph/}{section.tex}
-\subimport{sections/03-unit-edge-weights/}{section.tex}
-\subimport{sections/04-shortest-path-with-distance-heuristic/}{section.tex}
-\subimport{sections/05-cpp-implementation-and-testing/}{section.tex}
-\subimport{sections/06-complexity-and-result-analysis/}{section.tex}
+\subimport{sections/01-problem-analysis-and-formulation/}{section.tex}
+\subimport{sections/02-maze-generation-two-outputs/}{section.tex}
+\subimport{sections/03-dijkstra-on-the-graph/}{section.tex}
+\subimport{sections/04-common-ancestor-on-the-tree/}{section.tex}
+\subimport{sections/05-c-implementation/}{section.tex}
+\subimport{sections/06-time-analysis-and-comparison/}{section.tex}
 
 \clearpage
 \bibliographystyle{plain}

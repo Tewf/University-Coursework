@@ -1,7 +1,7 @@
 # APP1 deliverable — LaTeX source
 
-Random maze generation by recursive division, and shortest-path search to the
-exit: the APP1 deliverable, stated and solved as a graph problem.
+Random maze generation by recursive division, returning two structures, and a
+way out of each: Dijkstra on the graph, a common-ancestor descent on the tree.
 
 ## Building it
 
@@ -11,7 +11,7 @@ make clean
 ```
 
 `latexmk` and `pdflatex` come from the TinyTeX install; the packages beyond a
-base TeX Live are `algorithm2e`, `import` and `pgfplots`.
+base TeX Live are `algorithm2e`, `import`, `pgfplots` and `tcolorbox`.
 
 ## Layout
 
@@ -19,39 +19,24 @@ base TeX Live are `algorithm2e`, `import` and `pgfplots`.
 folder per section with `\subimport`, in reading order. A section folder holds
 its `section.tex` and the figures only that section cites, so a figure is
 `\input` by bare name from the file that uses it and moving a section moves its
-pictures with it. Shared setup — packages, colours, TikZ styles, notation
-macros — lives once in `preamble.tex`; sections declare none of their own.
+pictures with it. Shared setup — packages, colours, TikZ styles, emphasis
+macros — lives once in `preamble.tex`.
 
 ```
 main.tex  preamble.tex  references.bib  Makefile
-sections/01-problem-formulation/                  section.tex + 2 figures
-         02-maze-generation-into-graph/           section.tex + 4 figures
-         03-unit-edge-weights/
-         04-shortest-path-with-distance-heuristic/
-         05-cpp-implementation-and-testing/
-         06-complexity-and-result-analysis/
-region-tree-search/       a note of its own, its own Makefile and PDF
-branching-point-tree/     likewise
+sections/01-problem-analysis-and-formulation/   the problem, as a graph problem
+         02-maze-generation-two-outputs/        the generator, and both outputs
+         03-dijkstra-on-the-graph/              solving the first output
+         04-common-ancestor-on-the-tree/        solving the second output
+         05-c-implementation/                   what was built and checked
+         06-time-analysis-and-comparison/       costs, measurements, literature
 ```
 
-## The notes beside it
+## Where the numbers come from
 
-Two standalone documents, each with its own `Makefile` and PDF. They are not
-part of `main.pdf`: the report stands without them, and they follow a question
-further than a deliverable should.
-
-| Folder | Question it answers |
-|---|---|
-| [region-tree-search/](region-tree-search/) | Does the search have to touch every cell? No — the region tree locates the route in `Theta(n^0.68)` visits against Dijkstra's `Theta(n)`, and `O(log n)` memory against `Theta(n)`. |
-| [branching-point-tree/](branching-point-tree/) | Can the tree be walked greedily by parent/child/sibling, choosing the nearest to the exit? No — that is greedy best-first and it stops at a local minimum 199 runs in 200. Navigating by address instead is optimal and `Theta(log n)`. |
-
-Both borrow `preamble.tex`, so the three documents share one set of styles.
-
-## State
-
-All six sections are written, and the checklist at the end of Section 1 tracks
-the specification's requirements against them. The measurements in Sections 5
-and 6 come from [../implementation/](../implementation/).
+Every measurement is produced by [../implementation/](../implementation/) —
+`make benchmark && ./benchmark 200` — and every claim it makes about
+correctness by `make test`.
 
 ## Source material
 

@@ -7,10 +7,13 @@ optional.
 ## State
 
 Written. The deliverable is [report/](report/), one LaTeX folder per section:
-the maze stated as a graph problem, generation derived and proved, one door
-costed at one step, the search that follows, and the costs measured against
-what the literature says. Implementing it was optional; it is done anyway, in
-C++ rather than the provided C skeleton, in [implementation/](implementation/).
+the problem as a graph problem, the generator and the two structures it
+returns, Dijkstra on the graph, a common-ancestor descent on the tree, the C
+implementation, and the costs measured and compared.
+
+Implementing it was optional; it is done anyway, in
+[implementation/](implementation/), C11 with no dependency outside the standard
+library.
 
 Each question's reasoning, what was rejected and the reference that settled it
 are in [steps/](steps/index.html), where the abridged questions are listed too.
@@ -24,9 +27,10 @@ not implemented into.
 ## Running it
 
 ```bash
-cd implementation && cmake -S . -B build && cmake --build build
-./build/maze 24 16 7 maze.svg   # width height seed output
-./build/benchmark 200           # the report's measurements
+cd implementation && make
+./maze 24 16 7 maze.svg   # width height seed output
+./benchmark 200           # the report's measurements
+make test                 # 1121 assertions
 ```
 
 The provided C skeleton is not built. It is kept as it was downloaded; the

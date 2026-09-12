@@ -1,7 +1,7 @@
-% Section 1: what is being asked, restated as a graph problem, and the one
-% property (the maze is a spanning tree) the rest of the report rests on.
-% No algorithm appears here, and no argument against a design not taken.
-\section{Problem formulation}
+% Section 1: what is being asked, restated as a graph problem, what a route
+% costs, and the one property -- the maze is a spanning tree -- the rest of
+% the report rests on. No algorithm appears here.
+\section{Problem analysis and formulation}
 \label{sec:problem-formulation}
 
 \subsection{Statement}
@@ -120,6 +120,32 @@ It is also the lever for the rest of the report:
 Section~\ref{sec:maze-generation} produces such a tree \keyterm{by
 construction}, rather than by checking afterwards.
 
+\subsection{What a route costs}
+\label{sec:unit-edge-weights}
+
+A graph alone cannot answer ``the shortest way out''. It needs a length.
+
+\begin{keypoint}
+Walking from a room to an adjacent room through a \doorword{door} is
+\keyterm{one step}. Every edge of $\maze$ carries weight $w(e)=1$.
+\end{keypoint}
+
+The length of a route is then the \keyterm{number of doors it crosses}, and
+nothing else. Three things follow.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
+  \item[The weights are non-negative.] That is the one precondition Dijkstra's
+    algorithm asks of a graph~\cite{dijkstra1959note}, so
+    Section~\ref{sec:dijkstra} applies without further argument.
+  \item[Distance is depth.] With all weights equal, the cells at distance $k$
+    from a start form a layer. Section~\ref{sec:dijkstra} turns on this.
+  \item[The model has limits, and they are choices.] No weighted doors, so a
+    slow staircase cannot be expressed. No diagonal moves, so the grid is
+    $4$-connected --- which is what makes the Manhattan distance the natural
+    estimate later, where an $8$-connected grid would want the octile distance.
+    No cost for turning.
+\end{description}
+
 \subsection{Constraints on the exit}
 \label{sec:exit-constraints}
 
@@ -154,12 +180,12 @@ Figure~\ref{fig:maze-and-its-graph} marks an interior one of degree $3$.
     return the unique simple path from $s$ to $\exitcell$.
 \end{description}
 
-Problem~1 is solved in Section~\ref{sec:maze-generation}.
+Problem~1 is solved in Section~\ref{sec:maze-generation}, which returns
+\emph{two} structures rather than one.
 
-Problem~2 needs a notion of length first. Section~\ref{sec:unit-edge-weights}
-gives every door weight $1$; Section~\ref{sec:shortest-path} runs the
-shortest-path search that weight makes meaningful, guided by the Manhattan and
-Euclidean distances.
+Problem~2 is then solved twice, once on each of them:
+Section~\ref{sec:dijkstra} searches the graph, Section~\ref{sec:common-ancestor}
+reads the tree. Section~\ref{sec:analysis} compares what they cost.
 
 \subsection{Conventions}
 
@@ -190,12 +216,13 @@ cost of both algorithms.
   \toprule
   Required & Where & State \\
   \midrule
-  Data structure, and what it stores & Section~\ref{sec:maze-generation} & done \\
+  Data structures, and what they store & Section~\ref{sec:maze-generation} & done \\
   Maze generation algorithm          & Section~\ref{sec:maze-generation} & done \\
-  Cost of a door, and of a path      & Section~\ref{sec:unit-edge-weights} & done \\
-  Path-finding algorithm             & Section~\ref{sec:shortest-path} & done \\
-  Implementation (optional)          & Section~\ref{sec:cpp-testing} & done \\
-  Size of the structure, cost of both algorithms & Section~\ref{sec:analysis} & done \\
+  Cost of a door, and of a route     & Section~\ref{sec:unit-edge-weights} & done \\
+  Path-finding on the graph          & Section~\ref{sec:dijkstra} & done \\
+  Path-finding on the tree           & Section~\ref{sec:common-ancestor} & done \\
+  Implementation (optional)          & Section~\ref{sec:implementation} & done \\
+  Size of the structures, cost of every algorithm & Section~\ref{sec:analysis} & done \\
   \bottomrule
 \end{tabular}
 \end{center}

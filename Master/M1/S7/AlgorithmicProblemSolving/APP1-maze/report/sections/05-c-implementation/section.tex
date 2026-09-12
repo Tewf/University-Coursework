@@ -1,0 +1,73 @@
+% Section 5: the C implementation and what it checks. The numbers it produced
+% are in Section 6, where they are compared rather than merely listed.
+\section{Implementation in C}
+\label{sec:implementation}
+
+The subject leaves code optional and provides a skeleton in C. It is written
+here because several claims in this report are the kind that should be measured
+rather than asserted: that generation always returns a spanning tree, that both
+outputs return the same route, and that reading the tree is cheaper than
+searching the graph.
+
+\subsection{What was built}
+
+C11, one Makefile, no dependency outside the standard library, compiled with
+\texttt{-Wall -Wextra -Wpedantic -Werror}. It lives beside this report in
+\texttt{implementation/}.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+  \toprule
+  File & Role \\
+  \midrule
+  \texttt{cell.\{h,c\}}        & a cell, and the two axis operations of
+                                 Section~\ref{sec:regions} \\
+  \texttt{maze.\{h,c\}}        & the first output: nodes, coordinates, neighbours \\
+  \texttt{region\_tree.\{h,c\}} & the second output: divisions, doors, addresses \\
+  \texttt{generator.\{h,c\}}   & Algorithm~\ref{alg:generate-maze}, filling both \\
+  \texttt{solver.\{h,c\}}      & Algorithm~\ref{alg:search} on the graph,
+                                 Algorithm~\ref{alg:region-route} on the tree \\
+  \texttt{invariants.\{h,c\}}  & the properties a finished maze must have \\
+  \texttt{svg.\{h,c\}}         & drawing a maze, and a route through it \\
+  \texttt{tests.c}             & the checks below \\
+  \texttt{benchmark.c}         & the measurements of Section~\ref{sec:analysis} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Two decisions are worth naming. The invariants are their own module, because a
+generator that checked its own work would only ever confirm its own
+assumptions. And the random numbers come from a small \texttt{xorshift}
+generator rather than \texttt{rand()}, so that a seed determines a maze on any
+machine and the measurements are reproducible.
+
+\subsection{What is checked}
+
+$1121$ assertions, all passing.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=4pt]
+  \item[Generation returns a spanning tree.] $WH-1$ doors, connected, no cell
+    with more than four, over ten shapes $\times$ twenty seeds including
+    $1\times1$, $1\times40$ and $40\times1$.
+  \item[A corridor is laid down whole.] A $1\times40$ area gives a tree of one
+    leaf and $39$ doors --- Section~\ref{sec:corridor-base} observed rather than
+    argued.
+  \item[The same seed gives the same maze.] Without which no measurement below
+    is reproducible.
+  \item[Both outputs agree, cell for cell.] The graph search and the tree search
+    return identical routes on every shape and seed tried. This is the claim the
+    whole of Section~\ref{sec:common-ancestor} rests on.
+  \item[Every guide returns the same route.] Plain Dijkstra and all four
+    heuristic settings agree, which is
+    Proposition~\ref{prop:spanning-tree} made visible.
+  \item[The route is walkable.] Consecutive cells on it are joined by a door.
+  \item[Bad input is refused.] A zero dimension, a door between cells that do
+    not touch, a door opened twice, a cell outside the grid.
+\end{description}
+
+\begin{keypoint}
+The fourth item is the one that matters. Two algorithms that share no code ---
+one walking the graph with a priority queue, one descending the tree with
+rectangle tests --- return \keyterm{the same cells in the same order}, every
+time.
+\end{keypoint}
