@@ -66,9 +66,22 @@ measures both because they behave very differently.
     reached at \emph{equal} cost. No computed distance changes.
   \item[As a priority.] Order the queue by $(g+h,\,h)$. This is
     A*~\cite{hart1968formal}: the estimate is added to the cost, so the search
-    leans towards the exit instead of spreading evenly. With an admissible
-    estimate the route returned is still a shortest one.
+    leans towards the exit instead of spreading evenly.
 \end{description}
+
+\begin{keypoint}
+A* does \keyterm{not} trade the shortest route for a quicker answer. With an
+admissible estimate it returns an optimal route, exactly as Dijkstra does; it
+simply settles fewer cells on the way~\cite{hart1968formal}. Indeed Dijkstra
+\emph{is} A* with $h\equiv0$ --- one algorithm, told nothing.
+\end{keypoint}
+
+The methods that do trade optimality for speed are different ones, and are not
+used here. \keyterm{Greedy best-first search} orders by $h$ alone, discarding
+$g$: fast, and neither optimal nor reliably complete. \keyterm{Weighted A*}
+orders by $g+w\,h$ with $w>1$, which returns a route at most $w$ times longer
+than the shortest. Both are worth naming because A* is often remembered as one
+of them.
 
 \subsection{What tie-breaking can and cannot do}
 
