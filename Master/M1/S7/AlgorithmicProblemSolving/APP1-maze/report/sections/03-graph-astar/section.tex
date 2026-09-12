@@ -43,10 +43,22 @@ stops when the exit is settled. Parent pointers give the route back.
 
 \subsection{Time complexity}
 
-The graph has $n$ nodes and $n-1$ doors. With a binary heap, A* costs
-$O(n\log n)$ in the worst case, and in the worst case it settles every cell. In
-a maze that case is close to typical: with $h\equiv0$ the search grows in
-layers around the start and reaches the exit only after most of the maze, and
-$h$ prunes little, because a maze has no rival routes to prune --- only
-dead ends whose depth plus estimate already exceeds the answer. Section~\ref{sec:comparison}
-measures $82\%$ of the cells settled.
+Two factors: how many cells are expanded, and what each queue operation costs.
+
+\keyterm{Expansions: $\Theta(n)$.} In the worst case every cell is settled, and
+in a maze that case is close to typical: $h$ prunes little, because a tree has
+no rival routes to prune, only dead ends whose depth plus estimate already
+exceeds the answer. Section~\ref{sec:comparison} measures $82\%$ of the cells.
+
+\keyterm{Per operation: $O(1)$, not $O(\log n)$.} With a binary heap each
+operation costs $\log F$, where $F$ is the queue size --- and with unit weights
+the queue holds only the current frontier, measured at $60$ cells for
+$n=65\,536$ ($F\approx n^{0.26}$). But the heap is unnecessary. The keys
+$f=g+h$ are small integers and, $h$ being consistent, the popped $f$ never
+decreases; a bucket queue with a moving pointer does each push and pop in
+$O(1)$. With $h\equiv0$ this is breadth-first search with a FIFO.
+
+\begin{keypoint}
+A* on the maze runs in \keyterm{$\Theta(n)$}: linear in the cells, and in
+practice touching most of them.
+\end{keypoint}

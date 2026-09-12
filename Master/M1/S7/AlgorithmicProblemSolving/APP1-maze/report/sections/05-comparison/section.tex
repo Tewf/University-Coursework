@@ -45,6 +45,6 @@ The recurrence of Section~\ref{sec:lca} is checked against its one parameter:
     widens with $n$: $\Theta(n^{0.68})$ against $\Theta(n)$. The tree search
     estimates nothing --- it knows where the walls are, having built them.
   \item[Memory.] A* allocates $g$, parent and settled for every cell before it
-    starts, $\Theta(n)$. The tree search needs its recursion stack,
-    $\Theta(\log n)$.
+    starts, $\Theta(n)$; its queue itself stays small, about $n^{0.26}$. The
+    tree search needs its recursion stack, $\Theta(\log n)$.
 \end{description}
