@@ -25,21 +25,39 @@ rectangle. So the search descends from the root while both cells stay on one
 side: the first node that separates them is their \keyterm{lowest common
 ancestor}, and its door is on the route. The route is then $a\to u$, the door,
 $v\to b$ --- two smaller instances of the same problem, one per half.
+Algorithm~\ref{alg:lca} writes exactly that.
 
 \begin{algorithm}[H]
-\caption{The route from $a$ to $b$ inside the tree node $R$.}
+\caption{The route from $a$ to $b$, both inside the tree node $R$.}
 \label{alg:lca}
+\SetKwFunction{Side}{Side}
+\SetKwFunction{LCA}{LCA}
 \SetKwFunction{Route}{Route}
-\SetKwFunction{In}{In}
+\Fn{\Side{$R$, $c$}}{
+  \lIf{$c$ \textup{lies in the rectangle of} $R_\ell$}{\Return \textup{\textsc{left}}}
+  \Return \textup{\textsc{right}}\tcp*{two comparisons}
+}
+\BlankLine
+\Fn{\LCA{$R$, $a$, $b$}}{
+  \While{$R$ \textup{is not a corridor} \textup{\textbf{and}} \Side{$R$, $a$} $=$ \Side{$R$, $b$}}{
+    $R \leftarrow$ that child of $R$\;
+  }
+  \Return $R$\tcp*{one descent: $O(\text{depth})$}
+}
+\BlankLine
 \Fn{\Route{$R$, $a$, $b$}}{
+  $R \leftarrow$ \LCA{$R$, $a$, $b$}\;
   \lIf{$R$ \textup{is a corridor}}{\Return the straight run $a\to b$}
-  $(u,v)\leftarrow$ door of $R$\;
-  \lIf{\In{$R_\ell$, $a$} \textup{\textbf{and}} \In{$R_\ell$, $b$}}{\Return \Route{$R_\ell$, $a$, $b$}}
-  \lIf{\In{$R_r$, $a$} \textup{\textbf{and}} \In{$R_r$, $b$}}{\Return \Route{$R_r$, $a$, $b$}}
-  \lIf{\In{$R_\ell$, $a$}}{\Return \Route{$R_\ell$, $a$, $u$} $\cdot$ \Route{$R_r$, $v$, $b$}}
-  \Return \Route{$R_r$, $a$, $v$} $\cdot$ \Route{$R_\ell$, $u$, $b$}\;
+  $(u,v)\leftarrow$ door of $R$, $u\in R_\ell$, $v\in R_r$\;
+  \lIf{\Side{$R$, $a$} $=$ \textup{\textsc{left}}}{%
+    \Return \Route{$R_\ell$, $a$, $u$} $\cdot\,(u\!\to\!v)\,\cdot$ \Route{$R_r$, $v$, $b$}}
+  \Return \Route{$R_r$, $a$, $v$} $\cdot\,(v\!\to\!u)\,\cdot$ \Route{$R_\ell$, $u$, $b$}\;
 }
 \end{algorithm}
+
+The call is \Route{root, start, exit}. \LCA{} is the $\Theta(\log n)$ walk and
+finds one door; \Route{} calls it once per door on the route, and each call
+after the first starts from a new cell.
 
 No cell of the maze is read. A corridor leaf returns its whole run in one step.
 
