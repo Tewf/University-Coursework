@@ -96,10 +96,13 @@ cell there is nothing to cut and the call returns a leaf. Otherwise:
   \item \textbf{Choose the orientation $t$.} The rule puts the wall across
         the longest dimension, so $t=1$ (a vertical wall, cutting the column
         range) when $a_1-a_0>b_1-b_0$, $t=0$ (a horizontal wall, cutting the
-        row range) when it is smaller, and a random bit decides a tie. The rule
-        never picks a dimension of extent $0$: a region one cell wide is cut
-        across the other dimension, and a region one cell wide in both is the
-        base case.
+        row range) when it is smaller, and a random bit decides a tie. Because
+        the comparison is strict, the dimension chosen is the one of
+        \emph{strictly} greater extent, and a tie is only possible when the two
+        are equal; a dimension of extent $0$ is therefore never cut unless both
+        are $0$, which is the base case. This is what keeps the range
+        $[a_0,a_1-1]$ that $j$ is drawn from non-empty, and it is the whole of
+        why the recursion is total.
   \item \textbf{Choose the wall position $j$}, uniformly among the interior
         boundaries of the chosen dimension, and \textbf{the door position $i$},
         uniformly along the wall.
@@ -110,6 +113,33 @@ cell there is nothing to cut and the call returns a leaf. Otherwise:
 \end{enumerate}
 
 \input{figure-one-partition-step.tex}
+
+\subsection{Why a one-cell-wide region is not a special case}
+\label{sec:corridor}
+
+A region reduced to a single row or a single column is where a recursion of
+this shape is expected to come apart, and it is worth following one through
+rather than trusting the rule. Take $\region{2,2}{0,3}$, four cells in a
+column. Then $d_x=0$ and $d_y=3$, so $t=0$ and the wall cuts the row range,
+with $j$ drawn from $[0,2]$ --- non-empty, as it must be. The door is drawn
+from $[a_0,a_1]=[2,2]$, a range of one value, so $i=2$ is forced. The loop then
+runs for $k=2$ alone, finds $k=i$, and stops. \emph{No edge is deleted.}
+
+Figure~\ref{fig:corridor-base-case} is that call. The corridor is not an
+exception to the partition step; it is the partition step at its extreme, where
+the wall has one crossing and the door is obliged to sit on it. The recursion
+walks the corridor down to its leaves, doing nothing at each level, and cannot
+disconnect it.
+
+\input{figure-corridor-base-case.tex}
+
+Stopping at such a region instead --- returning a corridor as one leaf --- is a
+legitimate optimisation and saves the $2n-1$ calls a corridor of $n$ cells
+costs. It is not taken here. The recursion is $\Theta(WH)$ calls either way, so
+the saving is a constant factor, while a corridor leaf would hold $n-1$ doors
+that no internal node records, breaking the bijection of
+Section~\ref{sec:maze-generation} on which the leaf-and-node counts, and the
+traversal of Section~\ref{sec:shortest-path}, both rest.
 
 \subsection{The algorithm}
 
@@ -190,9 +220,9 @@ $\gridgraph$.
 By induction on $m$. If $m=1$ the region is one cell: no edges, connected and
 acyclic, $m-1=0$ doors, and the call returns without touching $T$.
 
-Let $m>1$. The orientation rule picks a dimension of extent at least $1$, so
-$j$ and the two sub-regions exist and are non-empty; call them $R_\ell$ and
-$R_r$, with $m_\ell+m_r=m$ cells. Every edge of the region that crosses the
+Let $m>1$. The orientation rule picks a dimension of extent at least $1$
+(Section~\ref{sec:corridor}), so $j$ and the two sub-regions exist and are
+non-empty; call them $R_\ell$ and $R_r$, with $m_\ell+m_r=m$ cells. Every edge of the region that crosses the
 wall does so at exactly one position $k$ along it, and the loop deletes all of
 them but the one at $k=i$. No edge internal to $R_\ell$ or to $R_r$ is touched,
 so the two recursive calls receive their regions with every internal door still
