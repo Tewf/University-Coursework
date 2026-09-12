@@ -68,8 +68,13 @@ small:
 \end{tabular}
 \end{center}
 
-$k$ grows as about $n^{0.57}$. Exactly, the cost is the number of tree nodes
-whose region the route enters. Writing $p$ for the fraction of descents at
+$k$ grows as about $n^{0.57}$. The tree path from the start's leaf up to the
+common ancestor and down to the exit's leaf --- the walk that costs
+$\Theta(\log n)$ --- has $18$ nodes at $256\times256$ and holds $12$ of the
+route's $613$ doors; the other $601$ sit on nodes that walk never visits, because
+each door found lands on a new cell whose common ancestor with the exit is a new
+node. Exactly, the cost is the number of tree nodes whose region the route
+enters. Writing $p$ for the fraction of descents at
 which the two endpoints are separated,
 \[
   T(m)=(1+p)\,T(m/2)+O(1)
