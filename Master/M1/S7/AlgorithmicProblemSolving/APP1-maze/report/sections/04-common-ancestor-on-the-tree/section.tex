@@ -89,6 +89,72 @@ and whose door is the first door the route crosses.
     Section~\ref{sec:maze-generation} are not consulted once.
 \end{description}
 
+\subsection{Why this is not simply a lowest common ancestor in \texorpdfstring{$\Theta(\log n)$}{log n} time}
+\label{sec:two-trees}
+
+The natural objection at this point is that finding a route between two nodes of
+a tree \emph{is} finding their lowest common ancestor, that the tree here is
+$\Theta(\log n)$ deep, and that the whole problem should therefore cost
+$\Theta(\log n)$.
+
+Both halves of that are true. They are true of \emph{different trees}.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  & The region tree & The maze, as a tree \\
+  \midrule
+  Nodes        & regions             & cells \\
+  Edges        & containment         & doors \\
+  Depth at $n=65\,536$ & $31.7\ \ (\approx 2\log_2 n)$ & $5515$ \\
+  Its LCA gives & \emph{one} door of the route & the route itself \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The tree whose lowest common ancestor \emph{is} the answer is the maze itself,
+whose edges are doors --- and a maze is a long winding tree, not a balanced one,
+so its height is nowhere near $\log n$. The tree that is $\Theta(\log n)$ deep is
+the region tree, and its lowest common ancestor names a single door: the one
+crossing the wall that separates the endpoints. The route carries on either side
+of it, and each side is another instance of the same problem.
+
+That is precisely the branching of Section~\ref{sec:analysis}, and why the cost
+is $\Theta(n^{0.68})$ rather than $\Theta(\log n)$.
+
+\begin{keypoint}
+The simplest form of the objection answers itself. The route on a
+$256\times256$ maze is about $4\,400$ cells long, and $\log_2 n$ is $16$. No
+algorithm emits $4\,400$ cells in $16$ steps: \keyterm{$\Omega(d)$ is a floor}
+for producing a route, whatever structure it is read from.
+\end{keypoint}
+
+What each question separately costs is worth setting out, because they are
+routinely run together.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  Question & Cost & By what \\
+  \midrule
+  Which region holds the exit? & $\Theta(\log n)$
+    & one descent of the region tree \\
+  Its length, one query & $\Theta(n^{0.68})$
+    & Algorithm~\ref{alg:region-route} \\
+  Its length, after $\Theta(n)$ preparation & $O(1)$
+    & an LCA index over the maze tree \\
+  Its cells, in order & $\Theta(d)$
+    & the size of the answer \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The third row earns its place from the subject itself, which asks for a route
+from \emph{any} position and offers many entries. Against one fixed exit and
+many starts, rooting the maze at the exit once costs $\Theta(n)$ and makes every
+later escape $\Theta(d)$, which is optimal. The linear cost is paid once, not
+once per escape.
+
 \subsection{Why not walk the tree greedily}
 
 The obvious alternative is to walk the tree by local moves: from the current
