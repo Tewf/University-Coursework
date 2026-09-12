@@ -51,18 +51,34 @@ Two quantities, and they must be kept apart.
 $\Theta(\text{depth})$. The tree is $\Theta(\log n)$ deep in expectation ---
 measured $2\log_2 n$ --- so this is $\Theta(\log n)$.
 
-\keyterm{Producing the whole route} recurses on both sides of every door it
-finds. At a division, either both cells stay on one side (one call) or they are
-separated (two calls). With $p$ the probability of separation,
+\keyterm{Producing the whole route} is not one descent. The route crosses
+$k$ division walls; each is a distinct node of the tree, and each is found by
+its own descent, starting from the door the previous one found. One lowest
+common ancestor finds one wall. So the cost is at least $k$, and $k$ is not
+small:
+
+\begin{center}
+\begin{tabular}{@{}rrrrrr@{}}
+  \toprule
+  $n$ & $256$ & $1024$ & $4096$ & $16384$ & $65536$ \\
+  \midrule
+  $\log_2 n$     & $8$  & $10$ & $12$  & $14$  & $16$ \\
+  walls crossed $k$ & $21$ & $44$ & $111$ & $265$ & $600$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+$k$ grows as about $n^{0.57}$. Exactly, the cost is the number of tree nodes
+whose region the route enters. Writing $p$ for the fraction of descents at
+which the two endpoints are separated,
 \[
   T(m)=(1+p)\,T(m/2)+O(1)
   \quad\Longrightarrow\quad
-  T(n)=\Theta\!\left(n^{\log_2(1+p)}\right).
+  T(n)=\Theta\!\left(n^{\log_2(1+p)}\right),
 \]
-Measured $p\approx0.61$ gives $\Theta(n^{0.68})$. It is not $\Theta(\log n)$
-because $\log n$ is the cost of one descent and the search pays one per
-separation; and it cannot be below $\Omega(d)$, the length of the route, since
-the route itself is the output.
+and the measured $p\approx0.61$ gives $\Theta(n^{0.68})$. $p$ only sets the
+exponent; the bound $\Omega(k)$ above needs no parameter at all, and neither
+does $\Omega(d)$, the length of the route, which is the output.
 
 \begin{keypoint}
 $\Theta(\log n)$ to find where the route crosses the first wall;
