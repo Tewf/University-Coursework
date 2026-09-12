@@ -23,20 +23,35 @@ pictures with it. Shared setup — packages, colours, TikZ styles, notation
 macros — lives once in `preamble.tex`; sections declare none of their own.
 
 ```
-main.tex  preamble.tex  Makefile
-sections/01-problem-formulation/          section.tex + 2 figures
-         02-maze-generation-into-graph/   section.tex + 3 figures
-         03-unit-edge-weights/            \
-         04-shortest-path-with-distance-heuristic/  > headings only, so far
-         05-python-implementation-and-testing/       >
-         06-complexity-and-result-analysis/         /
+main.tex  preamble.tex  references.bib  Makefile
+sections/01-problem-formulation/                  section.tex + 2 figures
+         02-maze-generation-into-graph/           section.tex + 4 figures
+         03-unit-edge-weights/
+         04-shortest-path-with-distance-heuristic/
+         05-cpp-implementation-and-testing/
+         06-complexity-and-result-analysis/
+region-tree-search/       a note of its own, its own Makefile and PDF
+branching-point-tree/     likewise
 ```
+
+## The notes beside it
+
+Two standalone documents, each with its own `Makefile` and PDF. They are not
+part of `main.pdf`: the report stands without them, and they follow a question
+further than a deliverable should.
+
+| Folder | Question it answers |
+|---|---|
+| [region-tree-search/](region-tree-search/) | Does the search have to touch every cell? No — the region tree locates the route in `Theta(n^0.68)` visits against Dijkstra's `Theta(n)`, and `O(log n)` memory against `Theta(n)`. |
+| [branching-point-tree/](branching-point-tree/) | Can the tree be walked greedily by parent/child/sibling, choosing the nearest to the exit? No — that is greedy best-first and it stops at a local minimum 199 runs in 200. Navigating by address instead is optimal and `Theta(log n)`. |
+
+Both borrow `preamble.tex`, so the three documents share one set of styles.
 
 ## State
 
-Sections 1 and 2 are written. Sections 3 to 6 are headings with a comment
-saying what belongs in them; the checklist at the end of Section 1 tracks the
-specification's requirements against them.
+All six sections are written, and the checklist at the end of Section 1 tracks
+the specification's requirements against them. The measurements in Sections 5
+and 6 come from [../implementation/](../implementation/).
 
 ## Source material
 

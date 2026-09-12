@@ -1,0 +1,31 @@
+% The structure under discussion: a binary tree whose internal nodes hold the
+% branching point of the division that made them, and whose leaves are cells.
+% A cell's address is the sequence of turns that reaches its leaf.
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.0, level distance=13mm,
+    level 1/.style={sibling distance=44mm},
+    level 2/.style={sibling distance=22mm},
+    level 3/.style={sibling distance=12mm}]
+    \node[tree node] (root) {branching point $(1,2)$}
+      child {node[tree node] {$(0,1)$}
+        child {node[tree leaf] {\textsf{LL}}}
+        child {node[tree leaf] {\textsf{LR}}}
+      }
+      child {node[tree node] {$(2,3)$}
+        child {node[tree leaf] {\textsf{RL}}}
+        child {node[tree node] {$(3,1)$}
+          child {node[tree leaf] {\textsf{RRL}}}
+          child {node[tree leaf] {\textsf{RRR}}}
+        }
+      };
+    \node[font=\scriptsize, black!60, right=3mm of root] {the root region};
+  \end{tikzpicture}
+  \caption{The proposed structure. Each internal node stores the branching point
+  of the division that created it --- the cell its single door sits on --- and
+  each leaf is a region of the maze. A cell's \keyterm{address} is the sequence
+  of turns from the root to its leaf, so \textsf{RRL} names one region in three
+  characters. Sibling leaves are the two halves a single division separated, and
+  are joined in the maze by that division's door alone.}
+  \label{fig:addresses}
+\end{figure}

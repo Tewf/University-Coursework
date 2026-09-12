@@ -1,0 +1,28 @@
+% Why the greedy rule stops: the current node is nearer the exit than its
+% parent, its two children and its sibling, and is not the goal.
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.0, every node/.style={font=\scriptsize}]
+    \node[tree node] (parent) at (0,2.2) {parent \quad $h=9$};
+    \node[tree node, draw=wallred, very thick, fill=wallred!6]
+      (here) at (-1.6,0.9) {here \quad $h=\mathbf{4}$};
+    \node[tree node] (sib) at (1.9,0.9) {sibling \quad $h=11$};
+    \node[tree node] (l) at (-3.0,-0.5) {child \quad $h=7$};
+    \node[tree node] (r) at (-0.3,-0.5) {child \quad $h=6$};
+    \draw[tree edge] (parent) -- (here);
+    \draw[tree edge] (parent) -- (sib);
+    \draw[tree edge] (here) -- (l);
+    \draw[tree edge] (here) -- (r);
+    \draw[wallred, <->, dashed, line width=0.7pt] (here) to[bend right=18] (sib);
+    \node[wallred, font=\tiny] at (0.15,1.55) {the shortcut move};
+    \node[align=left, font=\scriptsize, black!70] at (3.6,-0.6)
+      {every move available\\raises $h$, and this\\node is not the goal};
+    \node[wallred, font=\scriptsize\bfseries] at (-1.6,-1.6) {the walk stops here};
+  \end{tikzpicture}
+  \caption{A local minimum, which is where the greedy rule ends $199$ runs in
+  $200$. The stored branching point of the current node happens to lie nearer
+  the exit than those of its parent, its two children and its sibling; no move
+  improves $h$, and the exit is elsewhere. Nothing about the maze is wrong ---
+  the rule is simply hill-climbing on a landscape with hills in it.}
+  \label{fig:local-minimum}
+\end{figure}
