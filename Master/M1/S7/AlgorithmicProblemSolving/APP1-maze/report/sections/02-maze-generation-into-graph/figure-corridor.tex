@@ -1,0 +1,46 @@
+% What "corridor" means, since the whole base case rests on the word: a region
+% one cell thick, in either direction, with the single cell as the smallest.
+% The fourth panel is the contrast -- a region that still has something to decide.
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.20\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \foreach \y in {0,1,2,3,4} \node[node vertex] (c\y) at (0,-\y) {};
+      \foreach \y/\yn in {0/1,1/2,2/3,3/4} \draw[door] (c\y) -- (c\yn);
+    \end{tikzpicture}
+    \caption{$x_0=x_1$: a column.}
+    \label{fig:corridor-column}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.24\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \foreach \x in {0,1,2,3,4} \node[node vertex] (r\x) at (\x,0) {};
+      \foreach \x/\xn in {0/1,1/2,2/3,3/4} \draw[door] (r\x) -- (r\xn);
+    \end{tikzpicture}
+    \caption{$y_0=y_1$: a row.}
+    \label{fig:corridor-row}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.16\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \node[node vertex] at (0,0) {};
+    \end{tikzpicture}
+    \caption{One cell.}
+    \label{fig:corridor-cell}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.30\textwidth}\centering
+    \begin{tikzpicture}[scale=0.72]
+      \foreach \x in {0,1,2} \foreach \y in {0,1,2,3}
+        \node[node vertex] at (\x,-\y) {};
+      \draw[wall] (0.5,0.5) -- (0.5,-3.5);
+      \draw[wall] (-0.5,-1.5) -- (2.5,-1.5);
+      \node[font=\tiny, wallred, right] at (2.6,-1.5) {or};
+    \end{tikzpicture}
+    \caption{Not a corridor: a wall can still go either way.}
+    \label{fig:corridor-not}
+  \end{subfigure}
+  \caption{A \emph{corridor} is a region one cell thick, in either direction.
+  Its cells lie in a line, so the induced graph is already a path and there is
+  exactly one way to span it --- nothing about a corridor is left to decide,
+  which is why the recursion stops at one. A region thicker than that, on the
+  right, still has both a choice of orientation and a choice of position.}
+  \label{fig:corridor}
+\end{figure}

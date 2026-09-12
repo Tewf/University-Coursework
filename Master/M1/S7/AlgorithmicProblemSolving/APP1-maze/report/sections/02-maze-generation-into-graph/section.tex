@@ -82,10 +82,23 @@ subject speaks, taking a rectangle as two corner points.
 \subsection{The recursion stops at a corridor}
 \label{sec:corridor-base}
 
-A region with a side of one cell --- $x_0=x_1$ or $y_0=y_1$ --- is a corridor.
-There is exactly one way to span a corridor with doors, namely to join its cells
-end to end, so there is nothing left to decide and nothing to gain by dividing
-further. The recursion stops there and lays the corridor down in one pass.
+\begin{definition}[Corridor]
+\label{def:corridor}
+A region is a \emph{corridor} when one of its two sides is a single cell:
+$x_0=x_1$, one column wide and any height, or $y_0=y_1$, one row tall and any
+width. A single cell, where both hold, is the smallest corridor.
+\end{definition}
+
+The name is worth the trouble because a corridor is the case where the
+construction has nothing to decide. Its cells lie in a line, so the subgraph
+$\gridgraph$ induces on it is already a path; a path on $m$ vertices has $m-1$
+edges and is a tree, so it is its own and only spanning tree. Put a wall across
+a corridor and it has exactly one crossing, which is then forced to be the
+door --- the division would change nothing. Dividing further is therefore not
+wrong, merely pointless, and the recursion stops there and lays the corridor
+down in one pass.
+
+\input{figure-corridor.tex}
 
 Stopping at a corridor rather than at a single cell is not only economy, though
 it is substantial economy: on a $64\times64$ area it took $1301$ calls against
@@ -138,9 +151,9 @@ they build.
 
 \subsection{One division step}
 
-A call handles a region $\region{x_0,y_0}{x_1,y_1}$. If a side is one the region
-is a corridor, and Section~\ref{sec:corridor-base} disposes of it. Otherwise
-both sides are at least $2$ and:
+A call handles a region $\region{x_0,y_0}{x_1,y_1}$. If it is a corridor
+(Definition~\ref{def:corridor}) Section~\ref{sec:corridor-base} disposes of it.
+Otherwise both sides are at least $2$ and:
 
 \begin{enumerate}[leftmargin=*]
   \item \textbf{Toss for the orientation $t$.} Both axes admit a wall, so the
