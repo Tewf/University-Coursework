@@ -1,0 +1,47 @@
+% Section 1: the problem, and the plan of the report.
+\section{The problem}
+\label{sec:problem}
+
+\subsection{Statement}
+
+A rectangular area of $W\times H$ cells is to be laid out as a maze, at random.
+The area is enclosed and has one exit, which may be any cell. Two things are
+asked:
+
+\begin{enumerate}[label=\arabic*.,leftmargin=*,itemsep=2pt]
+  \item generate the maze from $W$ and $H$;
+  \item find the route from any cell to the exit.
+\end{enumerate}
+
+The construction is prescribed: cut the area with a full wall, leave exactly one
+door in it, and apply the same rule to each of the two halves.
+
+\subsection{As a graph}
+
+Let $\cells=\{(x,y): 0\le x<W,\ 0\le y<H\}$ and let $\gridgraph$ be the grid
+graph joining cells that share a side. A maze is a spanning subgraph
+$\maze=(\cells,E)$: an edge of $E$ is a \doorword{door}, a missing edge is a
+\wallword{wall}. Every door is one step, $w(e)=1$.
+
+\begin{keypoint}
+Every cell must reach the exit, and the route must not fork. So $\maze$ is
+connected and acyclic: a \keyterm{spanning tree} of $\gridgraph$, with $WH-1$
+doors and exactly one simple route between any two cells.
+\end{keypoint}
+
+Because the route is unique, every correct solver returns the same one. What
+distinguishes solvers is \keyterm{how much of the maze they examine} to find it.
+
+\input{figure-maze-and-its-graph.tex}
+
+\subsection{Plan}
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=3pt]
+  \item[Section~\ref{sec:generation}] generates the maze and returns two
+    structures: the graph, and the binary tree of divisions. The tree exists so
+    that a route can be located by a lowest common ancestor.
+  \item[Section~\ref{sec:astar}] solves the graph with A*.
+  \item[Section~\ref{sec:lca}] solves the tree with the common ancestor.
+  \item[Section~\ref{sec:comparison}] compares the two, with measurements.
+  \item[Section~\ref{sec:conclusion}] concludes.
+\end{description}

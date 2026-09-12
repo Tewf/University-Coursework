@@ -1,16 +1,10 @@
 % APP1 deliverable -- Algorithmic Problem Solving, M1 AI, UGA.
-%
-% This file is the skeleton and nothing else. Each section lives in its own
-% folder under sections/ and is pulled in with \subimport, so a section's
-% figures sit next to the prose that cites them and are \input by bare name.
-% To reorder the report, reorder the calls below; to rewrite a section, open
-% one folder.
-
+% Skeleton only: each section lives in its own folder under sections/.
 \documentclass[11pt,a4paper]{article}
 \input{preamble.tex}
 
 \title{Random maze generation by recursive division,\\
-       and shortest-path search to the exit}
+       and two ways back to the exit}
 \author{Mohamed Ali Tewfik Hamlil\\[2pt]
   \small M1 Artificial Intelligence, Universit\'e Grenoble Alpes\\
   \small Algorithmic Problem Solving --- APP1}
@@ -20,32 +14,23 @@
 \maketitle
 
 \begin{abstract}
-A rectangular area of $W\times H$ cells is laid out as a maze by recursive
-division: a full wall across a dimension, exactly one door in it, and the same
-rule inside each of the two halves. The requirements force the result to be a
-spanning tree of the grid graph, and the generator returns it \emph{twice}: as
-a graph of cells joined by doors, and as a binary tree recording which division
-made which sub-maze. Each structure has its own way out. The graph is searched
-with Dijkstra's algorithm, every door costing one step; the tree is read with a
-lowest-common-ancestor descent, which never touches a cell. Both return the
-same route --- the maze is a tree, so there is only one --- so what separates
-them is how much they examine, and the tree wins by a factor of thirty. A C
-implementation measures every claim, and the closing section puts costs on all
-of it and against the literature.
+A $W\times H$ area is turned into a maze by recursive division. The generator
+returns the maze twice: as a graph of cells joined by doors, and as a binary
+tree of the divisions that built it. The graph is solved with A*, the tree with
+a lowest-common-ancestor descent. Both return the unique route; the tree
+examines thirty times fewer nodes.
 \end{abstract}
 
-\clearpage
 \tableofcontents
 \clearpage
 
-\subimport{sections/01-problem-analysis-and-formulation/}{section.tex}
-\subimport{sections/02-maze-generation-two-outputs/}{section.tex}
-\subimport{sections/03-dijkstra-on-the-graph/}{section.tex}
-\subimport{sections/04-common-ancestor-on-the-tree/}{section.tex}
-\subimport{sections/05-c-implementation/}{section.tex}
-\subimport{sections/06-time-analysis-and-comparison/}{section.tex}
+\subimport{sections/01-problem/}{section.tex}
+\subimport{sections/02-generation/}{section.tex}
+\subimport{sections/03-graph-astar/}{section.tex}
+\subimport{sections/04-tree-lca/}{section.tex}
+\subimport{sections/05-comparison/}{section.tex}
+\subimport{sections/06-conclusion/}{section.tex}
 
-\clearpage
 \bibliographystyle{plain}
 \bibliography{references}
 

@@ -1,0 +1,32 @@
+% Measured visits against area on log-log axes: a power law is a straight line
+% and its exponent is the slope. Numbers from the C benchmark, 200 mazes/size.
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{loglogaxis}[
+      width=0.84\textwidth, height=6.4cm,
+      xlabel={cells $n$}, ylabel={nodes examined},
+      log basis x=2, log basis y=10,
+      legend pos=north west, legend cell align=left,
+      legend style={font=\scriptsize, draw=black!30},
+      grid=both, grid style={black!12},
+      tick label style={font=\scriptsize}, label style={font=\small},
+    ]
+      \addplot[mark=*, wallred, thick] coordinates
+        {(256,222) (1024,873) (4096,3533) (16384,13939) (65536,56193)};
+      \addlegendentry{Dijkstra}
+      \addplot[mark=o, wallred!60, thick] coordinates
+        {(256,175) (1024,738) (4096,3199) (16384,12983) (65536,53753)};
+      \addlegendentry{A*, Manhattan}
+      \addplot[mark=square*, black!55, thick] coordinates
+        {(256,64) (1024,180) (4096,538) (16384,1564) (65536,4493)};
+      \addlegendentry{route length $d$}
+      \addplot[mark=triangle*, doorgreen, thick] coordinates
+        {(256,49) (1024,116) (4096,293) (16384,702) (65536,1776)};
+      \addlegendentry{tree, common ancestor}
+    \end{loglogaxis}
+  \end{tikzpicture}
+  \caption{A* runs parallel to $n$. The tree search runs at slope $0.68$, below
+  even the route it returns, because a corridor is one visit however long it is.}
+  \label{fig:growth}
+\end{figure}

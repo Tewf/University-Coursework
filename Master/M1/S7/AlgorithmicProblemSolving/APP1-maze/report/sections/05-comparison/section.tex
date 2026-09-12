@@ -1,0 +1,50 @@
+% Section 5: the two solvers side by side, measured.
+\section{Comparison}
+\label{sec:comparison}
+
+Both solvers are implemented in C in \texttt{implementation/}, from the
+pseudocode above, with a shared generator and no shared solving code. $200$
+mazes per size, start $(0,0)$, exit at the far corner; every maze checked to be
+a spanning tree, and both solvers checked to return the same cells in the same
+order.
+
+\begin{center}
+\begin{tabular}{@{}lrrrrr@{}}
+  \toprule
+  Size & Cells $n$ & Route $d$ & Dijkstra & A* & Tree \\
+  \midrule
+  $16\times16$   & $256$   & $64$   & $222$   & $175$   & $\mathbf{49}$ \\
+  $32\times32$   & $1024$  & $180$  & $873$   & $738$   & $\mathbf{116}$ \\
+  $64\times64$   & $4096$  & $538$  & $3533$  & $3199$  & $\mathbf{293}$ \\
+  $128\times128$ & $16384$ & $1564$ & $13939$ & $12983$ & $\mathbf{702}$ \\
+  $256\times256$ & $65536$ & $4493$ & $56193$ & $53753$ & $\mathbf{1776}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\input{figure-growth.tex}
+
+The recurrence of Section~\ref{sec:lca} is checked against its one parameter:
+
+\begin{center}
+\begin{tabular}{@{}rrrr@{}}
+  \toprule
+  $n$ & $p$ measured & $\log_2(1+p)$ & exponent fitted to the tree column \\
+  \midrule
+  $1024$  & $0.62$ & $0.69$ & $0.69$ \\
+  $16384$ & $0.61$ & $0.69$ & $0.68$ \\
+  $65536$ & $0.61$ & $0.68$ & $0.67$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
+  \item[A* over Dijkstra: $4\%$.] A perfect maze has no rival routes, so the
+    estimate has almost nothing to prune; A* still settles $82\%$ of the cells.
+  \item[Tree over A*: a factor of $30$.] $1776$ against $53\,753$, and the gap
+    widens with $n$: $\Theta(n^{0.68})$ against $\Theta(n)$. The tree search
+    estimates nothing --- it knows where the walls are, having built them.
+  \item[Memory.] A* allocates $g$, parent and settled for every cell before it
+    starts, $\Theta(n)$. The tree search needs its recursion stack,
+    $\Theta(\log n)$.
+\end{description}

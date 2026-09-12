@@ -1,0 +1,71 @@
+% Section 4: the lowest common ancestor on the binary tree.
+\section{Solving the tree: the lowest common ancestor}
+\label{sec:lca}
+
+\subsection{How the tree locates the route}
+
+\begin{proposition}[Separation]
+\label{prop:separation}
+Let $R$ be a division with children $R_\ell,R_r$ and door $(u,v)$, $u\in R_\ell$,
+$v\in R_r$. For cells $a,b$ in $R$, the route from $a$ to $b$ crosses $(u,v)$
+if and only if $a$ and $b$ lie in different children.
+\end{proposition}
+
+\begin{proof}
+$(u,v)$ is the only edge between the two halves (Proposition~\ref{prop:tree}).
+If $a,b$ are on different sides, any route between them uses it. If they are on
+the same side, that half's own spanning tree joins them, and the maze's unique
+route is that one; it never leaves the half.
+\end{proof}
+
+\input{figure-separation.tex}
+
+Deciding which side a cell is on is a comparison of its coordinates against a
+rectangle. So the search descends from the root while both cells stay on one
+side: the first node that separates them is their \keyterm{lowest common
+ancestor}, and its door is on the route. The route is then $a\to u$, the door,
+$v\to b$ --- two smaller instances of the same problem, one per half.
+
+\begin{algorithm}[H]
+\caption{The route from $a$ to $b$ inside the tree node $R$.}
+\label{alg:lca}
+\SetKwFunction{Route}{Route}
+\SetKwFunction{In}{In}
+\Fn{\Route{$R$, $a$, $b$}}{
+  \lIf{$R$ \textup{is a corridor}}{\Return the straight run $a\to b$}
+  $(u,v)\leftarrow$ door of $R$\;
+  \lIf{\In{$R_\ell$, $a$} \textup{\textbf{and}} \In{$R_\ell$, $b$}}{\Return \Route{$R_\ell$, $a$, $b$}}
+  \lIf{\In{$R_r$, $a$} \textup{\textbf{and}} \In{$R_r$, $b$}}{\Return \Route{$R_r$, $a$, $b$}}
+  \lIf{\In{$R_\ell$, $a$}}{\Return \Route{$R_\ell$, $a$, $u$} $\cdot$ \Route{$R_r$, $v$, $b$}}
+  \Return \Route{$R_r$, $a$, $v$} $\cdot$ \Route{$R_\ell$, $u$, $b$}\;
+}
+\end{algorithm}
+
+No cell of the maze is read. A corridor leaf returns its whole run in one step.
+
+\subsection{Time complexity}
+
+Two quantities, and they must be kept apart.
+
+\keyterm{Locating the first door} is one descent to the lowest common ancestor:
+$\Theta(\text{depth})$. The tree is $\Theta(\log n)$ deep in expectation ---
+measured $2\log_2 n$ --- so this is $\Theta(\log n)$.
+
+\keyterm{Producing the whole route} recurses on both sides of every door it
+finds. At a division, either both cells stay on one side (one call) or they are
+separated (two calls). With $p$ the probability of separation,
+\[
+  T(m)=(1+p)\,T(m/2)+O(1)
+  \quad\Longrightarrow\quad
+  T(n)=\Theta\!\left(n^{\log_2(1+p)}\right).
+\]
+Measured $p\approx0.61$ gives $\Theta(n^{0.68})$. It is not $\Theta(\log n)$
+because $\log n$ is the cost of one descent and the search pays one per
+separation; and it cannot be below $\Omega(d)$, the length of the route, since
+the route itself is the output.
+
+\begin{keypoint}
+$\Theta(\log n)$ to find where the route crosses the first wall;
+$\Theta(n^{0.68})$ to lay the whole route down. Both are far below A*'s
+$\Theta(n)$ settled cells.
+\end{keypoint}

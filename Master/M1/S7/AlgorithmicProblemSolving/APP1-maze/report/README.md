@@ -1,7 +1,8 @@
 # APP1 deliverable — LaTeX source
 
 Random maze generation by recursive division, returning two structures, and a
-way out of each: Dijkstra on the graph, a common-ancestor descent on the tree.
+way out of each: A* on the graph, a lowest-common-ancestor descent on the tree.
+Seven pages.
 
 ## Building it
 
@@ -24,12 +25,12 @@ macros — lives once in `preamble.tex`.
 
 ```
 main.tex  preamble.tex  references.bib  Makefile
-sections/01-problem-analysis-and-formulation/   the problem, as a graph problem
-         02-maze-generation-two-outputs/        the generator, and both outputs
-         03-dijkstra-on-the-graph/              solving the first output
-         04-common-ancestor-on-the-tree/        solving the second output
-         05-c-implementation/                   what was built and checked
-         06-time-analysis-and-comparison/       costs, measurements, literature
+sections/01-problem/        the problem, as a graph problem, and the plan
+         02-generation/     recursive division, filling the graph and the tree
+         03-graph-astar/    A* on the graph output
+         04-tree-lca/       lowest common ancestor on the tree output
+         05-comparison/     both solvers measured side by side
+         06-conclusion/
 ```
 
 ## Where the numbers come from

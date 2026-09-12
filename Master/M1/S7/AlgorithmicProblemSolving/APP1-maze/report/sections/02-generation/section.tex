@@ -1,0 +1,82 @@
+% Section 2: recursive division, and the two structures it fills as it goes.
+\section{Maze generation, with two outputs}
+\label{sec:generation}
+
+\subsection{Recursive division}
+
+A region is a rectangle of cells named by two corners, $p$ upper-left and $q$
+lower-right, with $p[0]$ the $x$ coordinate and $p[1]$ the $y$.
+
+A region one cell thick is a \keyterm{corridor}: its cells lie in a line, so it
+has exactly one spanning tree, and the recursion stops there. Otherwise both
+sides are at least $2$, so either axis admits a wall: toss for the axis $t$,
+draw the wall position $j$ and the door position $i$, open that one door, and
+recurse on the two halves.
+
+\subsection{The two outputs}
+
+The generator fills two structures at once.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=4pt]
+  \item[The graph.] One node per cell, holding its coordinates and the
+    neighbours it has a door to. Each door is recorded at both ends; a wall is
+    a door never opened.
+  \item[The binary tree.] One node per division, holding the axis, the wall and
+    the door; its two children are the two halves. A leaf is a corridor. Every
+    cell lies in exactly one leaf, and the path from the root to it is the
+    cell's \keyterm{address}.
+\end{description}
+
+\begin{keypoint}
+The tree is built for one purpose: a division's door is on the route between
+two cells exactly when it separates them, so the first door of the route is
+found by a \keyterm{lowest common ancestor} search, in depth-many steps rather
+than cell-many.
+\end{keypoint}
+
+\input{figure-region-tree.tex}
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{Generation: fills the graph $N$ and returns the tree.}
+\label{alg:generate}
+\SetKwFunction{Divide}{Divide}
+\SetKwFunction{Link}{Link}
+\SetKwFunction{Node}{Node}
+\SetKwFunction{Rand}{Random}
+\Fn{\Divide{$p$, $q$}}{
+  \If{$p[0]=q[0]$ \textup{\textbf{or}} $p[1]=q[1]$}{
+    join the cells of the corridor end to end in $N$\;
+    \Return \Node{$p$, $q$}\tcp*{leaf}
+  }
+  $t \leftarrow$ \Rand{$\{0,1\}$}\tcp*{axis to cut}
+  $j \leftarrow$ \Rand{$[\,p[t],\,q[t]-1\,]$}\tcp*{wall}
+  $i \leftarrow$ \Rand{$[\,p[1-t],\,q[1-t]\,]$}\tcp*{door}
+  \Link{$N$, cell($t$: $j$, $i$), cell($t$: $j{+}1$, $i$)}\;
+  $\ell \leftarrow$ \Divide{$p$, $q$ with $q[t]\leftarrow j$}\;
+  $r \leftarrow$ \Divide{$p$ with $p[t]\leftarrow j{+}1$, $q$}\;
+  \Return \Node{$p$, $q$, $t$, $j$, $i$, $\ell$, $r$}\;
+}
+\end{algorithm}
+
+The call is \Divide{$(0,0)$, $(W{-}1,H{-}1)$}.
+
+\subsection{Correctness and cost}
+
+\begin{proposition}
+\label{prop:tree}
+On a region of $m$ cells, \textup{\texttt{Divide}} leaves it connected and
+acyclic with $m-1$ doors. The whole area is a spanning tree of $\gridgraph$.
+\end{proposition}
+
+\begin{proof}
+By induction on $m$. A corridor of $m$ cells joined end to end is a path: $m-1$
+doors, connected, acyclic. Otherwise the two halves are spanning trees by
+induction, and the single door is the only edge between them; joining two
+disjoint trees by one edge gives a tree, with $(m_\ell-1)+(m_r-1)+1=m-1$ doors.
+\end{proof}
+
+Every door is opened once and there are $n-1$ of them, $n=WH$: generation is
+$\Theta(n)$, and both outputs are filled within that bound. The tree has $2L-1$
+nodes for $L$ corridors, $L<n$.

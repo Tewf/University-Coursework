@@ -6,10 +6,10 @@ optional.
 
 ## State
 
-Written. The deliverable is [report/](report/), one LaTeX folder per section:
-the problem as a graph problem, the generator and the two structures it
-returns, Dijkstra on the graph, a common-ancestor descent on the tree, the C
-implementation, and the costs measured and compared.
+Written. The deliverable is [report/](report/), seven pages, one LaTeX folder
+per section: the problem as a graph problem, the generator and the two
+structures it returns, A* on the graph, a lowest-common-ancestor descent on the
+tree, the two compared on measurements, and a conclusion.
 
 Implementing it was optional; it is done anyway, in
 [implementation/](implementation/), C11 with no dependency outside the standard

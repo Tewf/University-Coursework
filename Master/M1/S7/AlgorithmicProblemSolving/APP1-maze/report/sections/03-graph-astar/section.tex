@@ -1,0 +1,52 @@
+% Section 3: A* on the graph output.
+\section{Solving the graph: A*}
+\label{sec:astar}
+
+\subsection{Why A* applies}
+
+All doors weigh $1$, so Dijkstra's algorithm~\cite{dijkstra1959note} applies.
+A*~\cite{hart1968formal} is Dijkstra with the queue ordered by
+$f(v)=g(v)+h(v)$: $g$ the doors walked so far, $h$ an estimate of the doors
+still to walk. With $h\equiv0$ it \emph{is} Dijkstra.
+
+The estimate is the \keyterm{Manhattan distance} to the exit,
+$h(x,y)=|x-x_e|+|y-y_e|$. Every step changes one coordinate by one, and walls
+only remove edges, so $h$ never overestimates: it is admissible, and A* returns
+a shortest route --- here, the unique one.
+
+\subsection{How it solves the maze}
+
+Each node holds its coordinates and its neighbours, which is all A* needs. It
+settles cells in order of $f$, relaxing each neighbour through one door, and
+stops when the exit is settled. Parent pointers give the route back.
+
+\begin{algorithm}[H]
+\caption{A* from $s$ to the exit $e$ on the graph $N$.}
+\label{alg:astar}
+\SetKwFunction{AStar}{AStar}
+\SetKwFunction{Pop}{PopMin}
+\SetKwFunction{Push}{Push}
+\Fn{\AStar{$N$, $s$, $e$}}{
+  $g[v]\leftarrow\infty$ for all $v$;\ $g[s]\leftarrow0$;\ $Q\leftarrow\{s\}$\;
+  \While{$Q\neq\emptyset$}{
+    $u\leftarrow$ \Pop{$Q$}\tcp*{least $g+h$}
+    \lIf{$u=e$}{\textbf{break}}
+    \ForEach{$v\in N.\textit{neighbours}(u)$}{
+      \If{$g[u]+1<g[v]$}{
+        $g[v]\leftarrow g[u]+1$;\ $\textit{parent}[v]\leftarrow u$;\ \Push{$Q$, $v$}\;
+      }
+    }
+  }
+  \Return the route from $e$ back along $\textit{parent}$ to $s$\;
+}
+\end{algorithm}
+
+\subsection{Time complexity}
+
+The graph has $n$ nodes and $n-1$ doors. With a binary heap, A* costs
+$O(n\log n)$ in the worst case, and in the worst case it settles every cell. In
+a maze that case is close to typical: with $h\equiv0$ the search grows in
+layers around the start and reaches the exit only after most of the maze, and
+$h$ prunes little, because a maze has no rival routes to prune --- only
+dead ends whose depth plus estimate already exceeds the answer. Section~\ref{sec:comparison}
+measures $82\%$ of the cells settled.

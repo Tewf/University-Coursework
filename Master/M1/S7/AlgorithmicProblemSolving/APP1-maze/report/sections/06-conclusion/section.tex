@@ -1,0 +1,17 @@
+% Section 6: what the report established.
+\section{Conclusion}
+\label{sec:conclusion}
+
+The requirements force the maze to be a spanning tree of the grid, and
+recursive division builds one in $\Theta(n)$ while recording, at no extra cost,
+the binary tree of divisions that made it.
+
+That second structure changes what solving costs. On the graph, A* returns the
+unique route in $O(n\log n)$ and in practice examines most of the maze, because
+a tree offers a heuristic nothing to prune. On the binary tree, a lowest common
+ancestor finds the first wall the route crosses in $\Theta(\log n)$, and the
+whole route in $\Theta(n^{0.68})$ --- thirty times fewer visits at
+$256\times256$, with logarithmic memory.
+
+The generator knows where the walls are. Keeping that knowledge, rather than
+rediscovering it by search, is the whole of the gain.
