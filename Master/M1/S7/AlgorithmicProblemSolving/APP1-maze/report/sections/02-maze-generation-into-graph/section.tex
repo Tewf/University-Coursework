@@ -1,7 +1,7 @@
 % Section 2: the node record, the generation algorithm, and the proof that what
-% comes out is the spanning tree Section 1 said it had to be. The construction
-% is additive -- every division contributes its door and nothing else -- so no
-% edge is ever materialised only to be removed.
+% comes out is the spanning tree Section 1 said it had to be. Two decisions
+% carry the section: a division adds its own door and nothing else, and the
+% recursion stops the moment a region has a side of one.
 \section{Generating the maze into a graph}
 \label{sec:maze-generation}
 
@@ -30,17 +30,17 @@ The maze is a set of nodes, one per cell. A node holds
 
 \[
   \texttt{Node} \;=\; \bigl\langle\;
-    \underbrace{\textit{value}}_{\text{its }(i,j)\text{ coordinates}},\;\;
+    \underbrace{\textit{value}}_{\text{its }(x,y)\text{ coordinates}},\;\;
     \underbrace{\textit{neighbours}}_{\text{the cells it has a door to}}
   \;\bigr\rangle,
 \]
 
 and the neighbour list is \emph{empty when the node is created}. A cell has
 four sides, so the list never holds more than four entries, and it grows only
-when a division puts a door on that node. An index $\langle P_i,P_j\rangle$
---- a $W\times H$ array of references --- maps a coordinate pair to its node in
-$O(1)$, so a division can reach the two cells it wants without searching.
-Figure~\ref{fig:node-record} is one node before and after.
+when the construction puts a door on that node. An index $\langle
+P_i,P_j\rangle$ --- a $W\times H$ array of references --- maps a coordinate pair
+to its node in $O(1)$, so a division can reach the cells it wants without
+searching. Figure~\ref{fig:node-record} is one node before and after.
 
 \input{figure-node-record.tex}
 
@@ -66,42 +66,50 @@ reveals nothing about which of its four sides became doors. The list does, but
 the list \emph{is} the maze.
 \end{remark}
 
-\subsection{The region tree}
+\subsection{Regions, named by two corners}
+\label{sec:regions}
 
-The second structure is a binary tree, one node per call of the recursion:
+A region is a rectangle of cells, and the algorithm names it by the two cells
+at its ends: $\region{x_0,y_0}{x_1,y_1}$, upper-left and lower-right, with
+$x_0\le x_1$ and $y_0\le y_1$. The whole area is $\region{0,0}{W-1,H-1}$.
 
-\begin{itemize}[leftmargin=*]
-  \item an \textbf{internal node} records one division --- its orientation $t$,
-        the boundary $j$ the wall sits on, the position $i$ of its single door
-        --- and has the two regions the division created as its children;
-  \item a \textbf{leaf} is a region reduced to one cell.
-\end{itemize}
+This is the same currency the rest of the program is written in. A node's
+\textit{value} is an $(x,y)$ pair, a door is a pair of them, and now a region is
+too, so there is one coordinate type throughout and no second convention to
+keep straight --- which is also how the drawing routine provided with the
+subject speaks, taking a rectangle as two corner points.
 
-Figure~\ref{fig:region-tree} shows the first three divisions of a $4\times4$
-area beside the top of the tree they build.
+\subsection{The recursion stops at a corridor}
+\label{sec:corridor-base}
 
-\input{figure-region-tree.tex}
+A region with a side of one cell --- $x_0=x_1$ or $y_0=y_1$ --- is a corridor.
+There is exactly one way to span a corridor with doors, namely to join its cells
+end to end, so there is nothing left to decide and nothing to gain by dividing
+further. The recursion stops there and lays the corridor down in one pass.
+
+Stopping at a corridor rather than at a single cell is not only economy, though
+it is substantial economy: on a $64\times64$ area it took $1301$ calls against
+$8191$, and a $1\times40$ area is finished in a single call instead of $79$. The
+real payoff is that \emph{every region reaching a division now has both sides at
+least $2$}. Both axes therefore admit a wall, always, and the orientation can be
+a plain coin with no feasibility test in front of it. The degenerate case is not
+guarded against; it is removed.
 
 \subsection{One division contributes exactly one door}
 \label{sec:one-door-per-division}
 
-Everything below follows from a single observation. Take any door
-$e=(u,v)$ of the finished maze and walk down the region tree from the root. At
-each internal node, $u$ and $v$ either fall in the same child --- and the walk
-continues --- or they are separated, which happens precisely when $e$ crosses
-that node's wall. Since the leaves are single cells, they must be separated
-somewhere; and at the node that separates them, $e$ is a crossing that
-survived, so $e$ is that node's door.
+Take any door $e=(u,v)$ of the finished maze and walk down the region tree from
+the root. At each internal node, $u$ and $v$ either fall in the same child ---
+and the walk continues --- or they are separated, which happens precisely when
+$e$ crosses that node's wall, and then $e$ is that node's door, being the only
+crossing that survived. Otherwise the walk ends at a leaf holding both, and $e$
+is one of the doors that leaf laid down along its corridor.
 
-So each door belongs to exactly one internal node, and each internal node
-supplies exactly one door: internal nodes and doors are in bijection. A binary
-tree with $WH$ leaves has $WH-1$ internal nodes, and $WH-1$ is the door count
-Proposition~\ref{prop:spanning-tree} demanded.
-
-The construction reads that bijection forwards. Rather than opening every door
-and closing the ones a wall covers, a division \emph{adds its own door and
-nothing else}. The maze is assembled edge by edge, one per call, and a wall is
-never drawn at all --- it is simply the doors that were never added.
+So the doors split cleanly in two: one per internal node, plus the internal
+doors of each corridor leaf. Nothing is counted twice and nothing is missed,
+which is what licenses the construction to run \emph{forwards} --- a division
+adds its own door and nothing else, a leaf adds its corridor, and a wall is
+never represented at all. It is simply the doors that were never added.
 
 \begin{remark}
 This is what makes the neighbour list a sound representation. A list cannot
@@ -110,21 +118,36 @@ if the algorithm needs to remove links; here nothing is ever removed, so
 omission is exactly right.
 \end{remark}
 
+\subsection{The region tree}
+
+The recursion's shape is a binary tree, one node per call:
+
+\begin{itemize}[leftmargin=*]
+  \item an \textbf{internal node} records one division --- its orientation $t$,
+        the boundary $j$ the wall sits on, the position $i$ of its single door
+        --- and has the two regions the division created as its children;
+  \item a \textbf{leaf} is a corridor, of one cell or many.
+\end{itemize}
+
+A binary tree with $L$ leaves has $L-1$ internal nodes, so the $WH-1$ doors are
+$L-1$ division doors and $WH-L$ corridor doors. Figure~\ref{fig:region-tree}
+shows the first three divisions of a $4\times4$ area beside the top of the tree
+they build.
+
+\input{figure-region-tree.tex}
+
 \subsection{One division step}
 
-A call handles a region $\region{a_0,a_1}{b_0,b_1}$. If the region is a single
-cell there is nothing to divide and the call returns a leaf. Otherwise:
+A call handles a region $\region{x_0,y_0}{x_1,y_1}$. If a side is one the region
+is a corridor, and Section~\ref{sec:corridor-base} disposes of it. Otherwise
+both sides are at least $2$ and:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Choose the orientation $t$ at random.} A dimension can be cut
-        only if it has extent at least $1$: cutting the column range needs
-        $a_1-a_0\ge1$, since $j$ is drawn from $[a_0,a_1-1]$. So the choice is a
-        free coin \emph{among the dimensions that admit a wall} --- both, in
-        general; the one non-degenerate dimension when the region is a single
-        row or column; and never neither, because a region degenerate in both
-        is the base case and has already returned.
+  \item \textbf{Toss for the orientation $t$.} Both axes admit a wall, so the
+        coin is free: $t=1$ for a vertical wall cutting the $x$ range, $t=0$
+        for a horizontal wall cutting the $y$ range.
   \item \textbf{Choose the wall position $j$}, uniformly among the interior
-        boundaries of the chosen dimension, and \textbf{the door position $i$},
+        boundaries of the chosen axis, and \textbf{the door position $i$},
         uniformly along the wall.
   \item \textbf{Link the two cells the door falls on}, appending each to the
         other's neighbour list.
@@ -132,37 +155,15 @@ cell there is nothing to divide and the call returns a leaf. Otherwise:
         recording $\langle t,j,i\rangle$.
 \end{enumerate}
 
-\begin{remark}[The guard is not optional]
-Drawing $t$ from a plain coin, without the feasibility test, is wrong rather
-than merely inelegant: on a region one cell wide the coin picks the degenerate
-dimension half the time and $j$ is then drawn from an empty range. Measured over
-$2880$ runs across $72$ shapes, the guarded rule never failed and the unguarded
-one failed $2723$ times, and on a $1\times5$ area alone it fails on $188$ runs
-in $200$. Restricting the coin to the dimensions that admit a wall is what makes
-the recursion total.
-\end{remark}
-
 \begin{remark}[Departure from the specification]
-The specification puts the wall across the \emph{longest} dimension. This report
-chooses at random instead, which is a deliberate deviation and worth naming.
-The longest-dimension rule keeps regions square, so it is the more disciplined
+The specification puts the wall across the \emph{longest} dimension; this
+report tosses for it, which is a deliberate deviation and worth naming. The
+longest-dimension rule keeps regions square, so it is the more disciplined
 choice; a free coin lets regions grow long and thin and makes the maze more
-corridor-like. It costs little in depth --- on a $16\times16$ area the mean
-recursion depth measured $14.9$ against $14.2$ --- because the depth is driven
-by the uniform \emph{position} of the wall rather than by its orientation.
-Correctness is untouched: Proposition~\ref{prop:generation-is-a-tree} never
-uses which dimension was cut, only that one was.
-\end{remark}
-
-\begin{remark}[Why intervals rather than corners]
-A region could equally be passed as two opposite corners, $(0,0)$ and
-$(W{-}1,H{-}1)$; it is the same four numbers. Intervals are used here because
-they match what a division does. A division splits \emph{one axis} and leaves
-the other alone, which in interval form is one argument replaced and one copied
-verbatim --- $\region{a_0,j}{b_0,b_1}$ --- whereas in corner form both corners
-have to be taken apart and rebuilt from halves of each, which is where an index
-slips. The interval also states the invariant the code relies on, $a_0\le a_1$,
-in the shape of the argument itself.
+corridor-like. It costs little in depth, because depth is driven by the uniform
+\emph{position} of the wall rather than by its orientation, and correctness is
+untouched: Proposition~\ref{prop:generation-is-a-tree} never uses which axis was
+cut, only that one was.
 \end{remark}
 
 \input{figure-one-division-step.tex}
@@ -174,60 +175,65 @@ in the shape of the argument itself.
 \label{alg:generate-maze}
 \SetKwFunction{GenerateMaze}{GenerateMaze}
 \SetKwFunction{Divide}{Divide}
-\SetKwFunction{SplitOrientation}{SplitOrientation}
 \SetKwFunction{RandomIn}{RandomIn}
 \SetKwFunction{RandomBit}{RandomBit}
 \SetKwFunction{Link}{Link}
-\SetKwFunction{Leaf}{Leaf}
+\SetKwFunction{LinkPath}{LinkPath}
+\SetKwFunction{Leaf}{Corridor}
 \SetKwFunction{NodeOf}{CutNode}
 \SetKwFunction{NewNode}{NewNode}
 \KwIn{$W,H\ge1$, the width and height of the area in cells. The bound is a
-       precondition, not a convention: at $W=0$ the root region $[0,-1]$ is
-       empty, it is not the base case, and the first draw has nowhere to land.}
+      precondition, not a convention: at $W=0$ the region $\region{0,0}{-1,H-1}$
+      holds no cell and there is nothing for the first draw to land on.}
 \KwOut{$N$, the set of nodes holding a spanning tree of $\gridgraph$; $r$, the
        root of the region tree that built it.}
 \BlankLine
 \Fn{\GenerateMaze{$W$, $H$}}{
   $N \leftarrow \{\,\NewNode{$x$, $y$} : 0\le x<W,\; 0\le y<H\,\}$
      \tcp*{every neighbour list empty}
-  $r \leftarrow$ \Divide{$N$, $[0,W-1]$, $[0,H-1]$}\;
+  $r \leftarrow$ \Divide{$N$, $(0,0)$, $(W-1,H-1)$}\;
   \Return $(N,r)$\;
 }
 \BlankLine
-\Fn{\Divide{$N$, $[a_0,a_1]$, $[b_0,b_1]$}}{
-  \lIf{$a_0=a_1$ \textup{\textbf{and}} $b_0=b_1$}{\Return \Leaf{$a_0$, $b_0$}}
-  $t \leftarrow$ \SplitOrientation{$a_1-a_0$, $b_1-b_0$}\;
+\Fn{\Divide{$N$, $(x_0,y_0)$, $(x_1,y_1)$}}{
+  \If{$x_0=x_1$ \textup{\textbf{or}} $y_0=y_1$}{
+    \LinkPath{$N$, $(x_0,y_0)$, $(x_1,y_1)$}\tcp*{a corridor: one way to span it}
+    \Return \Leaf{$(x_0,y_0)$, $(x_1,y_1)$}\;
+  }
+  $t \leftarrow$ \RandomBit{}\tcp*{both sides $\ge2$, so both axes admit a wall}
   \eIf{$t=1$}{
-    $j \leftarrow$ \RandomIn{$a_0$, $a_1-1$}\tcp*{wall between columns $j$ and $j+1$}
-    $i \leftarrow$ \RandomIn{$b_0$, $b_1$}\tcp*{the one door, on row $i$}
+    $j \leftarrow$ \RandomIn{$x_0$, $x_1-1$}\tcp*{wall between columns $j$ and $j+1$}
+    $i \leftarrow$ \RandomIn{$y_0$, $y_1$}\tcp*{the one door, on row $i$}
     \Link{$N$, $(j,i)$, $(j+1,i)$}\;
-    $\ell \leftarrow$ \Divide{$N$, $[a_0,j]$, $[b_0,b_1]$}\;
-    $r \leftarrow$ \Divide{$N$, $[j+1,a_1]$, $[b_0,b_1]$}\;
+    $\ell \leftarrow$ \Divide{$N$, $(x_0,y_0)$, $(j,y_1)$}\;
+    $r \leftarrow$ \Divide{$N$, $(j+1,y_0)$, $(x_1,y_1)$}\;
   }{
-    $j \leftarrow$ \RandomIn{$b_0$, $b_1-1$}\tcp*{wall between rows $j$ and $j+1$}
-    $i \leftarrow$ \RandomIn{$a_0$, $a_1$}\tcp*{the one door, on column $i$}
+    $j \leftarrow$ \RandomIn{$y_0$, $y_1-1$}\tcp*{wall between rows $j$ and $j+1$}
+    $i \leftarrow$ \RandomIn{$x_0$, $x_1$}\tcp*{the one door, on column $i$}
     \Link{$N$, $(i,j)$, $(i,j+1)$}\;
-    $\ell \leftarrow$ \Divide{$N$, $[a_0,a_1]$, $[b_0,j]$}\;
-    $r \leftarrow$ \Divide{$N$, $[a_0,a_1]$, $[j+1,b_1]$}\;
+    $\ell \leftarrow$ \Divide{$N$, $(x_0,y_0)$, $(x_1,j)$}\;
+    $r \leftarrow$ \Divide{$N$, $(x_0,j+1)$, $(x_1,y_1)$}\;
   }
   \Return \NodeOf{$t$, $j$, $i$, $\ell$, $r$}\;
+}
+\BlankLine
+\Fn{\LinkPath{$N$, $(x_0,y_0)$, $(x_1,y_1)$}}{
+  \lFor{$x \leftarrow x_0$ \KwTo $x_1-1$}{\Link{$N$, $(x,y_0)$, $(x+1,y_0)$}}
+  \lFor{$y \leftarrow y_0$ \KwTo $y_1-1$}{\Link{$N$, $(x_0,y)$, $(x_0,y+1)$}}
 }
 \BlankLine
 \Fn{\Link{$N$, $u$, $v$}}{
   append $N[v]$ to $N[u].\textit{neighbours}$\;
   append $N[u]$ to $N[v].\textit{neighbours}$\;
 }
-\BlankLine
-\Fn{\SplitOrientation{$d_x$, $d_y$}}{
-  \lIf{$d_x=0$}{\Return $0$ \tcp*[f]{only the row range admits a wall}}
-  \lIf{$d_y=0$}{\Return $1$ \tcp*[f]{only the column range does}}
-  \Return \RandomBit{} \tcp*[f]{both admit one: a free coin}
-}
 \end{algorithm}
 
-Both cells a \Link{} touches lie in the region, since $j$ and $j+1$ are both in
-$[a_0,a_1]$ and $i$ is in $[b_0,b_1]$, and they are adjacent --- so every
-appended entry is a genuine edge of $\gridgraph$.
+\LinkPath{} needs no case analysis: on a corridor one of its two loops is empty
+by construction, and on a single cell both are, so the same three lines cover a
+row, a column and one cell.
+
+Every \Link{} joins two cells of the region that called it, and they are
+adjacent --- so every appended entry is a genuine edge of $\gridgraph$.
 
 The exit plays no part in generation, for the reasons given in
 Section~\ref{sec:exit-constraints}: the algorithm never reads it, and any cell
@@ -243,16 +249,19 @@ on that region connected and acyclic, with exactly $m-1$ doors. In particular
 \end{proposition}
 
 \begin{proof}
-By induction on $m$. If $m=1$ the region is one cell: no doors, connected and
-acyclic, $m-1=0$, and the call adds nothing.
+By induction on $m$. If the region has a side of one it is a corridor of $m$
+cells in a line, and \texttt{LinkPath} joins each to the next: a path, which is
+connected and acyclic and carries $m-1$ doors. This covers $m=1$, where both
+loops are empty and $m-1=0$.
 
-Let $m>1$. Since $m>1$ at least one dimension has extent at least $1$, and the
-orientation rule chooses only among those, so $j$ exists and the two
-sub-regions $R_\ell$ and $R_r$ are non-empty, with $m_\ell+m_r=m$. The call adds the single door at $i$, whose two cells lie one
-in each sub-region, and then recurses; by the induction hypothesis the two
-calls leave their regions connected and acyclic with $m_\ell-1$ and $m_r-1$
-doors. Neither recursive call can add an edge between the two sub-regions,
-because every \Link{} a call makes joins two cells of its own region.
+Otherwise both sides are at least $2$, so $x_1-x_0\ge1$ and $y_1-y_0\ge1$ and
+whichever axis the coin names, $j$ is drawn from a non-empty range and the two
+sub-regions $R_\ell$ and $R_r$ are non-empty, with $m_\ell+m_r=m$. The call adds
+the single door at $i$, whose two cells lie one in each sub-region, and then
+recurses; by the induction hypothesis the two calls leave their regions
+connected and acyclic with $m_\ell-1$ and $m_r-1$ doors. Neither recursive call
+can add an edge between the two sub-regions, because every \texttt{Link} a call
+makes joins two cells of its own region.
 
 So the door at $i$ is the only edge between $R_\ell$ and $R_r$. Joining two
 disjoint trees by a single edge yields a tree: connected, since any two cells
@@ -261,7 +270,7 @@ cycle would have to cross the wall an even, hence non-zero, number of times
 while only one crossing exists. The door count is
 $(m_\ell-1)+(m_r-1)+1=m-1$.
 
-Applying this to the root region gives a connected acyclic spanning subgraph of
+Applying this to the whole area gives a connected acyclic spanning subgraph of
 $\gridgraph$ on all $WH$ cells: a spanning tree, with $WH-1$ doors.
 \end{proof}
 
