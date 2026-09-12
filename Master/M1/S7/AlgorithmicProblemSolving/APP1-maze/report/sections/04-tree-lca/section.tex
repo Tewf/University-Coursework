@@ -103,6 +103,14 @@ and the measured $p\approx0.61$ gives $\Theta(n^{0.68})$. $p$ only sets the
 exponent; the bound $\Omega(k)$ above needs no parameter at all, and neither
 does $\Omega(d)$, the length of the route, which is the output.
 
+That no algorithm does better from the tree can be seen directly. Build two
+mazes that agree on the top $\log_2 n$ levels of the tree and differ only below:
+in $20$ pairs at $256\times256$, the routes differed in every pair. An algorithm
+reading only $\log n$ nodes reads the same nodes in both mazes and must give the
+same answer, so it is wrong on one of them. \keyterm{The route depends on nodes
+a logarithmic walk never reads.} What $\Theta(\log n)$ does buy is the first
+wall, and the report claims no more.
+
 \begin{keypoint}
 $\Theta(\log n)$ to find where the route crosses the first wall;
 $\Theta(n^{0.68})$ to lay the whole route down. Both are far below A*'s
