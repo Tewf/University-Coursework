@@ -102,6 +102,7 @@ Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp/france_map.png
 
 # C++ build trees
 build/
+build-tests/
 
 # Tout sujet distribué par l'équipe pédagogique vit dans un handout/ à côté du
 # travail, avec l'archive telle que téléchargée ; voir NOTICE. Règle générale,
