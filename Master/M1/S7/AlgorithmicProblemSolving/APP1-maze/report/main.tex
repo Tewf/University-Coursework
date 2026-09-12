@@ -1,4 +1,4 @@
-% APP1 "Be Amazed" deliverable -- Algorithmic Problem Solving, M1 AI, UGA.
+% APP1 deliverable -- Algorithmic Problem Solving, M1 AI, UGA.
 %
 % This file is the skeleton and nothing else. Each section lives in its own
 % folder under sections/ and is pulled in with \subimport, so a section's
@@ -9,25 +9,29 @@
 \documentclass[11pt,a4paper]{article}
 \input{preamble.tex}
 
-\title{Be Amazed: generating a maze as a graph\\
-       and walking it back to the exit}
-\author{Mohamed Ali Tewfik Hamlil}
+\title{Random maze generation by recursive division,\\
+       and shortest-path search to the exit}
+\author{Mohamed Ali Tewfik Hamlil\\[2pt]
+  \small M1 Artificial Intelligence, Universit\'e Grenoble Alpes\\
+  \small Algorithmic Problem Solving --- APP1}
 \date{\today}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Minos wants mazes that nobody can predict from a blueprint, with a single exit
-and a route out from anywhere inside. This report turns that request into a
-graph problem, builds the maze by recursive division so that the object
-produced is a spanning tree of the grid graph, then reads the escape route off
-that tree. Giving every door unit length makes the tree metric the number of
-doors crossed, which is what the shortest-path search of
-Section~\ref{sec:shortest-path} measures and what the Manhattan and Euclidean
+A rectangular area of $W\times H$ cells is laid out as a maze by recursive
+division: a full wall across the longest dimension, exactly one door in it, and
+the same rule inside each of the two halves. This report states that as a graph
+problem, shows that the requirements force the maze to be a spanning tree of
+the grid graph, and derives a generation algorithm together with the data
+structure it runs on and a proof that what it returns is that spanning tree.
+Giving every door unit weight makes the length of a route the number of doors
+crossed, which is what the shortest-path search of
+Section~\ref{sec:shortest-path} minimises and what the Manhattan and Euclidean
 distances are compared against as heuristic guidance. A Python implementation
-is used to check the claims on generated instances, and the closing section
-puts costs on the data structure and on both algorithms.
+checks the claims on generated instances, and the closing section gives the
+size of the structure and the cost of both algorithms.
 \end{abstract}
 
 \tableofcontents

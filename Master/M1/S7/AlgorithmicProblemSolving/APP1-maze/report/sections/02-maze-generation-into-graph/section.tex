@@ -93,7 +93,7 @@ A call handles a region $\region{a_0,a_1}{b_0,b_1}$. If the region is a single
 cell there is nothing to cut and the call returns a leaf. Otherwise:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Choose the orientation $t$.} The handout asks for a wall across
+  \item \textbf{Choose the orientation $t$.} The rule puts the wall across
         the longest dimension, so $t=1$ (a vertical wall, cutting the column
         range) when $a_1-a_0>b_1-b_0$, $t=0$ (a horizontal wall, cutting the
         row range) when it is smaller, and a random bit decides a tie. The rule
@@ -174,8 +174,7 @@ means each deletion touches one slot and no lookup is needed to find it.
 
 The exit plays no part in generation. Proposition~\ref{prop:spanning-tree}
 makes every cell reachable from every other, so any boundary cell may be
-declared $\exitcell$ afterwards --- which is also why the same maze serves the
-many trap-door entries the situation asks for.
+declared $\exitcell$ afterwards, and any interior cell is an admissible start.
 
 \subsection{Why the result is a spanning tree}
 
