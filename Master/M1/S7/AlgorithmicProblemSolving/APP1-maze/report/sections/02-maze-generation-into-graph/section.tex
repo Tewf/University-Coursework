@@ -131,6 +131,20 @@ the wall has one crossing and the door is obliged to sit on it. The recursion
 walks the corridor down to its leaves, doing nothing at each level, and cannot
 disconnect it.
 
+What makes this safe is that the two draws have different shapes. The wall is
+drawn from $[a_0,a_1-1]$, which is \emph{empty} when $a_1-a_0=0$; the door is
+drawn from $[a_0,a_1]$, which holds one value there and is never empty. So
+$a_0=a_1$ forces the door and cannot starve it, and the only draw that needs
+protecting is the wall --- which is exactly what the strict comparison in
+\texttt{SplitOrientation} protects. One guard, in one place, for the one draw
+that can fail.
+
+The extreme of the extreme is $W=1$: the root region is itself a corridor, and
+$\gridgraph$ is then a path, which is already a spanning tree. There is exactly
+one maze on such an area, the random draws have nothing to choose between, and
+deleting no edge at all is the only correct behaviour. The same holds for $H=1$
+by symmetry.
+
 \input{figure-corridor-base-case.tex}
 
 Stopping at such a region instead --- returning a corridor as one leaf --- is a
