@@ -71,13 +71,25 @@ the list \emph{is} the maze.
 
 A region is a rectangle of cells, and the algorithm names it by the two cells
 at its ends: $\region{x_0,y_0}{x_1,y_1}$, upper-left and lower-right, with
-$x_0\le x_1$ and $y_0\le y_1$. The whole area is $\region{0,0}{W-1,H-1}$.
+$x_0\le x_1$ and $y_0\le y_1$. The whole area is $\region{0,0}{W-1,H-1}$. In the
+pseudocode those two cells are called $p$ and $q$, and a cell's two coordinates
+are reached by index: $p[0]$ is its $x$ and $p[1]$ its $y$. Indexing rather than
+naming them is what lets the division below be written once for both axes.
 
 This is the same currency the rest of the program is written in. A node's
 \textit{value} is an $(x,y)$ pair, a door is a pair of them, and now a region is
 too, so there is one coordinate type throughout and no second convention to
 keep straight --- which is also how the drawing routine provided with the
 subject speaks, taking a rectangle as two corner points.
+
+Both corners are \emph{cells of the region}, not fences around it. A region
+therefore spans $x_1-x_0+1$ columns and $y_1-y_0+1$ rows, and one column wide is
+$x_0=x_1$ --- a difference of \emph{zero}. A difference of one, $x_1-x_0=1$, is a
+region two columns wide, which is not a corridor and still has a wall to place.
+Naming a region by a half-open range instead, with $q$ one cell past the last,
+would make the width $x_1-x_0$ and one-wide $x_1-x_0=1$; it is rejected because
+$q$ would then not be a cell, which puts back exactly the second convention the
+corner form removed.
 
 \subsection{The recursion stops at a corridor}
 \label{sec:corridor-base}
@@ -95,8 +107,9 @@ $\gridgraph$ induces on it is already a path; a path on $m$ vertices has $m-1$
 edges and is a tree, so it is its own and only spanning tree. Put a wall across
 a corridor and it has exactly one crossing, which is then forced to be the
 door --- the division would change nothing. Dividing further is therefore not
-wrong, merely pointless, and the recursion stops there and lays the corridor
-down in one pass.
+wrong, merely pointless, and the recursion stops there, handing the region to
+\texttt{SpanCorridor}, which lays those forced doors and returns the leaf that
+records them.
 
 \input{figure-corridor.tex}
 
@@ -156,17 +169,27 @@ A call handles a region $\region{x_0,y_0}{x_1,y_1}$. If it is a corridor
 Otherwise both sides are at least $2$ and:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Toss for the orientation $t$.} Both axes admit a wall, so the
-        coin is free: $t=1$ for a vertical wall cutting the $x$ range, $t=0$
-        for a horizontal wall cutting the $y$ range.
-  \item \textbf{Choose the wall position $j$}, uniformly among the interior
-        boundaries of the chosen axis, and \textbf{the door position $i$},
-        uniformly along the wall.
+  \item \textbf{Toss for the axis $t$ to cut.} Both admit a wall, so the coin is
+        free. Write $t=0$ for the $x$ axis and $t=1$ for the $y$ axis, and write
+        $p[t]$ for the coordinate of cell $p$ on axis $t$; then $1-t$ is the
+        other axis, and one piece of code covers both cases.
+  \item \textbf{Choose the wall position $j$} on axis $t$, uniformly in
+        $[\,p[t],\,q[t]-1\,]$, and \textbf{the door position $i$} on the other
+        axis, uniformly in $[\,p[1-t],\,q[1-t]\,]$.
   \item \textbf{Link the two cells the door falls on}, appending each to the
         other's neighbour list.
-  \item \textbf{Recurse} on the two regions, and hang them under the node
+  \item \textbf{Recurse} on the two regions --- the same corners with the
+        axis-$t$ coordinate cut at $j$ --- and hang them under the node
         recording $\langle t,j,i\rangle$.
 \end{enumerate}
+
+\begin{remark}[Why one branch and not two]
+Written out longhand, the vertical case and the horizontal case are the same
+six lines with $x$ and $y$ exchanged. Indexing the axis collapses them into one,
+which is worth doing for a reason beyond brevity: two mirrored copies are where
+a transcription slip hides, since each reads correctly on its own and only the
+comparison between them shows the error. One copy has nothing to disagree with.
+\end{remark}
 
 \begin{remark}[Departure from the specification]
 The specification puts the wall across the \emph{longest} dimension; this
@@ -191,10 +214,12 @@ cut, only that one was.
 \SetKwFunction{RandomIn}{RandomIn}
 \SetKwFunction{RandomBit}{RandomBit}
 \SetKwFunction{Link}{Link}
-\SetKwFunction{LinkPath}{LinkPath}
-\SetKwFunction{Leaf}{Corridor}
+\SetKwFunction{Span}{SpanCorridor}
+\SetKwFunction{Leaf}{Leaf}
 \SetKwFunction{NodeOf}{CutNode}
 \SetKwFunction{NewNode}{NewNode}
+\SetKwFunction{CellAt}{CellAt}
+\SetKwFunction{WithAxis}{WithAxis}
 \KwIn{$W,H\ge1$, the width and height of the area in cells. The bound is a
       precondition, not a convention: at $W=0$ the region $\region{0,0}{-1,H-1}$
       holds no cell and there is nothing for the first draw to land on.}
@@ -208,42 +233,45 @@ cut, only that one was.
   \Return $(N,r)$\;
 }
 \BlankLine
-\Fn{\Divide{$N$, $(x_0,y_0)$, $(x_1,y_1)$}}{
-  \If{$x_0=x_1$ \textup{\textbf{or}} $y_0=y_1$}{
-    \LinkPath{$N$, $(x_0,y_0)$, $(x_1,y_1)$}\tcp*{a corridor: one way to span it}
-    \Return \Leaf{$(x_0,y_0)$, $(x_1,y_1)$}\;
-  }
-  $t \leftarrow$ \RandomBit{}\tcp*{both sides $\ge2$, so both axes admit a wall}
-  \eIf{$t=1$}{
-    $j \leftarrow$ \RandomIn{$x_0$, $x_1-1$}\tcp*{wall between columns $j$ and $j+1$}
-    $i \leftarrow$ \RandomIn{$y_0$, $y_1$}\tcp*{the one door, on row $i$}
-    \Link{$N$, $(j,i)$, $(j+1,i)$}\;
-    $\ell \leftarrow$ \Divide{$N$, $(x_0,y_0)$, $(j,y_1)$}\;
-    $r \leftarrow$ \Divide{$N$, $(j+1,y_0)$, $(x_1,y_1)$}\;
-  }{
-    $j \leftarrow$ \RandomIn{$y_0$, $y_1-1$}\tcp*{wall between rows $j$ and $j+1$}
-    $i \leftarrow$ \RandomIn{$x_0$, $x_1$}\tcp*{the one door, on column $i$}
-    \Link{$N$, $(i,j)$, $(i,j+1)$}\;
-    $\ell \leftarrow$ \Divide{$N$, $(x_0,y_0)$, $(x_1,j)$}\;
-    $r \leftarrow$ \Divide{$N$, $(x_0,j+1)$, $(x_1,y_1)$}\;
-  }
+\Fn{\Divide{$N$, $p$, $q$}}{
+  \lIf{$p[0]=q[0]$ \textup{\textbf{or}} $p[1]=q[1]$}{\Return \Span{$N$, $p$, $q$}}
+  $t \leftarrow$ \RandomBit{}\tcp*{the axis to cut: $0$ is $x$, $1$ is $y$}
+  $j \leftarrow$ \RandomIn{$p[t]$, $q[t]-1$}\tcp*{wall between $j$ and $j+1$ on axis $t$}
+  $i \leftarrow$ \RandomIn{$p[1{-}t]$, $q[1{-}t]$}\tcp*{the one door, at $i$ on the other axis}
+  \Link{$N$, \CellAt{$t$, $j$, $i$}, \CellAt{$t$, $j{+}1$, $i$}}\;
+  $\ell \leftarrow$ \Divide{$N$, $p$, \WithAxis{$q$, $t$, $j$}}\;
+  $r \leftarrow$ \Divide{$N$, \WithAxis{$p$, $t$, $j{+}1$}, $q$}\;
   \Return \NodeOf{$t$, $j$, $i$, $\ell$, $r$}\;
 }
 \BlankLine
-\Fn{\LinkPath{$N$, $(x_0,y_0)$, $(x_1,y_1)$}}{
-  \lFor{$x \leftarrow x_0$ \KwTo $x_1-1$}{\Link{$N$, $(x,y_0)$, $(x+1,y_0)$}}
-  \lFor{$y \leftarrow y_0$ \KwTo $y_1-1$}{\Link{$N$, $(x_0,y)$, $(x_0,y+1)$}}
+\Fn{\Span{$N$, $p$, $q$}}{
+  \lFor{$x \leftarrow p[0]$ \KwTo $q[0]-1$}{\Link{$N$, $(x,p[1])$, $(x{+}1,p[1])$}}
+  \lFor{$y \leftarrow p[1]$ \KwTo $q[1]-1$}{\Link{$N$, $(p[0],y)$, $(p[0],y{+}1)$}}
+  \Return \Leaf{$p$, $q$}\;
 }
 \BlankLine
 \Fn{\Link{$N$, $u$, $v$}}{
   append $N[v]$ to $N[u].\textit{neighbours}$\;
   append $N[u]$ to $N[v].\textit{neighbours}$\;
 }
+\BlankLine
+\Fn{\CellAt{$t$, $u$, $v$}}{
+  \Return the cell whose axis-$t$ coordinate is $u$ and whose other is $v$\;
+}
+\BlankLine
+\Fn{\WithAxis{$p$, $t$, $u$}}{
+  \Return the cell $p$ with its axis-$t$ coordinate replaced by $u$\;
+}
 \end{algorithm}
 
-\LinkPath{} needs no case analysis: on a corridor one of its two loops is empty
-by construction, and on a single cell both are, so the same three lines cover a
-row, a column and one cell.
+\Span{} is the whole of the base case: it lays the corridor's forced doors
+\emph{and} returns the leaf that records the region, so what used to be two
+lines that had to be kept in step is one call. It needs no case analysis
+either --- on a corridor one of its loops is empty by construction and on a
+single cell both are, so the same two loops cover a row, a column and one cell.
+
+\CellAt{} and \WithAxis{} are the only price of indexing the axis, one line
+each, and they are what let the division be written once rather than twice.
 
 Every \Link{} joins two cells of the region that called it, and they are
 adjacent --- so every appended entry is a genuine edge of $\gridgraph$.
@@ -263,13 +291,14 @@ on that region connected and acyclic, with exactly $m-1$ doors. In particular
 
 \begin{proof}
 By induction on $m$. If the region has a side of one it is a corridor of $m$
-cells in a line, and \texttt{LinkPath} joins each to the next: a path, which is
-connected and acyclic and carries $m-1$ doors. This covers $m=1$, where both
-loops are empty and $m-1=0$.
+cells in a line, and \texttt{SpanCorridor} joins each to the next: a path, which
+is connected and acyclic and carries $m-1$ doors. This covers $m=1$ too, where
+both loops are empty and $m-1=0$.
 
-Otherwise both sides are at least $2$, so $x_1-x_0\ge1$ and $y_1-y_0\ge1$ and
-whichever axis the coin names, $j$ is drawn from a non-empty range and the two
-sub-regions $R_\ell$ and $R_r$ are non-empty, with $m_\ell+m_r=m$. The call adds
+Otherwise both sides are at least $2$, so $q[0]-p[0]\ge1$ and $q[1]-p[1]\ge1$:
+whichever axis the coin names, $q[t]-p[t]\ge1$, so $j$ is drawn from a non-empty
+range and the two sub-regions $R_\ell$ and $R_r$ are non-empty, with
+$m_\ell+m_r=m$. The call adds
 the single door at $i$, whose two cells lie one in each sub-region, and then
 recurses; by the induction hypothesis the two calls leave their regions
 connected and acyclic with $m_\ell-1$ and $m_r-1$ doors. Neither recursive call

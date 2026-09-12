@@ -31,12 +31,12 @@
     \begin{tikzpicture}[scale=1.0, level distance=13mm,
       level 1/.style={sibling distance=42mm},
       level 2/.style={sibling distance=21mm}]
-      \node[tree node] {A: $t{=}1,\,j{=}1,\,i{=}1$}
-        child {node[tree node] {B: $t{=}0,\,j{=}1,\,i{=}0$}
+      \node[tree node] {A: $t{=}0,\,j{=}1,\,i{=}1$}
+        child {node[tree node] {B: $t{=}1,\,j{=}1,\,i{=}0$}
           child {node[tree leaf] {$\region{0,0}{1,1}$}}
           child {node[tree leaf] {$\region{0,2}{1,3}$}}
         }
-        child {node[tree node] {C: $t{=}0,\,j{=}2,\,i{=}3$}
+        child {node[tree node] {C: $t{=}1,\,j{=}2,\,i{=}3$}
           child {node[tree leaf] {$\region{2,0}{3,2}$}}
           child {node[tree leaf] {$\region{2,3}{3,3}$}}
         };

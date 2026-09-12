@@ -1,6 +1,6 @@
 % One division, additively: the call places its wall, links the single pair the
 % door falls on, and recurses. It never looks at the other crossings, because
-% they were never there to remove.
+% they were never there to remove. Here t = 0, the x axis, so the wall is vertical.
 \begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{0.47\textwidth}\centering
@@ -38,10 +38,11 @@
     door is still the only edge between them.}
     \label{fig:division-recursed}
   \end{subfigure}
-  \caption{One division, with $t=1$. The call draws the wall position $j$ and
-  the door position $i$, links $(j,i)$ to $(j{+}1,i)$, and recurses on the two
-  halves. Counting edges: $11$ on the left, $7$ on the right, one door, total
-  $19=20-1$ on $20$ cells --- the tally of
-  Proposition~\ref{prop:generation-is-a-tree}, assembled one edge per call.}
+  \caption{One division, with $t=0$ --- the coin named the $x$ axis, so the wall
+  is vertical. The call draws the wall position $j$ on that axis and the door
+  position $i$ on the other, links the two cells the door falls on, and recurses
+  on the two halves. Counting edges: $11$ on the left, $7$ on the right, one
+  door, total $19=20-1$ on $20$ cells --- the tally of
+  Proposition~\ref{prop:generation-is-a-tree}.}
   \label{fig:one-division-step}
 \end{figure}
