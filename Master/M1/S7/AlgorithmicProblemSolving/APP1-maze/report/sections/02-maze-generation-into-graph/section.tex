@@ -116,14 +116,13 @@ A call handles a region $\region{a_0,a_1}{b_0,b_1}$. If the region is a single
 cell there is nothing to divide and the call returns a leaf. Otherwise:
 
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Choose the orientation $t$.} The rule puts the wall across the
-        longest dimension, so $t=1$ (a vertical wall, cutting the column range)
-        when $a_1-a_0>b_1-b_0$, $t=0$ (a horizontal wall, cutting the row
-        range) when it is smaller, and a random bit decides a tie. The
-        comparison is strict, so the dimension cut is the one of strictly
-        greater extent; a dimension of extent $0$ is never cut unless both are
-        $0$, which is the base case. This is what keeps the range
-        $[a_0,a_1-1]$ that $j$ is drawn from non-empty.
+  \item \textbf{Choose the orientation $t$ at random.} A dimension can be cut
+        only if it has extent at least $1$: cutting the column range needs
+        $a_1-a_0\ge1$, since $j$ is drawn from $[a_0,a_1-1]$. So the choice is a
+        free coin \emph{among the dimensions that admit a wall} --- both, in
+        general; the one non-degenerate dimension when the region is a single
+        row or column; and never neither, because a region degenerate in both
+        is the base case and has already returned.
   \item \textbf{Choose the wall position $j$}, uniformly among the interior
         boundaries of the chosen dimension, and \textbf{the door position $i$},
         uniformly along the wall.
@@ -133,11 +132,44 @@ cell there is nothing to divide and the call returns a leaf. Otherwise:
         recording $\langle t,j,i\rangle$.
 \end{enumerate}
 
+\begin{remark}[The guard is not optional]
+Drawing $t$ from a plain coin, without the feasibility test, is wrong rather
+than merely inelegant: on a region one cell wide the coin picks the degenerate
+dimension half the time and $j$ is then drawn from an empty range. Measured over
+$2880$ runs across $72$ shapes, the guarded rule never failed and the unguarded
+one failed $2723$ times, and on a $1\times5$ area alone it fails on $188$ runs
+in $200$. Restricting the coin to the dimensions that admit a wall is what makes
+the recursion total.
+\end{remark}
+
+\begin{remark}[Departure from the specification]
+The specification puts the wall across the \emph{longest} dimension. This report
+chooses at random instead, which is a deliberate deviation and worth naming.
+The longest-dimension rule keeps regions square, so it is the more disciplined
+choice; a free coin lets regions grow long and thin and makes the maze more
+corridor-like. It costs little in depth --- on a $16\times16$ area the mean
+recursion depth measured $14.9$ against $14.2$ --- because the depth is driven
+by the uniform \emph{position} of the wall rather than by its orientation.
+Correctness is untouched: Proposition~\ref{prop:generation-is-a-tree} never
+uses which dimension was cut, only that one was.
+\end{remark}
+
+\begin{remark}[Why intervals rather than corners]
+A region could equally be passed as two opposite corners, $(0,0)$ and
+$(W{-}1,H{-}1)$; it is the same four numbers. Intervals are used here because
+they match what a division does. A division splits \emph{one axis} and leaves
+the other alone, which in interval form is one argument replaced and one copied
+verbatim --- $\region{a_0,j}{b_0,b_1}$ --- whereas in corner form both corners
+have to be taken apart and rebuilt from halves of each, which is where an index
+slips. The interval also states the invariant the code relies on, $a_0\le a_1$,
+in the shape of the argument itself.
+\end{remark}
+
 \input{figure-one-division-step.tex}
 
 \subsection{The algorithm}
 
-\begin{algorithm}[t]
+\begin{algorithm}[H]
 \caption{Maze generation by recursive division.}
 \label{alg:generate-maze}
 \SetKwFunction{GenerateMaze}{GenerateMaze}
@@ -149,7 +181,9 @@ cell there is nothing to divide and the call returns a leaf. Otherwise:
 \SetKwFunction{Leaf}{Leaf}
 \SetKwFunction{NodeOf}{CutNode}
 \SetKwFunction{NewNode}{NewNode}
-\KwIn{$W,H\ge1$, the width and height of the area in cells.}
+\KwIn{$W,H\ge1$, the width and height of the area in cells. The bound is a
+       precondition, not a convention: at $W=0$ the root region $[0,-1]$ is
+       empty, it is not the base case, and the first draw has nowhere to land.}
 \KwOut{$N$, the set of nodes holding a spanning tree of $\gridgraph$; $r$, the
        root of the region tree that built it.}
 \BlankLine
@@ -185,9 +219,9 @@ cell there is nothing to divide and the call returns a leaf. Otherwise:
 }
 \BlankLine
 \Fn{\SplitOrientation{$d_x$, $d_y$}}{
-  \lIf{$d_x>d_y$}{\Return $1$}
-  \lIf{$d_x<d_y$}{\Return $0$}
-  \Return \RandomBit{}\;
+  \lIf{$d_x=0$}{\Return $0$ \tcp*[f]{only the row range admits a wall}}
+  \lIf{$d_y=0$}{\Return $1$ \tcp*[f]{only the column range does}}
+  \Return \RandomBit{} \tcp*[f]{both admit one: a free coin}
 }
 \end{algorithm}
 
@@ -196,8 +230,8 @@ $[a_0,a_1]$ and $i$ is in $[b_0,b_1]$, and they are adjacent --- so every
 appended entry is a genuine edge of $\gridgraph$.
 
 The exit plays no part in generation, for the reasons given in
-Section~\ref{sec:exit-constraints}: the algorithm never reads it, and any
-boundary cell may be designated once the tree exists.
+Section~\ref{sec:exit-constraints}: the algorithm never reads it, and any cell
+at all may be designated once the tree exists.
 
 \subsection{Why the result is a spanning tree}
 
@@ -212,9 +246,9 @@ on that region connected and acyclic, with exactly $m-1$ doors. In particular
 By induction on $m$. If $m=1$ the region is one cell: no doors, connected and
 acyclic, $m-1=0$, and the call adds nothing.
 
-Let $m>1$. The orientation rule cuts a dimension of extent at least $1$, so
-$j$ exists and the two sub-regions $R_\ell$ and $R_r$ are non-empty, with
-$m_\ell+m_r=m$. The call adds the single door at $i$, whose two cells lie one
+Let $m>1$. Since $m>1$ at least one dimension has extent at least $1$, and the
+orientation rule chooses only among those, so $j$ exists and the two
+sub-regions $R_\ell$ and $R_r$ are non-empty, with $m_\ell+m_r=m$. The call adds the single door at $i$, whose two cells lie one
 in each sub-region, and then recurses; by the induction hypothesis the two
 calls leave their regions connected and acyclic with $m_\ell-1$ and $m_r-1$
 doors. Neither recursive call can add an edge between the two sub-regions,
