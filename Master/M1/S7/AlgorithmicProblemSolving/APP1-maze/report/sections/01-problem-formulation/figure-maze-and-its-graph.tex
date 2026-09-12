@@ -1,15 +1,14 @@
 % The same 4x4 maze twice: as a drawing of walls, and as the graph this report
-% actually works on. Both panels are generated from the one edge set listed in
-% Section 2, so they cannot drift apart.
+% works on. The outer boundary is closed all the way round and the exit is a
+% marked cell inside it, which is how the subject's own example is drawn.
 \begin{figure}[htbp]
   \centering
   \begin{subfigure}[b]{0.46\textwidth}
     \centering
     \begin{tikzpicture}[scale=0.95]
       \fill[cellgrey] (0,0) rectangle (4,-4);
-      % outer boundary, with the exit opening left out of the left side
-      \draw[wall segment] (0,0) -- (4,0) -- (4,-4) -- (0,-4);
-      \draw[wall segment] (0,-1) -- (0,-4);
+      \fill[exitorange!30] (2,-1) rectangle (3,-2);   % the exit cell
+      \draw[wall segment] (0,0) rectangle (4,-4);     % closed on every side
       % walls between cells that no door connects
       \draw[wall segment] (2,0)  -- (2,-1);
       \draw[wall segment] (1,-1) -- (1,-2);
@@ -20,12 +19,11 @@
       \draw[wall segment] (1,-2) -- (2,-2);
       \draw[wall segment] (2,-3) -- (3,-3);
       \draw[wall segment] (3,-1) -- (4,-1);
-      % the single exit
-      \draw[doorgreen, -{Stealth[length=3mm]}, line width=1.2pt]
-            (0.5,-0.5) -- (-0.8,-0.5);
-      \node[exitorange, font=\scriptsize\bfseries, left] at (-0.85,-0.5) {exit};
+      \node[exitorange, font=\scriptsize\bfseries] at (2.5,-1.5) {\textsf{E}};
+      \node[exitorange, font=\scriptsize, right] at (4.15,-1.5) {the exit cell};
     \end{tikzpicture}
-    \caption{The maze as walls, with its single exit.}
+    \caption{The maze as walls. The area is enclosed; the exit is a cell, not a
+    gap in the outer wall.}
     \label{fig:maze-as-walls}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.46\textwidth}
@@ -33,19 +31,21 @@
     \begin{tikzpicture}[scale=1.27]
       \foreach \x in {0,1,2,3} \foreach \y in {0,1,2,3}
         \node[node vertex] (v\x\y) at (\x,-\y) {};
-      \node[exit vertex] at (0,0) {};   % overdrawn: the one exit
+      \node[exit vertex] at (2,-1) {};   % overdrawn: the one exit
       \foreach \a/\b in {v00/v10, v20/v30, v11/v21, v02/v12, v22/v32,
                          v03/v13, v23/v33,
                          v00/v01, v01/v02, v10/v11, v12/v13,
                          v20/v21, v21/v22, v31/v32, v32/v33}
         \draw[door] (\a) -- (\b);
-      \node[exitorange, font=\scriptsize\bfseries, left] at (-0.35,0) {exit};
+      \node[exitorange, font=\scriptsize, below=1pt] at (2,-1.1) {\textsf{E}};
     \end{tikzpicture}
     \caption{The same maze as a spanning tree of the grid graph.}
     \label{fig:maze-as-graph}
   \end{subfigure}
   \caption{A maze is not a picture but a graph. Cells become vertices, doors
-  become edges, and a wall is simply an edge of the grid graph that is
-  absent. The two panels show the same $4\times4$ maze.}
+  become edges, and a wall is simply an edge of the grid graph that is absent.
+  The exit is a vertex marked on the finished tree --- here an interior one,
+  with degree $3$ --- and neither its position nor its degree affects anything
+  the construction does.}
   \label{fig:maze-and-its-graph}
 \end{figure}

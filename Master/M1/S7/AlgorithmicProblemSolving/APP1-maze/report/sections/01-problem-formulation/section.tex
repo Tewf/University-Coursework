@@ -8,8 +8,8 @@
 
 A rectangular area of $W\times H$ unit cells is to be laid out as a maze. The
 layout must be drawn at random, so that $W$ and $H$ do not determine it; the
-area has a single exit on its boundary; and it is entered at an arbitrary
-interior cell. Two problems follow, and both are to be settled algorithmically
+area is enclosed and has a single exit; and it is entered at an arbitrary
+cell. Two problems follow, and both are to be settled algorithmically
 before any implementation and then analysed for cost:
 
 \begin{enumerate}[label=\arabic*.,leftmargin=*]
@@ -62,7 +62,7 @@ the cells as vertices and the adjacent pairs as edges, so
 A \emph{maze} on that area is a spanning subgraph $\maze=(\cells,E)$ with
 $E\subseteq\gridedges$. An edge of $E$ is a \emph{door}: the two cells it joins
 can be walked between. A pair of $\gridedges\setminus E$ is a \emph{wall
-segment}. One distinguished boundary cell $\exitcell$ is the exit.
+segment}. One distinguished cell $\exitcell$ is the exit.
 \end{definition}
 
 Figure~\ref{fig:maze-and-its-graph} puts the two readings of the same object
@@ -80,8 +80,11 @@ Three requirements follow from the statement.
   \item \textbf{Every cell reaches the exit.} The entry position is arbitrary,
         so any cell may be a starting point and each must have a route out:
         $\maze$ is connected.
-  \item \textbf{There is exactly one exit.} $\exitcell$ is a single cell on the
-        boundary of the area, and the outer wall is closed everywhere else.
+  \item \textbf{There is exactly one exit.} Exactly one cell is designated
+        $\exitcell$. It is a \emph{cell}, not a gap in the outer wall: the area
+        is enclosed on every side, and the exit is the one place that leads out
+        of it --- a stair or a shaft, in an area dug under a building. It may
+        therefore lie anywhere, including strictly inside.
   \item \textbf{The route out does not fork.} The path to the exit is required
         to be unique, hence shortest; a cycle in $\maze$ would give two
         distinct simple routes between the cells it passes through, so $\maze$
@@ -109,40 +112,46 @@ than by checking afterwards.
 \label{sec:exit-constraints}
 
 Three questions about $\exitcell$ are worth settling before an algorithm is
-written, because two of them turn out to constrain nothing.
+written. None of the three turns out to constrain the construction, but two of
+them invite an answer that would.
 
 \begin{description}[leftmargin=*,style=nextline]
-  \item[Must it be fixed before generation?] No. By
-    Proposition~\ref{prop:spanning-tree} every cell reaches every other, so any
-    cell designated afterwards is reachable from all of them. The exit is an
-    opening in the \emph{outer} boundary, and the outer boundary is not part of
-    $\gridgraph$ at all --- the edges of $\gridgraph$ run between cells, never
-    out of the area. Generation and the choice of exit are independent, and
-    Section~\ref{sec:maze-generation} never consults it.
-  \item[Must it be on the boundary?] Yes, but by definition rather than by
-    necessity. An exit leads out of the area, so it is a boundary cell; this is
-    requirement \textup{(R2)} and a modelling decision, not something the
-    algorithm enforces or could violate. The construction would accept any cell.
+  \item[When is it chosen --- before or after generation?] After, and it can
+    only be after in any useful sense. Generation takes $W$ and $H$ and nothing
+    else; by Proposition~\ref{prop:spanning-tree} the maze it returns makes
+    every cell reachable from every other, so \emph{any} cell designated
+    afterwards is reachable from all of them. Choosing first would change
+    nothing about what is built, because there is no step in the construction
+    that could consult it. Section~\ref{sec:maze-generation} never does.
+  \item[Must it be on the boundary?] No. This is the tempting answer and it is
+    wrong. The exit is a cell of the area, not a hole in the wall enclosing it,
+    so nothing obliges it to touch the perimeter --- and the subject's own
+    worked example puts it several cells inside one, with the outer wall drawn
+    closed the whole way round. An area dug beneath a building leaves it by a
+    stair, and a stair can be anywhere.
   \item[Must it have exactly one door?] No, and requiring it would be a
     mistake. Uniqueness of the route out comes from $\maze$ being a tree, not
     from the exit's degree: whether $\exitcell$ has $1$, $2$, $3$ or $4$ doors,
     there is still exactly one simple path to it from anywhere. Worse, the
-    constraint can be unsatisfiable --- a spanning tree of $\gridgraph$ is not
-    obliged to have any of its leaves on the boundary, so demanding a
-    degree-one boundary cell can rule out a maze the construction legitimately
+    constraint can be unsatisfiable --- a spanning tree of $\gridgraph$ need not
+    place any of its leaves where one is wanted, so demanding a degree-one exit
+    at a chosen position can rule out a maze the construction legitimately
     produced.
 \end{description}
 
-The exit is therefore a label applied to the finished tree, and the report
-treats it as one.
+So the exit carries no constraint at all: it is a label applied to a finished
+tree, and every cell is an equally valid candidate. The report treats it as one,
+and Figure~\ref{fig:maze-and-its-graph} marks an interior cell of degree $3$ to
+make the point.
 
 \subsection{The two problems, restated on the graph}
 
 \begin{description}[leftmargin=*,style=nextline]
-  \item[Problem 1 --- Generation.] Given $W$, $H$, an exit cell $\exitcell$ and
-    a source of random bits, produce a spanning tree $\maze$ of $\gridgraph$,
-    drawn at random so that no two runs need agree, together with the
-    structure that records how it was built.
+  \item[Problem 1 --- Generation.] Given $W$, $H$ and a source of random bits,
+    produce a spanning tree $\maze$ of $\gridgraph$, drawn at random so that no
+    two runs need agree, together with the structure that records how it was
+    built. The exit is not an input: any cell is designated $\exitcell$ once
+    $\maze$ exists.
   \item[Problem 2 --- Escape.] Given $\maze$ and any start cell
     $s\in\cells$, return the unique simple path from $s$ to $\exitcell$.
 \end{description}
@@ -165,7 +174,7 @@ Euclidean distances.
   $(x,y)$             & cell in column $x$ (left to right) and row $y$ (top to bottom) \\
   $\gridgraph$, $\gridedges$ & the grid graph and its edges: every adjacency, all doors open \\
   $\maze=(\cells,E)$  & the maze produced: a spanning tree of $\gridgraph$ \\
-  $\exitcell$         & the single exit cell, on the boundary \\
+  $\exitcell$         & the single exit cell, anywhere in $\cells$ \\
   $\region{a_0,a_1}{b_0,b_1}$ & a region: columns $a_0..a_1$, rows $b_0..b_1$ \\
   \bottomrule
 \end{tabular}
