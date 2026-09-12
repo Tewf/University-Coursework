@@ -8,6 +8,8 @@
 \usepackage{lmodern}
 \usepackage[english]{babel}
 \usepackage{microtype}
+% Short paragraphs read badly with first-line indents: space them instead.
+\usepackage{parskip}
 \usepackage{geometry}
 \geometry{margin=2.4cm}
 
@@ -21,6 +23,8 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,calc,fit,positioning,backgrounds}
 \usepackage{import}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
 \usepackage{hyperref}
 \usepackage{bookmark}
 
@@ -52,6 +56,23 @@
   tree leaf/.style = {tree node, draw=doorgreen!80!black, fill=doorgreen!8},
   tree edge/.style = {black!55},
 }
+
+% --- Emphasis ------------------------------------------------------------
+% Three levels and no more, so that emphasis keeps meaning something:
+%   \keyterm  a term at the point it is defined, or the load-bearing word of a
+%             sentence -- bold, dark, and never more than one per paragraph;
+%   \doorword / \wallword  the two words the figures are colour-coded for, so
+%             prose and picture agree; used at definitions, not on every mention;
+%   keypoint  a boxed claim the rest of the section leans on. Four in the report.
+\definecolor{keyink}{HTML}{263238}
+\newcommand{\keyterm}[1]{\textbf{\textcolor{keyink}{#1}}}
+\newcommand{\doorword}[1]{\textbf{\textcolor{doorgreen}{#1}}}
+\newcommand{\wallword}[1]{\textbf{\textcolor{wallred}{#1}}}
+
+\newtcolorbox{keypoint}{%
+  enhanced, breakable, colback=linkblue!4, colframe=linkblue!65,
+  boxrule=0pt, leftrule=2.2pt, arc=0pt, outer arc=0pt,
+  left=7pt, right=7pt, top=5pt, bottom=5pt, before skip=8pt, after skip=8pt}
 
 % --- Theorem-like environments ------------------------------------------
 \theoremstyle{definition}
