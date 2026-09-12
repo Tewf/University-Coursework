@@ -33,11 +33,11 @@
       level 2/.style={sibling distance=21mm}]
       \node[tree node] {A: $t{=}1,\,j{=}1,\,i{=}1$}
         child {node[tree node] {B: $t{=}0,\,j{=}1,\,i{=}0$}
-          child {node[tree leaf] {$\region{0,1}{0,1}$}}
-          child {node[tree leaf] {$\region{0,1}{2,3}$}}
+          child {node[tree leaf] {$\region{0,0}{1,1}$}}
+          child {node[tree leaf] {$\region{0,2}{1,3}$}}
         }
         child {node[tree node] {C: $t{=}0,\,j{=}2,\,i{=}3$}
-          child {node[tree leaf] {$\region{2,3}{0,2}$}}
+          child {node[tree leaf] {$\region{2,0}{3,2}$}}
           child {node[tree leaf] {$\region{2,3}{3,3}$}}
         };
     \end{tikzpicture}
@@ -45,11 +45,11 @@
     are regions still to be cut, not cells.}
     \label{fig:region-tree-tree}
   \end{subfigure}
-  \caption{Divisions and tree nodes are in bijection. An internal node records
-  the orientation $t$, the wall position $j$ and the door position $i$ it drew,
-  and its two children are the two regions it created; a leaf is a single cell.
-  Carrying this $4\times4$ example down to its leaves gives $16$ leaves and $15$
-  internal nodes --- one per door, matching the $WH-1$ edges of
-  Proposition~\ref{prop:spanning-tree}.}
+  \caption{Every division is one internal node. The node records the
+  orientation $t$, the wall position $j$ and the door position $i$ it drew, and
+  its two children are the two regions it created; a leaf is a corridor. A tree
+  with $L$ leaves has $L-1$ internal nodes, so of the $WH-1$ doors of
+  Proposition~\ref{prop:spanning-tree}, $L-1$ are division doors and the rest
+  are laid down inside the corridors.}
   \label{fig:region-tree}
 \end{figure}
