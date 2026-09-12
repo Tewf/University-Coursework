@@ -1,9 +1,167 @@
-% Section 6 -- left empty on purpose; only Sections 1 and 2 are written so far.
-% What belongs here: the size of the data structure, the recurrence for
-% CarveRegion and its solution, the cost of the search with and without
-% heuristic guidance, the measured node counts against those bounds, and the
-% gap between cost and asymptotic complexity the specification asks for.
-\section{Complexity and analysis of the results}
+% Section 6: the costs, and where the two algorithms sit in the literature.
+% Sources are marked peer-reviewed or practitioner, because the maze-generation
+% literature is unusually thin and the distinction matters.
+\section{Complexity, and what the literature says}
 \label{sec:analysis}
 
-\textit{To be written.}
+\subsection{Size of the data structure}
+
+Write $n=WH$ for the number of cells.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  What & How many & Why \\
+  \midrule
+  Nodes                  & $n$        & one per cell \\
+  Neighbour entries      & $2(n-1)$   & $n-1$ doors, each recorded at both ends \\
+  Index $\langle P_i,P_j\rangle$ & $n$ & one reference per cell \\
+  Region tree nodes      & $2L-1$     & $L$ corridor leaves, $L-1$ divisions \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Everything is $\Theta(n)$. The grid graph is sparse --- $|\gridedges|=2n-W-H$
+--- so no representation of it can be smaller than linear, and the maze itself
+is sparser still.
+
+\subsection{Cost of generation}
+
+Each call of \texttt{Divide} does $O(1)$ work of its own: two draws, one
+\texttt{Link}, and the recursion. Each call of \texttt{SpanCorridor} does work
+proportional to the length of its corridor.
+
+Every door is opened exactly once, by one division or by one corridor
+(Section~\ref{sec:one-door-per-division}), and there are $n-1$ of them. The
+region tree has $2L-1$ nodes with $L\le n$. So
+
+\begin{keypoint}
+Generation runs in \keyterm{$\Theta(n)=\Theta(WH)$ time}, which is optimal: any
+generator must write $n-1$ doors.
+\end{keypoint}
+
+The recursion is not balanced. The wall position is uniform, not central, so a
+division can leave a single column on one side --- the same skew that makes
+quicksort's worst case quadratic. Depth is $O(n)$ in the worst case and
+$O(\log n)$ in expectation, and the constant is visible:
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+  \toprule
+  Area & Corridor leaves & Mean depth & Depth if balanced \\
+  \midrule
+  $16\times16$   & $55.2$   & $11.6$ & $5.8$ \\
+  $64\times64$   & $671.7$  & $21.2$ & $9.4$ \\
+  $128\times128$ & $2388.5$ & $26.7$ & $11.2$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Roughly $2.4$ times the depth of a balanced tree on the same number of leaves,
+at every size measured. That is the cost of drawing the wall uniformly, and it
+is the figure a stack-depth bound has to be written against.
+
+Stopping at corridors changes no asymptotics and a great deal of constant:
+$1301$ calls instead of $8191$ on $64\times64$, and one call instead of $79$ on
+$1\times40$.
+
+\subsection{Cost of solving}
+
+The maze is a tree, so $|E|=n-1$ and the graph the search runs on is as sparse
+as a connected graph can be. With a binary heap, Dijkstra costs
+$O((|V|+|E|)\log|V|)=O(n\log n)$~\cite[Ch.~22]{cormen2022introduction}.
+
+That $\log$ buys nothing here. All weights are $1$, so Dijkstra settles cells in
+depth order and is breadth-first search wearing a priority queue; plain
+breadth-first search would do the same work in $\Theta(n)$. The queue is kept
+because the report's algorithm is written to accept an estimate, and A* needs
+it.
+
+\subsection{Why the heuristic barely helps}
+
+The measurements of Section~\ref{sec:cpp-testing} are not a disappointing
+implementation. They are what the search literature predicts for mazes, for two
+separate reasons that are worth keeping apart.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=6pt]
+  \item[A tie-break cannot prune.] Every cell nearer the start than the exit is
+    \emph{necessarily expanded} by any admissible search with this priority
+    function~\cite{dechter1985generalized}, so only the last layer is
+    negotiable. Proposition~\ref{prop:tiebreak-ceiling} is that result applied
+    here, and the measured $0.03\%$ is it.
+  \item[A* prunes subtrees, not rival routes.] On a general grid much of A*'s
+    advantage is in discarding the many equal-length routes between the same
+    pair of cells. A perfect maze has \emph{none}: it is a tree, so there are no
+    rival routes to discard. What is left is pruning dead-end branches whose
+    depth plus estimate already exceeds $d$ --- real, but a smaller effect.
+  \item[The estimate is very inaccurate on mazes.] This is the measured result
+    in the literature, not an intuition. Sturtevant et
+    al.~\cite{sturtevant2009memory} report that on $512\times512$ maze maps the
+    geometric estimate averages $151$ where the true distance is $512$--$768$,
+    and that a memory-based heuristic expands over eleven times fewer nodes. A
+    straight line between two cells says little about a route that must wind.
+\end{description}
+
+\begin{keypoint}
+The walls, not the algorithm, are what defeats the guide. The estimate ignores
+them, and in a maze they are the whole problem.
+\end{keypoint}
+
+A consequence worth stating for completeness: the grid-pathfinding techniques
+that give the largest speedups --- Jump Point Search and the symmetry-breaking
+family~\cite{harabor2011online} --- work by collapsing equal-cost alternative
+routes. A perfect maze has no path symmetry at all, so that line of work has
+nothing to prune here. Standard benchmark sets include maze maps for exactly
+this reason~\cite{sturtevant2012benchmarks}.
+
+\subsection{Where recursive division sits}
+
+The maze-generation literature is small, and mostly practitioner-written; the
+distinction is marked below because it matters for how much weight each claim
+carries.
+
+\paragraph{The vocabulary.}
+What this report builds is a \keyterm{perfect maze} --- a maze in which any two
+cells are joined by a unique path --- which is the same object as a spanning
+tree of the grid graph. The term is Pullen's~\cite{pullen2026think} and is used
+verbatim in peer-reviewed work~\cite{bellot2021how}. Recursive division is a
+\keyterm{wall adder}: it places walls, where most generators carve passages.
+Bellot et al.\ call it the only wall adder among the standard algorithms.
+
+\paragraph{The alternatives.}
+Randomised depth-first search, randomised Kruskal and Prim, Eller's algorithm,
+Hunt-and-Kill, binary tree and sidewinder all produce spanning trees of the same
+grid, in $\Theta(n)$ or close to it. Two do something this one does not:
+Aldous--Broder~\cite{aldous1990random,broder1989generating} and
+Wilson's algorithm~\cite{wilson1996generating} sample a \keyterm{uniform}
+spanning tree --- every perfect maze equally likely. Wilson's runs in expected
+mean-hitting time rather than cover time, which on a grid is a $\Theta(\log n)$
+improvement over Aldous--Broder.
+
+\paragraph{Recursive division is not uniform, and not nearly.}
+This is the honest position of the algorithm chosen here. Its first division
+leaves exactly one door crossing a full straight line, and recursively so; any
+spanning tree admitting no such decomposition can \emph{never} be produced. The
+support is a strict subset of the spanning trees, so the distribution is not
+uniform even before asking how it is weighted within its support.
+Pullen~\cite{pullen2026think} classifies it accordingly, and records its visible
+signature: long straight walls crossing the interior, rectangular rooms, a
+self-similar texture, and a notably direct solution path. The count makes the
+gap concrete --- an $n$-cell grid has on the order of $3.21^{\,n}$ spanning
+trees, and recursive division reaches only those with a guillotine
+decomposition.
+
+\begin{keypoint}
+Recursive division is chosen for being \keyterm{simple, linear and recursive},
+which is what this APP is about. It is not chosen for the quality of its
+randomness, and it should not be claimed for it.
+\end{keypoint}
+
+\paragraph{What is missing from the literature.}
+No peer-reviewed analysis of the distribution recursive division induces appears
+to exist. Bellot et al.~\cite{bellot2021how} include it but score only
+difficulty; Gabrov\v{s}ek~\cite{gabrovsek2019analysis} measures six generators
+and omits it. The characterisation of its bias is practitioner-level throughout.
+Measuring its degree distribution and straight-run lengths against the uniform
+spanning tree would close that gap, and is the natural continuation of this
+work.

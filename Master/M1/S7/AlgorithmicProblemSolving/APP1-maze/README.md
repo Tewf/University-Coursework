@@ -6,10 +6,11 @@ optional.
 
 ## State
 
-Under way. The deliverable is written in [report/](report/), one LaTeX folder
-per section: the maze is stated as a graph problem and the generation
-algorithm is derived and proved, the four sections after that are headings so
-far. Implementing it in C is still optional and untouched.
+Written. The deliverable is [report/](report/), one LaTeX folder per section:
+the maze stated as a graph problem, generation derived and proved, one door
+costed at one step, the search that follows, and the costs measured against
+what the literature says. Implementing it was optional; it is done anyway, in
+C++ rather than the provided C skeleton, in [implementation/](implementation/).
 
 Each question's reasoning, what was rejected and the reference that settled it
 are in [steps/](steps/index.html), where the abridged questions are listed too.
@@ -22,9 +23,15 @@ not implemented into.
 
 ## Running it
 
-Implementing this in C is optional. Once the missing source file exists,
-`make` builds the binary from the skeleton above; the course
-[README](../README.md) says what keeps a first build from succeeding.
+```bash
+cd implementation && cmake -S . -B build && cmake --build build
+./build/maze 24 16 7 maze.svg   # width height seed output
+./build/benchmark 200           # the report's measurements
+```
+
+The provided C skeleton is not built. It is kept as it was downloaded; the
+course [README](../README.md) says what keeps a first build of it from
+succeeding.
 
 ## Where the explanation lives
 

@@ -1,10 +1,155 @@
-% Section 4 -- left empty on purpose; only Sections 1 and 2 are written so far.
-% What belongs here: Dijkstra on the unit-weight maze, then the same search
-% guided by a heuristic (Manhattan and Euclidean distance to the exit), i.e.
-% A*; admissibility of each on a 4-neighbour grid, why Euclidean is admissible
-% but weaker than Manhattan here, and what guidance changes when the graph is
-% a tree.
+% Section 4: Dijkstra on the unit-weight maze, and the two ways a distance to
+% the exit can guide it. The ceiling on what tie-breaking can save is derived
+% here, because it is what the measurements of Section 5 confirm.
 \section{Shortest path to the exit, with distance as heuristic guidance}
 \label{sec:shortest-path}
 
-\textit{To be written.}
+\subsection{Dijkstra on the maze}
+
+Every door weighs $1$ and no weight is negative, so Dijkstra's
+algorithm~\cite{dijkstra1959note} applies to $\maze$ directly.
+
+It keeps a distance $g(v)$ for every cell, a priority queue of cells reached but
+not yet settled, and repeatedly settles the nearest one, relaxing its doors.
+
+Two details matter for what follows.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=5pt]
+  \item[It stops when the exit is \emph{settled}, not when it is reached.] The
+    exit is put in the queue like any other cell; the search ends when it comes
+    back out. Stopping on first sight would be a different algorithm with a
+    different count~\cite{holte2010misconceptions}.
+  \item[On unit weights it is breadth-first search.] With all weights equal, the
+    cell of least $g$ is always one of least depth, so cells are settled in
+    non-decreasing depth order --- the layers of
+    Section~\ref{sec:unit-edge-weights}. Dijkstra generalises breadth-first
+    search to weighted graphs~\cite[Ch.~22]{cormen2022introduction}; here the
+    generalisation buys nothing but a $\log$ factor.
+\end{description}
+
+\subsection{The two distances to the exit}
+
+The search has something Dijkstra does not use: every node carries its
+coordinates, so the \emph{straight-line} remoteness of a cell from the exit is
+available for free.
+
+\begin{definition}[Estimates]
+For a cell $v=(x,y)$ and the exit $\exitcell=(x_e,y_e)$,
+\[
+  h_{\mathrm{M}}(v)=|x-x_e|+|y-y_e|,
+  \qquad
+  h_{\mathrm{E}}(v)=\sqrt{(x-x_e)^2+(y-y_e)^2}.
+\]
+\end{definition}
+
+Both are \keyterm{admissible}: neither can exceed the true number of doors to
+the exit. Any route changes one coordinate by one per step, so it crosses at
+least $h_{\mathrm{M}}$ doors on an empty grid, and walls only remove edges,
+which can only lengthen it. Then $h_{\mathrm{E}}\le h_{\mathrm{M}}$ by the
+inequality between the Euclidean and the Manhattan norm.
+
+\begin{keypoint}
+$h_{\mathrm{M}}\ge h_{\mathrm{E}}$ everywhere, with equality only when the exit
+shares a row or a column with the cell. \keyterm{Manhattan dominates
+Euclidean}: it is the exact distance on a $4$-connected empty grid, while the
+Euclidean value is a straight line no walker can take.
+\end{keypoint}
+
+\subsection{Two ways to use an estimate}
+
+The estimate can enter the search at two different strengths, and the report
+measures both because they behave very differently.
+
+\begin{description}[leftmargin=*,style=nextline,itemsep=6pt]
+  \item[As a tie-break.] Order the queue by $(g,h)$. The primary key stays the
+    distance already travelled; $h$ decides only between cells the search has
+    reached at \emph{equal} cost. No computed distance changes.
+  \item[As a priority.] Order the queue by $(g+h,\,h)$. This is
+    A*~\cite{hart1968formal}: the estimate is added to the cost, so the search
+    leans towards the exit instead of spreading evenly. With an admissible
+    estimate the route returned is still a shortest one.
+\end{description}
+
+\subsection{What tie-breaking can and cannot do}
+
+The tie-break is the weaker of the two, and by how much can be settled before
+measuring anything.
+
+\begin{proposition}[Ceiling on the tie-break]
+\label{prop:tiebreak-ceiling}
+Let $d=g(\exitcell)$. Under any tie-break, the search settles every cell with
+$g<d$, and then some subset of the cells with $g=d$. Ordering ties by $h$
+settles \emph{none} of that last layer before the exit.
+\end{proposition}
+
+\begin{proof}
+The primary key is $g$, so cells leave the queue in non-decreasing $g$. Every
+cell with $g<d$ therefore leaves before $\exitcell$, whatever the tie-break: the
+set $\{v: g(v)<d\}$ is expanded in all cases. The only freedom is the order
+inside the layer $g=d$. Both estimates are non-negative and vanish exactly at
+the exit, so $h(\exitcell)=0$ is strictly least in that layer, and the exit is
+taken first.
+\end{proof}
+
+\begin{keypoint}
+A tie-break cannot prune anything. Its entire effect is bounded by one layer,
+and the cells with $g<d$ are \keyterm{necessarily expanded} by any correct
+search of this shape~\cite{dechter1985generalized}. It follows too that
+$h_{\mathrm{M}}$ and $h_{\mathrm{E}}$ must behave \keyterm{identically} here:
+both rank the exit first and the search ends there.
+\end{keypoint}
+
+Ordering ties by $h$ is the standard $[f,h]$ strategy of the heuristic-search
+literature~\cite{correa2018analyzing}; what is unusual here is only that the
+primary key is blind, so the ceiling above is a corollary of the
+necessarily-expanded result rather than a new claim.
+
+Using the estimate as a \emph{priority} escapes that ceiling, because it changes
+$f$ and so changes which cells fall below the threshold at all. A cell deep in a
+dead end is dropped as soon as its depth plus its estimate exceeds $d$.
+
+\subsection{The algorithm}
+
+\begin{algorithm}[H]
+\caption{Shortest route to the exit, with an estimate as guide.}
+\label{alg:search}
+\SetKwFunction{Search}{ShortestPathToExit}
+\SetKwFunction{Estimate}{Estimate}
+\SetKwFunction{Push}{Push}
+\SetKwFunction{PopLeast}{PopLeast}
+\SetKwFunction{Rebuild}{RouteBackFrom}
+\KwIn{the maze $\maze$, a start cell $s$, the exit $\exitcell$, an estimate $h$
+      (possibly $h\equiv0$), and whether it is used as a tie-break or as a
+      priority.}
+\KwOut{the route from $s$ to $\exitcell$, and the number of cells settled.}
+\BlankLine
+\Fn{\Search{$\maze$, $s$, $\exitcell$, $h$, \textup{use}}}{
+  $g[v]\leftarrow\infty$ for every cell; $g[s]\leftarrow0$\;
+  $\textit{settled}[v]\leftarrow\textsc{false}$ for every cell\;
+  $Q\leftarrow$ empty priority queue; \Push{$Q$, $s$}\;
+  $\textit{expanded}\leftarrow0$\;
+  \While{$Q$ is not empty}{
+    $u\leftarrow$ \PopLeast{$Q$}\tcp*{least $(g+h,h)$, or least $(g,h)$}
+    \lIf{$\textit{settled}[u]$}{\textbf{continue}}
+    $\textit{settled}[u]\leftarrow\textsc{true}$;\quad
+      $\textit{expanded}\leftarrow\textit{expanded}+1$\;
+    \lIf{$u=\exitcell$}{\textbf{break}}
+    \For{$v \in \maze.\textit{neighbours}(u)$}{
+      \If{$g[u]+1 < g[v]$}{
+        $g[v]\leftarrow g[u]+1$\tcp*{one door, one step}
+        $\textit{parent}[v]\leftarrow u$;\quad \Push{$Q$, $v$}\;
+      }
+    }
+  }
+  \Return \Rebuild{$\textit{parent}$, $\exitcell$}, $\textit{expanded}$\;
+}
+\end{algorithm}
+
+The queue is ordered by $g+h$ when the estimate is a priority and by $g$ when it
+is a tie-break, with $h$ separating equals in both cases. Setting $h\equiv0$
+recovers plain Dijkstra, so one procedure covers every row of the table in
+Section~\ref{sec:cpp-testing}.
+
+\emph{expanded} is the figure that section reports. Every setting returns the
+same route --- Proposition~\ref{prop:spanning-tree} leaves only one --- so it is
+the only thing there is to compare.

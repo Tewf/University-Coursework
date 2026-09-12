@@ -29,9 +29,9 @@ structure it runs on and a proof that what it returns is that spanning tree.
 Giving every door unit weight makes the length of a route the number of doors
 crossed, which is what the shortest-path search of
 Section~\ref{sec:shortest-path} minimises and what the Manhattan and Euclidean
-distances are compared against as heuristic guidance. A Python implementation
-checks the claims on generated instances, and the closing section gives the
-size of the structure and the cost of both algorithms.
+distances are compared against as heuristic guidance. A C++ implementation
+measures the claims on generated instances, and the closing section gives the
+cost of both algorithms and places them against the literature.
 \end{abstract}
 
 \clearpage
@@ -42,7 +42,11 @@ size of the structure and the cost of both algorithms.
 \subimport{sections/02-maze-generation-into-graph/}{section.tex}
 \subimport{sections/03-unit-edge-weights/}{section.tex}
 \subimport{sections/04-shortest-path-with-distance-heuristic/}{section.tex}
-\subimport{sections/05-python-implementation-and-testing/}{section.tex}
+\subimport{sections/05-cpp-implementation-and-testing/}{section.tex}
 \subimport{sections/06-complexity-and-result-analysis/}{section.tex}
+
+\clearpage
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}

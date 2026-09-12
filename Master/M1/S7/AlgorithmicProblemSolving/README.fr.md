@@ -58,6 +58,7 @@ AlgorithmicProblemSolving/
 |   |-- handout/               <- le PDF du sujet à côté de son extraction .txt
 |   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
 |   |-- report/                <- le livrable, un dossier LaTeX par section
+|   |-- implementation/        <- mon C++ : generation, recherche, tests, mesures
 |   |-- main.c maze.h svg.c/.h Makefile   <- le squelette fourni, et mon maze.c
 |   |-- code-as-downloaded.tar.gz
 |-- APP2-candy-crush/ ... APP4-hole-drilling/
