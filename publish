@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# Publish the public copy of this repository: the history of main with every
+# path that .publishignore matches removed from every commit, pushed to the
+# `public` remote. Run it after `git push`; nothing here touches the work tree.
+#
+#   ./publish            add the new commits to the public repository
+#   ./publish --force    rewrite its history (a rule changed what is hidden)
+#
+# The rewrite is deterministic: the same private history and the same rules
+# give the same public commits, so a later run only appends. When the result
+# would not fast-forward, the script stops and says so; --force is the
+# deliberate answer. The push goes through git's own hooks, so the pre-push
+# tell-scan runs against the public remote, exactly where it belongs.
+set -euo pipefail
+
+BRANCH=main
+REMOTE=public
+FORCE=0
+case "${1:-}" in
+  --force) FORCE=1 ;;
+  "") ;;
+  *) sed -n '2,13p' "$0"; exit 2 ;;
+esac
+
+ROOT="$(git rev-parse --show-toplevel)"
+PUBLIC_URL="$(git -C "$ROOT" config --get "remote.$REMOTE.url")"
+WORK="$(mktemp -d)"
+trap 'rm -rf "$WORK"' EXIT
+
+# 1. Every path the branch ever committed, run through the committed rules.
+#    A temporary index holds the paths and ls-files applies only the file it is
+#    given, so no .gitignore takes part. Paths deleted long ago still count:
+#    the commits that held them are rewritten too.
+git -C "$ROOT" show "$BRANCH:.publishignore" >"$WORK/rules"
+EMPTY_BLOB="$(git -C "$ROOT" hash-object -w --stdin </dev/null)"
+git -C "$ROOT" log --format= --name-only --no-renames --diff-filter=A "$BRANCH" \
+  | grep . | sort -u | awk -v blob="$EMPTY_BLOB" '{print "100644 " blob "\t" $0}' \
+  | GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" update-index --index-info
+GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" ls-files --cached --ignored --exclude-from="$WORK/rules" \
+  | sed 's/^/literal:/' >"$WORK/hidden"
+
+# 2. Rewrite a throwaway clone. filter-repo drops the listed paths from every
+#    commit, prunes the commits left empty, and runs only in a fresh clone,
+#    which is the point: the repository you are in is never touched.
+git clone --quiet --no-local --bare --branch "$BRANCH" --single-branch "$ROOT" "$WORK/repo"
+git -C "$WORK/repo" filter-repo --quiet --invert-paths --paths-from-file "$WORK/hidden"
+git -C "$ROOT" config --get-all tells.allow 2>/dev/null \
+  | while read -r allow; do git -C "$WORK/repo" config --add tells.allow "$allow"; done || true
+
+# 3. Compare with what is published, then push through the hooks.
+git -C "$WORK/repo" remote add "$REMOTE" "$PUBLIC_URL"
+git -C "$WORK/repo" fetch --quiet "$REMOTE" "$BRANCH" 2>/dev/null || true
+NEW="$(git -C "$WORK/repo" rev-parse "$BRANCH")"
+HIDDEN="$(wc -l <"$WORK/hidden")"
+PUSH_FLAGS=""
+if OLD="$(git -C "$WORK/repo" rev-parse --quiet --verify "refs/remotes/$REMOTE/$BRANCH")"; then
+  if [ "$OLD" = "$NEW" ]; then
+    echo "publish: $REMOTE/$BRANCH already holds this history; nothing to do"
+    exit 0
+  fi
+  if ! git -C "$WORK/repo" merge-base --is-ancestor "$OLD" "$NEW"; then
+    if [ "$FORCE" -ne 1 ]; then
+      echo "publish: the public history would be rewritten:" >&2
+      echo "  $(git -C "$WORK/repo" rev-list --count "$NEW..$OLD") published commit(s) are not in the new history" >&2
+      echo "  A rule now hides, or shows, something already published. Re-run with --force if that is intended." >&2
+      exit 1
+    fi
+    PUSH_FLAGS="--force"
+    echo "publish: rewriting $REMOTE/$BRANCH, $(git -C "$WORK/repo" rev-list --count "$NEW") commits, $HIDDEN paths withheld"
+  else
+    echo "publish: $(git -C "$WORK/repo" rev-list --count "$OLD..$NEW") new commit(s), $HIDDEN paths withheld"
+  fi
+else
+  echo "publish: first publication, $(git -C "$WORK/repo" rev-list --count "$NEW") commits, $HIDDEN paths withheld"
+fi
+git -C "$WORK/repo" push --quiet $PUSH_FLAGS "$REMOTE" "$BRANCH:$BRANCH"
+echo "publish: $REMOTE/$BRANCH is now $(git -C "$WORK/repo" rev-parse --short "$NEW")"

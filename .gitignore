@@ -1,51 +1,44 @@
-# VM disk images
-*.qcow2
+# What belongs in no repository, private or public: what a documented command
+# rebuilds, what a session leaves behind, and secrets. What the public copy
+# withholds is a different question, answered by .publishignore.
 
-# Java build artifacts
-target/
-*.class
-bin/
-bin_backup*/
-
-# Eclipse IDE
-.settings/
-.classpath
-.project
-
-# Local-only pointers into the Obsidian vault. Any *.local.md file names paths
-# on this machine, so it stays here: the repo is public and those paths are not.
-*.local.md
-
-# IDE / editor configs
-.vscode/
-*.iml
-.idea/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Node.js
+# Environments and dependency trees; pyproject.toml, uv.lock and environment.yml rebuild them
+.venv/
+venv/
 node_modules/
 
-# Python
-*.pyc
+# Bytecode and tool caches
 __pycache__/
-.ipynb_checkpoints/
-# Tool caches. mypy writes its own .gitignore inside the directory, but that
-# only holds while the tool keeps doing it; name it here too.
+*.pyc
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+.ipynb_checkpoints/
 
-# R
-.Rhistory
-.Rproj.user/
-.RData
-*.rds
+# Build trees and objects: cmake, make, javac
+build/
+build-tests/
+target/
+bin/
+bin_backup*/
+*.class
+*.o
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/maze
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/tests
+!Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/tests/
+Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/benchmark
+# The mazes the APP1 program draws; running it draws them again
+Master/M1/S7/AlgorithmicProblemSolving/**/*.svg
 
-# LaTeX. Le PDF compilé est le livrable et reste suivi ; ce que pdflatex et
-# latexmk reconstruisent à chaque passe ne l'est pas.
+# Render caches and output that `quarto render` rewrites
+.quarto/
+_freeze/
+_site/
+*_files/
+# except the figures the rendered reports embed, which GitHub Pages serves
+!**/rapport/**/*_files/
+
+# LaTeX intermediates; the compiled PDF is the deliverable and stays
 *.aux
 *.bbl
 *.blg
@@ -56,200 +49,23 @@ __pycache__/
 *.synctex.gz
 *.toc
 
-# Quarto
-_site/
-_freeze/
-.quarto/
-*_files/
-# Exception : garder les figures rendues dans les rapports pour GitHub Pages
-!**/rapport/**/*_files/
+# R session state, not work
+.Rhistory
+.RData
+.Rproj.user/
 
-# Cours non publiés sur GitHub
-Bachelor/L3/S6/Reseaux/
-Bachelor/L3/S6/Systemes/
+# Figures and downloads the practicals produce when run
+Master/M1/**/patterns_demo.png
+Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp/france_map.png
 
-# Supports de cours de tiers ; voir NOTICE.
-# Sujets de TP/TD, polycopiés et articles publiés restent en local mais ne sont
-# pas redistribués ici : ils ne sont pas mon travail et la licence MIT de ce
-# dépôt ne s'y applique pas. Les sources sont citées dans chaque README.
-**/*sujet*.pdf
-**/*Sujet*.pdf
-Bachelor/Java/OOP/TD/**/TD?.pdf
-Bachelor/Java/OOP/TM/**/TM?.pdf
-Bachelor/SecondSemestreLanguage/SQL/tp0*.pdf
-Bachelor/L3/S5/ComplementMath1/TP cpt maths.pdf
-Bachelor/L3/S6/MathStat3/TP Stat 3.pdf
-Bachelor/L3/S6/ComplementMath2/Projet/consignes/
-# Les sujets .Rmd de L. Etiévant et son TP8 complet restent à côté de mes corrections.
-Bachelor/L3/S6/ComplementMath2/TP/**/*sujet*.[Rr]md
-Bachelor/L3/S6/ComplementMath2/TP/TP8/TP8_complet.Rmd
-Bachelor/L3/S5/Econometrie1/ProjetEconometrie/DataPreprocessing/DataDocumentation/
-Bachelor/L3/S5/Econometrie1/ProjetEconometrie/RevueDeLitterature/HedonicHousingPriceIndexes.pdf
-
-# Identifiants. Jamais dans ce dépôt : il est public, et un secret poussé ne se
-# dépublie pas. Les clés d'API se lisent depuis l'environnement.
+# Credentials never reach a remote, private or not: a pushed secret cannot be
+# unpushed. API keys are read from the environment.
 .env
 .env.*
 !.env.example
 
-# Python virtual environments -- recreate them from pyproject.toml + uv.lock
-.venv/
-
-# Downloaded once at runtime, not source
-Master/M1/S7/Programming/Python/TP1-environments/WeatherMapApp/france_map.png
-
-# --- Master ---
-
-# C and C++ build output. The implementations are built in place with a
-# Makefile, so the objects and binaries sit beside their sources.
-build/
-build-tests/
-*.o
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/maze
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/tests
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/implementation/benchmark
-*.svg
-
-# Tout sujet distribué par l'équipe pédagogique vit dans un handout/ à côté du
-# travail, avec l'archive telle que téléchargée ; voir NOTICE. Règle générale,
-# pour qu'un nouveau cours ne puisse pas fuir par oubli ; les blocs par cours
-# ci-dessous nomment en plus le code et les données fournis.
-Master/**/handout/
-Master/**/as-downloaded.zip
-
-# Les sujets d'examen et leurs corrigés ne sont jamais publiés, même retravaillés :
-# ils vivent dans le coffre de notes. Un dossier nommé exam*/ ou examen*/ déposé
-# à côté d'un cours ne peut donc pas être ajouté par oubli.
-Master/**/exam*/
-Master/**/examen*/
-
-# Supports et code fournis du Master ; voir NOTICE.
-# Les sujets de TP d'E. Foussard, leur extraction en .txt et le code fourni
-# restent en local : ce n'est pas mon travail et la licence MIT ne s'y applique
-# pas. Le README de chaque cours cite la source.
-Master/M1/**/TP*.pdf
-Master/M1/**/TP*.txt
-Master/M1/**/Project-TSPSolver.pdf
-Master/M1/**/Project-TSPSolver.txt
-Master/M1/**/pointers-references.pdf
-Master/M1/**/pointers-references.txt
-Master/M1/**/provided-files/
-Master/M1/**/provided-files.zip
-Master/M1/**/instance_generator.py
-Master/M1/**/cmake-template/
-Master/M1/**/cmake-template.zip
-Master/M1/**/pybind_cmake_project/
-Master/M1/**/sample_images/
-Master/M1/**/sample_images.zip
-Master/M1/**/TSP-instances/
-Master/M1/**/TSP-instances.zip
-
-# Sujets des APP d'Algorithmic Problem Solving, et le squelette C fourni avec
-# l'APP1 ; voir NOTICE. Chaque sujet reste en local dans son handout/, avec son
-# extraction .txt : seul mon travail est publie ici.
-Master/M1/S7/AlgorithmicProblemSolving/**/handout/
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/code-as-downloaded.tar.gz
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/Makefile
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/main.c
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/maze.h
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.c
-Master/M1/S7/AlgorithmicProblemSolving/APP1-maze/svg.h
-
-# Sujets, corrections officielles, modules fournis et jeux de données des TP
-# d'Introduction to AI ; voir NOTICE. Tout reste en local : handout/ pour les
-# sujets et corrections, le reste à côté du travail. data/ et runs/ reçoivent
-# les téléchargements torchvision et les traces TensorBoard.
-Master/M1/S7/IntroductionToAI/**/handout/
-Master/M1/S7/IntroductionToAI/**/as-downloaded.zip
-Master/M1/S7/IntroductionToAI/**/data/
-Master/M1/S7/IntroductionToAI/**/runs/
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/avalanche_data.csv
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/svm.png
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab2-supervised-ml/svm0.png
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab4-regularization/gut_abundances.tsv
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab4-regularization/ibd_status.lst
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab5-deep-learning/utilsDL.py
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab7-recurrent-networks/utils.py
-Master/M1/S7/IntroductionToAI/MachineLearning/Lab7-recurrent-networks/data.csv
-Master/M1/S7/IntroductionToAI/SymbolicAI/**/got.csv
-Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/trains.csv
-Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/familyTree.py
-Master/M1/S7/IntroductionToAI/SymbolicAI/Lab1-datalog/test-pyDatalog.py
-
-# Sujets, solution officielle et jeux de données des TP d'Applied Probability
-# and Statistics ; voir NOTICE. Les .Rdata s'écrivent en minuscules : la règle
-# globale .RData ne les attrape pas.
-Master/M1/S7/AppliedProbabilityAndStatistics/**/handout/
-Master/M1/S7/AppliedProbabilityAndStatistics/**/*.Rdata
-Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/saison_2022.csv
-Master/M1/S7/AppliedProbabilityAndStatistics/Lab0-first-manipulations-with-r/BreastCancer.csv
-
-# Recherche opérationnelle (Caseine) ; voir NOTICE. Chaque énoncé VPL reste dans le
-# handout/ de son exercice, les supports de cours dans celui du cours ; la config
-# du correcteur, les fichiers .dat requis et les instances CSPLib sont consommés
-# tels quels. Les squelettes .mod et .py sont complétés, donc publiés comme
-# travail dérivé.
-Master/M1/S7/OperationsResearch/**/configExe
-Master/M1/S7/OperationsResearch/**/*.dat
-Master/M1/S7/OperationsResearch/**/instances/
-
-# Data Acquisition, Processing and Mining for AI ; voir NOTICE. Le sujet du
-# projet, le modèle de fiche de données, le guide de mise en place,
-# environment.yml et verify_setup.py vivent dans le handout/ du cours ; chaque
-# TP garde son notebook sujet dans le sien. Les jeux de données restent en
-# local, fournis comme collectés : le cours demande la forme des fichiers, pas
-# les fichiers, et le dépôt est public.
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/data/
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/*.parquet
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/**/acquisition_log.json
-
-# Téléchargement interrompu : seul un nouveau téléchargement le répare.
+# Interrupted downloads, VM images, OS litter
 *.crdownload
-
-# Projet TSP : dossier partagé avec un binôme via son dépôt privé (voir
-# Master/M1/private-projects/). Tout est ignoré, puis seules les sortes nommées
-# sont publiées ; un fichier ajouté par le binôme reste privé tant qu'aucune
-# règle ne le nomme. handout/, data/ et .dat sont refusés à nouveau à l'intérieur.
-Master/M1/S7/Programming/Project-TSPSolver/**
-!Master/M1/S7/Programming/Project-TSPSolver/**/
-!Master/M1/S7/Programming/Project-TSPSolver/README.md
-!Master/M1/S7/Programming/Project-TSPSolver/steps.json
-!Master/M1/S7/Programming/Project-TSPSolver/steps/**
-!Master/M1/S7/Programming/Project-TSPSolver/src/**
-!Master/M1/S7/Programming/Project-TSPSolver/include/**
-!Master/M1/S7/Programming/Project-TSPSolver/tests/**
-!Master/M1/S7/Programming/Project-TSPSolver/notebooks/**
-!Master/M1/S7/Programming/Project-TSPSolver/CMakeLists.txt
-!Master/M1/S7/Programming/Project-TSPSolver/environment.yml
-!Master/M1/S7/Programming/Project-TSPSolver/pyproject.toml
-!Master/M1/S7/Programming/Project-TSPSolver/*.py
-Master/M1/S7/Programming/Project-TSPSolver/**/handout/
-Master/M1/S7/Programming/Project-TSPSolver/**/data/
-Master/M1/S7/Programming/Project-TSPSolver/**/*.dat
-Master/M1/S7/Programming/Project-TSPSolver/**/.vscode/
-Master/M1/S7/Programming/Project-TSPSolver/instance_generator.py
-
-# Projet data mining : dossier partagé avec un binôme via son dépôt privé (voir
-# Master/M1/private-projects/). Tout est ignoré, puis seules les sortes nommées
-# sont publiées ; un fichier ajouté par le binôme reste privé tant qu'aucune
-# règle ne le nomme. handout/, data/ et .dat sont refusés à nouveau à l'intérieur.
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/README.md
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/steps.json
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/steps/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/src/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/include/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/tests/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/notebooks/**
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/CMakeLists.txt
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/environment.yml
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/pyproject.toml
-!Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/*.py
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/handout/
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/data/
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/*.dat
-Master/M1/S7/DataAcquisitionProcessingAndMiningForAI/Project/**/.vscode/
-
-# Figures the practicals write when their demos are run
-Master/M1/**/patterns_demo.png
+*.qcow2
+.DS_Store
+Thumbs.db
