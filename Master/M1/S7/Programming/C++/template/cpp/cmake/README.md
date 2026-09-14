@@ -4,9 +4,10 @@ One file per concern, included by the root `CMakeLists.txt`:
 
 | File | Role | Included |
 |---|---|---|
+| `targets.cmake` | the standard, the build type, the library from `src/` and one executable per file in `apps/` | always |
 | `compiler-options.cmake` | the `project_warnings` target: the warning set, `-Weffc++` and the sanitizers as options | always |
 | `googletest.cmake` | the `tests` executable and its CTest registration | `BUILD_TESTS=ON` |
-| `pybind11.cmake` | one Python module per file in `bindings/` | `BUILD_PYTHON_LIB=ON` |
+| `base-presets.json` | the `debug`, `asan` and `release` presets; the root `CMakePresets.json` only includes it, so a template laid over this one can add presets without a second copy | always |
 
 ## Options
 
@@ -14,10 +15,8 @@ One file per concern, included by the root `CMakeLists.txt`:
 |---|---|---|
 | `CMAKE_BUILD_TYPE` | `Release` | `Debug` is `-g`, `Release` is `-O3 -DNDEBUG`: CMake's own defaults |
 | `BUILD_TESTS` | `OFF`; every preset sets `ON` | builds `tests` and registers each `TEST()` with CTest |
-| `BUILD_PYTHON_LIB` | `OFF`; the `python` preset sets `ON` | builds `bindings/*.cpp` into importable modules |
 | `ENABLE_SANITIZERS` | `OFF`; the `asan` preset sets `ON` | AddressSanitizer and UBSan on the project's own targets |
 | `WARN_EFFCXX` | `OFF` | adds `-Weffc++`, the handout's fifth flag |
-| `Python_EXECUTABLE` | the activated venv or conda interpreter | which Python the modules are built for |
 
 ## Decisions, and the trail behind each
 
@@ -41,17 +40,14 @@ One file per concern, included by the root `CMakeLists.txt`:
   file is an executable needs no list. Same split as the Pitchfork Layout (vector-of-bool,
   *The Pitchfork Layout*, `src/` against `tests/` and top-level executables) and
   ModernCppStarter's `standalone/`.
+- **The library target is `project_library`, its archive `lib<project>.a`.** Naming the
+  target after the project, as the skeleton does, forbids an executable with that name, and
+  `apps/shortest-path.cpp` in project `shortest-path` is the first thing anyone writes
+  (found while building the worked example). `OUTPUT_NAME` keeps the archive's name.
 - **Google Test: the system package first, then fetch.** The handout's `find_package(GTest)`
   (p. 4) and the skeleton's `FetchContent` of v1.17.0 are both right; `FIND_PACKAGE_ARGS`
   (CMake 3.24) does the first and falls back to the second. `gtest_discover_tests`, from
   CMake's `GoogleTest` module, replaces `add_test(NAME tests ...)` so CTest reports each test.
-- **pybind11: the environment's copy first, then fetch.** TP8's handout clones pybind11 into
-  the project; the course env already ships 3.1.0 with its CMake config, found through
-  `python -m pybind11 --cmakedir`, the route pybind11's own documentation gives for CMake.
-  The interpreter is the activated env's: FindPython looks in `VIRTUAL_ENV`, then
-  `CONDA_PREFIX`, before PATH (`Python_FIND_VIRTUALENV`, default `FIRST`, read in its source).
-  Observed on this machine: a shell that still exported `VIRTUAL_ENV` from an earlier venv
-  made CMake pick that interpreter over the conda env activated afterwards.
 - **Presets over `.vscode/settings.json`.** The skeleton passes `-DBUILD_TESTS=ON
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON` through editor settings, gitignored here.
   `CMakePresets.json` (CMake 3.19) is read by the command line and by CMake Tools alike, and

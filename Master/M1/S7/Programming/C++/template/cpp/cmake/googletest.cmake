@@ -19,7 +19,7 @@ endif()
 
 enable_testing()
 add_executable(tests ${TEST_SOURCES})
-target_link_libraries(tests PRIVATE ${PROJECT_NAME} GTest::gtest_main project_warnings)
+target_link_libraries(tests PRIVATE project_library GTest::gtest_main project_warnings)
 
 # Registers each TEST() with CTest by name, so `ctest` reports them one by one
 # and `ctest -R Mean` runs a subset.

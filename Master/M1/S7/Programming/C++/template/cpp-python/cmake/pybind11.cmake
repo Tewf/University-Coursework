@@ -28,5 +28,5 @@ file(GLOB BINDING_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/binding
 foreach(binding_source IN LISTS BINDING_SOURCES)
   get_filename_component(module_name "${binding_source}" NAME_WE)
   pybind11_add_module(${module_name} "${binding_source}")
-  target_link_libraries(${module_name} PRIVATE ${PROJECT_NAME} project_warnings)
+  target_link_libraries(${module_name} PRIVATE project_library project_warnings)
 endforeach()
