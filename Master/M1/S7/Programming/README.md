@@ -118,7 +118,7 @@ Programming/
 |-- Project-TSPSolver/       <- the project, and the TSPLIB instances
 ```
 
-`handout/` is gitignored everywhere: the subjects are not mine to republish.
+`handout/` is withheld from the public copy everywhere: the subjects are not mine to republish.
 
 ## Tools & Libraries
 
