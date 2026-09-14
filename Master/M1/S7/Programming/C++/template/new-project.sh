@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Start a project from one of the templates here: copy cpp/, lay the chosen
-# template over it when it is another one, and name it. The folders come
-# empty; the .gitkeep files that hold them in the repository stay behind.
+# Start a blank project from one of the templates here. Each template folder
+# is a worked example; only its skeleton is copied: the CMake files, cmake/,
+# the dotfiles and the README, with the source folders empty.
 #   ./new-project.sh <cpp|cpp-python> <destination> [project_name]
 # project_name defaults to the destination's folder name.
 set -euo pipefail
@@ -21,12 +21,18 @@ if [ -e "$destination" ]; then
     exit 1
 fi
 
-copy=(rsync -a --exclude build/ --exclude .cache/ --exclude .gitkeep --exclude worked-example.md)
-"${copy[@]}" "$templates_dir/cpp"/ "$destination"/
-if [ "$template" != cpp ]; then
-    "${copy[@]}" "$templates_dir/$template"/ "$destination"/
-fi
-sed -i "s/^project(change_me /project($project_name /" "$destination/CMakeLists.txt"
+# The skeleton: cpp/ first, the chosen template's files over it.
+skeleton=(CMakeLists.txt CMakePresets.json cmake .clang-format .gitignore README.md)
+mkdir -p "$destination"
+for source in cpp "$template"; do
+    for item in "${skeleton[@]}"; do
+        [ -e "$templates_dir/$source/$item" ] && cp -r "$templates_dir/$source/$item" "$destination/"
+    done
+done
+rm -f "$destination/cmake/README.md"
+mkdir -p "$destination"/{include,src,apps,tests}
+[ "$template" = cpp-python ] && mkdir -p "$destination/bindings"
+sed -i -E "s/^project\([^ ]+ /project($project_name /" "$destination/CMakeLists.txt"
 
 echo "created $destination from $template as project '$project_name'"
 echo "next: cd $destination && cmake --preset debug && cmake --build --preset debug"

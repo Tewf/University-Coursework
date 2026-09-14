@@ -2,6 +2,13 @@
 # (libgtest-dev on Ubuntu), otherwise the pinned release is fetched at
 # configure time. FIND_PACKAGE_ARGS is what makes FetchContent try
 # find_package first (CMake >= 3.24).
+#
+# Usage:
+#   a new test file: tests/<unit>.cpp with #include <gtest/gtest.h> and
+#     TEST(Suite, Name) blocks; no main, gtest_main provides it.
+#   run everything: ctest --preset debug; one suite: ctest --preset debug -R Suite;
+#     Google Test's own report: ./build/debug/tests [--gtest_filter=Suite.*]
+#   a newer release: change GIT_TAG; the system package is still tried first.
 include(FetchContent)
 set(INSTALL_GTEST OFF)
 FetchContent_Declare(

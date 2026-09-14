@@ -1,12 +1,13 @@
 # A worked example: `shortest-path`
 
-A whole project on this template: a graph library, a shortest-path algorithm
-on it, two programs and their tests. Built and run on this machine on 2026-09-14.
+This folder is a whole project on the template: a graph library, a
+shortest-path algorithm on it, two programs and their tests. Built and run on
+this machine on 2026-09-14. The script copies none of the example files.
 
 ## The project
 
 ```
-shortest-path/
+cpp/                          the project shortest-path
   CMakeLists.txt (names the project, declares the options, includes the cmake/ pieces; untouched)
   CMakePresets.json (includes cmake/base-presets.json; untouched)
   square.txt (test data: 5 vertices, then the edges 0 1, 1 2, 2 3, 0 3; vertex 4 is isolated)

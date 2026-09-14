@@ -1,8 +1,10 @@
 # A worked example: `shortest-path`, imported from Python
 
 The C++ template's [worked example](../cpp/worked-example.md) started from this
-template instead. Everything on that page holds; this one covers only what the
-Python side adds. Built and run on this machine on 2026-09-14.
+template instead: `../new-project.sh cpp-python`, then the C++ example's files
+dropped in, plus this folder's `bindings/graphs.cpp`. Everything on that page
+holds; this one covers only what the Python side adds. Built and run on this
+machine on 2026-09-14.
 
 ## The project
 

@@ -20,10 +20,11 @@ also be imported from Python starts from [../cpp-python/](../cpp-python/) instea
 | `tests/` | Google Test sources, one file per unit under test |
 | `build/<preset>/` | Generated, never committed |
 
-The four folders start empty. A blank project configures and builds: the
-library is header-only until `src/` has a file, the `tests` program appears
-with the first file in `tests/`. A whole project on this layout, file by file:
-[worked-example.md](worked-example.md).
+This folder is itself a worked example, the project `shortest-path`, read
+file by file in [worked-example.md](worked-example.md). The script below
+copies the skeleton only, with the four folders empty; a blank project
+configures and builds, the library header-only until `src/` has a file, the
+`tests` program appearing with the first file in `tests/`.
 
 ## Start a project
 
@@ -33,8 +34,10 @@ cd ../../TP9-something
 cmake --preset debug && cmake --build --preset debug && ctest --preset debug
 ```
 
-The script copies everything but `build/` and names the CMake project after
-the destination folder.
+The script copies the CMake files, `cmake/`, the dotfiles and this README,
+creates the four folders empty, and names the CMake project after the
+destination folder. Each CMake file opens with what to edit for each kind
+of change.
 
 ## Build, run, test
 

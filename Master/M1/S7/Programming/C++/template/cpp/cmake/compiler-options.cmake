@@ -3,6 +3,13 @@
 # never link it, so a new compiler's warnings inside googletest or pybind11
 # cannot stop the build under -Werror. Debug (-g) and Release (-O3 -DNDEBUG)
 # flags are CMake's defaults and are not set here.
+#
+# Usage:
+#   another warning for every build: append it to the first target_compile_options.
+#   a flag for one configuration only: a generator expression,
+#     e.g. $<$<CONFIG:Debug>:-Og>, in the same call.
+#   silence one warning while a stub is unfinished: -Wno-<warning> here, and
+#     take it out again; the course's grade assumes the four flags below.
 add_library(project_warnings INTERFACE)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")

@@ -1,6 +1,13 @@
-# The targets every project of this layout has: a library from src/ and
-# include/, and one executable per file in apps/. Included once by the root
+# The targets every project of this layout has: the library from src/ and
+# include/, one executable per file in apps/. Included once by the root
 # CMakeLists.txt after the options are declared.
+#
+# Usage:
+#   a new .cpp in src/ or apps/ is found at the next build: nothing to edit.
+#   a library the whole project uses (Boost, GMP, ...): the "External
+#     dependencies" block at the end, PUBLIC so programs and tests get it too.
+#   a library one program alone uses: target_link_libraries(<program> PRIVATE ...)
+#     after the loop, guarded by if(TARGET <program>).
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -39,3 +46,10 @@ foreach(app_source IN LISTS APP_SOURCES)
   add_executable(${app_name} "${app_source}")
   target_link_libraries(${app_name} PRIVATE project_library project_warnings)
 endforeach()
+
+# --- External dependencies ---
+# find_package locates a library installed on the system; the imported
+# target it provides carries the include paths and the link line. Uncomment
+# and adapt; the Boost pair is what TP1's calculator needs.
+# find_package(Boost REQUIRED COMPONENTS program_options)
+# target_link_libraries(project_library ${library_scope} Boost::program_options)

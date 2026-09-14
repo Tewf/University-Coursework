@@ -1,10 +1,13 @@
 # pybind11 modules: one per .cpp in bindings/, named after the file. The
 # PYBIND11_MODULE(name, m) inside the file must use that same name.
 #
-# FindPython looks in $VIRTUAL_ENV, then $CONDA_PREFIX, before PATH (its
-# Python_FIND_VIRTUALENV rule, default FIRST), so the environment activated
-# at configure time is the one the module imports from. A stale VIRTUAL_ENV
-# in the shell wins over conda; pass -DPython_EXECUTABLE=... to override.
+# Usage:
+#   a new module: bindings/<name>.cpp; the build makes build/python/<name>.*.so,
+#     importable from that directory or with it on PYTHONPATH.
+#   which Python: the environment active at configure time (conda activate
+#     first). FindPython looks in $VIRTUAL_ENV, then $CONDA_PREFIX, before
+#     PATH; -DPython_EXECUTABLE=... overrides both.
+#   a newer pybind11: change GIT_TAG; the environment's copy is still tried first.
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 
 # A pip or conda install of pybind11 ships its CMake config; the interpreter
