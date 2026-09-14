@@ -1,0 +1,15 @@
+{
+  "version": 6,
+  "include": ["cmake/base-presets.json"],
+  "configurePresets": [
+    {
+      "name": "python",
+      "inherits": "release",
+      "displayName": "Release, plus the pybind11 modules",
+      "cacheVariables": { "BUILD_PYTHON_LIB": "ON" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "python", "configurePreset": "python" }
+  ]
+}
