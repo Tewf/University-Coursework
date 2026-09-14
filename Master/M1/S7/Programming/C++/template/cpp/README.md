@@ -22,7 +22,7 @@ also be imported from Python starts from [../cpp-python/](../cpp-python/) instea
 
 The example is one function, `mean`, present in all four folders to show
 where each kind of file goes. Replace it. A whole project on this layout:
-[../worked-example.md](../worked-example.md).
+[worked-example.md](worked-example.md).
 
 ## Start a project
 

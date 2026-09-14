@@ -11,8 +11,9 @@ Two starting points, one source of truth:
 chosen template over it, so an edit to the C++ template is the Python one's
 edit too, and nothing exists twice.
 
-[worked-example.md](worked-example.md) walks through a complete project on
-the Python template, with the commands and what they printed.
+Each template has a worked example, a whole project on its layout with the
+commands and what they printed: [cpp/worked-example.md](cpp/worked-example.md)
+and [cpp-python/worked-example.md](cpp-python/worked-example.md).
 
 ## Start a project
 

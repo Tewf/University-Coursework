@@ -13,6 +13,8 @@ and lays these files over it. Read the C++ template's README first.
 | `CMakeLists.txt` | Replaces the C++ one: the same options plus `BUILD_PYTHON_LIB` |
 | `CMakePresets.json` | Replaces the C++ one: the same included presets plus `python` |
 
+A whole project with a module: [worked-example.md](worked-example.md).
+
 ## Build and import
 
 ```bash
