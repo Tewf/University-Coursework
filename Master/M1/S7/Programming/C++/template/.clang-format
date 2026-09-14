@@ -1,0 +1,5 @@
+# Read by clangd (format on save in VS Code) and by clang-format when installed.
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 100
+AllowShortFunctionsOnASingleLine: Empty
