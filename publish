@@ -43,7 +43,17 @@ GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" ls-files --cached --ignored --exclud
 #    commit, prunes the commits left empty, and runs only in a fresh clone,
 #    which is the point: the repository you are in is never touched.
 git clone --quiet --no-local --bare --branch "$BRANCH" --single-branch "$ROOT" "$WORK/repo"
-git -C "$WORK/repo" filter-repo --quiet --invert-paths --paths-from-file "$WORK/hidden"
+#    Prose is single-sourced: a `` block is
+#    dropped, a `<!-- public` … `-->` comment is unwrapped, so one README reads
+#    right on both sides (PRIVATE.md, "One README, two readers").
+git -C "$WORK/repo" filter-repo --quiet --invert-paths --paths-from-file "$WORK/hidden" \
+  --blob-callback '
+import re
+if b"<!-- " in blob.data:
+    data = re.sub(rb"[ \t]*[ \t]*\n?", b"", blob.data, flags=re.S)
+    data = re.sub(rb"[ \t]*<!-- public[ \t]*\n(.*?)\n[ \t]*-->[ \t]*\n", rb"\1\n", data, flags=re.S)
+    blob.data = re.sub(rb"\n{3,}", b"\n\n", data)
+'
 git -C "$ROOT" config --get-all tells.allow 2>/dev/null \
   | while read -r allow; do git -C "$WORK/repo" config --add tells.allow "$allow"; done || true
 
