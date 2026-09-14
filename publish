@@ -36,7 +36,7 @@ EMPTY_BLOB="$(git -C "$ROOT" hash-object -w --stdin </dev/null)"
 git -C "$ROOT" log --format= --name-only --no-renames --diff-filter=A "$BRANCH" \
   | grep . | sort -u | awk -v blob="$EMPTY_BLOB" '{print "100644 " blob "\t" $0}' \
   | GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" update-index --index-info
-GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" ls-files --cached --ignored --exclude-from="$WORK/rules" \
+GIT_INDEX_FILE="$WORK/index" git -C "$ROOT" -c core.quotePath=false ls-files --cached --ignored --exclude-from="$WORK/rules" \
   | sed 's/^/literal:/' >"$WORK/hidden"
 
 # 2. Rewrite a throwaway clone. filter-repo drops the listed paths from every

@@ -93,6 +93,5 @@ for name, celsius in zip(TOWNS, fetch_temperatures()):
 
 ## Reading further
 
-How each question was worked through, and the reference behind each choice, is in
-[`../steps/`](../steps/index.html). The concepts are explained in the Notes vault,
-under `S7/Programming/TP - Python/TP1 - Environments and Packages`.
+The concepts are explained in the Notes vault, under
+`S7/Programming/TP - Python/TP1 - Environments and Packages`.
