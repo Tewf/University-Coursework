@@ -54,7 +54,7 @@ One file per concern, included by the root `CMakeLists.txt`:
   one build directory per preset means switching Debug and Release rebuilds nothing.
 - **`-DNDEBUG` in Release.** The skeleton overrides `CMAKE_CXX_FLAGS_RELEASE` to `-O3` alone,
   which keeps `assert` active in Release; CMake's default is kept. A check that must survive
-  Release is a thrown exception, as `mean` shows.
+  Release is a thrown exception.
 - **Baselines compared.** Pitchfork Layout; friendlyanon/cmake-init (2.5k stars);
   TheLartians/ModernCppStarter (5.4k); cpp-best-practices/cmake_template. All three carry CI,
   packaging and install rules a practical never needs; this stops at what the eight

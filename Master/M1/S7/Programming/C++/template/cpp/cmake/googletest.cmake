@@ -14,7 +14,8 @@ FetchContent_MakeAvailable(googletest)
 
 file(GLOB TEST_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp")
 if(NOT TEST_SOURCES)
-  message(FATAL_ERROR "BUILD_TESTS is ON but tests/ holds no .cpp file")
+  message(STATUS "tests/ holds no .cpp file yet: no tests target")
+  return()
 endif()
 
 enable_testing()

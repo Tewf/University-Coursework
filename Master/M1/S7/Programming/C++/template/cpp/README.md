@@ -20,8 +20,9 @@ also be imported from Python starts from [../cpp-python/](../cpp-python/) instea
 | `tests/` | Google Test sources, one file per unit under test |
 | `build/<preset>/` | Generated, never committed |
 
-The example is one function, `mean`, present in all four folders to show
-where each kind of file goes. Replace it. A whole project on this layout:
+The four folders start empty. A blank project configures and builds: the
+library is header-only until `src/` has a file, the `tests` program appears
+with the first file in `tests/`. A whole project on this layout, file by file:
 [worked-example.md](worked-example.md).
 
 ## Start a project
@@ -40,7 +41,7 @@ the destination folder.
 | Want | Run |
 |---|---|
 | Debug build with tests | `cmake --preset debug`, then `cmake --build --preset debug` |
-| Run | `./build/debug/main 1 2 3` |
+| Run | `./build/debug/<program>`, one per file in `apps/` |
 | Tests | `ctest --preset debug`, or `./build/debug/tests` for Google Test's own report |
 | Release (`-O3`) | the same with `release`; output lands in `build/release/` |
 | Memory errors | `cmake --preset asan`, then build and test as above; or `valgrind ./build/debug/main` |

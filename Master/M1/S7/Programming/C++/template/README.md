@@ -23,5 +23,5 @@ cd ../TP9-something
 cmake --preset debug && cmake --build --preset debug && ctest --preset debug
 ```
 
-The script leaves `build/` behind and names the CMake project after the
-destination folder (a third argument names it otherwise).
+The script leaves `build/` and the worked-example pages behind and names the
+CMake project after the destination folder (a third argument names it otherwise).
