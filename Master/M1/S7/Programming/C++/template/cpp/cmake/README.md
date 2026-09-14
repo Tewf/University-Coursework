@@ -40,6 +40,10 @@ One file per concern, included by the root `CMakeLists.txt`:
   file is an executable needs no list. Same split as the Pitchfork Layout (vector-of-bool,
   *The Pitchfork Layout*, `src/` against `tests/` and top-level executables) and
   ModernCppStarter's `standalone/`.
+- **The library target is `project_library`, its archive `lib<project>.a`.** Naming the
+  target after the project, as the skeleton does, forbids an executable with that name, and
+  `apps/shortest-path.cpp` in project `shortest-path` is the first thing anyone writes
+  (found while building the worked example). `OUTPUT_NAME` keeps the archive's name.
 - **Google Test: the system package first, then fetch.** The handout's `find_package(GTest)`
   (p. 4) and the skeleton's `FetchContent` of v1.17.0 are both right; `FIND_PACKAGE_ARGS`
   (CMake 3.24) does the first and falls back to the second. `gtest_discover_tests`, from

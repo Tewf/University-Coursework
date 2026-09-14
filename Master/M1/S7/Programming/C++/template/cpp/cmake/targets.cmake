@@ -13,26 +13,29 @@ include(${CMAKE_CURRENT_LIST_DIR}/compiler-options.cmake)  # defines project_war
 find_package(Threads REQUIRED)
 
 # --- The library: every .cpp under src/, every header under include/ ---
+# The target is project_library, the archive lib<project>.a: a fixed target
+# name lets an executable in apps/ carry the project's own name.
 # CONFIGURE_DEPENDS makes a build re-glob, so a file added to src/ is picked up
 # without re-running the configure step by hand.
 file(GLOB_RECURSE LIBRARY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 if(LIBRARY_SOURCES)
-  add_library(${PROJECT_NAME} STATIC ${LIBRARY_SOURCES})
+  add_library(project_library STATIC ${LIBRARY_SOURCES})
   set(library_scope PUBLIC)
-  target_link_libraries(${PROJECT_NAME} PRIVATE project_warnings)
+  target_link_libraries(project_library PRIVATE project_warnings)
   # Position-independent objects, so the same archive links into a shared library
-  set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+  set_target_properties(project_library PROPERTIES
+    OUTPUT_NAME ${PROJECT_NAME} POSITION_INDEPENDENT_CODE ON)
 else()
-  add_library(${PROJECT_NAME} INTERFACE)  # header-only project: src/ is empty
+  add_library(project_library INTERFACE)  # header-only project: src/ is empty
   set(library_scope INTERFACE)
 endif()
-target_include_directories(${PROJECT_NAME} ${library_scope} "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_link_libraries(${PROJECT_NAME} ${library_scope} Threads::Threads)
+target_include_directories(project_library ${library_scope} "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(project_library ${library_scope} Threads::Threads)
 
 # --- Executables: one per .cpp in apps/, named after the file ---
 file(GLOB APP_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/apps/*.cpp")
 foreach(app_source IN LISTS APP_SOURCES)
   get_filename_component(app_name "${app_source}" NAME_WE)
   add_executable(${app_name} "${app_source}")
-  target_link_libraries(${app_name} PRIVATE ${PROJECT_NAME} project_warnings)
+  target_link_libraries(${app_name} PRIVATE project_library project_warnings)
 endforeach()
