@@ -27,7 +27,7 @@ pdflatex main.tex
 Notes:
 
 - Le document utilise `csvsimple` pour inclure des tables CSV. Installez une distribution TeX complète si nécessaire (TeX Live) avec les paquets requis (`csvsimple`, `graphicx`, `babel-french`, ...).
-- Placez les fichiers de résultats et les figures dans `Results/` (par ex. `Results/*.csv`, `Results/plots/*.png`). Le document référence `../Results/` par rapport au dossier `rapport/`.
+- Placez les fichiers de résultats et les figures dans `Results/` (par ex. `Results/*.csv`, `Results/plots/*.png`). Le document référence `../../Results/`, le dossier `Results/` à la racine du projet, par rapport au dossier `rapport/`.
 
 La revue de littérature relative à la bataille navale se trouve dans `rapport/revue_litterature/`.
 

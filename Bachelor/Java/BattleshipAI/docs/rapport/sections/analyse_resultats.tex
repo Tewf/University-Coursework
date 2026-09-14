@@ -26,7 +26,7 @@ Les résultats sont ensuite regroupés dans deux fichiers principaux :
 \subsubsection{Tableau du tournoi}
 % -------------------------------------------------------
 
-\pgfplotstableread[col sep=comma]{../Results/tournament_summary.csv}\tourney
+\pgfplotstableread[col sep=comma]{../../Results/tournament_summary.csv}\tourney
 \pgfplotstablesort[sort key=win_rate, sort cmp=float >]{\sortedT}{\tourney}
 
 Le tableau suivant est trié par taux de victoire décroissant.\footnote{Ce tri permet d’identifier rapidement les stratégies dominantes dans le tournoi.}
@@ -78,7 +78,7 @@ Lorsque la distribution des longueurs de parties s’approche d’une loi normal
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.75\textwidth]{../Results/performance_gaussian_overlay.png}
+    \includegraphics[width=0.75\textwidth]{../../Results/performance_gaussian_overlay.png}
     \caption{Distribution (approx. gaussienne) des longueurs de parties pour un exemple de stratégie.}
 \end{figure}
 
@@ -86,7 +86,7 @@ Lorsque la distribution des longueurs de parties s’approche d’une loi normal
 \subsubsection{Tableau des performances (moyennes de coups)}
 % -------------------------------------------------------
 
-\pgfplotstableread[col sep=comma]{../Results/performance_summary.csv}\perf
+\pgfplotstableread[col sep=comma]{../../Results/performance_summary.csv}\perf
 \pgfplotstablesort[sort key=mean_moves, sort cmp=float <]{\sortedPerf}{\perf}
 
 \begin{center}
