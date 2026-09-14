@@ -21,36 +21,33 @@ data, C++ for the machinery underneath, then a bridge between the two.
 
 ## TP Overview
 
-Each practical has a **steps** page: the steps it asks for, and for work already
-done, what each step decided and the reference that settled it.
-
 ### Python
 
-| TP | Topic | Folder | Steps |
-|----|-------|--------|-------|
-| TP1 | Virtual environments, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP1-environments/steps/) |
-| TP2 | Images as Numpy arrays, convolution, edge detection | [Python/TP2-image-processing/](Python/TP2-image-processing/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP2-image-processing/steps/) |
-| TP3 | A command-line tool that finds duplicate files | [Python/TP3-cli-tool/](Python/TP3-cli-tool/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP3-cli-tool/steps/) |
-| TP4 | The `logging` module, then a logger of your own | [Python/TP4-logger/](Python/TP4-logger/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP4-logger/steps/) |
+| TP | Topic | Folder |
+|----|-------|--------|
+| TP1 | Virtual environments, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) |
+| TP2 | Images as Numpy arrays, convolution, edge detection | [Python/TP2-image-processing/](Python/TP2-image-processing/README.md) |
+| TP3 | A command-line tool that finds duplicate files | [Python/TP3-cli-tool/](Python/TP3-cli-tool/README.md) |
+| TP4 | The `logging` module, then a logger of your own | [Python/TP4-logger/](Python/TP4-logger/README.md) |
 
 ### C++
 
-| TP | Topic | Folder | Steps |
-|----|-------|--------|-------|
-| TP1 | First programs, CMake, Boost, Google Test | [C++/TP1-first-programs/](C++/TP1-first-programs/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP1-first-programs/steps/) |
-| TP2 | C++ without objects: a 2D vector as free functions | [C++/TP2-without-objects/](C++/TP2-without-objects/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP2-without-objects/steps/) |
-| TP3 | The same vector, now a class | [C++/TP3-custom-vectors/](C++/TP3-custom-vectors/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP3-custom-vectors/steps/) |
-| TP4 | Object-oriented programming and graphs | [C++/TP4-oop-graphs/](C++/TP4-oop-graphs/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP4-oop-graphs/steps/) |
-| TP5 | Subsets, iterators | [C++/TP5-subsets/](C++/TP5-subsets/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP5-subsets/steps/) |
-| TP6 | Templates | [C++/TP6-templates/](C++/TP6-templates/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP6-templates/steps/) |
-| TP7 | Concurrent programming | [C++/TP7-concurrency/](C++/TP7-concurrency/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP7-concurrency/steps/) |
-| TP8 | Interoperability: binding C++ to Python with pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/README.md) | [view](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP8-interoperability/steps/) |
+| TP | Topic | Folder |
+|----|-------|--------|
+| TP1 | First programs, CMake, Boost, Google Test | [C++/TP1-first-programs/](C++/TP1-first-programs/README.md) |
+| TP2 | C++ without objects: a 2D vector as free functions | [C++/TP2-without-objects/](C++/TP2-without-objects/README.md) |
+| TP3 | The same vector, now a class | [C++/TP3-custom-vectors/](C++/TP3-custom-vectors/README.md) |
+| TP4 | Object-oriented programming and graphs | [C++/TP4-oop-graphs/](C++/TP4-oop-graphs/README.md) |
+| TP5 | Subsets, iterators | [C++/TP5-subsets/](C++/TP5-subsets/README.md) |
+| TP6 | Templates | [C++/TP6-templates/](C++/TP6-templates/README.md) |
+| TP7 | Concurrent programming | [C++/TP7-concurrency/](C++/TP7-concurrency/README.md) |
+| TP8 | Interoperability: binding C++ to Python with pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/README.md) |
 
 ### Project
 
 [Project-TSPSolver/](Project-TSPSolver/README.md) solves the Travelling Salesman
 Problem, exactly with Held-Karp and then approximately, and measures one against
-the other. [Steps ↗](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Project-TSPSolver/steps/)
+the other.
 
 ## Prerequisites
 
@@ -111,7 +108,6 @@ Programming/
 |-- Python/
 |   |-- TP1-environments/
 |   |   |-- handout/         <- the subject PDF beside its .txt extraction
-|   |   |-- steps/           <- index.html, then one page per step
 |   |   |-- README.md        <- what it asks, what it provides, how to run it
 |   |   |-- meteo.py         <- the provided code, set up in place
 |   |-- TP2-image-processing/ ... TP4-logger/
@@ -142,8 +138,7 @@ Clean, reusable, and commented so it survives being lifted into another project.
 Beyond that, one rule governs: **easy to read, and efficient in effort.** Code
 reads obviously on first pass, effort stops where more polish buys less than it
 costs, and every non-obvious choice carries its reference *and* the trail that
-found it, so it can be rechecked rather than taken on trust. The `steps/` pages
-are where that trail is written down.
+found it, so it can be rechecked rather than taken on trust.
 
 Explanations of the concepts themselves live in a separate Obsidian vault, not
 here: a comment that starts teaching theory belongs in the note instead.

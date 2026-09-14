@@ -72,7 +72,7 @@ IntroductionToAI/
 |-- MachineLearning/
 |   |-- Lab1-performance-evaluation/
 |   |   |-- handout/             <- subject, official correction
-|   |   |-- README.md steps.json steps/   <- the ask in my words, one page per question
+|   |   |-- README.md            <- the ask in my words
 |   |-- Lab2-supervised-ml/
 |   |   |-- handout/
 |   |   |-- avalanche_data.csv svm.png svm0.png   <- what the notebook reads

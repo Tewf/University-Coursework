@@ -5,9 +5,7 @@ RNN and LSTM, one step ahead and then several.
 
 ## State
 
-Not started. All five questions are pending. Each question's reasoning, what
-was rejected and the reference that settled it are in [steps/](steps/index.html),
-where the abridged questions are listed too.
+Not started. All five questions are pending.
 
 ## What the handout provides
 

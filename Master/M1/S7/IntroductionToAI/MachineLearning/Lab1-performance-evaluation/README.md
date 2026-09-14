@@ -4,9 +4,7 @@ Three classifiers and three baselines on the breast-cancer dataset, scored and r
 
 ## State
 
-Not started. All eleven questions are pending. Each question's reasoning, what
-was rejected and the reference that settled it are in [steps/](steps/index.html),
-where the abridged questions are listed too.
+Not started. All eleven questions are pending.
 
 ## What the handout provides
 

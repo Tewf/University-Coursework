@@ -8,9 +8,7 @@ images, by training a classifier-and-regressor head on top of its features.
 Not started, and it cannot run yet as shipped: the subject imports two Python
 modules and loads three saved tensors that were never distributed with it, so
 the folder holds only the subject until they turn up. All five questions are
-pending. Each question's reasoning, what was rejected and the reference that
-settled it are in [steps/](steps/index.html), where the abridged questions are
-listed too.
+pending.
 
 ## What the handout provides
 

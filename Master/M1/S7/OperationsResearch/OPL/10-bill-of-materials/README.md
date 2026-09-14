@@ -6,7 +6,7 @@ The statement points at a diagram (`assets/exoPDP.png`) that was not included in
 
 ## State
 
-Not started. All three questions are pending. Each one's reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statements are listed too.
+Not started. All three questions are pending.
 
 ## What is provided
 

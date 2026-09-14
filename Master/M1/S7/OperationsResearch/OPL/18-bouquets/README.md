@@ -4,7 +4,7 @@ Model, as an integer program, which of four one-off flower bunches to buy to rea
 
 ## State
 
-Not started. The question is pending. Its reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statement is listed too.
+Not started. The question is pending.
 
 ## What is provided
 

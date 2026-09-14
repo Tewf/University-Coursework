@@ -49,14 +49,14 @@ doit disparaître, même une fois `maze.c` écrit.
 Chaque projet garde son énoncé dans `handout/`, à côté d'une extraction `.txt`
 qui le rend greppable près du travail. `.publishignore` les retient tous, donc ce
 qu'un dossier montre sur GitHub est mon travail et rien d'autre : un README qui
-dit, avec mes mots, ce qui est demandé, une page `steps/` par question, et le
+dit, avec mes mots, ce qui est demandé, et le
 code dès qu'il y en a.
 
 ```
 AlgorithmicProblemSolving/
 |-- APP1-maze/
 |   |-- handout/               <- le PDF du sujet à côté de son extraction .txt
-|   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
+|   |-- README.md               <- la demande avec mes mots
 |   |-- report/                <- le livrable, un dossier LaTeX par section
 |   |-- implementation/        <- mon C : generation, les deux solveurs, tests, mesures
 |   |-- main.c maze.h svg.c/.h Makefile   <- le squelette fourni, et mon maze.c

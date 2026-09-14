@@ -67,7 +67,7 @@ DataAcquisitionProcessingAndMiningForAI/
 |-- Lab1-pandas-taxi-data/
 |   |-- handout/               <- the subject notebook, the bundle as downloaded
 |   |-- data/raw/              <- the Parquet sample the notebook reads
-|   |-- README.md steps.json steps/
+|   |-- README.md
 |-- Project/
 |   |-- handout/               <- the project handout, the data card template
 |   |-- README.md

@@ -5,9 +5,7 @@ weather and snow data with SVMs, decision trees and random forests.
 
 ## State
 
-Not started. All fourteen questions are pending. Each question's reasoning,
-what was rejected and the reference that settled it are in
-[steps/](steps/index.html), where the abridged questions are listed too.
+Not started. All fourteen questions are pending.
 
 ## What the handout provides
 

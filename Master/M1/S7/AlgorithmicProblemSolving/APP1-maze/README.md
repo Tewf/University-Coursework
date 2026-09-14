@@ -15,9 +15,6 @@ Implementing it was optional; it is done anyway, in
 [implementation/](implementation/), C11 with no dependency outside the standard
 library.
 
-Each question's reasoning, what was rejected and the reference that settled it
-are in [steps/](steps/index.html), where the abridged questions are listed too.
-
 ## What the handout provides
 
 `main.c`, `maze.h`, `svg.c`, `svg.h` and `Makefile`, unpacked from

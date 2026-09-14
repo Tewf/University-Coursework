@@ -6,11 +6,9 @@ Virtual environments with venv and pip, then uv, then notebooks running against 
 
 All eight questions are done and verified. Both exercises pass the checkers the
 handout recommends — `pylint` 10.00/10, `mypy` clean — and carry 17 tests
-between them that run offline, so the contracts hold without asking the API
-what today's weather is. Both notebooks are committed with their output, since
+between them that run offline, so the contracts hold without asking the API what
+today's weather is. Both notebooks are committed with their output, since
 "verify that you can import" is answered by the output and not by the code.
-Each question's reasoning, what was rejected and the reference that settled it
-are in [steps/](steps/index.html), where the abridged questions are listed too.
 
 ## What the handout provides
 
@@ -31,7 +29,6 @@ worked example.
 |--------|----------|-------------|
 | [`venv-and-pip/`](venv-and-pip/) | Past temperatures, plotted (Q1–Q3, Q8) | `venv` + `pip`, frozen to `requirements.txt` |
 | [`WeatherMapApp/`](WeatherMapApp/) | Live weather on a map of France (Q4–Q7) | `uv`, declared in `pyproject.toml` + `uv.lock` |
-| [`steps/`](steps/index.html) | The record, one page per question | — |
 
 Neither `.venv/` is committed: both rebuild from the files above, which is the
 claim the practical asks you to verify, and it was verified by deleting one.

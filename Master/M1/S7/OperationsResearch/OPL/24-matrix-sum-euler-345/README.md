@@ -6,7 +6,7 @@ The statement itself is just a link to projecteuler.net/problem=345 and an image
 
 ## State
 
-Not started. The question is pending. Its reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statement is listed too.
+Not started. The question is pending.
 
 ## What is provided
 

@@ -5,9 +5,7 @@ clustering noisy high-dimensional data needs dimensionality reduction first.
 
 ## State
 
-Not started. All eight questions are pending. Each question's reasoning, what
-was rejected and the reference that settled it are in [steps/](steps/index.html),
-where the abridged questions are listed too.
+Not started. All eight questions are pending.
 
 ## What the handout provides
 

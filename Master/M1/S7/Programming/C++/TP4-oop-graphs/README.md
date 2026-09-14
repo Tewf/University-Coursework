@@ -4,9 +4,7 @@ A graph library: abstract base classes, inheritance, weighted and complete graph
 
 ## State
 
-Not started. Each question's reasoning, what was rejected and the reference
-that settled it are in [steps/](steps/index.html), where the abridged
-questions are listed too.
+Not started.
 
 ## Running it
 

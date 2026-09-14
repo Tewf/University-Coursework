@@ -5,9 +5,7 @@ first load to a bar chart of demand by hour.
 
 ## State
 
-Not started. All nine exercises are pending. Each exercise's reasoning, what was
-rejected and the reference that settled it are in [steps/](steps/index.html),
-where the abridged exercises are listed too.
+Not started. All nine exercises are pending.
 
 ## What the handout provides
 

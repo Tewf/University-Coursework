@@ -60,7 +60,7 @@ AppliedProbabilityAndStatistics/
 |-- environment.yml              <- the one conda environment
 |-- Lab0-first-manipulations-with-r/
 |   |-- handout/                 <- the .Rmd subject
-|   |-- README.md steps.json steps/   <- the ask in my words, one page per question
+|   |-- README.md                <- the ask in my words
 |   |-- saison_2022.csv BreastCancer.csv
 |-- Lab1-real-random-variables/
 |-- Lab2-estimators-exponential-model/

@@ -4,9 +4,7 @@ The same vector as a class: attributes, constructors, destructor, copy semantics
 
 ## State
 
-Not started. Each question's reasoning, what was rejected and the reference
-that settled it are in [steps/](steps/index.html), where the abridged
-questions are listed too.
+Not started.
 
 ## Running it
 

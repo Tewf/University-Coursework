@@ -5,9 +5,7 @@ training loop, first on FashionMNIST and then on CIFAR-10.
 
 ## State
 
-Not started. All six questions are pending. Each question's reasoning, what
-was rejected and the reference that settled it are in [steps/](steps/index.html),
-where the abridged questions are listed too.
+Not started. All six questions are pending.
 
 ## What the handout provides
 

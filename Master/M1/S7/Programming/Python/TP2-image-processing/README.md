@@ -4,9 +4,7 @@ Images as Numpy arrays: loading, greyscale, padding, convolution, blurring and e
 
 ## State
 
-Not started. Each question's reasoning, what was rejected and the reference
-that settled it are in [steps/](steps/index.html), where the abridged
-questions are listed too.
+Not started.
 
 ## What the handout provides
 

@@ -47,14 +47,13 @@ an error under gcc 13.3 — that line has to go even once `maze.c` is there.
 Each project keeps its statement in `handout/`, beside a `.txt` extraction that
 makes it greppable next to the work. `.publishignore` withholds every one of them,
 so what a folder shows on GitHub is my work and nothing else: a README saying
-what it asks, in my words, a `steps/` page per question, and the code once
-there is some.
+what it asks, in my words, and the code once there is some.
 
 ```
 AlgorithmicProblemSolving/
 |-- APP1-maze/
 |   |-- handout/               <- the subject PDF beside its .txt extraction
-|   |-- README.md steps.json steps/   <- the ask in my words, one page per question
+|   |-- README.md              <- the ask in my words
 |   |-- report/                <- the deliverable, one LaTeX folder per section
 |   |-- implementation/        <- my C: generation, both solvers, tests, benchmark
 |   |-- main.c maze.h svg.c/.h Makefile   <- the provided C skeleton, unbuilt

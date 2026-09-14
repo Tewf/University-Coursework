@@ -6,7 +6,7 @@ The statement points at the course's CP exercise sheet for the problem descripti
 
 ## State
 
-Not started. The question is pending. Its reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statement is listed too.
+Not started. The question is pending.
 
 ## What is provided
 

@@ -75,10 +75,9 @@ root, where the grader expects it. `.publishignore` withholds `handout/`, the gr
 configuration `configExe`, the required `.dat` files and the CSPLib
 `instances/`, so nothing Caseine distributed shows on GitHub; the starter
 file does, since the grader edits it in place rather than producing a
-separate output file — a README says what it asks, in my words, and a
-`steps/` page records the work once there is some. The course's own
+separate output file — a README says what it asks, in my words. The course's own
 handouts (the OPL tutorials, the pychoco cheat sheet, the modelling
-activity) sit in a `handout/` at this level, excluded the same way.
+activity) sit in a `handout/` at this level, withheld the same way.
 
 ```
 OperationsResearch/
@@ -87,7 +86,7 @@ OperationsResearch/
 |-- OPL/
 |   |-- 01-opl-example/
 |   |   |-- handout/               <- the Caseine statement
-|   |   |-- README.md steps.json steps/   <- the ask in my words, one page per question
+|   |   |-- README.md              <- the ask in my words
 |   |   |-- example.mod            <- the starter model, edited in place
 |   |   |-- configExe              <- the grader configuration, kept local
 |   |-- 02-vegetables/ ... 26-toys/

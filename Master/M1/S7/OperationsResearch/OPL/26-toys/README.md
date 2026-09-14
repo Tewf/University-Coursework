@@ -6,7 +6,7 @@ Two questions. 1. Model, as an integer program with data loaded from `InstanceA.
 
 ## State
 
-Not started. All two questions are pending. Each one's reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statements are listed too.
+Not started. All two questions are pending.
 
 ## What is provided
 

@@ -4,7 +4,7 @@ Confirm the lot-sizing example model runs and evaluates as given, with its data 
 
 ## State
 
-Not started. The question is pending. Its reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statement is listed too.
+Not started. The question is pending.
 
 ## What is provided
 

@@ -5,9 +5,7 @@ abundances, where descriptors outnumber patients roughly five to one.
 
 ## State
 
-Not started. All ten questions are pending (the last one optional). Each
-question's reasoning, what was rejected and the reference that settled it are
-in [steps/](steps/index.html), where the abridged questions are listed too.
+Not started. All ten questions are pending (the last one optional).
 
 ## What the handout provides
 

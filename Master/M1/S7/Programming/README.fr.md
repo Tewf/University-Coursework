@@ -21,36 +21,33 @@ données, C++ pour la mécanique en dessous, puis un pont entre les deux.
 
 ## Les TP
 
-Chaque TP a une page **steps** : les étapes qu'il demande, et pour le travail
-déjà fait, ce que chaque étape a décidé et la référence qui l'a tranché.
-
 ### Python
 
-| TP | Sujet | Dossier | Étapes |
-|----|-------|---------|--------|
-| TP1 | Environnements virtuels, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP1-environments/steps/) |
-| TP2 | Images en tableaux Numpy, convolution, détection de contours | [Python/TP2-image-processing/](Python/TP2-image-processing/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP2-image-processing/steps/) |
-| TP3 | Un outil en ligne de commande qui repère les doublons | [Python/TP3-cli-tool/](Python/TP3-cli-tool/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP3-cli-tool/steps/) |
-| TP4 | Le module `logging`, puis son propre logger | [Python/TP4-logger/](Python/TP4-logger/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Python/TP4-logger/steps/) |
+| TP | Sujet | Dossier |
+|----|-------|---------|
+| TP1 | Environnements virtuels, pip, uv, notebooks | [Python/TP1-environments/](Python/TP1-environments/README.md) |
+| TP2 | Images en tableaux Numpy, convolution, détection de contours | [Python/TP2-image-processing/](Python/TP2-image-processing/README.md) |
+| TP3 | Un outil en ligne de commande qui repère les doublons | [Python/TP3-cli-tool/](Python/TP3-cli-tool/README.md) |
+| TP4 | Le module `logging`, puis son propre logger | [Python/TP4-logger/](Python/TP4-logger/README.md) |
 
 ### C++
 
-| TP | Sujet | Dossier | Étapes |
-|----|-------|---------|--------|
-| TP1 | Premiers programmes, CMake, Boost, Google Test | [C++/TP1-first-programs/](C++/TP1-first-programs/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP1-first-programs/steps/) |
-| TP2 | C++ sans objets : un vecteur 2D en fonctions libres | [C++/TP2-without-objects/](C++/TP2-without-objects/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP2-without-objects/steps/) |
-| TP3 | Le même vecteur, cette fois en classe | [C++/TP3-custom-vectors/](C++/TP3-custom-vectors/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP3-custom-vectors/steps/) |
-| TP4 | Programmation orientée objet et graphes | [C++/TP4-oop-graphs/](C++/TP4-oop-graphs/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP4-oop-graphs/steps/) |
-| TP5 | Sous-ensembles, itérateurs | [C++/TP5-subsets/](C++/TP5-subsets/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP5-subsets/steps/) |
-| TP6 | Templates | [C++/TP6-templates/](C++/TP6-templates/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP6-templates/steps/) |
-| TP7 | Programmation concurrente | [C++/TP7-concurrency/](C++/TP7-concurrency/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP7-concurrency/steps/) |
-| TP8 | Interopérabilité : lier C++ et Python avec pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/README.md) | [voir](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/C++/TP8-interoperability/steps/) |
+| TP | Sujet | Dossier |
+|----|-------|---------|
+| TP1 | Premiers programmes, CMake, Boost, Google Test | [C++/TP1-first-programs/](C++/TP1-first-programs/README.md) |
+| TP2 | C++ sans objets : un vecteur 2D en fonctions libres | [C++/TP2-without-objects/](C++/TP2-without-objects/README.md) |
+| TP3 | Le même vecteur, cette fois en classe | [C++/TP3-custom-vectors/](C++/TP3-custom-vectors/README.md) |
+| TP4 | Programmation orientée objet et graphes | [C++/TP4-oop-graphs/](C++/TP4-oop-graphs/README.md) |
+| TP5 | Sous-ensembles, itérateurs | [C++/TP5-subsets/](C++/TP5-subsets/README.md) |
+| TP6 | Templates | [C++/TP6-templates/](C++/TP6-templates/README.md) |
+| TP7 | Programmation concurrente | [C++/TP7-concurrency/](C++/TP7-concurrency/README.md) |
+| TP8 | Interopérabilité : lier C++ et Python avec pybind11 | [C++/TP8-interoperability/](C++/TP8-interoperability/README.md) |
 
 ### Projet
 
 [Project-TSPSolver/](Project-TSPSolver/README.md) résout le problème du voyageur
 de commerce, exactement avec Held-Karp puis approximativement, et mesure l'un
-contre l'autre. [Étapes ↗](https://tewf.github.io/University-Coursework/Master/M1/S7/Programming/Project-TSPSolver/steps/)
+contre l'autre.
 
 ## Prérequis
 
@@ -112,7 +109,6 @@ Programming/
 |-- Python/
 |   |-- TP1-environments/
 |   |   |-- handout/         <- le sujet en PDF, à côté de son extraction .txt
-|   |   |-- steps/           <- index.html, puis une page par étape
 |   |   |-- README.md        <- ce qu'il demande, ce qu'il fournit, comment le lancer
 |   |   |-- meteo.py         <- le code fourni, installé à sa place
 |   |-- TP2-image-processing/ ... TP4-logger/
@@ -144,7 +140,6 @@ autre projet. Au-delà, une règle gouverne : **facile à lire, et efficace en
 effort.** Le code se lit du premier coup, l'effort s'arrête là où le polissage
 rapporte moins qu'il ne coûte, et tout choix non évident porte sa référence *et*
 la piste qui l'a trouvée, pour pouvoir être revérifié plutôt que cru sur parole.
-Les pages `steps/` sont l'endroit où cette piste est écrite.
 
 Les explications des concepts eux-mêmes vivent dans un coffre Obsidian séparé,
 pas ici : un commentaire qui se met à enseigner la théorie appartient à la note.

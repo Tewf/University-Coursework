@@ -54,7 +54,7 @@ PDF, une extraction `.txt` de tout PDF pour qu'il soit greppable, et la
 solution officielle quand elle existe). Les jeux de données sont à la racine du
 TP, là où le code les `load()`. `.publishignore` retient tout cela, donc ce qu'un
 dossier montre sur GitHub est mon travail et rien d'autre : un README qui dit,
-avec mes mots, ce qui est demandé, une page `steps/` par question, et le
+avec mes mots, ce qui est demandé, et le
 notebook complété dès qu'il existe.
 
 ```
@@ -62,7 +62,7 @@ AppliedProbabilityAndStatistics/
 |-- environment.yml              <- l'unique environnement conda
 |-- Lab0-first-manipulations-with-r/
 |   |-- handout/                 <- le sujet .Rmd
-|   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
+|   |-- README.md               <- la demande avec mes mots
 |   |-- saison_2022.csv BreastCancer.csv
 |-- Lab1-real-random-variables/
 |-- Lab2-estimators-exponential-model/

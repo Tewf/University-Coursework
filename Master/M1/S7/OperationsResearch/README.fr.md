@@ -77,9 +77,8 @@ correcteur `configExe`, les fichiers `.dat` requis et les `instances/` CSPLib,
 donc rien de ce que Caseine distribue n'apparaît sur GitHub ; le fichier de
 départ, si, puisque le correcteur le modifie sur place plutôt que de produire
 un fichier de sortie à part — un README dit ce qui est demandé, avec mes
-mots, et une page `steps/` enregistre le travail dès qu'il y en a. Les
-supports du cours (tutoriels OPL, aide-mémoire pychoco, activité de
-modélisation) sont dans un `handout/` à ce niveau, exclu de la même façon.
+mots. Les supports du cours (tutoriels OPL, aide-mémoire pychoco, activité de
+modélisation) sont dans un `handout/` à ce niveau, retenu de la même façon.
 
 ```
 OperationsResearch/
@@ -88,7 +87,7 @@ OperationsResearch/
 |-- OPL/
 |   |-- 01-opl-example/
 |   |   |-- handout/               <- l'énoncé Caseine
-|   |   |-- README.md steps.json steps/   <- la demande avec mes mots, une page par question
+|   |   |-- README.md              <- la demande avec mes mots
 |   |   |-- example.mod            <- le modèle de départ, modifié sur place
 |   |   |-- configExe              <- la configuration du correcteur, gardée en local
 |   |-- 02-vegetables/ ... 26-toys/

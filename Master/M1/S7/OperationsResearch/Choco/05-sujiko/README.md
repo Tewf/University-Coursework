@@ -4,7 +4,7 @@ Write a CP model in pychoco that places 1 to 9 once each on a 3×3 grid so the f
 
 ## State
 
-Not started. The question is pending. Its reasoning, what was rejected and the reference that settles it will be in [steps/](steps/index.html), where the abridged statement is listed too.
+Not started. The question is pending.
 
 ## What is provided
 

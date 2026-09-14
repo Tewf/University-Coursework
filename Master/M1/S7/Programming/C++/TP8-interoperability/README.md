@@ -4,9 +4,7 @@ pybind11: exposing constants, functions, a class with operator overloads, and an
 
 ## State
 
-Not started. Each question's reasoning, what was rejected and the reference
-that settled it are in [steps/](steps/index.html), where the abridged
-questions are listed too.
+Not started.
 
 ## What the handout provides
 
