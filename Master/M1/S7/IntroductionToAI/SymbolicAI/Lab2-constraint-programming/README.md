@@ -29,12 +29,10 @@ not carry it.
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Introduction to AI/Labs - Symbolic AI/Lab 2 - Constraint Programming.md`.
-The map of all of them is `obsidian-note.local.md` at the course root, which
-is gitignored because it names local paths.
 
 ## Source material
 
 The subject is by Sylvain Bouveret (Grenoble INP, UGA) and is **not
 redistributed here**: see [NOTICE](../../../../../../NOTICE). It sits in
 `handout/` beside its `.txt` extraction, and `.publishignore` keeps that
-directory and the dataset out of the public repository.
+directory and the dataset out of this copy.

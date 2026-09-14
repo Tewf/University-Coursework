@@ -17,14 +17,12 @@ cmake --build build
 ## Where the explanation lives
 
 This folder holds code. The concept note for it is in the Notes vault, under
-`S7/Programming/TP - C++/TP6 - Templates.md`. The map of all of them is
-`obsidian-note.local.md` at the course root, which is gitignored because it
-names local paths.
+`S7/Programming/TP - C++/TP6 - Templates.md`.
 
 ## Source material
 
 The handout is by E. Foussard (UGA) and is **not redistributed here**: see
 [NOTICE](../../../../../../NOTICE). It sits in `handout/`, the PDF beside the `.txt`
 extraction that makes it greppable, and `.publishignore` keeps that whole directory
-out of the public repository. The code the handout provides is listed above and is
+out of this copy. The code the handout provides is listed above and is
 credited in NOTICE.

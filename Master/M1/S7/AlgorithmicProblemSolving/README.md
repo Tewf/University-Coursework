@@ -74,6 +74,5 @@ note instead.
 ## Source material
 
 The subjects, and the C skeleton provided with APP1, are **not redistributed
-here**: see [NOTICE](../../../../NOTICE). They stay on disk in each `handout/`
-directory, and `.publishignore` withholds both them and the skeleton from the
-public repository. What is committed is my own work.
+here**: see [NOTICE](../../../../NOTICE). They stay with the work on the private side in each `handout/`
+directory, and `.publishignore` withholds both them and the skeleton from this copy. What is committed is my own work.

@@ -27,9 +27,7 @@ method flag — and `build/tests`.
 ## Where the explanation lives
 
 This folder holds code. The concept note for it is in the Notes vault, under
-`S7/Programming/Project - TSP Solver/Project - TSP Solver.md`. The map of all
-of them is `obsidian-note.local.md` at the course root, which is gitignored
-because it names local paths.
+`S7/Programming/Project - TSP Solver/Project - TSP Solver.md`.
 
 ## Done with a partner
 
@@ -41,5 +39,5 @@ The subject and `instance_generator.py` are by E. Foussard (UGA) and are **not
 redistributed here**: see [NOTICE](../../../../../NOTICE). It sits in
 `handout/`, the PDF beside the `.txt` extraction that makes it greppable, and
 `.publishignore` keeps that whole directory, `instance_generator.py`, and
-`TSP-instances/` out of the public repository. The TSPLIB instances themselves belong
+`TSP-instances/` out of this copy. The TSPLIB instances themselves belong
 to their original authors and are cited, not claimed.

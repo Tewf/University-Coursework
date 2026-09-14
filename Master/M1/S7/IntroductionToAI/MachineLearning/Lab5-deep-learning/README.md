@@ -36,11 +36,9 @@ jupyter lab Lab5-deep-learning.ipynb
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Introduction to AI/Labs - Machine Learning/Lab 5 - Deep Learning/Lab 5 - Deep Learning.md`.
-The map of all of them is `obsidian-note.local.md`, two levels up, which is
-gitignored because it names local paths.
 
 ## Source material
 
 The lab notebook and its training helper are by Nguyen Kim Thang (UGA) and are
 not redistributed here: see [NOTICE](../../../../../../NOTICE). `handout/` and
-the helper both stay local, and `.publishignore` keeps them out of the public repository.
+the helper both stay with the work on the private side, and `.publishignore` keeps them out of this copy.

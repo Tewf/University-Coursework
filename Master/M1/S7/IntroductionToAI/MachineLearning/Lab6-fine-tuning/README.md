@@ -37,11 +37,9 @@ jupyter lab Lab6-fine-tuning.ipynb
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Introduction to AI/Labs - Machine Learning/Lab 6 - Fine-Tuning a Pretrained Model.md`.
-The map of all of them is `obsidian-note.local.md`, two levels up, which is
-gitignored because it names local paths.
 
 ## Source material
 
 The lab notebook is by Nguyen Kim Thang (UGA) and is not redistributed here:
 see [NOTICE](../../../../../../NOTICE). It sits in `handout/`, and
-`.publishignore` keeps that directory out of the public repository.
+`.publishignore` keeps that directory out of this copy.

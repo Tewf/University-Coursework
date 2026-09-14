@@ -86,6 +86,6 @@ enseigner la théorie a sa place dans cette note.
 ## Matériel source
 
 Les sujets, la solution officielle et les jeux de données ne sont **pas
-redistribués ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le
-disque dans chaque dossier de TP et `.publishignore` les retient du dépôt public. Ce qui
+redistribués ici** : voir [NOTICE](../../../../NOTICE). Ils restent à côté du travail, côté privé,
+dans chaque dossier de TP et `.publishignore` les retient de cette copie. Ce qui
 est versionné est le travail écrit en réponse.

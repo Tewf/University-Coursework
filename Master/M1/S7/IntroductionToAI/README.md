@@ -98,6 +98,6 @@ teaching theory belongs in that note instead.
 ## Source material
 
 The subjects, the official corrections, the helper modules and the datasets
-are **not redistributed here**: see [NOTICE](../../../../NOTICE). They stay on
-disk in each lab folder and `.publishignore` keeps them out of the public repository. What
+are **not redistributed here**: see [NOTICE](../../../../NOTICE). They stay with the work on the private side
+in each lab folder and `.publishignore` keeps them out of this copy. What
 is committed is the work written against them.

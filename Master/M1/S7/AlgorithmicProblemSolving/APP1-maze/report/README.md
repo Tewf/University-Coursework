@@ -42,5 +42,5 @@ correctness by `make test`.
 ## Source material
 
 The subject is by Nguyen Kim Thang and Enikő Kevi (UGA) and is **not
-redistributed here**: see [NOTICE](../../../../../../NOTICE). It stays in
-`../handout/`, outside version control.
+redistributed here**: see [NOTICE](../../../../../../NOTICE). It stays with
+the work on the private side, in `../handout/`.

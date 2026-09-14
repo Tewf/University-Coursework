@@ -102,5 +102,5 @@ commentaire d'ici qui se met à enseigner la théorie a sa place dans cette note
 
 Les sujets, les corrections officielles, les modules fournis et les jeux de
 données ne sont **pas redistribués ici** : voir [NOTICE](../../../../NOTICE).
-Ils restent sur le disque dans chaque dossier de TP et `.publishignore` les retient
-du dépôt public. Ce qui est versionné est le travail écrit en réponse.
+Ils restent à côté du travail, côté privé, dans chaque dossier de TP et `.publishignore` les retient
+de cette copie. Ce qui est versionné est le travail écrit en réponse.

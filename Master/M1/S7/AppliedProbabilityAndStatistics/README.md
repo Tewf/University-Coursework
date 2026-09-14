@@ -83,6 +83,6 @@ need. A comment here that starts teaching theory belongs in that note instead.
 ## Source material
 
 The subjects, the official solution and the datasets are **not redistributed
-here**: see [NOTICE](../../../../NOTICE). They stay on disk in each lab folder
-and `.publishignore` keeps them out of the public repository. What is committed is the
+here**: see [NOTICE](../../../../NOTICE). They stay with the work on the private side in each lab folder
+and `.publishignore` keeps them out of this copy. What is committed is the
 work written against them.

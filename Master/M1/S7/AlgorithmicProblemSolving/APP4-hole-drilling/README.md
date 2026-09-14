@@ -29,4 +29,4 @@ The subject is by Nguyen Kim Thang, Enikő Kevi and Lorena León (UGA), licensed
 CC BY-SA 3.0, and is **not redistributed here**: see
 [NOTICE](../../../../../NOTICE). It sits in `handout/`, the PDF beside the
 `.txt` extraction that makes it greppable, and `.publishignore` keeps that
-directory out of the public repository.
+directory out of this copy.

@@ -25,12 +25,10 @@ Rscript -e 'rmarkdown::render("Lab1-real-random-variables.Rmd")'
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Applied Probability and Statistics/Labs/Lab 1 - Real Random Variables.md`.
-The map of all of them is `obsidian-note.local.md` at the course root, which
-is gitignored because it names local paths.
 
 ## Source material
 
 The handout is by the teaching staff of Applied Probability and Statistics
 (M1AM, UGA) and is **not redistributed here**: see
 [NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.publishignore`
-keeps that directory out of the public repository.
+keeps that directory out of this copy.

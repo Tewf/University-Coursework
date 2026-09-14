@@ -147,6 +147,6 @@ pas ici : un commentaire qui se met à enseigner la théorie appartient à la no
 ## Supports
 
 Les sujets de TP, et le code fourni avec eux, **ne sont pas redistribués ici** :
-voir [NOTICE](../../../../NOTICE). Ils restent sur le disque à côté de chaque TP,
+voir [NOTICE](../../../../NOTICE). Ils restent à côté du travail, côté privé,
 avec une extraction `.txt` qui les rend cherchables, et le `.publishignore` tient les
-deux hors du dépôt public. Ce qui est versionné est mon travail.
+deux hors de cette copie. Ce qui est versionné est mon travail.

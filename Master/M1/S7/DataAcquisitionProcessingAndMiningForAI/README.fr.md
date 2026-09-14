@@ -92,6 +92,6 @@ qui se met à enseigner la théorie a sa place dans cette note.
 Le sujet du projet, le modèle de fiche de données, le guide de mise en place,
 `environment.yml`, `verify_setup.py`, les notebooks de TP et les jeux de données
 qu'ils lisent ne sont **pas rediffusés ici** : voir
-[NOTICE](../../../../NOTICE). Chacun reste sur le disque dans le `handout/` de
-l'unité à laquelle il appartient, et `.publishignore` les retient tous du dépôt public.
+[NOTICE](../../../../NOTICE). Chacun reste à côté du travail, côté privé, dans le `handout/` de
+l'unité à laquelle il appartient, et `.publishignore` les retient tous de cette copie.
 Ce qui est versionné est écrit contre eux.

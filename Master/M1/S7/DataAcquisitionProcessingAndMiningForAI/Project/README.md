@@ -48,8 +48,9 @@ and the filters have to be pinned down precisely at M0.
 ## What lives here, and what does not
 
 The code and the writing. Not the data: the raw Parquet and the cleaned dataset
-stay on disk and `.publishignore` keeps them out, which is also what the course
-asks — the milestones take the shapes of the files, not the files.
+stay on disk here and `.publishignore` keeps them out of the public copy, which
+is also what the course asks — the milestones take the shapes of the files, not
+the files.
 
 ## Done with a partner
 
@@ -58,5 +59,6 @@ Done with a partner; the folder is also a repository of its own, shared with the
 ## Source material
 
 The project handout and the data card template are the course staff's and are
-not redistributed here: see [NOTICE](../../../../../NOTICE). Both sit in this
-folder's own `handout/`, which `.publishignore` withholds.
+not redistributed here: see [NOTICE](../../../../../NOTICE). Both sit with the
+work on the private side, in this folder's own `handout/`, which
+`.publishignore` withholds from this copy.

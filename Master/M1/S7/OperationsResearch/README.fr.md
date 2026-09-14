@@ -115,9 +115,9 @@ commentaire ici qui se met à enseigner la théorie a sa place dans cette note.
 
 Les énoncés des exercices, les supports du cours, les configurations du
 correcteur, les fichiers `.dat` et les instances ne sont **pas redistribués
-ici** : voir [NOTICE](../../../../NOTICE). Chaque énoncé reste sur disque dans
+ici** : voir [NOTICE](../../../../NOTICE). Chaque énoncé reste à côté du travail, côté privé, dans
 le `handout/` de son exercice, mot pour mot, les supports du cours dans celui
-du cours, et `.publishignore` retient tout cela du dépôt public. Le modèle ou script de
+du cours, et `.publishignore` retient tout cela de cette copie. Le modèle ou script de
 départ que Caseine livre avec chaque énoncé est publié tel quel — c'est ce que
 le correcteur modifie sur place, il reste donc dans le dépôt jusqu'à ce qu'une
 version remplie le remplace.

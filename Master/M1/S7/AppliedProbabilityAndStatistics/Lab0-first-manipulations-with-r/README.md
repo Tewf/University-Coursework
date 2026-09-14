@@ -28,8 +28,6 @@ Rscript -e 'rmarkdown::render("Lab0-first-manipulations-with-r.Rmd")'
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Applied Probability and Statistics/Labs/Lab 0 - First Manipulations with R.md`.
-The map of all of them is `obsidian-note.local.md` at the course root, which
-is gitignored because it names local paths.
 
 ## Source material
 
@@ -37,4 +35,4 @@ The handout is by the teaching staff of Applied Probability and Statistics
 (M1AM, UGA) and is **not redistributed here**: see
 [NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.publishignore`
 keeps that directory, along with the two datasets at the lab root, out of
-the repository.
+this copy.

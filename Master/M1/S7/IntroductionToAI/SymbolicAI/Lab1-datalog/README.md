@@ -27,14 +27,11 @@ conda activate m1ai-intro-ai
 ## Where the explanation lives
 
 This folder holds code. The concept note for it is in the Notes vault, under
-`S7/Introduction to AI/Labs - Symbolic AI/Lab 1 - Datalog.md`. The map of all
-of them is `obsidian-note.local.md` at the course root, which is gitignored
-because it names local paths.
-
+`S7/Introduction to AI/Labs - Symbolic AI/Lab 1 - Datalog.md`.
 ## Source material
 
 The subject and the rule base are by Sylvain Bouveret (Grenoble INP, UGA)
 and are **not redistributed here**: see [NOTICE](../../../../../../NOTICE).
 They sit in `handout/` beside their `.txt` extractions, and `.publishignore`
-keeps that directory, the starter scripts and the datasets out of the
-public repository.
+keeps that directory, the starter scripts and the datasets out of this
+copy.

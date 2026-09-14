@@ -113,8 +113,8 @@ belongs in that note instead.
 
 The exercise statements, the course handouts, the grader configurations,
 the `.dat` files and the instances are **not redistributed here**: see
-[NOTICE](../../../../NOTICE). Each statement stays on disk in its exercise's
+[NOTICE](../../../../NOTICE). Each statement stays with the work on the private side in its exercise's
 `handout/`, wording untouched, the course handouts in the course's, and
-`.publishignore` withholds all of it from the public repository. The starter model or script Caseine ships alongside each
+`.publishignore` withholds all of it from this copy. The starter model or script Caseine ships alongside each
 statement is committed as given — it is what the grader edits in place, so
 it stays in the repository until a filled-in version replaces it.

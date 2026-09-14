@@ -77,6 +77,6 @@ se met à enseigner la théorie a sa place dans cette note, pas dans le code.
 ## Matériel source
 
 Les sujets, et le squelette C fourni avec l'APP1, ne sont **pas redistribués
-ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le disque dans chaque
+ici** : voir [NOTICE](../../../../NOTICE). Ils restent à côté du travail, côté privé, dans chaque
 dossier `handout/`, et `.publishignore` les en retient, squelette compris. Ce qui est
 versionné est mon propre travail.

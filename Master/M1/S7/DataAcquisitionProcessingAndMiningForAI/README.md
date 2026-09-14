@@ -84,6 +84,6 @@ comment here that starts teaching theory belongs in that note instead.
 
 The project handout, the data card template, the setup guide, `environment.yml`,
 `verify_setup.py`, the lab notebooks and the datasets they read are **not
-redistributed here**: see [NOTICE](../../../../NOTICE). Each stays on disk in
+redistributed here**: see [NOTICE](../../../../NOTICE). Each stays with the work on the private side in
 the `handout/` of the unit it belongs to, and `.publishignore` keeps every one of
-those out of the public repository. What is committed is written against them.
+those out of this copy. What is committed is written against them.

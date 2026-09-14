@@ -34,12 +34,10 @@ jupyter lab Lab4-regularization.ipynb
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Introduction to AI/Labs - Machine Learning/Lab 4 - Regularization/Lab 4 - Regularization.md`.
-The map of all of them is `obsidian-note.local.md`, two levels up, which is
-gitignored because it names local paths.
 
 ## Source material
 
 The lab notebook and the dataset it loads are by Nguyen Kim Thang (UGA) and
 are not redistributed here: see [NOTICE](../../../../../../NOTICE). `handout/`
-and the dataset both stay local, and `.publishignore` keeps them out of the
-public repository.
+and the dataset both stay with the work on the private side, and `.publishignore` keeps them out of
+this copy.

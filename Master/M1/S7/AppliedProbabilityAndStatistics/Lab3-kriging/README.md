@@ -28,8 +28,6 @@ Rscript -e 'rmarkdown::render("Lab3-kriging.Rmd")'
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Applied Probability and Statistics/Labs/Lab 3 - Meteorological Forecast by Kriging.md`.
-The map of all of them is `obsidian-note.local.md` at the course root, which
-is gitignored because it names local paths.
 
 ## Source material
 
@@ -37,4 +35,4 @@ The handout is by the teaching staff of Applied Probability and Statistics
 (M1AM, UGA) and is **not redistributed here**: see
 [NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.publishignore`
 keeps that directory, along with the three `.Rdata` files at the lab root,
-out of the public repository.
+out of this copy.

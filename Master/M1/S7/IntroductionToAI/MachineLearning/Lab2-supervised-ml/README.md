@@ -34,12 +34,10 @@ jupyter lab Lab2-supervised-ml.ipynb
 
 This folder holds code. The concept note for it is in the Notes vault, under
 `S7/Introduction to AI/Labs - Machine Learning/Lab 2 - Supervised ML/Lab 2 - Supervised ML.md`.
-The map of all of them is `obsidian-note.local.md`, two levels up, which is
-gitignored because it names local paths.
 
 ## Source material
 
 The lab notebook, its official solution, and the dataset it loads are by
 Nguyen Kim Thang (UGA) and are not redistributed here: see
-[NOTICE](../../../../../../NOTICE). `handout/` and the dataset both stay local,
-and `.publishignore` keeps them out of the public repository.
+[NOTICE](../../../../../../NOTICE). `handout/` and the dataset stay with the
+work on the private side, and `.publishignore` keeps them out of this copy.
