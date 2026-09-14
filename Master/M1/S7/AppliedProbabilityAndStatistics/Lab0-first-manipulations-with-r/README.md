@@ -37,6 +37,6 @@ is gitignored because it names local paths.
 
 The handout is by the teaching staff of Applied Probability and Statistics
 (M1AM, UGA) and is **not redistributed here**: see
-[NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.gitignore`
+[NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.publishignore`
 keeps that directory, along with the two datasets at the lab root, out of
 the repository.

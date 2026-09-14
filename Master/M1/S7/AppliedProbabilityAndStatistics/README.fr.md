@@ -52,7 +52,7 @@ Cette copie est le fichier versionné. Celui de `handout/` ne change jamais.
 Chaque TP garde ce que l'équipe a distribué dans `handout/` (le sujet `.Rmd` ou
 PDF, une extraction `.txt` de tout PDF pour qu'il soit greppable, et la
 solution officielle quand elle existe). Les jeux de données sont à la racine du
-TP, là où le code les `load()`. `.gitignore` exclut tout cela, donc ce qu'un
+TP, là où le code les `load()`. `.publishignore` retient tout cela, donc ce qu'un
 dossier montre sur GitHub est mon travail et rien d'autre : un README qui dit,
 avec mes mots, ce qui est demandé, une page `steps/` par question, et le
 notebook complété dès qu'il existe.
@@ -87,5 +87,5 @@ enseigner la théorie a sa place dans cette note.
 
 Les sujets, la solution officielle et les jeux de données ne sont **pas
 redistribués ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le
-disque dans chaque dossier de TP et `.gitignore` les exclut du dépôt. Ce qui
+disque dans chaque dossier de TP et `.publishignore` les retient du dépôt public. Ce qui
 est versionné est le travail écrit en réponse.

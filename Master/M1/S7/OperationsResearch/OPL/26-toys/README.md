@@ -26,4 +26,4 @@ Not here: the concept notes for Operations Research live in the Notes vault, und
 
 ## Source material
 
-The statement is a Caseine VPL exercise (Hadrien Cambazard, Olivier Briant) and is not redistributed here: see [NOTICE](../../../../../../NOTICE). It stays local in `handout/`, and `.gitignore` keeps it out of the repository.
+The statement is a Caseine VPL exercise (Hadrien Cambazard, Olivier Briant) and is not redistributed here: see [NOTICE](../../../../../../NOTICE). It stays local in `handout/`, and `.publishignore` keeps it out of the public repository.

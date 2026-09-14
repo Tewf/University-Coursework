@@ -37,6 +37,6 @@ because it names local paths.
 
 The subject and the rule base are by Sylvain Bouveret (Grenoble INP, UGA)
 and are **not redistributed here**: see [NOTICE](../../../../../../NOTICE).
-They sit in `handout/` beside their `.txt` extractions, and `.gitignore`
+They sit in `handout/` beside their `.txt` extractions, and `.publishignore`
 keeps that directory, the starter scripts and the datasets out of the
-repository.
+public repository.

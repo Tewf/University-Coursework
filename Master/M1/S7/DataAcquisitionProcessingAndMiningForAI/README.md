@@ -57,9 +57,8 @@ python Setup/handout/verify_setup.py   # prints SETUP OK when every import resol
 
 Every unit keeps its own `handout/`: whatever the staff shipped for that piece
 of work sits beside the work itself, rather than in one pile at the course root.
-`.gitignore` excludes all of them, so what a folder shows is my work — a README
-saying what it asks in my own words, a `steps/` page per exercise, and the
-completed notebook once there is one.
+`.publishignore` withholds all of them, so what a folder shows is my work — a README
+saying what it asks in my own words, and the completed notebook once there is one.
 
 ```
 DataAcquisitionProcessingAndMiningForAI/
@@ -86,5 +85,5 @@ comment here that starts teaching theory belongs in that note instead.
 The project handout, the data card template, the setup guide, `environment.yml`,
 `verify_setup.py`, the lab notebooks and the datasets they read are **not
 redistributed here**: see [NOTICE](../../../../NOTICE). Each stays on disk in
-the `handout/` of the unit it belongs to, and `.gitignore` keeps every one of
-those out of the repository. What is committed is written against them.
+the `handout/` of the unit it belongs to, and `.publishignore` keeps every one of
+those out of the public repository. What is committed is written against them.

@@ -42,4 +42,4 @@ gitignored because it names local paths.
 
 The lab notebook and its official solution are by Nguyen Kim Thang (UGA) and
 are not redistributed here: see [NOTICE](../../../../../../NOTICE). Both sit in
-`handout/`, and `.gitignore` keeps that directory out of the repository.
+`handout/`, and `.publishignore` keeps that directory out of the public repository.

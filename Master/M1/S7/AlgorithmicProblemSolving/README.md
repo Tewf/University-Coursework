@@ -45,7 +45,7 @@ an error under gcc 13.3 — that line has to go even once `maze.c` is there.
 ## Folder Structure
 
 Each project keeps its statement in `handout/`, beside a `.txt` extraction that
-makes it greppable next to the work. `.gitignore` excludes every one of them,
+makes it greppable next to the work. `.publishignore` withholds every one of them,
 so what a folder shows on GitHub is my work and nothing else: a README saying
 what it asks, in my words, a `steps/` page per question, and the code once
 there is some.
@@ -76,5 +76,5 @@ note instead.
 
 The subjects, and the C skeleton provided with APP1, are **not redistributed
 here**: see [NOTICE](../../../../NOTICE). They stay on disk in each `handout/`
-directory, and `.gitignore` keeps both them and the skeleton out of the
-repository. What is committed is my own work.
+directory, and `.publishignore` withholds both them and the skeleton from the
+public repository. What is committed is my own work.

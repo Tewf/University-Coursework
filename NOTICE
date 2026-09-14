@@ -17,7 +17,7 @@ Those documents were removed from this repository rather than republished
 under a licence I have no right to grant. They are cited below and in the
 README of each course that uses them, so the work here remains traceable to
 the material it responds to.
-Where a README or a steps page here states what a practical asks, that
+Where a README here states what a practical asks, that
 statement is my own paraphrase, written to say what is to be built rather
 than to quote; the handout, kept local, remains the authoritative wording.
 
@@ -52,14 +52,14 @@ E. Foussard, with J. Perier-Camby on one practical (UGA)
   pybind11 projects, and the TSP instance generator.
   Referenced by: Master/M1/S7/Programming/
   The subjects themselves are not redistributed: each practical keeps its PDF
-  and its .txt extraction in a handout/ directory that .gitignore excludes.
+  and its .txt extraction in a handout/ directory that .publishignore withholds.
   The starter code splits on one line. Files the exercise implements *into*
   are committed, because his scaffolding and my work cannot be separated after
   the fact: read those as derived work, the same way as the Compléments de
   Mathématiques 2 files above, not as original. Files consumed unchanged are
   not committed at all: the cmake-template skeleton, the pybind11 project
   scaffold, the TSP instance generator, the sample images and the TSPLIB
-  instances stay local, and .gitignore keeps them out.
+  instances stay local, and .publishignore keeps them out.
 
 Nguyen Kim Thang, Enikő Kevi and Lorena León (UGA)
   Project subjects APP1–APP4 of Algorithmic Problem Solving (M1 AI), and the
@@ -67,7 +67,7 @@ Nguyen Kim Thang, Enikő Kevi and Lorena León (UGA)
   APP2–APP4 are CC BY-SA 3.0.
   Referenced by: Master/M1/S7/AlgorithmicProblemSolving/
   None of it is redistributed. Each subject keeps its PDF and a .txt
-  extraction in a handout/ directory that .gitignore excludes, and the APP1
+  extraction in a handout/ directory that .publishignore withholds, and the APP1
   skeleton is consumed unchanged rather than implemented into, so it stays
   local the same way. What is committed is the code written against them.
   The tutorials and the past exam are worked on paper and are not here.
@@ -80,7 +80,7 @@ Nguyen Kim Thang (UGA)
   are unsigned; the attribution follows the lecturer named on the deck.
   Referenced by: Master/M1/S7/IntroductionToAI/MachineLearning/
   None of it is redistributed: each lab keeps its subject and correction in a
-  handout/ directory that .gitignore excludes, and the helpers and datasets
+  handout/ directory that .publishignore withholds, and the helpers and datasets
   stay local beside it the same way. The notebook I complete from a subject
   is committed; it carries the staff's question text, so read it as derived
   work, not as original.
@@ -92,7 +92,7 @@ Sylvain Bouveret (Grenoble INP, UGA)
   (April 2024); the datasets got.csv and trains.csv shipped with them.
   Referenced by: Master/M1/S7/IntroductionToAI/SymbolicAI/
   Not redistributed: subjects in handout/, scripts and data beside the work,
-  all excluded by .gitignore. familyTree.py is a starter the lab extends; the
+  all withheld by .publishignore. familyTree.py is a starter the lab extends; the
   pristine copy stays local and my predicates live in a module that imports
   it. What is committed is written against them.
 
@@ -102,7 +102,7 @@ Teaching staff, Applied Probability and Statistics (M1AM, UGA)
   datasets they load (saison_2022.csv, BreastCancer.csv, three .Rdata files).
   Referenced by: Master/M1/S7/AppliedProbabilityAndStatistics/
   Not redistributed: subjects and the solution in handout/, data beside the
-  work, all excluded by .gitignore. The .Rmd I complete from a subject is
+  work, all withheld by .publishignore. The .Rmd I complete from a subject is
   committed and, like the notebooks above, is derived work.
 
 Hadrien Cambazard, Nicolas Catusse, Maxime Ogier, Nadia Brauner and Olivier
@@ -115,7 +115,7 @@ Briant (Grenoble INP, UGA)
   Referenced by: Master/M1/S7/OperationsResearch/
   Not redistributed: each statement in its exercise's handout/, the course
   handouts in the course's, the grader configuration, .dat files and
-  instances beside the work, all excluded by .gitignore. The .mod and .py
+  instances beside the work, all withheld by .publishignore. The .mod and .py
   templates are implemented into, so read the committed models as derived
   work, not as original. Lectures and tutorial sheets stay in the vault.
 
@@ -129,7 +129,7 @@ Teaching staff, Data Acquisition, Processing and Mining for AI (M1 AI, UGA)
   Not redistributed: every unit of the course keeps its own handout/ — the
   project's subject and data-card template in the project's, the setup guide
   in the setup folder's, each lab's subject notebook in the lab's — with the
-  datasets beside the work that reads them, all excluded by .gitignore.
+  datasets beside the work that reads them, all withheld by .publishignore.
   environment.yml and verify_setup.py are consumed unchanged and stay local
   the same way. The notebook I complete from a subject is committed; it
   carries the staff's exercise text, so read it as derived work, not as

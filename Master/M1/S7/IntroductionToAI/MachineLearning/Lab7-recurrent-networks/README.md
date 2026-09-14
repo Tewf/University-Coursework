@@ -43,4 +43,4 @@ gitignored because it names local paths.
 
 The lab notebook and its helper module are by Nguyen Kim Thang (UGA) and are
 not redistributed here: see [NOTICE](../../../../../../NOTICE). `handout/` and
-the helper both stay local, and `.gitignore` keeps them out of the repository.
+the helper both stay local, and `.publishignore` keeps them out of the public repository.

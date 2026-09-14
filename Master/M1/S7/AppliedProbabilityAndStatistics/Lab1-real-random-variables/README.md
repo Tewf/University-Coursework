@@ -34,5 +34,5 @@ is gitignored because it names local paths.
 
 The handout is by the teaching staff of Applied Probability and Statistics
 (M1AM, UGA) and is **not redistributed here**: see
-[NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.gitignore`
-keeps that directory out of the repository.
+[NOTICE](../../../../../NOTICE). It sits in `handout/`, and `.publishignore`
+keeps that directory out of the public repository.

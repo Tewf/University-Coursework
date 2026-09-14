@@ -153,5 +153,5 @@ pas ici : un commentaire qui se met à enseigner la théorie appartient à la no
 
 Les sujets de TP, et le code fourni avec eux, **ne sont pas redistribués ici** :
 voir [NOTICE](../../../../NOTICE). Ils restent sur le disque à côté de chaque TP,
-avec une extraction `.txt` qui les rend cherchables, et le `.gitignore` tient les
-deux hors du dépôt. Ce qui est versionné est mon travail.
+avec une extraction `.txt` qui les rend cherchables, et le `.publishignore` tient les
+deux hors du dépôt public. Ce qui est versionné est mon travail.

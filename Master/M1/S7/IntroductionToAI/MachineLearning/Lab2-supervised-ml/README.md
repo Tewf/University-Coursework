@@ -44,4 +44,4 @@ gitignored because it names local paths.
 The lab notebook, its official solution, and the dataset it loads are by
 Nguyen Kim Thang (UGA) and are not redistributed here: see
 [NOTICE](../../../../../../NOTICE). `handout/` and the dataset both stay local,
-and `.gitignore` keeps them out of the repository.
+and `.publishignore` keeps them out of the public repository.

@@ -62,9 +62,9 @@ python Setup/handout/verify_setup.py   # affiche SETUP OK quand tous les imports
 
 Chaque unité garde son propre `handout/` : ce que l'équipe pédagogique a fourni
 pour ce travail-là vit à côté de ce travail-là, plutôt qu'en un seul tas à la
-racine du cours. `.gitignore` les exclut tous : ce qu'un dossier montre est donc
-mon travail — un README qui dit ce qui est demandé avec mes mots, une page
-`steps/` par exercice, et le notebook complété quand il existe.
+racine du cours. `.publishignore` les retient tous : ce qu'un dossier montre est donc
+mon travail — un README qui dit ce qui est demandé avec mes mots, et le notebook
+complété quand il existe.
 
 ```
 DataAcquisitionProcessingAndMiningForAI/
@@ -93,5 +93,5 @@ Le sujet du projet, le modèle de fiche de données, le guide de mise en place,
 `environment.yml`, `verify_setup.py`, les notebooks de TP et les jeux de données
 qu'ils lisent ne sont **pas rediffusés ici** : voir
 [NOTICE](../../../../NOTICE). Chacun reste sur le disque dans le `handout/` de
-l'unité à laquelle il appartient, et `.gitignore` les tient tous hors du dépôt.
+l'unité à laquelle il appartient, et `.publishignore` les retient tous du dépôt public.
 Ce qui est versionné est écrit contre eux.

@@ -86,6 +86,6 @@ names local paths.
 
 The handout is by E. Foussard (UGA) and is **not redistributed here**: see
 [NOTICE](../../../../../../NOTICE). It sits in `handout/`, the PDF beside the `.txt`
-extraction that makes it greppable, and `.gitignore` keeps that whole directory
-out of the repository. The code the handout provides is listed above and is
+extraction that makes it greppable, and `.publishignore` keeps that whole directory
+out of the public repository. The code the handout provides is listed above and is
 credited in NOTICE.

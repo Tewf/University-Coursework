@@ -47,7 +47,7 @@ doit disparaître, même une fois `maze.c` écrit.
 ## Structure du dossier
 
 Chaque projet garde son énoncé dans `handout/`, à côté d'une extraction `.txt`
-qui le rend greppable près du travail. `.gitignore` les exclut tous, donc ce
+qui le rend greppable près du travail. `.publishignore` les retient tous, donc ce
 qu'un dossier montre sur GitHub est mon travail et rien d'autre : un README qui
 dit, avec mes mots, ce qui est demandé, une page `steps/` par question, et le
 code dès qu'il y en a.
@@ -78,5 +78,5 @@ se met à enseigner la théorie a sa place dans cette note, pas dans le code.
 
 Les sujets, et le squelette C fourni avec l'APP1, ne sont **pas redistribués
 ici** : voir [NOTICE](../../../../NOTICE). Ils restent sur le disque dans chaque
-dossier `handout/`, et `.gitignore` les en exclut, squelette compris. Ce qui est
+dossier `handout/`, et `.publishignore` les en retient, squelette compris. Ce qui est
 versionné est mon propre travail.

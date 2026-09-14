@@ -24,11 +24,9 @@ Not started.
 
 ## Projects done with a partner
 
-The TSP solver and the data-mining project are shared with a partner through
-a private repository each, where nothing is ignored. Their folders here are
-the work tree of both repositories at once: plain `git` is this one, and
-`private-git NAME` the private one. How it works, and the one-line setup on a
-new clone: [private-projects/](private-projects/README.md).
+The TSP solver and the data-mining project are each done with a partner, in a
+repository of its own that the folder here joins as a git subtree; each
+folder's README names its authors.
 
 ## Runtimes
 

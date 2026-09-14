@@ -152,5 +152,5 @@ here: a comment that starts teaching theory belongs in the note instead.
 
 The TP subjects, and the code provided with them, are **not redistributed
 here**: see [NOTICE](../../../../NOTICE). They stay on disk next to each TP,
-alongside a `.txt` extraction that makes them greppable, and `.gitignore` keeps
-both out of the repository. What is committed is my own work.
+alongside a `.txt` extraction that makes them greppable, and `.publishignore` keeps
+both out of the public repository. What is committed is my own work.

@@ -38,5 +38,5 @@ is gitignored because it names local paths.
 
 The subject is by Sylvain Bouveret (Grenoble INP, UGA) and is **not
 redistributed here**: see [NOTICE](../../../../../../NOTICE). It sits in
-`handout/` beside its `.txt` extraction, and `.gitignore` keeps that
-directory and the dataset out of the repository.
+`handout/` beside its `.txt` extraction, and `.publishignore` keeps that
+directory and the dataset out of the public repository.

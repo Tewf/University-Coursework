@@ -46,4 +46,4 @@ gitignored because it names local paths.
 
 The lab notebook is by Nguyen Kim Thang (UGA) and is not redistributed here:
 see [NOTICE](../../../../../../NOTICE). It sits in `handout/`, and
-`.gitignore` keeps that directory out of the repository.
+`.publishignore` keeps that directory out of the public repository.

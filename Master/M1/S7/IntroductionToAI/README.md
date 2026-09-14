@@ -62,9 +62,9 @@ That copy is the file that gets committed. The one in `handout/` never changes.
 Each lab keeps what the staff handed out in `handout/` (subject, official
 correction when one exists, and a `.txt` extraction of any PDF so it greps).
 Provided modules and datasets sit at the lab root, where the notebook expects
-them. `.gitignore` excludes all of it, so what a folder shows on GitHub is my
-work and nothing else: a README saying what it asks, in my words, a `steps/`
-page per question, and the completed notebook once there is one.
+them. `.publishignore` withholds all of it, so what a folder shows on GitHub is my
+work and nothing else: a README saying what it asks, in my words, and the
+completed notebook once there is one.
 
 ```
 IntroductionToAI/
@@ -99,5 +99,5 @@ teaching theory belongs in that note instead.
 
 The subjects, the official corrections, the helper modules and the datasets
 are **not redistributed here**: see [NOTICE](../../../../NOTICE). They stay on
-disk in each lab folder and `.gitignore` keeps them out of the repository. What
+disk in each lab folder and `.publishignore` keeps them out of the public repository. What
 is committed is the work written against them.

@@ -35,17 +35,13 @@ because it names local paths.
 
 ## Done with a partner
 
-This folder is also the work tree of a private repository shared with a
-partner, where nothing is ignored: the handout, the data and the work live
-there in full, and what appears here is the subset the repository's
-allowlist names. The mechanism is [private-projects/](../../../private-projects/README.md)
-at the M1 level.
+Done with a partner; the folder is also a repository of its own, shared with them.
 
 ## Source material
 
 The subject and `instance_generator.py` are by E. Foussard (UGA) and are **not
 redistributed here**: see [NOTICE](../../../../../NOTICE). It sits in
 `handout/`, the PDF beside the `.txt` extraction that makes it greppable, and
-`.gitignore` keeps that whole directory, `instance_generator.py`, and
-`TSP-instances/` out of the repository. The TSPLIB instances themselves belong
+`.publishignore` keeps that whole directory, `instance_generator.py`, and
+`TSP-instances/` out of the public repository. The TSPLIB instances themselves belong
 to their original authors and are cited, not claimed.

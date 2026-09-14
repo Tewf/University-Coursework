@@ -72,7 +72,7 @@ conda activate operations_research
 
 Chaque exercice garde l'énoncé Caseine dans `handout/` (mot pour mot) et le
 modèle ou script de départ livré avec lui, à la racine de l'exercice, là où le
-correcteur l'attend. `.gitignore` exclut `handout/`, la configuration du
+correcteur l'attend. `.publishignore` retient `handout/`, la configuration du
 correcteur `configExe`, les fichiers `.dat` requis et les `instances/` CSPLib,
 donc rien de ce que Caseine distribue n'apparaît sur GitHub ; le fichier de
 départ, si, puisque le correcteur le modifie sur place plutôt que de produire
@@ -118,7 +118,7 @@ Les énoncés des exercices, les supports du cours, les configurations du
 correcteur, les fichiers `.dat` et les instances ne sont **pas redistribués
 ici** : voir [NOTICE](../../../../NOTICE). Chaque énoncé reste sur disque dans
 le `handout/` de son exercice, mot pour mot, les supports du cours dans celui
-du cours, et `.gitignore` garde tout cela hors du dépôt. Le modèle ou script de
+du cours, et `.publishignore` retient tout cela du dépôt public. Le modèle ou script de
 départ que Caseine livre avec chaque énoncé est publié tel quel — c'est ce que
 le correcteur modifie sur place, il reste donc dans le dépôt jusqu'à ce qu'une
 version remplie le remplace.

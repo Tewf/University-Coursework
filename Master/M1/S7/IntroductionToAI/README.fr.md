@@ -30,7 +30,7 @@ Trois choses à savoir avant d'en ouvrir un :
 - **Le TP 5 lit `data/hitters.csv`**, en minuscules et dans un sous-dossier,
   alors que l'archive livre `Hitters.csv` à sa racine. La copie ici est placée
   là où la cellule 4 la cherche. Le même notebook télécharge FashionMNIST et
-  CIFAR10 dans `data/`, d'où l'exclusion de ce dossier entier par `.gitignore`.
+  CIFAR10 dans `data/`, d'où l'exclusion de ce dossier entier par `.publishignore`.
 - **Le TP 6 ne peut pas s'exécuter tel que livré.** Son notebook importe
   `model.py` et `utils.py` et charge `data/*.pt`, dont aucun n'a jamais été
   distribué avec lui. Le dossier contient le sujet et rien d'autre tant qu'ils
@@ -65,7 +65,7 @@ Cette copie est le fichier versionné. Celui de `handout/` ne change jamais.
 Chaque TP garde ce que l'équipe a distribué dans `handout/` (sujet, correction
 officielle quand elle existe, et une extraction `.txt` de tout PDF pour qu'il
 soit greppable). Les modules fournis et les jeux de données sont à la racine du
-TP, là où le notebook les attend. `.gitignore` exclut tout cela, donc ce qu'un
+TP, là où le notebook les attend. `.publishignore` retient tout cela, donc ce qu'un
 dossier montre sur GitHub est mon travail et rien d'autre : un README qui dit,
 avec mes mots, ce qui est demandé, une page `steps/` par question, et le
 notebook complété dès qu'il existe.
@@ -103,5 +103,5 @@ commentaire d'ici qui se met à enseigner la théorie a sa place dans cette note
 
 Les sujets, les corrections officielles, les modules fournis et les jeux de
 données ne sont **pas redistribués ici** : voir [NOTICE](../../../../NOTICE).
-Ils restent sur le disque dans chaque dossier de TP et `.gitignore` les exclut
-du dépôt. Ce qui est versionné est le travail écrit en réponse.
+Ils restent sur le disque dans chaque dossier de TP et `.publishignore` les retient
+du dépôt public. Ce qui est versionné est le travail écrit en réponse.

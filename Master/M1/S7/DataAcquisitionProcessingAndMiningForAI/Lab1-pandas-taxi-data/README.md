@@ -48,4 +48,4 @@ skewed data — are notes in the Notes vault, one per concept.
 
 The subject notebook and the taxi sample are the course staff's and are not
 redistributed here: see [NOTICE](../../../../../NOTICE). Both stay on disk,
-in `handout/` and `data/`, and `.gitignore` keeps them out of the repository.
+in `handout/` and `data/`, and `.publishignore` keeps them out of the public repository.

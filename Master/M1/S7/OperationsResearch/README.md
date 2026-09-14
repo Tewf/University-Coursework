@@ -71,7 +71,7 @@ conda activate operations_research
 
 Each exercise keeps the Caseine statement in `handout/` (the wording
 untouched) and the starter model or script it shipped with, at the exercise
-root, where the grader expects it. `.gitignore` excludes `handout/`, the grader
+root, where the grader expects it. `.publishignore` withholds `handout/`, the grader
 configuration `configExe`, the required `.dat` files and the CSPLib
 `instances/`, so nothing Caseine distributed shows on GitHub; the starter
 file does, since the grader edits it in place rather than producing a
@@ -116,6 +116,6 @@ The exercise statements, the course handouts, the grader configurations,
 the `.dat` files and the instances are **not redistributed here**: see
 [NOTICE](../../../../NOTICE). Each statement stays on disk in its exercise's
 `handout/`, wording untouched, the course handouts in the course's, and
-`.gitignore` keeps all of it out of the repository. The starter model or script Caseine ships alongside each
+`.publishignore` withholds all of it from the public repository. The starter model or script Caseine ships alongside each
 statement is committed as given — it is what the grader edits in place, so
 it stays in the repository until a filled-in version replaces it.

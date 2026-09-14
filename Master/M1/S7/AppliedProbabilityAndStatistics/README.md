@@ -51,9 +51,9 @@ That copy is the file that gets committed. The one in `handout/` never changes.
 Each lab keeps what the staff handed out in `handout/` (the `.Rmd` or PDF
 subject, a `.txt` extraction of any PDF so it greps, and the official solution
 when one exists). Datasets sit at the lab root, where the code `load()`s them.
-`.gitignore` excludes all of it, so what a folder shows on GitHub is my work
-and nothing else: a README saying what it asks, in my words, a `steps/` page
-per question, and the completed notebook once there is one.
+`.publishignore` withholds all of it, so what a folder shows on GitHub is my work
+and nothing else: a README saying what it asks, in my words, and the completed
+notebook once there is one.
 
 ```
 AppliedProbabilityAndStatistics/
@@ -84,5 +84,5 @@ need. A comment here that starts teaching theory belongs in that note instead.
 
 The subjects, the official solution and the datasets are **not redistributed
 here**: see [NOTICE](../../../../NOTICE). They stay on disk in each lab folder
-and `.gitignore` keeps them out of the repository. What is committed is the
+and `.publishignore` keeps them out of the public repository. What is committed is the
 work written against them.
